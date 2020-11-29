@@ -40,7 +40,7 @@ class BlockView: UIView {
         NSLayoutConstraint.activate(constraints)
         
         // Установка индикатора активности
-        activityIndicator.style = .white
+        activityIndicator.color = .white
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(activityIndicator)
         
