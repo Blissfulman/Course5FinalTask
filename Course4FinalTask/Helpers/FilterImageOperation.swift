@@ -1,6 +1,6 @@
 //
 //  FilterImageOperation.swift
-//  Course3FinalTask
+//  Course4FinalTask
 //
 //  Created by User on 07.10.2020.
 //  Copyright © 2020 e-Legion. All rights reserved.

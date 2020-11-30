@@ -1,12 +1,11 @@
 //
 //  PhotoCollectionViewCell.swift
-//  Course2FinalTask
+//  Course4FinalTask
 //
 //  Created by User on 07.08.2020.
 //  Copyright © 2020 e-Legion. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class ProfileCollectionViewCell: UICollectionViewCell {

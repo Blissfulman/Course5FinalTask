@@ -1,6 +1,6 @@
 //
 //  MainViewController.swift
-//  Course2FinalTask
+//  Course4FinalTask
 //
 //  Created by User on 22.07.2020.
 //  Copyright © 2020 e-Legion. All rights reserved.
@@ -26,6 +26,8 @@ class FeedViewController: UIViewController {
                 
         feedTableView.dataSource = self
         feedTableView.separatorStyle = .none
+        
+        NetworkManager().authorize()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -1,12 +1,11 @@
 //
 //  BlockView.swift
-//  Course3FinalTask
+//  Course4FinalTask
 //
 //  Created by User on 26.09.2020.
 //  Copyright © 2020 e-Legion. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 /// Блокирующее вью с индикатором активности.

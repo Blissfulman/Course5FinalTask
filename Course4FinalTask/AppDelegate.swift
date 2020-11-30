@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Course2FinalTask
+//  Course4FinalTask
 //
 //  Copyright © 2018 e-Legion. All rights reserved.
 //

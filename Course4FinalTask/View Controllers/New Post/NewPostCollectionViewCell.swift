@@ -1,12 +1,11 @@
 //
 //  NewPostCollectionViewCell.swift
-//  Course3FinalTask
+//  Course4FinalTask
 //
 //  Created by User on 03.10.2020.
 //  Copyright © 2020 e-Legion. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class NewPostCollectionViewCell: UICollectionViewCell {

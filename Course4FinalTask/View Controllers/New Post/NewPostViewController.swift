@@ -1,6 +1,6 @@
 //
 //  NewPostViewController.swift
-//  Course3FinalTask
+//  Course4FinalTask
 //
 //  Created by User on 01.10.2020.
 //  Copyright © 2020 e-Legion. All rights reserved.
