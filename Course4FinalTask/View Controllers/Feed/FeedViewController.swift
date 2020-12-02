@@ -26,8 +26,6 @@ class FeedViewController: UIViewController {
                 
         feedTableView.dataSource = self
         feedTableView.separatorStyle = .none
-        
-        NetworkManager().authorize()
     }
     
     override func viewWillAppear(_ animated: Bool) {

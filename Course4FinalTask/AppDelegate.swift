@@ -14,10 +14,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+
+        window?.rootViewController = AuthorizationViewController()
+        window?.makeKeyAndVisible()
         return true
     }
 }
 
 extension AppDelegate {
     static let storyboardName = "Main"
+    static var token: String?
 }
