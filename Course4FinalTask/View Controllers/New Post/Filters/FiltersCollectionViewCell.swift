@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FiltersCollectionViewCell: UICollectionViewCell {
+final class FiltersCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var filterNameLabel: UILabel!

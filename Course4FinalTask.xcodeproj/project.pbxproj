@@ -21,6 +21,7 @@
 		CE4075CF2576BABC006F4592 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075CE2576BABC006F4592 /* TabBarController.swift */; };
 		CE4075D52577FE4E006F4592 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075D42577FE4E006F4592 /* DateFormatter+Extension.swift */; };
 		CE4075DB257AC629006F4592 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075DA257AC629006F4592 /* LoadingView.swift */; };
+		CE4075DD257BB59F006F4592 /* DataTaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075DC257BB59F006F4592 /* DataTaskService.swift */; };
 		CE6D676E24E02574002FE7F2 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6D676D24E02574002FE7F2 /* UserListViewController.swift */; };
 		CE6E2D5224D947DA00A4B08B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E2D5124D947DA00A4B08B /* ProfileViewController.swift */; };
 		CE6E2D5624D9BD3300A4B08B /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E2D5524D9BD3300A4B08B /* FeedTableViewCell.swift */; };
@@ -75,6 +76,7 @@
 		CE4075CE2576BABC006F4592 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		CE4075D42577FE4E006F4592 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		CE4075DA257AC629006F4592 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		CE4075DC257BB59F006F4592 /* DataTaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskService.swift; sourceTree = "<group>"; };
 		CE6D676D24E02574002FE7F2 /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		CE6E2D5124D947DA00A4B08B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CE6E2D5524D9BD3300A4B08B /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
@@ -171,9 +173,10 @@
 			children = (
 				CE4075C62576A7B4006F4592 /* Paths.swift */,
 				CE4075CC2576B3C0006F4592 /* HTTPMethod.swift */,
-				CE4075C42576A5E1006F4592 /* NetworkService.swift */,
 				CE4075C82576A904006F4592 /* URLService.swift */,
 				CE4075CA2576B34E006F4592 /* RequestService.swift */,
+				CE4075DC257BB59F006F4592 /* DataTaskService.swift */,
+				CE4075C42576A5E1006F4592 /* NetworkService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				CE4075BD25754AF7006F4592 /* Post.swift in Sources */,
 				CE4075B9257549D9006F4592 /* Token.swift in Sources */,
 				CE4075C325755F4B006F4592 /* AuthorizationViewController.swift in Sources */,
+				CE4075DD257BB59F006F4592 /* DataTaskService.swift in Sources */,
 				CEBE92B22528C588002A6A63 /* NewPostCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

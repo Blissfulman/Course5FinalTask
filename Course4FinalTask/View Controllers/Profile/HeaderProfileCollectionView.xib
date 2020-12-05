@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="headerProfile" id="lvA-Kr-fAk" customClass="HeaderProfileCollectionView" customModule="Course3FinalTask" customModuleProvider="target">
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="headerProfile" id="lvA-Kr-fAk" customClass="HeaderProfileCollectionView" customModule="Course4FinalTask" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -40,7 +39,7 @@
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7g5-em-Wod">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7g5-em-Wod">
                     <rect key="frame" x="342" y="8" width="56" height="30"/>
                     <color key="backgroundColor" name="FollowButtonColor"/>
                     <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
@@ -52,6 +51,7 @@
                     </connections>
                 </button>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="nSO-ge-i9D"/>
             <constraints>
                 <constraint firstItem="Y2H-SS-Q3h" firstAttribute="leading" secondItem="nSO-ge-i9D" secondAttribute="leading" constant="8" id="3eu-MK-xaH"/>
                 <constraint firstItem="Y2H-SS-Q3h" firstAttribute="centerY" secondItem="lvA-Kr-fAk" secondAttribute="centerY" id="7JM-0E-knt"/>
@@ -64,7 +64,6 @@
                 <constraint firstItem="Spr-9B-fVD" firstAttribute="leading" secondItem="Y2H-SS-Q3h" secondAttribute="trailing" constant="8" id="hYd-aY-jPo"/>
                 <constraint firstItem="pIT-PN-cQl" firstAttribute="bottom" secondItem="Y2H-SS-Q3h" secondAttribute="bottom" id="yV7-bA-Xyx"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="nSO-ge-i9D"/>
             <connections>
                 <outlet property="avatarImage" destination="Y2H-SS-Q3h" id="Fs3-8c-QK9"/>
                 <outlet property="followButton" destination="7g5-em-Wod" id="T3c-rg-100"/>

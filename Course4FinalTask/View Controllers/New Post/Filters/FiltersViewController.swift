@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FiltersViewController: UIViewController {
+final class FiltersViewController: UIViewController {
     
     // MARK: - IB Outlets
     /// Коллекция выбора фильтров с примерами их применения для обработки большого изображения.

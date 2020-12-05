@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     
     // MARK: - IB Outlets
     /// Коллекция, отображающая информацию о пользователе.
@@ -35,76 +35,91 @@ class ProfileViewController: UIViewController {
     /// Семафор для установки порядка запросов к провайдеру.
     private let semaphore = DispatchSemaphore(value: 1)
     
+    private let networkService: NetworkServiceProtocol = NetworkService()
+    
     // MARK: - Lifeсycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileCollectionView.register(ProfileCollectionViewCell.nib(),
-                                       forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier)
-        profileCollectionView.register(HeaderProfileCollectionView.nib(),
-                                       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                       withReuseIdentifier: HeaderProfileCollectionView.identifier)
+        profileCollectionView.register(
+            ProfileCollectionViewCell.nib(),
+            forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier
+        )
+        profileCollectionView.register(
+            HeaderProfileCollectionView.nib(),
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: HeaderProfileCollectionView.identifier
+        )
 
         profileCollectionView.dataSource = self
         
         // Получение данных о текущем пользователе должно произойти до получения данных об открываемом профиле (которое происходит в методе viewWillAppear)
         getDataQueue.async { [weak self] in
             
-            guard let `self` = self else { return }
+            guard let self = self else { return }
 
             self.semaphore.wait()
 
-            self.getCurrentUser { (currentUser) in
-                                
-                guard let currentUser = currentUser else {
-                    self.showAlert(title: "Unknown error!",
-                                   message: "Please, try again later")
+            self.networkService.getCurrentUser(token: AppDelegate.token ?? "") {
+                (currentUser) in
+                
+                DispatchQueue.main.async {
+                    guard let currentUser = currentUser else {
+                        self.showAlert(title: "Unknown error!",
+                                       message: "Please, try again later")
+                        self.semaphore.signal()
+                        return
+                    }
+                    
+                    // Проверка того, открывается ли профиль текущего пользователя
+                    if let userID = self.user?.id, userID != currentUser.id {
+                        self.isCurrentUser = false
+                    } else {
+                        self.isCurrentUser = true
+                        self.user = currentUser
+                    }
+                    
+                    self.navigationItem.title = self.user?.username
                     self.semaphore.signal()
-                    return
                 }
-
-                // Проверка того, открывается ли профиль текущего пользователя
-//                if let userID = self.user?.id, userID != currentUser.id {
-//                    self.isCurrentUser = false
-//                } else {
-//                    self.isCurrentUser = true
-//                    self.user = currentUser
-//                }
-//
-//                self.navigationItem.title = self.user?.username
-//                self.semaphore.signal()
             }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-//        blockView.show()
+        LoadingView.show()
         
         // Получение данных об открываемом пользователе
         getDataQueue.async { [weak self] in
             
-            guard let `self` = self else { return }
+            guard let self = self else { return }
 
             self.semaphore.wait()
             
+            guard let user = self.user else { return }
+            
             // Обновление данных о пользователе
-//            self.getUser { (user) in
-//
-//                guard let user = user else {
-//                    self.showAlert(title: "Unknown error!",
-//                                   message: "Please, try again later")
-//                    self.semaphore.signal()
-//                    return
-//                }
-//
-//                self.user = user
-//                self.profileCollectionView.reloadData()
-//                self.semaphore.signal()
-//
-//                // Обновление данных об изображениях постов пользователя
-//                self.getPhotos(user: user)
-//            }
+            self.networkService.getUser(withID: user.id,
+                                        token: AppDelegate.token ?? "") {
+                (user) in
+                
+                DispatchQueue.main.async {
+                    guard let user = user else {
+                        self.showAlert(title: "Unknown error!",
+                                       message: "Please, try again later")
+                        self.semaphore.signal()
+                        return
+                    }
+                    
+                    self.user = user
+                    self.profileCollectionView.reloadData()
+                    self.semaphore.signal()
+                    
+                    // Обновление данных об изображениях постов пользователя
+                    self.getPhotos(user: user)
+                }
+            }
         }
     }
 }
@@ -226,42 +241,35 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
 // MARK: - Data recieving methods
 extension ProfileViewController {
     
-    /// Получение текущего пользователя.
-    private func getCurrentUser(completion: @escaping (_ currentUser: User?) -> Void) {
-
-//        DataProviders.shared.usersDataProvider.currentUser(queue: .main) {
-//            (currentUser) in
-//
-//            completion(currentUser)
-//        }
-    }
-    
-    /// Получение всех публикаций пользователя с переданным ID.
+    /// Получение всех изображений постов пользователя с переданным ID.
     private func getPhotos(user: User) {
                 
-//        DataProviders.shared.postsDataProvider.findPosts(by: user.id, queue: .global(qos: .userInteractive)) {
-//            [weak self] (userPosts) in
-//
-//            guard let `self` = self else { return }
-//
-//            DispatchQueue.main.async {
-//
-//                defer {
-//                    self.blockView.hide()
-//                }
-//
-//                guard let userPosts = userPosts else {
-//                    self.showAlert(title: "Unknown error!",
-//                                   message: "Please, try again later")
-//                    return
-//                }
-//
-//                self.photosOfUser = []
-//                userPosts.forEach { self.photosOfUser.append($0.image) }
-//
-//                self.profileCollectionView.reloadData()
-//            }
-//        }
+        networkService.getPostsOfUser(withID: user.id, token: AppDelegate.token ?? "") {
+            [weak self] (userPosts) in
+
+            guard let `self` = self else { return }
+
+            DispatchQueue.main.async {
+
+                defer {
+                    LoadingView.hide()
+                }
+
+                guard let userPosts = userPosts else {
+                    self.showAlert(title: "Unknown error!",
+                                   message: "Please, try again later")
+                    return
+                }
+
+                self.photosOfUser = []
+                userPosts.forEach {
+                    guard let image = self.networkService.getImage(fromURL: $0.image) else { return }
+                    self.photosOfUser.append(image)
+                }
+
+                self.profileCollectionView.reloadData()
+            }
+        }
     }
     
     /// Получение всех подписок пользователя.
@@ -294,19 +302,6 @@ extension ProfileViewController {
 //            DispatchQueue.main.async {
 //                completion(usersFollowingUser)
 //                self.blockView.hide()
-//            }
-//        }
-//    }
-    
-//    private func getUser(completion: @escaping (User?) -> Void) {
-//
-//        guard let user = user else { return }
-//
-//        DataProviders.shared.usersDataProvider.user(with: user.id, queue: .global(qos: .userInteractive)) {
-//            (user) in
-//
-//            DispatchQueue.main.async {
-//                completion(user)
 //            }
 //        }
 //    }

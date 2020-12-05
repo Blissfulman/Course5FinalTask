@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterImageOperation: Operation {
+final class FilterImageOperation: Operation {
     
     private var inputImage: UIImage
     private(set) var outputImage: UIImage?

@@ -18,3 +18,7 @@ struct User: Codable {
     var followsCount: Int
     var followedByCount: Int
 }
+
+struct UserIDRequest: Encodable {
+    let userID: String
+}

@@ -14,7 +14,7 @@ protocol RequestServiceProtocol {
 
 final class RequestService: RequestServiceProtocol {
 
-    func request(url: URL, httpMethod: String, token: String? = nil) -> URLRequest {
+    func request(url: URL, httpMethod: String, token: String?) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

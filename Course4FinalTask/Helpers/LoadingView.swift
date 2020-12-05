@@ -13,22 +13,6 @@ final class LoadingView {
         
     static var activityIndicator: UIActivityIndicatorView?
     
-    static let application = UIApplication.shared
-    
-    static private func create() {
-        guard let window = application.windows.first(where: { $0.isKeyWindow }) else { return }
-        let frame = UIScreen.main.bounds
-        activityIndicator = UIActivityIndicatorView(frame: frame)
-        
-        activityIndicator?.backgroundColor = UIColor(white: 0, alpha: 0.7)
-        activityIndicator?.color = .white
-        activityIndicator?.style = .medium
-        activityIndicator?.hidesWhenStopped = true
-        activityIndicator?.isHidden = true
-        guard let activityIndicator = activityIndicator else { return }
-        window.addSubview(activityIndicator)
-    }
-    
     static func show() {
         DispatchQueue.main.async {
             create()
@@ -40,8 +24,22 @@ final class LoadingView {
     static func hide() {
         DispatchQueue.main.async {
             activityIndicator?.stopAnimating()
-//            activityIndicator?.removeFromSuperview()
-//            activityIndicator = nil
+            activityIndicator?.removeFromSuperview()
         }
+    }
+    
+    private static func create() {
+        guard let window = UIApplication.shared
+                .windows.first(where: { $0.isKeyWindow }) else { return }
+        let frame = UIScreen.main.bounds
+        activityIndicator = UIActivityIndicatorView(frame: frame)
+        
+        activityIndicator?.backgroundColor = UIColor(white: 0, alpha: 0.7)
+        activityIndicator?.color = .white
+        activityIndicator?.style = .medium
+        activityIndicator?.hidesWhenStopped = true
+        activityIndicator?.isHidden = true
+        guard let activityIndicator = activityIndicator else { return }
+        window.addSubview(activityIndicator)
     }
 }

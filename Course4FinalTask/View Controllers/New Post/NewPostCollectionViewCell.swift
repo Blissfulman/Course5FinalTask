@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewPostCollectionViewCell: UICollectionViewCell {
+final class NewPostCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var photoImage: UIImageView!
     

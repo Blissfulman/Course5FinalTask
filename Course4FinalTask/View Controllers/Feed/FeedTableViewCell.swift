@@ -15,7 +15,7 @@ protocol FeedTableViewCellDelegate: UIViewController {
     func showErrorAlert()
 }
 
-class FeedTableViewCell: UITableViewCell {
+final class FeedTableViewCell: UITableViewCell {
 
     // MARK: - IB Outlets
     @IBOutlet weak var avatarImage: UIImageView!
@@ -33,13 +33,21 @@ class FeedTableViewCell: UITableViewCell {
     weak var delegate: FeedTableViewCellDelegate?
     
     /// Пост ячейки
-    private var cellPost: Post!
+    private var cellPost: Post! {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                
+                guard let self = self else { return }
+                
+                self.likeImage.tintColor = self.cellPost
+                    .currentUserLikesThisPost ? .systemBlue : .lightGray
+                self.likesCountLabel.text = "Likes: "
+                    + String(self.cellPost.likedByCount)
+            }
+        }
+    }
     
-    /// Логическое значение, указывающее, лайкнул ли текущий пользователь данный пост.
-    private var isLiked = false
-    
-    /// Количество лайков на этой публикации.
-    private var likedByCount = 0
+    private let networkService: NetworkServiceProtocol = NetworkService()
     
     // MARK: - Lifeсycle methods
     override func awakeFromNib() {
@@ -51,17 +59,14 @@ class FeedTableViewCell: UITableViewCell {
     // MARK: - Setup the cell
     func configure(_ post: Post) {
                 
-        // Запись переменных поста
-        isLiked = post.currentUserLikesThisPost
-        likedByCount = post.likedByCount
+        // Сохранения поста ячейки
         cellPost = post
 
         // Заполнение всех элементов ячейки данными
-        avatarImage.image = NetworkService().getImage(fromURL: post.authorAvatar)
+        avatarImage.image = networkService.getImage(fromURL: post.authorAvatar)
         authorUsernameLabel.text = post.authorUsername
         createdTimeLabel.text = setDateAndTime(post.createdTime)
-        postImage.image = NetworkService().getImage(fromURL: post.image)
-        updateLikeData()
+        postImage.image = networkService.getImage(fromURL: post.image)
         descriptionLabel.text = post.description
     }
     
@@ -73,45 +78,25 @@ class FeedTableViewCell: UITableViewCell {
         return dateFormat.string(from: date)
     }
     
-    private func updateLikeData() {
-        likeImage.tintColor = isLiked ? .systemBlue : .lightGray
-        likesCountLabel.text = "Likes: " + String(likedByCount)
-    }
-    
     // MARK: - Working with likes
-    /// Лайк, либо отмена лайка поста.
+    /// Лайк/анлайк поста.
     private func likeUnlikePost() {
 
-        // Лайк/анлайк поста
-//        if isLiked {
-//            DataProviders.shared.postsDataProvider.unlikePost(with: cellPost.id, queue: .main) { _ in }
-//            isLiked = false
-//            likedByCount -= 1
-//        } else {
-//            DataProviders.shared.postsDataProvider.likePost(with: cellPost.id, queue: .main) { _ in }
-//            isLiked = true
-//            likedByCount += 1
-//        }
-        
-        // Обновление данных о лайках поста в ячейке (количество и цвет сердечка)
-        updateLikeData()
-        
-        // Получение обновлённого поста
-//        getPost(postID: self.cellPost.id) {
-//            [weak self] (updatedPost) in
-//            
-//            guard let `self` = self else { return }
-//            
-//            guard let updatedPost = updatedPost else {
-//                self.delegate?.showErrorAlert()
-//                return
-//            }
-//            
-//            // Запись переменных поста
-//            self.isLiked = updatedPost.currentUserLikesThisPost
-//            self.likedByCount = updatedPost.likedByCount
-//            self.cellPost = updatedPost
-//        }
+        if cellPost.currentUserLikesThisPost {
+            networkService.unlikePost(withID: cellPost.id,
+                                      token: AppDelegate.token ?? "") {
+                [weak self] updatedPost in
+                                
+                self?.cellPost = updatedPost
+            }
+        } else {
+            networkService.likePost(withID: cellPost.id,
+                                    token: AppDelegate.token ?? "") {
+                [weak self] updatedPost in
+                
+                self?.cellPost = updatedPost
+            }
+        }
         
         // Обновление данных в массиве постов
         delegate?.updateFeedData()
@@ -165,9 +150,9 @@ extension FeedTableViewCell {
     @IBAction func tapPostImage(recognizer: UITapGestureRecognizer) {
         
         // Проверка отсутствия у поста лайка текущего пользователя
-        guard !isLiked else { return }
+        guard !cellPost.currentUserLikesThisPost else { return }
         
-        // Анимация большого сердца
+        // Анимация большого сердца на картинке поста
         let likeAnimation = CAKeyframeAnimation(keyPath: "opacity")
         likeAnimation.values = [0, 1, 1, 0]
         likeAnimation.keyTimes = [0, 0.1, 0.3, 0.6]
@@ -186,20 +171,20 @@ extension FeedTableViewCell {
         
         LoadingView.show()
         
-//        getUser(userID: cellPost.author) {
-//            [weak self] (user) in
-//
-//            guard let `self` = self else { return }
-//
-//            guard let user = user else {
-//                self.delegate?.showErrorAlert()
-//                self.delegate?.hideBlockView()
-//                return
-//            }
-//
-//            self.delegate?.tapAuthorOfPost(user: user)
-//            self.delegate?.hideBlockView()
-//        }
+        networkService.getUser(withID: cellPost.author,
+                               token: AppDelegate.token ?? "") {
+            [weak self] (user) in
+
+            DispatchQueue.main.async {
+                guard let user = user else {
+                    self?.delegate?.showErrorAlert()
+                    LoadingView.hide()
+                    return
+                }
+                self?.delegate?.tapAuthorOfPost(user: user)
+                LoadingView.hide()
+            }
+        }
     }
     
     /// Тап по количеству лайков поста.
@@ -208,58 +193,25 @@ extension FeedTableViewCell {
         LoadingView.show()
 
         // Создание массива пользователей, лайкнувших пост
-//        getUsersLikedPost(postID: cellPost.id) {
-//            [weak self] (userList) in
-//
-//            guard let `self` = self else { return }
-//
-//            guard let userList = userList else {
-//                self.delegate?.showErrorAlert()
-//                self.delegate?.hideBlockView()
-//                return
-//            }
-//
-//            self.delegate?.tapLikesCountLabel(userList: userList)
-//            self.delegate?.hideBlockView()
-//        }
+        networkService.getUsersLikedPost(withID: cellPost.id,
+                                         token: AppDelegate.token ?? "") {
+            [weak self] (userList) in
+            
+            DispatchQueue.main.async {
+                guard let userList = userList else {
+                    self?.delegate?.showErrorAlert()
+                    LoadingView.hide()
+                    return
+                }
+
+                self?.delegate?.tapLikesCountLabel(userList: userList)
+                LoadingView.hide()
+            }
+        }
     }
     
     /// Тап  по сердечку под постом.
     @IBAction func tapLikeImage(recognizer: UIGestureRecognizer) {
         likeUnlikePost()
     }
-}
-
-// MARK: - Data recieving methods
-extension FeedTableViewCell {
-    
-    /// Получение публикации с переданным ID.
-//    private func getPost(postID: Post.Identifier, completion: @escaping (Post?) -> Void) {
-//        DataProviders.shared.postsDataProvider.post(with: postID, queue: .global(qos: .userInteractive)) {
-//            (post) in
-//            DispatchQueue.main.async {
-//                completion(post)
-//            }
-//        }
-//    }
-    
-    /// Получение пользователя с переданным ID.
-//    private func getUser(userID: User.Identifier, completion: @escaping (User?) -> Void) {
-//        DataProviders.shared.usersDataProvider.user(with: userID, queue: .global(qos: .userInteractive)) {
-//            (user) in
-//            DispatchQueue.main.async {
-//                completion(user)
-//            }
-//        }
-//    }
-    
-    /// Получение пользователей, поставивших лайк на публикацию.
-//    private func getUsersLikedPost(postID: Post.Identifier, completion: @escaping ([User]?) -> Void) {
-//        DataProviders.shared.postsDataProvider.usersLikedPost(with: postID, queue: .global(qos: .userInteractive)) {
-//            (usersLikedPost) in
-//            DispatchQueue.main.async {
-//                completion(usersLikedPost)
-//            }
-//        }
-//    }
 }

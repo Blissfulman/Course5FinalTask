@@ -10,13 +10,4 @@ import Foundation
 
 struct Token: Codable {
     let token: String
-    
-    static func getFromJSON(_ jsonData: Data) -> Token? {
-
-        guard let token = try? JSONDecoder().decode(Token.self,
-                                                    from: jsonData) else {
-            return nil
-        }
-        return token
-    }
 }

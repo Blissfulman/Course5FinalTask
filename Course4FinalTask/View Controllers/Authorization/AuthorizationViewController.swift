@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AuthorizationViewController: UIViewController {
+final class AuthorizationViewController: UIViewController {
 
     // MARK: - Properties
     private lazy var loginTextField: UITextField = {

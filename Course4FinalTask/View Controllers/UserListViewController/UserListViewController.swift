@@ -8,11 +8,11 @@
 
 import UIKit
 
-class UserListViewController: UIViewController {
+final class UserListViewController: UIViewController {
     
     // MARK: - Properties    
-    /// Список пользователей для отображения в таблице.
-    private var userList: [User] = []
+    /// Список отображаемых в таблице пользователей.
+    private var userList = [User]()
     
     /// Таблица пользователей.
     private lazy var userListTableView: UITableView = {
@@ -25,6 +25,8 @@ class UserListViewController: UIViewController {
     
     /// Высота строки в таблице.
     private let heightForRow: CGFloat = 45
+    
+    private let networkService: NetworkServiceProtocol = NetworkService()
     
     // MARK: - Initializers
     convenience init(userList: [User]) {
@@ -42,7 +44,8 @@ class UserListViewController: UIViewController {
     
     // Снятие выделения с ячейки при возврате на вью
     override func viewDidAppear(_ animated: Bool) {
-        guard let selectedRow = userListTableView.indexPathForSelectedRow else { return }
+        guard let selectedRow = userListTableView
+                .indexPathForSelectedRow else { return }
         userListTableView.deselectRow(at: selectedRow, animated: true)
     }
     
@@ -53,13 +56,15 @@ class UserListViewController: UIViewController {
     
     // MARK: - Setup layout
     private func setupLayout() {
-        let constraints = [
+        NSLayoutConstraint.activate([
             userListTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            userListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            userListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            userListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ]
-        NSLayoutConstraint.activate(constraints)
+            userListTableView.leadingAnchor
+                .constraint(equalTo: view.leadingAnchor),
+            userListTableView.trailingAnchor
+                .constraint(equalTo: view.trailingAnchor),
+            userListTableView.bottomAnchor
+                .constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
  
@@ -72,8 +77,16 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-//        cell.imageView?.image = userList[indexPath.row].avatar
-//        cell.textLabel?.text = userList[indexPath.row].fullName
+        
+        var content = cell.defaultContentConfiguration()
+        content.directionalLayoutMargins = .init(top: 0, leading: 0,
+                                                 bottom: 1, trailing: 0)
+        
+        let imageURL = userList[indexPath.row].avatar
+        content.image = networkService.getImage(fromURL: imageURL)
+        content.text = userList[indexPath.row].fullName
+        
+        cell.contentConfiguration = content
         return cell
     }
 
@@ -85,7 +98,8 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
     // Переход на вью пользователя
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let storyboard = UIStoryboard(name: AppDelegate.storyboardName, bundle: nil)
+        let storyboard = UIStoryboard(name: AppDelegate.storyboardName,
+                                      bundle: nil)
         
         guard let profileVC = storyboard.instantiateViewController(withIdentifier: ProfileViewController.identifier) as? ProfileViewController else { return }
         

@@ -13,84 +13,227 @@ protocol NetworkServiceProtocol {
     func singIn(login: String,
                 password: String,
                 completion: @escaping (Token?) -> Void)
-    func feed(token: String, completion: @escaping ([Post]?) -> Void)
+    func getUser(withID userID: String,
+                 token: String,
+                 completion: @escaping (User?) -> Void)
+    func getCurrentUser(token: String,
+                        completion: @escaping (User?) -> Void)
+    func getPostsOfUser(withID userID: String,
+                        token: String,
+                        completion: @escaping ([Post]?) -> Void)
+    func getFeed(token: String, completion: @escaping ([Post]?) -> Void)
+    func getPost(withID postID: String,
+                 token: String,
+                 completion: @escaping (Post?) -> Void)
+    func likePost(withID postID: String,
+                  token: String,
+                  completion: @escaping (Post?) -> Void)
+    func unlikePost(withID postID: String,
+                    token: String,
+                    completion: @escaping (Post?) -> Void)
+    func getUsersLikedPost(withID postID: String,
+                           token: String,
+                           completion: @escaping ([User]?) -> Void)
     func getImage(fromURL url: URL) -> UIImage?
 }
 
 final class NetworkService: NetworkServiceProtocol {
     
+    private let urlService: URLServiceProtocol
+    private let requestService: RequestServiceProtocol
+    private let dataTaskService: DataTaskServiceProtocol
+    
+    init(urlService: URLServiceProtocol = URLService(),
+         requestService: RequestServiceProtocol = RequestService(),
+         dataTaskService: DataTaskServiceProtocol = DataTaskService()) {
+        self.urlService = urlService
+        self.requestService = requestService
+        self.dataTaskService = dataTaskService
+    }
+    
+    /// Запрос авторизации пользователя.
+    /// - Parameters:
+    ///   - login: Логин пользователя.
+    ///   - password: Пароль пользователя.
+    ///   - completion: Замыкание, в которое возвращается токен авторизованного пользователя.
+    ///   Вызывается после выполнения запроса.
     func singIn(login: String,
                 password: String,
                 completion: @escaping (Token?) -> Void) {
         
-        guard let url = URLService().getURL(forPath: TokenPath.signIn) else { return }
+        guard let url = urlService.getURL(forPath: TokenPath.signIn) else { return }
         
-        var request = RequestService().request(url: url, httpMethod: HTTPMethod.post)
+        var request = requestService.request(url: url,
+                                             httpMethod: HTTPMethod.post,
+                                             token: nil)
         
         let authorization = Authorization(login: login, password: password)
         
         request.httpBody = try? JSONEncoder().encode(authorization)
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            
-            if let response = response as? HTTPURLResponse, let data = data {
-                
-                if response.statusCode == 422 {
-                    print("Wrong login or password")
-                }
-                
-                guard let token = Token.getFromJSON(data) else { return }
-                
-                completion(token)
-            }
-        }.resume()
+        dataTaskService.dataTask(request: request, completion: completion)
     }
     
-    func feed(token: String, completion: @escaping ([Post]?) -> Void) {
+    /// Получение пользователя с переданным ID.
+    /// - Parameters:
+    ///   - userID: ID пользователя.
+    ///   - token: Токен текущего пользователя.
+    ///   - completion: Замыкание, в которое возвращается запрашиваемый пользователь.
+    ///   Вызывается после выполнения запроса.
+    func getUser(withID userID: String,
+                 token: String,
+                 completion: @escaping (User?) -> Void) {
         
-        guard let url = URLService().getURL(forPath: PostPath.feed) else { return }
+        guard let url = urlService
+                .getURL(forPath: UserPath.users + userID) else { return }
         
-        let request = RequestService().request(url: url,
-                                               httpMethod: HTTPMethod.get,
-                                               token: token)
-        
-        print(request)
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            
-            if let response = response as? HTTPURLResponse, let data = data {
+        let request = requestService.request(url: url,
+                                             httpMethod: HTTPMethod.get,
+                                             token: token)
                 
-                print(response.statusCode)
-                if let string = String(data: data, encoding: .utf8) {
-                    print(string)
-                }
-                     
-//                var posts = [Post]()
+        dataTaskService.dataTask(request: request, completion: completion)
+    }
+    
+    
+    /// Получение текущего пользователя.
+    /// - Parameters:
+    ///   - token: Токен текущего пользователя.
+    ///   - completion: Замыкание, в которое возвращается текущий пользователь.
+    ///   Вызывается после выполнения запроса.
+    func getCurrentUser(token: String,
+                        completion: @escaping (User?) -> Void) {
+        
+        guard let url = urlService
+                .getURL(forPath: UserPath.currentUser) else { return }
+        
+        let request = requestService.request(url: url,
+                                             httpMethod: HTTPMethod.get,
+                                             token: token)
                 
-//                do {
-//                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-//
-//                    guard let postsData = json as? [Any] else { return }
-//                    postsData.forEach { posts.append(Post(from: $0)) }
-//                } catch {
-//                    print(error.localizedDescription)
-//                }
+        dataTaskService.dataTask(request: request, completion: completion)
+    }
+    
+    /// Получение публикаций пользователя с запрошенным ID.
+    /// - Parameters:
+    ///   - userID: ID пользователя.
+    ///   - token: Токен текущего пользователя.
+    ///   - completion: Замыкание, в которое возвращаются запрашиваемые публикации.
+    ///   Вызывается после выполнения запроса.
+    func getPostsOfUser(withID userID: String,
+                        token: String,
+                        completion: @escaping ([Post]?) -> Void) {
+        
+        guard let url = urlService.getURL(forPath: UserPath.users + userID + PostPath.posts) else { return }
+        
+        let request = requestService.request(url: url,
+                                             httpMethod: HTTPMethod.get,
+                                             token: token)
                 
-                do {
-                    let posts = try JSONDecoder().decode([Post].self, from: data)
-                    completion(posts)
-                } catch {
-                    print(error.localizedDescription)
-                }
-            }
-        }.resume()
+        dataTaskService.dataTask(request: request, completion: completion)
+    }
+    
+    /// Получение публикаций пользователей, на которых подписан текущий пользователь.
+    /// - Parameters:
+    ///   - token: Токен текущего пользователя.
+    ///   - completion: Замыкание, в которое возвращаются запрашиваемые публикации.
+    ///   Вызывается после выполнения запроса.
+    func getFeed(token: String, completion: @escaping ([Post]?) -> Void) {
+        
+        guard let url = urlService.getURL(forPath: PostPath.feed) else { return }
+        
+        let request = requestService.request(url: url,
+                                             httpMethod: HTTPMethod.get,
+                                             token: token)
+                
+        dataTaskService.dataTask(request: request, completion: completion)
+    }
+    
+    /// Получение публикации с переданным ID.
+    /// - Parameters:
+    ///   - postID: ID поста.
+    ///   - token: Токен текущего пользователя.
+    ///   - completion: Замыкание, в которое возвращается запрашиваемая публикация.
+    ///   Вызывается после выполнения запроса.
+    func getPost(withID postID: String,
+                 token: String,
+                 completion: @escaping (Post?) -> Void) {
+        
+        guard let url = urlService
+                .getURL(forPath: PostPath.posts + postID) else { return }
+        
+        let request = requestService.request(url: url,
+                                             httpMethod: HTTPMethod.get,
+                                             token: token)
+                
+        dataTaskService.dataTask(request: request, completion: completion)
+    }
+    
+    
+    /// Ставит лайк от текущего пользователя на публикации с запрошенным ID.
+    /// - Parameters:
+    ///   - postID: ID поста.
+    ///   - token: Токен текущего пользователя.
+    ///   - completion: Замыкание, в которое возвращается пост, которому был поставлен лайк.
+    ///   Вызывается после выполнения запроса.
+    func likePost(withID postID: String,
+                  token: String,
+                  completion: @escaping (Post?) -> Void) {
+        
+        guard let url = urlService
+                .getURL(forPath: PostPath.like) else { return }
+        
+        var request = requestService.request(url: url,
+                                             httpMethod: HTTPMethod.post,
+                                             token: token)
+        
+        let postIDRequest = PostIDRequest(postID: postID)
+        
+        request.httpBody = try? JSONEncoder().encode(postIDRequest)
+        
+        dataTaskService.dataTask(request: request, completion: completion)
+    }
+    
+    /// Удаляет лайк от текущего пользователя на публикации с запрошенным ID.
+    /// - Parameters:
+    ///   - postID: ID поста.
+    ///   - token: Токен текущего пользователя.
+    ///   - completion: Замыкание, в которое возвращается пост, которому был поставлен анлайк.
+    ///   Вызывается после выполнения запроса.
+    func unlikePost(withID postID: String,
+                    token: String,
+                    completion: @escaping (Post?) -> Void) {
+        
+        guard let url = urlService
+                .getURL(forPath: PostPath.unlike) else { return }
+        
+        var request = requestService.request(url: url,
+                                             httpMethod: HTTPMethod.post,
+                                             token: token)
+        
+        let postIDRequest = PostIDRequest(postID: postID)
+        
+        request.httpBody = try? JSONEncoder().encode(postIDRequest)
+        
+        dataTaskService.dataTask(request: request, completion: completion)
+    }
+    
+    /// Получение пользователей, поставивших лайк на публикацию с переданным ID.
+    /// - Parameters:
+    ///   - postID: ID поста.
+    ///   - token: Токен текущего пользователя.
+    ///   - completion: Замыкание, в которое возвращаются запрашиваемые пользователи.
+    ///   Вызывается после выполнения запроса.
+    func getUsersLikedPost(withID postID: String,
+                           token: String,
+                           completion: @escaping ([User]?) -> Void) {
+        
+        guard let url = urlService.getURL(forPath: PostPath.posts + postID + PostPath.likes) else { return }
+        
+        let request = requestService.request(url: url,
+                                             httpMethod: HTTPMethod.get,
+                                             token: token)
+        
+        dataTaskService.dataTask(request: request, completion: completion)
     }
     
     func getImage(fromURL url: URL) -> UIImage? {

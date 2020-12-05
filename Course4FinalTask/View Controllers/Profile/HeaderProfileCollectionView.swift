@@ -14,7 +14,7 @@ protocol HeaderProfileCollectionViewDelegate: UIViewController {
     func followUnfollowUser()
 }
 
-class HeaderProfileCollectionView: UICollectionReusableView {
+final class HeaderProfileCollectionView: UICollectionReusableView {
     
     // MARK: - IB Outlets
     @IBOutlet weak var avatarImage: UIImageView!
@@ -27,6 +27,8 @@ class HeaderProfileCollectionView: UICollectionReusableView {
     static let identifier = "headerProfile"
     
     weak var delegate: HeaderProfileCollectionViewDelegate?
+    
+    private let networkService: NetworkServiceProtocol = NetworkService()
     
     // MARK: - Class methods
     static func nib() -> UINib {
@@ -49,19 +51,19 @@ class HeaderProfileCollectionView: UICollectionReusableView {
             setupFollowButton(user: user)
             followButton.isHidden = false
         }
-        
-//        avatarImage.image = user.avatar
-//        avatarImage.layer.cornerRadius = CGFloat(avatarImage.bounds.width / 2)
-//        fullNameLabel.text = user.fullName
-//        followersLabel.text = "Followers: " + String(user.followedByCount)
-//        followingLabel.text = "Following: " + String(user.followsCount)
+
+        avatarImage.image = networkService.getImage(fromURL: user.avatar)
+        avatarImage.layer.cornerRadius = CGFloat(avatarImage.bounds.width / 2)
+        fullNameLabel.text = user.fullName
+        followersLabel.text = "Followers: " + String(user.followedByCount)
+        followingLabel.text = "Following: " + String(user.followsCount)
     }
     
     private func setupFollowButton(user: User) {
     
-//        user.currentUserFollowsThisUser ?
-//            followButton.setTitle("Unfollow", for: .normal) :
-//            followButton.setTitle("Follow", for: .normal)
+        user.currentUserFollowsThisUser ?
+            followButton.setTitle("Unfollow", for: .normal) :
+            followButton.setTitle("Follow", for: .normal)
     }
     
     // MARK: - Setup gesture recognizers

@@ -8,16 +8,16 @@
 
 import UIKit
 
-class FeedViewController: UIViewController {
+final class FeedViewController: UIViewController {
     
     // MARK: - IB Outlets
     @IBOutlet weak var feedTableView: UITableView!
     
     // MARK: - Properties
-    private let networkService: NetworkServiceProtocol = NetworkService()
-    
     /// Массив постов ленты.
     private var feedPosts = [Post]()
+    
+    private let networkService: NetworkServiceProtocol = NetworkService()
     
     // MARK: - Lifeсycle methods
     override func viewDidLoad() {
@@ -30,7 +30,7 @@ class FeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         LoadingView.show()
         
-        networkService.feed(token: AppDelegate.token ?? "") {
+        networkService.getFeed(token: AppDelegate.token ?? "") {
             [weak self] (feedPosts) in
 
             guard let feedPosts = feedPosts else {
@@ -87,7 +87,7 @@ extension FeedViewController: FeedTableViewCellDelegate {
     /// Обновление данных массива постов ленты (вызывается после лайка / анлайка).
     func updateFeedData() {
         
-        networkService.feed(token: AppDelegate.token ?? "") {
+        networkService.getFeed(token: AppDelegate.token ?? "") {
             [weak self] (feedPosts) in
             
             guard let feedPosts = feedPosts else {
@@ -99,14 +99,6 @@ extension FeedViewController: FeedTableViewCellDelegate {
             self?.feedPosts = feedPosts
         }
     }
-    
-//    func showBlockView() {
-////        blockView.show()
-//    }
-//    
-//    func hideBlockView() {
-////        blockView.hide()
-//    }
     
     func showErrorAlert() {
         showAlert(title: "Unknown error!",

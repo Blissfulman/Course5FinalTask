@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewPostViewController: UIViewController {
+final class NewPostViewController: UIViewController {
     
     // MARK: - Properties
     /// Количество колонок в представлении фотографий.
@@ -48,10 +48,10 @@ class NewPostViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        blockView.show()
+        LoadingView.show()
         getNewPhotos()
         photosForNewPostCollectionView.reloadData()
-//        blockView.hide()
+        LoadingView.hide()
     }
     
     // MARK: - Setup UI

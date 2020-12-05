@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShareViewController: UIViewController {
+final class ShareViewController: UIViewController {
     
     // MARK: - IB Outlets
     @IBOutlet weak var shareImage: UIImageView!

@@ -46,30 +46,8 @@ struct Post: Codable {
         let authorAvatarString = try values.decode(String.self, forKey: .authorAvatar)
         authorAvatar = URL(string: authorAvatarString)!
     }
-    
-//    init(from jsonData: Any) {
-//        let jsonData = jsonData as! [String: Any]// else { return nil }
-//
-//        id = jsonData["id"] as! String
-//        description = jsonData["description"] as! String
-//        image = URL(string: jsonData["image"] as! String)!
-//
-//        let dateFormatter = DateFormatter.postDateFormatter
-//
-//        createdTime = dateFormatter.date(from: jsonData["createdTime"] as! String) ?? Date()
-//        currentUserLikesThisPost = jsonData["currentUserLikesThisPost"] as! Bool
-//        likedByCount = jsonData["likedByCount"] as! Int
-//        author = jsonData["author"] as! String
-//        authorUsername = jsonData["authorUsername"] as! String
-//        authorAvatar = URL(string: jsonData["authorAvatar"] as! String)!
-//    }
-    
-//    static func getPost(_ jsonData: Data) -> Post? {
-//
-//        guard let post = try? JSONDecoder().decode(Post.self,
-//                                                   from: jsonData) else {
-//            return nil
-//        }
-//        return post
-//    }
+}
+
+struct PostIDRequest: Encodable {
+    let postID: String
 }

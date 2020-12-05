@@ -22,8 +22,8 @@ enum UserPath {
 }
 
 enum PostPath {
-    static let posts = "/posts/"
     static let feed = "/posts/feed"
+    static let posts = "/posts/"
     static let like = "/posts/like"
     static let unlike = "/posts/unlike"
     static let likes = "/likes"
