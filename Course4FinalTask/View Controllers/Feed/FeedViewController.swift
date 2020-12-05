@@ -14,8 +14,7 @@ class FeedViewController: UIViewController {
     @IBOutlet weak var feedTableView: UITableView!
     
     // MARK: - Properties
-    /// Блокирующее вью, отображаемое во время ожидания получения данных.
-    private lazy var blockView = BlockView(parentView: self.tabBarController?.view ?? self.view)
+    private let networkService: NetworkServiceProtocol = NetworkService()
     
     /// Массив постов ленты.
     private var feedPosts = [Post]()
@@ -29,24 +28,22 @@ class FeedViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        LoadingView.show()
         
-//        blockView.show()
-
-        getFeedPosts { [weak self] (feedPosts) in
-
-            guard let `self` = self else { return }
+        networkService.feed(token: AppDelegate.token ?? "") {
+            [weak self] (feedPosts) in
 
             guard let feedPosts = feedPosts else {
-                self.showAlert(title: "Unknown error!",
+                self?.showAlert(title: "Unknown error!",
                                message: "Please, try again later")
-                self.blockView.hide()
+                LoadingView.hide()
                 return
             }
 
             DispatchQueue.main.async {
-                self.feedPosts = feedPosts
-                self.feedTableView.reloadData()
-                self.blockView.hide()
+                self?.feedPosts = feedPosts
+                self?.feedTableView.reloadData()
+                LoadingView.hide()
             }
         }
     }
@@ -90,43 +87,29 @@ extension FeedViewController: FeedTableViewCellDelegate {
     /// Обновление данных массива постов ленты (вызывается после лайка / анлайка).
     func updateFeedData() {
         
-        getFeedPosts { [weak self] (feedPosts) in
-            
-            guard let `self` = self else { return }
+        networkService.feed(token: AppDelegate.token ?? "") {
+            [weak self] (feedPosts) in
             
             guard let feedPosts = feedPosts else {
-                self.showAlert(title: "Unknown error!",
+                self?.showAlert(title: "Unknown error!",
                                message: "Please, try again later")
                 return
             }
             
-            self.feedPosts = feedPosts
+            self?.feedPosts = feedPosts
         }
     }
     
-    func showBlockView() {
-        blockView.show()
-    }
-    
-    func hideBlockView() {
-        blockView.hide()
-    }
+//    func showBlockView() {
+////        blockView.show()
+//    }
+//    
+//    func hideBlockView() {
+////        blockView.hide()
+//    }
     
     func showErrorAlert() {
         showAlert(title: "Unknown error!",
                   message: "Please, try again later")
-    }
-}
-
-// MARK: - Data recieving methods
-extension FeedViewController {
-    
-    /// Получение публикаций пользователей, на которых подписан текущий пользователь.
-    private func getFeedPosts(completion: @escaping ([Post]?) -> Void) {
-//        DataProviders.shared.postsDataProvider.feed(queue: .global(qos: .userInitiated)) {
-//            (feedPosts) in
-//
-//            completion(feedPosts)
-//        }
     }
 }

@@ -7,11 +7,14 @@
 //
 
 import Foundation
+import UIKit
 
 protocol NetworkServiceProtocol {
     func singIn(login: String,
                 password: String,
                 completion: @escaping (Token?) -> Void)
+    func feed(token: String, completion: @escaping ([Post]?) -> Void)
+    func getImage(fromURL url: URL) -> UIImage?
 }
 
 final class NetworkService: NetworkServiceProtocol {
@@ -39,136 +42,59 @@ final class NetworkService: NetworkServiceProtocol {
                     print("Wrong login or password")
                 }
                 
-                guard let token = Token.getFromJSON(jsonData: data) else { return }
+                guard let token = Token.getFromJSON(data) else { return }
                 
                 completion(token)
             }
         }.resume()
     }
-}
     
-//    func userLogin(username: String,
-//                   password: String,
-//                   completion: @escaping LoginResult)
+    func feed(token: String, completion: @escaping ([Post]?) -> Void) {
+        
+        guard let url = URLService().getURL(forPath: PostPath.feed) else { return }
+        
+        let request = RequestService().request(url: url,
+                                               httpMethod: HTTPMethod.get,
+                                               token: token)
+        
+        print(request)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            if let response = response as? HTTPURLResponse, let data = data {
+                
+                print(response.statusCode)
+                if let string = String(data: data, encoding: .utf8) {
+                    print(string)
+                }
+                     
+//                var posts = [Post]()
+                
+//                do {
+//                    let json = try JSONSerialization.jsonObject(with: data, options: [])
 //
-//    func search(name repositoryName: String,
-//                language: String,
-//                order: String,
-//                completion: @escaping SearchResult)
-//}
-
-//final class NetworkService: NetworkServiceProtocol {
-//    
-//    private let session: URLSession
-//    
-//    init(session: URLSession = .shared) {
-//        self.session = session
-//    }
-//    
-//    /// Авторизация пользователя.
-//    func userLogin(username: String,
-//                   password: String,
-//                   completion: @escaping LoginResult) {
-//                
-//        let base64LoginString = password.data(using: .utf8)?
-//            .base64EncodedString() ?? ""
-//        
-//        guard let url = URL(string: URLs.login) else { return }
-//        
-//        var request = URLRequest(url: url)
-//
-//        request.setValue("Basic \(base64LoginString)",
-//                         forHTTPHeaderField: "Authorization")
-//        
-//        session.dataTask(with: request) { (data, response, error) in
-//                        
-//            if let error = error {
-//                print(error.localizedDescription)
-//                return
-//            } else if let data = data,
-//                      let response = response as? HTTPURLResponse {
-//                print("http status code: \(response.statusCode)")
-//                
-//                if response.statusCode != 200 {
-//                    print("Error authorization")
-//                    completion(nil)
-//                    return
+//                    guard let postsData = json as? [Any] else { return }
+//                    postsData.forEach { posts.append(Post(from: $0)) }
+//                } catch {
+//                    print(error.localizedDescription)
 //                }
-//                
-//                KeychainStorage().savePassword(account: username,
-//                                               password: password)
-//                    ? print("Password saved")
-//                    : print("Password saving error")
-//                
-//                guard let user = User.createFromJSON(data) else { return }
-//                
-//                completion(user)
-//            }
-//        }.resume()
-//    }
-//    
-//    /// Поиск репозиториев с переданными параметрами.
-//    func search(name repositoryName: String,
-//                language: String,
-//                order: String,
-//                completion: @escaping SearchResult) {
-//        
-//        let defaultHeaders = ["Content-Type" : "application/json",
-//                              "Accept" : "application/vnd.github.v3+json"]
-//        
-//        guard let url = getSearchURL(repositoryName: repositoryName,
-//                                     language: language,
-//                                     order: order) else { return }
-//        
-//        var request = URLRequest(url: url)
-//        request.allHTTPHeaderFields = defaultHeaders
-//        
-//        session.dataTask(with: request) {
-//            (data, response, error) in
-//            
-//            if let error = error {
-//                print(error.localizedDescription)
-//                return
-//            }
-//            
-//            if let httpResponse = response as? HTTPURLResponse {
-//                print("http status code: \(httpResponse.statusCode)")
-//            }
-//            
-//            guard let jsonData = data else {
-//                print("No data received")
-//                return
-//            }
-//            
-//            guard let foundRepositories =
-//                FoundRepositories.createFromJSON(jsonData) else { return }
-//            
-//            completion(foundRepositories)
-//        }.resume()
-//    }
-//    
-//    private func getSearchURL(repositoryName: String,
-//                              language: String,
-//                              order: String) -> URL? {
-//        
-//        let scheme = "https"
-//        let host = "api.github.com"
-//        let searchRepoPath = "/search/repositories"
-//        
-//        var urlComponents = URLComponents()
-//        
-//        urlComponents.scheme = scheme
-//        urlComponents.host = host
-//        urlComponents.path = searchRepoPath
-//        
-//        urlComponents.queryItems = [
-//            URLQueryItem(name: "q", value: "\(repositoryName)+language:\(language)"),
-//            URLQueryItem(name: "order", value: "\(order)"),
-//            URLQueryItem(name: "per_page", value: "100")
-//        ]
-//        
-//        guard let url = urlComponents.url else { return nil }
-//        print("Search request url: \(url)")
-//        return url
-//    }
-//}
+                
+                do {
+                    let posts = try JSONDecoder().decode([Post].self, from: data)
+                    completion(posts)
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }.resume()
+    }
+    
+    func getImage(fromURL url: URL) -> UIImage? {
+        guard let imageData = try? Data(contentsOf: url) else { return nil }
+        return UIImage(data: imageData)
+    }
+}

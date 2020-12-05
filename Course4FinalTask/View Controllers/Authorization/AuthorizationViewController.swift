@@ -180,7 +180,7 @@ class AuthorizationViewController: UIViewController {
             }
             
             self?.token = token
-            print(token)
+            print("Token:", token)
             
             DispatchQueue.main.async {
                 let storyboard = UIStoryboard(name: AppDelegate.storyboardName,

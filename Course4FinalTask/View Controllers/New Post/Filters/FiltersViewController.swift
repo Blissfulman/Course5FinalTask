@@ -15,9 +15,6 @@ class FiltersViewController: UIViewController {
     @IBOutlet weak var filtersCollectionView: UICollectionView!
 
     // MARK: - Properties
-    /// Блокирующее вью, отображаемое во время ожидания получения данных.
-    private lazy var blockView = BlockView(parentView: self.tabBarController?.view ?? self.view)
-
     /// Изображение, отображаемое на всю ширину экрана.
     private lazy var bigImage: UIImageView = {
         let imageView = UIImageView()
@@ -140,7 +137,7 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
     // MARK: - CollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        blockView.show()
+        LoadingView.show()
         
         // Применение выбранного фильтра к большому изображению
         let queue = OperationQueue()
@@ -155,7 +152,7 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
                 guard let outputImage = filterOperation.outputImage else { return }
                 
                 self.bigImage.image = outputImage
-                self.blockView.hide()
+                LoadingView.hide()
             }
         }
         queue.addOperation(filterOperation)

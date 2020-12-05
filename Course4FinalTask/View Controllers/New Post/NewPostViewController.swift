@@ -11,9 +11,6 @@ import UIKit
 class NewPostViewController: UIViewController {
     
     // MARK: - Properties
-    /// Блокирующее вью, отображаемое во время ожидания получения данных.
-    private lazy var blockView = BlockView(parentView: self.tabBarController?.view ?? self.view)
-        
     /// Количество колонок в представлении фотографий.
     private let numberOfColumnsOfPhotos: CGFloat = 3
     
@@ -51,10 +48,10 @@ class NewPostViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        blockView.show()
+//        blockView.show()
         getNewPhotos()
         photosForNewPostCollectionView.reloadData()
-        blockView.hide()
+//        blockView.hide()
     }
     
     // MARK: - Setup UI

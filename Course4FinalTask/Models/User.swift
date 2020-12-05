@@ -8,6 +8,13 @@
 
 import Foundation
 
-struct User {
-    
+struct User: Codable {
+    let id: String
+    var username: String
+    var fullName: String
+    var avatar: URL
+    var currentUserFollowsThisUser: Bool
+    var currentUserIsFollowedByThisUser: Bool
+    var followsCount: Int
+    var followedByCount: Int
 }

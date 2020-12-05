@@ -12,8 +12,6 @@ protocol FeedTableViewCellDelegate: UIViewController {
     func tapAuthorOfPost(user: User)
     func tapLikesCountLabel(userList: [User])
     func updateFeedData()
-    func showBlockView()
-    func hideBlockView()
     func showErrorAlert()
 }
 
@@ -54,17 +52,17 @@ class FeedTableViewCell: UITableViewCell {
     func configure(_ post: Post) {
                 
         // Запись переменных поста
-//        isLiked = post.currentUserLikesThisPost
-//        likedByCount = post.likedByCount
-//        cellPost = post
-//
-//        // Заполнение всех элементов ячейки данными
-//        avatarImage.image = post.authorAvatar
-//        authorUsernameLabel.text = post.authorUsername
-//        createdTimeLabel.text = setDateAndTime(post.createdTime)
-//        postImage.image = post.image
-//        updateLikeData()
-//        descriptionLabel.text = post.description
+        isLiked = post.currentUserLikesThisPost
+        likedByCount = post.likedByCount
+        cellPost = post
+
+        // Заполнение всех элементов ячейки данными
+        avatarImage.image = NetworkService().getImage(fromURL: post.authorAvatar)
+        authorUsernameLabel.text = post.authorUsername
+        createdTimeLabel.text = setDateAndTime(post.createdTime)
+        postImage.image = NetworkService().getImage(fromURL: post.image)
+        updateLikeData()
+        descriptionLabel.text = post.description
     }
     
     private func setDateAndTime(_ date: Date) -> String {
@@ -72,7 +70,7 @@ class FeedTableViewCell: UITableViewCell {
         dateFormat.dateStyle = .medium
         dateFormat.timeStyle = .medium
         dateFormat.doesRelativeDateFormatting = true
-        return dateFormat.string(from: date as Date)
+        return dateFormat.string(from: date)
     }
     
     private func updateLikeData() {
@@ -186,7 +184,7 @@ extension FeedTableViewCell {
     /// Тап по автору поста.
     @IBAction func tapAuthorOfPost(recognizer: UIGestureRecognizer) {
         
-        delegate?.showBlockView()
+        LoadingView.show()
         
 //        getUser(userID: cellPost.author) {
 //            [weak self] (user) in
@@ -207,8 +205,8 @@ extension FeedTableViewCell {
     /// Тап по количеству лайков поста.
     @IBAction func tapLikesCountLabel(recognizer: UIGestureRecognizer) {
         
-        delegate?.showBlockView()
-        
+        LoadingView.show()
+
         // Создание массива пользователей, лайкнувших пост
 //        getUsersLikedPost(postID: cellPost.id) {
 //            [weak self] (userList) in

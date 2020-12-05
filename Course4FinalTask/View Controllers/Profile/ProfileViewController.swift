@@ -25,9 +25,6 @@ class ProfileViewController: UIViewController {
     
     /// Логическое значение, указывающее, является ли отображаемый профиль, профилем текущего пользователя.
     private var isCurrentUser: Bool?
-    
-    /// Блокирующее вью, отображаемое во время ожидания получения данных.
-    private lazy var blockView = BlockView(parentView: self.tabBarController?.view ?? self.view)
 
     /// Количество колонок в представлении фотографий.
     private let numberOfColumnsOfPhotos: CGFloat = 3
@@ -82,7 +79,7 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        blockView.show()
+//        blockView.show()
         
         // Получение данных об открываемом пользователе
         getDataQueue.async { [weak self] in
