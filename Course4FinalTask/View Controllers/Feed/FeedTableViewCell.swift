@@ -65,21 +65,14 @@ final class FeedTableViewCell: UITableViewCell {
         // Заполнение всех элементов ячейки данными
         avatarImage.image = networkService.getImage(fromURL: post.authorAvatar)
         authorUsernameLabel.text = post.authorUsername
-        createdTimeLabel.text = setDateAndTime(post.createdTime)
+        createdTimeLabel.text = DateFormatter.postDateFormatter
+            .string(from: post.createdTime)
         postImage.image = networkService.getImage(fromURL: post.image)
         descriptionLabel.text = post.description
     }
     
-    private func setDateAndTime(_ date: Date) -> String {
-        let dateFormat = DateFormatter()
-        dateFormat.dateStyle = .medium
-        dateFormat.timeStyle = .medium
-        dateFormat.doesRelativeDateFormatting = true
-        return dateFormat.string(from: date)
-    }
-    
     // MARK: - Working with likes
-    /// Лайк/анлайк поста.
+    /// Обработка лайка/анлайка поста.
     private func likeUnlikePost() {
 
         if cellPost.currentUserLikesThisPost {

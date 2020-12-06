@@ -10,13 +10,13 @@ import Foundation
 
 struct User: Codable {
     let id: String
-    var username: String
-    var fullName: String
-    var avatar: URL
-    var currentUserFollowsThisUser: Bool
-    var currentUserIsFollowedByThisUser: Bool
-    var followsCount: Int
-    var followedByCount: Int
+    let username: String
+    let fullName: String
+    let avatar: URL
+    let currentUserFollowsThisUser: Bool
+    let currentUserIsFollowedByThisUser: Bool
+    let followsCount: Int
+    let followedByCount: Int
 }
 
 struct UserIDRequest: Encodable {

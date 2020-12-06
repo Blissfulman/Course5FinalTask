@@ -9,10 +9,18 @@
 import Foundation
 
 extension DateFormatter {
-    static let postDateFormatter: DateFormatter = {
+    static let serverDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
 //        dateFormatter.timeZone = TimeZone(identifier: "GMT")
+        return dateFormatter
+    }()
+    
+    static let postDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .medium
+        dateFormatter.doesRelativeDateFormatting = true
         return dateFormatter
     }()
 }
