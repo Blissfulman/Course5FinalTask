@@ -77,14 +77,14 @@ extension FeedViewController: FeedTableViewCellDelegate {
     }
     
     /// Переход на экран лайкнувших пост пользователей.
-    func tapLikesCountLabel(userList: [User]) {
-        let likesVC = UserListViewController(userList: userList)
+    func tapLikesCountLabel(postID: String) {
+        let likesVC = UserListViewController(postID: postID,
+                                             userListType: .likes)
         
-        likesVC.title = "Likes"
         navigationController?.pushViewController(likesVC, animated: true)
     }
     
-    /// Обновление данных массива постов ленты (вызывается после лайка / анлайка).
+    /// Обновление данных массива постов ленты (вызывается после лайка/анлайка).
     func updateFeedData() {
         
         networkService.getFeed(token: AppDelegate.token ?? "") {

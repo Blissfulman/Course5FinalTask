@@ -11,6 +11,15 @@ import UIKit
 final class UserListViewController: UIViewController {
     
     // MARK: - Properties    
+    /// ID пользователя, подписчиков либо подписок которого, требуется отобразить.
+    private var userID: String!
+    
+    /// ID поста, лайкнувших пользователей которого, требуется отобрвзить.
+    private var postID: String!
+    
+    /// Тип списка отображаемых пользователей.
+    private var userListType: UserListType!
+    
     /// Список отображаемых в таблице пользователей.
     private var userList = [User]()
     
@@ -29,9 +38,13 @@ final class UserListViewController: UIViewController {
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Initializers
-    convenience init(userList: [User]) {
+    convenience init(postID: String? = nil,
+                     userID: String? = nil,
+                     userListType: UserListType) {
         self.init()
-        self.userList = userList
+        self.userID = userID
+        self.postID = postID
+        self.userListType = userListType
     }
     
     // MARK: - Lifeсycle methods
@@ -40,6 +53,12 @@ final class UserListViewController: UIViewController {
         
         setupUI()
         setupLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        updateUserList()
     }
     
     // Снятие выделения с ячейки при возврате на вью
@@ -52,6 +71,7 @@ final class UserListViewController: UIViewController {
     // MARK: - Setup UI
     private func setupUI() {
         view.addSubview(userListTableView)
+        title = userListType.rawValue
     }
     
     // MARK: - Setup layout
@@ -65,6 +85,51 @@ final class UserListViewController: UIViewController {
             userListTableView.bottomAnchor
                 .constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    // MARK: - Updating user list data
+    private func updateUserList() {
+        
+        LoadingView.show()
+        
+        /// Замыкание, в котором обновляется список отображаемых пользователей.
+        let updateUserList: UsersResult = { [weak self] (userList) in
+            
+            defer {
+                LoadingView.hide()
+            }
+            
+            DispatchQueue.main.async {
+                
+                guard let userList = userList else {
+                    self?.showAlert(title: "Unknown error!",
+                                    message: "Please, try again later")
+                    return
+                }
+                self?.userList = userList
+                self?.userListTableView.reloadData()
+            }
+        }
+        
+        switch userListType {
+        case .likes:
+            // Получение пользователей, лайкнувших пост
+            networkService.getUsersLikedPost(withID: postID,
+                                             token: AppDelegate.token ?? "",
+                                             completion: updateUserList)
+        case .followers:
+            // Получение подписчиков
+            networkService.getUsersFollowingUser(withID: userID,
+                                                 token: AppDelegate.token ?? "",
+                                                 completion: updateUserList)
+        case .following:
+            // Получение подписок
+            networkService.getUsersFollowedByUser(withID: userID,
+                                                  token: AppDelegate.token ?? "",
+                                                  completion: updateUserList)
+        case .none:
+            break
+        }
     }
 }
  

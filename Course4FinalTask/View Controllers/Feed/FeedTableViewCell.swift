@@ -10,7 +10,7 @@ import UIKit
 
 protocol FeedTableViewCellDelegate: UIViewController {
     func tapAuthorOfPost(user: User)
-    func tapLikesCountLabel(userList: [User])
+    func tapLikesCountLabel(postID: String)
     func updateFeedData()
     func showErrorAlert()
 }
@@ -75,7 +75,7 @@ final class FeedTableViewCell: UITableViewCell {
     /// Обработка лайка/анлайка поста.
     private func likeUnlikePost() {
 
-        // Замыкание, в котором обновляются данные о посте
+        /// Замыкание, в котором обновляются данные о посте.
         let updatePost: PostResult = { [weak self] (updatedPost: Post?) in
             self?.cellPost = updatedPost
             
@@ -182,25 +182,8 @@ extension FeedTableViewCell {
     
     /// Тап по количеству лайков поста.
     @IBAction func tapLikesCountLabel(recognizer: UIGestureRecognizer) {
-        
-        LoadingView.show()
-
-        // Создание массива пользователей, лайкнувших пост
-        networkService.getUsersLikedPost(withID: cellPost.id,
-                                         token: AppDelegate.token ?? "") {
-            [weak self] (userList) in
-            
-            DispatchQueue.main.async {
-                guard let userList = userList else {
-                    self?.delegate?.showErrorAlert()
-                    LoadingView.hide()
-                    return
-                }
-
-                self?.delegate?.tapLikesCountLabel(userList: userList)
-                LoadingView.hide()
-            }
-        }
+        guard let cellPost = cellPost else { return }
+        delegate?.tapLikesCountLabel(postID: cellPost.id)
     }
     
     /// Тап  по сердечку под постом.

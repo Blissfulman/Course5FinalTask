@@ -170,56 +170,22 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
     func tapFollowersLabel() {
         
         guard let user = user else { return }
-
-        LoadingView.show()
         
-        networkService.getUsersFollowingUser(withID: user.id,
-                                             token: AppDelegate.token ?? "") {
-            [weak self] (userList) in
-            
-            DispatchQueue.main.async {
-                
-                guard let userList = userList else {
-                    self?.showAlert(title: "Unknown error!",
-                                    message: "Please, try again later")
-                    return
-                }
-                
-                let followersVC = UserListViewController(userList: userList)
-                followersVC.title = "Followers"
-                self?.navigationController?.pushViewController(followersVC,
-                                                               animated: true)
-                LoadingView.hide()
-            }
-        }
+        let followersVC = UserListViewController(userID: user.id,
+                                                 userListType: .followers)
+
+        navigationController?.pushViewController(followersVC, animated: true)
     }
 
-/// Переход на подписки пользователя.
+    /// Переход на подписки пользователя.
     func tapFollowingLabel() {
         
         guard let user = user else { return }
-                
-        LoadingView.show()
-
-        networkService.getUsersFollowedByUser(withID: user.id,
-                                              token: AppDelegate.token ?? "") {
-            [weak self] (userList) in
-            
-            DispatchQueue.main.async {
-                
-                guard let userList = userList else {
-                    self?.showAlert(title: "Unknown error!",
-                                    message: "Please, try again later")
-                    return
-                }
-                
-                let followingVC = UserListViewController(userList: userList)
-                followingVC.title = "Following"
-                self?.navigationController?.pushViewController(followingVC,
-                                                               animated: true)
-                LoadingView.hide()
-            }
-        }
+        
+        let followingVC = UserListViewController(userID: user.id,
+                                                 userListType: .following)
+        
+        navigationController?.pushViewController(followingVC, animated: true)
     }
     
     // MARK: - Working with followings
@@ -228,7 +194,7 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
         
         guard let user = user else { return }
         
-        // Замыкание, в котором обновляются данные о пользователе
+        /// Замыкание, в котором обновляются данные о пользователе.
         let updateUser: UserResult = { [weak self] (updatedUser: User?) in
                         
             DispatchQueue.main.async {
@@ -265,7 +231,7 @@ extension ProfileViewController {
         networkService.getPostsOfUser(withID: user.id, token: AppDelegate.token ?? "") {
             [weak self] (userPosts) in
 
-            guard let `self` = self else { return }
+            guard let self = self else { return }
 
             DispatchQueue.main.async {
 
