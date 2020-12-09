@@ -26,7 +26,7 @@ final class UserListViewController: UIViewController {
     /// Высота строки в таблице.
     private let heightForRow: CGFloat = 45
     
-    private let networkService: NetworkServiceProtocol = NetworkService()
+    private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Initializers
     convenience init(userList: [User]) {

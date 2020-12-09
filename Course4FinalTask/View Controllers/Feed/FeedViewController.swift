@@ -17,7 +17,7 @@ final class FeedViewController: UIViewController {
     /// Массив постов ленты.
     private var feedPosts = [Post]()
     
-    private let networkService: NetworkServiceProtocol = NetworkService()
+    private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Lifeсycle methods
     override func viewDidLoad() {
@@ -90,18 +90,19 @@ extension FeedViewController: FeedTableViewCellDelegate {
         networkService.getFeed(token: AppDelegate.token ?? "") {
             [weak self] (feedPosts) in
             
-            guard let feedPosts = feedPosts else {
-                self?.showAlert(title: "Unknown error!",
-                               message: "Please, try again later")
-                return
+            DispatchQueue.main.async {
+                guard let feedPosts = feedPosts else {
+                    self?.showAlert(title: "Unknown error!",
+                                    message: "Please, try again later")
+                    return
+                }
+                self?.feedPosts = feedPosts
             }
-            
-            self?.feedPosts = feedPosts
         }
     }
     
     func showErrorAlert() {
-        showAlert(title: "Unknown error!",
-                  message: "Please, try again later")
+        self.showAlert(title: "Unknown error!",
+                       message: "Please, try again later")
     }
 }

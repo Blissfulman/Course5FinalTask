@@ -28,7 +28,7 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     
     weak var delegate: HeaderProfileCollectionViewDelegate?
     
-    private let networkService: NetworkServiceProtocol = NetworkService()
+    private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Class methods
     static func nib() -> UINib {

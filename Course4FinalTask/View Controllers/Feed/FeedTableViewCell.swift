@@ -47,7 +47,7 @@ final class FeedTableViewCell: UITableViewCell {
         }
     }
     
-    private let networkService: NetworkServiceProtocol = NetworkService()
+    private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Lifeсycle methods
     override func awakeFromNib() {
@@ -75,24 +75,24 @@ final class FeedTableViewCell: UITableViewCell {
     /// Обработка лайка/анлайка поста.
     private func likeUnlikePost() {
 
-        if cellPost.currentUserLikesThisPost {
-            networkService.unlikePost(withID: cellPost.id,
-                                      token: AppDelegate.token ?? "") {
-                [weak self] updatedPost in
-                                
-                self?.cellPost = updatedPost
-            }
-        } else {
-            networkService.likePost(withID: cellPost.id,
-                                    token: AppDelegate.token ?? "") {
-                [weak self] updatedPost in
-                
-                self?.cellPost = updatedPost
-            }
+        // Замыкание, в котором обновляются данные о посте
+        let updatePost: PostResult = { [weak self] (updatedPost: Post?) in
+            self?.cellPost = updatedPost
+            
+            // Обновление данных в массиве постов
+            self?.delegate?.updateFeedData()
         }
         
-        // Обновление данных в массиве постов
-        delegate?.updateFeedData()
+        // Лайк/анлайк
+        if cellPost.currentUserLikesThisPost {
+            networkService.unlikePost(withID: cellPost.id,
+                                      token: AppDelegate.token ?? "",
+                                      completion: updatePost)
+        } else {
+            networkService.likePost(withID: cellPost.id,
+                                    token: AppDelegate.token ?? "",
+                                    completion: updatePost)
+        }
     }
 }
 

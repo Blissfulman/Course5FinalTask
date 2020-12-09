@@ -35,7 +35,7 @@ final class ProfileViewController: UIViewController {
     /// Семафор для установки порядка запросов к провайдеру.
     private let semaphore = DispatchSemaphore(value: 1)
     
-    private let networkService: NetworkServiceProtocol = NetworkService()
+    private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Lifeсycle methods
     override func viewDidLoad() {
@@ -166,46 +166,60 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 extension ProfileViewController: HeaderProfileCollectionViewDelegate {
     
     // MARK: - Navigation
+    /// Переход на подписчиков пользователя.
     func tapFollowersLabel() {
         
         guard let user = user else { return }
+
+        LoadingView.show()
         
-//        getUsersFollowingUser(with: user.id) {
-//            [weak self] (userList) in
-//
-//            guard let `self` = self else { return }
-//
-//            guard let userList = userList else {
-//                self.showAlert(title: "Unknown error!",
-//                               message: "Please, try again later")
-//                return
-//            }
-//
-//            let followersVC = UserListViewController(userList: userList)
-//            followersVC.title = "Followers"
-//            self.navigationController?.pushViewController(followersVC, animated: true)
-//        }
+        networkService.getUsersFollowingUser(withID: user.id,
+                                             token: AppDelegate.token ?? "") {
+            [weak self] (userList) in
+            
+            DispatchQueue.main.async {
+                
+                guard let userList = userList else {
+                    self?.showAlert(title: "Unknown error!",
+                                    message: "Please, try again later")
+                    return
+                }
+                
+                let followersVC = UserListViewController(userList: userList)
+                followersVC.title = "Followers"
+                self?.navigationController?.pushViewController(followersVC,
+                                                               animated: true)
+                LoadingView.hide()
+            }
+        }
     }
-    
+
+/// Переход на подписки пользователя.
     func tapFollowingLabel() {
         
         guard let user = user else { return }
-        
-//        getUsersFollowedByUser(with: user.id) {
-//            [weak self] (userList) in
-//
-//            guard let `self` = self else { return }
-//
-//            guard let userList = userList else {
-//                self.showAlert(title: "Unknown error!",
-//                               message: "Please, try again later")
-//                return
-//            }
-//
-//            let followingVC = UserListViewController(userList: userList)
-//            followingVC.title = "Following"
-//            self.navigationController?.pushViewController(followingVC, animated: true)
-//        }
+                
+        LoadingView.show()
+
+        networkService.getUsersFollowedByUser(withID: user.id,
+                                              token: AppDelegate.token ?? "") {
+            [weak self] (userList) in
+            
+            DispatchQueue.main.async {
+                
+                guard let userList = userList else {
+                    self?.showAlert(title: "Unknown error!",
+                                    message: "Please, try again later")
+                    return
+                }
+                
+                let followingVC = UserListViewController(userList: userList)
+                followingVC.title = "Following"
+                self?.navigationController?.pushViewController(followingVC,
+                                                               animated: true)
+                LoadingView.hide()
+            }
+        }
     }
     
     // MARK: - Working with followings
@@ -214,27 +228,31 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
         
         guard let user = user else { return }
         
-        // Подписка/отписка
-//        if user.currentUserFollowsThisUser {
-//            DataProviders.shared.usersDataProvider.unfollow(user.id, queue: .main) { _ in }
-//        } else {
-//            DataProviders.shared.usersDataProvider.follow(user.id, queue: .main) { _ in }
-//        }
+        // Замыкание, в котором обновляются данные о пользователе
+        let updateUser: UserResult = { [weak self] (updatedUser: User?) in
+                        
+            DispatchQueue.main.async {
+                guard let updatedUser = updatedUser else {
+                    self?.showAlert(title: "Unknown error!",
+                                    message: "Please, try again later")
+                    return
+                }
+                
+                self?.user = updatedUser
+                self?.profileCollectionView.reloadData()
+            }
+        }
         
-        // Обновление данных об отображаемом пользователе
-//        getUser { [weak self] (updatedUser) in
-//
-//            guard let `self` = self else { return }
-//
-//            guard let updatedUser = updatedUser else {
-//                self.showAlert(title: "Unknown error!",
-//                               message: "Please, try again later")
-//                return
-//            }
-//
-//            self.user = updatedUser
-//            self.profileCollectionView.reloadData()
-//        }
+        // Подписка/отписка
+        if user.currentUserFollowsThisUser {
+            networkService.unfollowFromUser(withID: user.id,
+                                            token: AppDelegate.token ?? "",
+                                            completion: updateUser)
+        } else {
+            networkService.followToUser(withID: user.id,
+                                        token: AppDelegate.token ?? "",
+                                        completion: updateUser)
+        }
     }
 }
 
@@ -271,38 +289,4 @@ extension ProfileViewController {
             }
         }
     }
-    
-    /// Получение всех подписок пользователя.
-//    private func getUsersFollowedByUser(with userID: User.Identifier, completion: @escaping ([User]?) -> Void) {
-//
-//        blockView.show()
-//
-//        DataProviders.shared.usersDataProvider.usersFollowedByUser(with: userID, queue: .global(qos: .userInteractive)) {
-//            [weak self] (usersFollowedByUser) in
-//
-//            guard let `self` = self else { return }
-//
-//            DispatchQueue.main.async {
-//                completion(usersFollowedByUser)
-//                self.blockView.hide()
-//            }
-//        }
-//    }
-    
-    /// Получение всех подписчиков пользователя.
-//    private func getUsersFollowingUser(with userID: User.Identifier, completion: @escaping ([User]?) -> Void) {
-//
-//        blockView.show()
-//
-//        DataProviders.shared.usersDataProvider.usersFollowingUser(with: userID, queue: .global(qos: .userInteractive)) {
-//            [weak self] (usersFollowingUser) in
-//
-//            guard let `self` = self else { return }
-//
-//            DispatchQueue.main.async {
-//                completion(usersFollowingUser)
-//                self.blockView.hide()
-//            }
-//        }
-//    }
 }

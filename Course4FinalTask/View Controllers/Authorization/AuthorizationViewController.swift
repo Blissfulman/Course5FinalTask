@@ -15,6 +15,7 @@ final class AuthorizationViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "login"
         textField.textContentType = .username
+        textField.keyboardType = .emailAddress
         textField.borderStyle = .roundedRect
         textField.font = .systemFont(ofSize: 14)
         textField.autocapitalizationType = .none
@@ -29,6 +30,7 @@ final class AuthorizationViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "password"
         textField.textContentType = .password
+        textField.keyboardType = .asciiCapable
         textField.borderStyle = .roundedRect
         textField.font = .systemFont(ofSize: 14)
         textField.isSecureTextEntry = true
@@ -52,9 +54,8 @@ final class AuthorizationViewController: UIViewController {
         return button
     }()
     
-    private var token: String?
-//    private let networkService: NetworkServiceProtocol = NetworkService()
-        
+    private let networkService: NetworkServiceProtocol = NetworkService.shared
+
     // MARK: - Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -171,16 +172,13 @@ final class AuthorizationViewController: UIViewController {
     // MARK: - Private methods
     private func authorizeUser(login: String, password: String) {
 
-        NetworkService().singIn(login: login, password: password) {
+        networkService.singIn(login: login, password: password) {
             [weak self] token in
             
             guard let token = token?.token else {
                 print("No token")
                 return
             }
-            
-            self?.token = token
-            print("Token:", token)
             
             DispatchQueue.main.async {
                 let storyboard = UIStoryboard(name: AppDelegate.storyboardName,
@@ -191,6 +189,10 @@ final class AuthorizationViewController: UIViewController {
                 AppDelegate.token = token
                 tabBarController.modalPresentationStyle = .fullScreen
                 self?.show(tabBarController, sender: nil)
+                
+//                let window = UIWindow(frame: UIScreen.main.bounds)
+//                window.rootViewController = tabBarController
+//                window.makeKeyAndVisible()
             }
         }
     }
