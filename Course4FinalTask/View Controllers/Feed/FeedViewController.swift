@@ -33,18 +33,15 @@ final class FeedViewController: UIViewController {
         networkService.getFeed(token: AppDelegate.token ?? "") {
             [weak self] (result) in
             
-            DispatchQueue.main.async {
-                
-                switch result {
-                case let .success(feedPosts):
+            switch result {
+            case let .success(feedPosts):
+                DispatchQueue.main.async {
                     self?.feedPosts = feedPosts
                     self?.feedTableView.reloadData()
                     LoadingView.hide()
-                case .failure:
-                    self?.showAlert(title: "Unknown error!",
-                                    message: "Please, try again later")
-                    LoadingView.hide()
                 }
+            case let .failure(error):
+                self?.showAlert(error)
             }
         }
     }
@@ -91,22 +88,16 @@ extension FeedViewController: FeedTableViewCellDelegate {
         networkService.getFeed(token: AppDelegate.token ?? "") {
             [weak self] (result) in
             
-            DispatchQueue.main.async {
-                
-                switch result {
-                case let .success(feedPosts):
-                    self?.feedPosts = feedPosts
-                case .failure:
-                    self?.showAlert(title: "Unknown error!",
-                                    message: "Please, try again later")
-                    
-                }
+            switch result {
+            case let .success(feedPosts):
+                self?.feedPosts = feedPosts
+            case let .failure(error):
+                self?.showAlert(error)
             }
         }
     }
         
-    func showErrorAlert() {
-        self.showAlert(title: "Unknown error!",
-                       message: "Please, try again later")
+    func showErrorAlert(_ error: Error) {
+        self.showAlert(error)
     }
 }

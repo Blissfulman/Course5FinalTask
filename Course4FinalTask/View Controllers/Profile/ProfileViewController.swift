@@ -32,6 +32,7 @@ final class ProfileViewController: UIViewController {
     /// Очередь для выстраивания запросов данных у провайдера.
     private let getDataQueue = DispatchQueue(label: "getDataQueue",
                                              qos: .userInteractive)
+    
     /// Семафор для установки порядка запросов к провайдеру.
     private let semaphore = DispatchSemaphore(value: 1)
     
@@ -68,7 +69,11 @@ extension ProfileViewController: UICollectionViewDataSource {
         
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            let header = profileCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderProfileCollectionView.identifier, for: indexPath) as! HeaderProfileCollectionView
+            let header = profileCollectionView.dequeueReusableSupplementaryView(
+                ofKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: HeaderProfileCollectionView.identifier,
+                for: indexPath
+            ) as! HeaderProfileCollectionView
             header.delegate = self
             if let user = user, let isCurrentUser = isCurrentUser {
                 header.configure(user: user, isCurrentUser: isCurrentUser)
@@ -83,8 +88,10 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = profileCollectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.identifier,
-                                                             for: indexPath) as! ProfileCollectionViewCell
+        let cell = profileCollectionView.dequeueReusableCell(
+            withReuseIdentifier: ProfileCollectionViewCell.identifier,
+            for: indexPath
+        ) as! ProfileCollectionViewCell
         cell.configure(photosOfUser[indexPath.item])
         return cell
     }
@@ -134,20 +141,17 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
         /// Замыкание, в котором обновляются данные о пользователе.
         let updatingUser: UserResult = { [weak self] result in
             
-            DispatchQueue.main.async {
-                
-                switch result {
-                case let .success(updatedUser):
+            switch result {
+            case let .success(updatedUser):
+                DispatchQueue.main.async {
                     self?.user = updatedUser
                     self?.profileCollectionView.reloadData()
-                case .failure:
-                    self?.showAlert(title: "Unknown error!",
-                                    message: "Please, try again later")
-                    
                 }
+            case let .failure(error):
+                self?.showAlert(error)
             }
         }
-    
+        
         // Подписка/отписка
         user.currentUserFollowsThisUser
             ? networkService.unfollowFromUser(withID: user.id,
@@ -177,10 +181,10 @@ extension ProfileViewController {
             self.networkService.getCurrentUser(token: AppDelegate.token ?? "") {
                 (result) in
                 
-                DispatchQueue.main.async {
-                    
-                    switch result {
-                    case let .success(currentUser):
+                switch result {
+                case let .success(currentUser):
+                    DispatchQueue.main.async {
+                        
                         // Проверка того, открывается ли профиль текущего пользователя
                         if let userID = self.user?.id, userID != currentUser.id {
                             self.isCurrentUser = false
@@ -191,11 +195,10 @@ extension ProfileViewController {
                         
                         self.navigationItem.title = self.user?.username
                         self.semaphore.signal()
-                    case .failure:
-                        self.showAlert(title: "Unknown error!",
-                                       message: "Please, try again later")
-                        self.semaphore.signal()
                     }
+                case let .failure(error):
+                    self.showAlert(error)
+                    self.semaphore.signal()
                 }
             }
         }
@@ -219,21 +222,19 @@ extension ProfileViewController {
                                         token: AppDelegate.token ?? "") {
                 (result) in
                 
-                DispatchQueue.main.async {
-                    
-                    switch result {
-                    case let .success(user):
+                switch result {
+                case let .success(user):
+                    DispatchQueue.main.async {
                         self.user = user
                         self.profileCollectionView.reloadData()
                         self.semaphore.signal()
                         
                         // Обновление данных об изображениях постов пользователя
                         self.getPhotos(of: user)
-                    case.failure:
-                        self.showAlert(title: "Unknown error!",
-                                       message: "Please, try again later")
-                        self.semaphore.signal()
                     }
+                case let .failure(error):
+                    self.showAlert(error)
+                    self.semaphore.signal()
                 }
             }
         }
@@ -244,28 +245,24 @@ extension ProfileViewController {
                 
         networkService.getPostsOfUser(withID: user.id, token: AppDelegate.token ?? "") {
             [weak self] (result) in
-
+            
             guard let self = self else { return }
             
-            DispatchQueue.main.async {
-                
-                defer {
-                    LoadingView.hide()
-                }
-                
-                switch result {
-                case let .success(userPosts):
+            switch result {
+            case let .success(userPosts):
+                DispatchQueue.main.async {
                     self.photosOfUser = []
                     userPosts.forEach {
-                        guard let image = self.networkService.getImage(fromURL: $0.image) else { return }
+                        guard let image = self.networkService
+                                .getImage(fromURL: $0.image) else { return }
                         self.photosOfUser.append(image)
                     }
                     
                     self.profileCollectionView.reloadData()
-                case .failure:
-                    self.showAlert(title: "Unknown error!",
-                                   message: "Please, try again later")
+                    LoadingView.hide()
                 }
+            case let .failure(error):
+                self.showAlert(error)
             }
         }
     }

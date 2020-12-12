@@ -12,7 +12,7 @@ protocol FeedTableViewCellDelegate: UIViewController {
     func authorOfPostPressed(user: User)
     func likesCountLabelPressed(postID: String)
     func updateFeedData()
-    func showErrorAlert()
+    func showErrorAlert(_ error: Error)
 }
 
 final class FeedTableViewCell: UITableViewCell {
@@ -172,16 +172,14 @@ extension FeedTableViewCell {
                                token: AppDelegate.token ?? "") {
             [weak self] (result) in
             
-            DispatchQueue.main.async {
-                
-                switch result {
-                case let .success(user):
+            switch result {
+            case let .success(user):
+                DispatchQueue.main.async {
                     self?.delegate?.authorOfPostPressed(user: user)
                     LoadingView.hide()
-                case .failure:
-                    self?.delegate?.showErrorAlert()
-                    LoadingView.hide()
                 }
+            case let .failure(error):
+                self?.delegate?.showErrorAlert(error)
             }
         }
     }

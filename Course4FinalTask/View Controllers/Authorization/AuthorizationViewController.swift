@@ -175,10 +175,11 @@ final class AuthorizationViewController: UIViewController {
         networkService.singIn(login: login, password: password) {
             [weak self] result in
             
-            DispatchQueue.main.async {
+            switch result {
+            case let .success(token):
                 
-                switch result {
-                case let .success(token):
+                DispatchQueue.main.async {
+                    
                     let storyboard = UIStoryboard(name: AppDelegate.storyboardName,
                                                   bundle: nil)
                     
@@ -186,16 +187,15 @@ final class AuthorizationViewController: UIViewController {
                     
                     AppDelegate.token = token.token
                     tabBarController.modalPresentationStyle = .fullScreen
-                    
                     self?.show(tabBarController, sender: nil)
                     
 //                    let window = UIWindow(frame: UIScreen.main.bounds)
 //                    window.rootViewController = tabBarController
 //                    window.makeKeyAndVisible()
-                
-                case .failure:
-                    print("No token")
+                    
                 }
+            case let .failure(error):
+                self?.showAlert(error)
             }
         }
     }

@@ -190,7 +190,9 @@ final class NetworkService: NetworkServiceProtocol {
                                token: String,
                                completion: @escaping UsersResult) {
         
-        guard let url = urlService.getURL(forPath: UserPath.users + userID + UserPath.followers) else { return }
+        guard let url = urlService.getURL(
+                forPath: UserPath.users + userID + UserPath.followers
+        ) else { return }
         
         let request = requestService.request(url: url,
                                              httpMethod: HTTPMethod.get,
@@ -209,7 +211,9 @@ final class NetworkService: NetworkServiceProtocol {
                                 token: String,
                                 completion: @escaping UsersResult) {
         
-        guard let url = urlService.getURL(forPath: UserPath.users + userID + UserPath.following) else { return }
+        guard let url = urlService.getURL(
+                forPath: UserPath.users + userID + UserPath.following
+        ) else { return }
         
         let request = requestService.request(url: url,
                                              httpMethod: HTTPMethod.get,
@@ -228,7 +232,9 @@ final class NetworkService: NetworkServiceProtocol {
                         token: String,
                         completion: @escaping PostsResult) {
         
-        guard let url = urlService.getURL(forPath: UserPath.users + userID + PostPath.posts) else { return }
+        guard let url = urlService.getURL(
+                forPath: UserPath.users + userID + PostPath.posts
+        ) else { return }
         
         let request = requestService.request(url: url,
                                              httpMethod: HTTPMethod.get,
@@ -329,7 +335,9 @@ final class NetworkService: NetworkServiceProtocol {
                            token: String,
                            completion: @escaping UsersResult) {
         
-        guard let url = urlService.getURL(forPath: PostPath.posts + postID + PostPath.likes) else { return }
+        guard let url = urlService.getURL(
+                forPath: PostPath.posts + postID + PostPath.likes
+        ) else { return }
         
         let request = requestService.request(url: url,
                                              httpMethod: HTTPMethod.get,
