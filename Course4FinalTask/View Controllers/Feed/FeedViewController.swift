@@ -31,19 +31,20 @@ final class FeedViewController: UIViewController {
         LoadingView.show()
         
         networkService.getFeed(token: AppDelegate.token ?? "") {
-            [weak self] (feedPosts) in
-
-            guard let feedPosts = feedPosts else {
-                self?.showAlert(title: "Unknown error!",
-                               message: "Please, try again later")
-                LoadingView.hide()
-                return
-            }
-
+            [weak self] (result) in
+            
             DispatchQueue.main.async {
-                self?.feedPosts = feedPosts
-                self?.feedTableView.reloadData()
-                LoadingView.hide()
+                
+                switch result {
+                case let .success(feedPosts):
+                    self?.feedPosts = feedPosts
+                    self?.feedTableView.reloadData()
+                    LoadingView.hide()
+                case .failure:
+                    self?.showAlert(title: "Unknown error!",
+                                    message: "Please, try again later")
+                    LoadingView.hide()
+                }
             }
         }
     }
@@ -69,7 +70,7 @@ extension FeedViewController: UITableViewDataSource {
 extension FeedViewController: FeedTableViewCellDelegate {
     
     /// Переход в профиль автора поста.
-    func tapAuthorOfPost(user: User) {
+    func authorOfPostPressed(user: User) {
         guard let profileVC = storyboard?.instantiateViewController(withIdentifier: ProfileViewController.identifier) as? ProfileViewController else { return }
         
         profileVC.user = user
@@ -77,7 +78,7 @@ extension FeedViewController: FeedTableViewCellDelegate {
     }
     
     /// Переход на экран лайкнувших пост пользователей.
-    func tapLikesCountLabel(postID: String) {
+    func likesCountLabelPressed(postID: String) {
         let likesVC = UserListViewController(postID: postID,
                                              userListType: .likes)
         
@@ -88,19 +89,22 @@ extension FeedViewController: FeedTableViewCellDelegate {
     func updateFeedData() {
         
         networkService.getFeed(token: AppDelegate.token ?? "") {
-            [weak self] (feedPosts) in
+            [weak self] (result) in
             
             DispatchQueue.main.async {
-                guard let feedPosts = feedPosts else {
+                
+                switch result {
+                case let .success(feedPosts):
+                    self?.feedPosts = feedPosts
+                case .failure:
                     self?.showAlert(title: "Unknown error!",
                                     message: "Please, try again later")
-                    return
+                    
                 }
-                self?.feedPosts = feedPosts
             }
         }
     }
-    
+        
     func showErrorAlert() {
         self.showAlert(title: "Unknown error!",
                        message: "Please, try again later")

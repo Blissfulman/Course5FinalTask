@@ -36,9 +36,9 @@ final class ShareViewController: UIViewController {
         shareImage.image = transmittedImage
         
         let shareButton = UIBarButtonItem(title: "Share",
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(pressedShareButton))
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(pressedShareButton))
         navigationItem.rightBarButtonItem = shareButton
     }
     

@@ -152,16 +152,16 @@ final class AuthorizationViewController: UIViewController {
     
     private func setupTargets() {
         loginTextField.addTarget(self,
-                                    action: #selector(textFieldsDidChanged),
-                                    for: .editingChanged)
+                                 action: #selector(textFieldsDidChanged),
+                                 for: .editingChanged)
         
         passwordTextField.addTarget(self,
                                     action: #selector(textFieldsDidChanged),
                                     for: .editingChanged)
         
         signInButton.addTarget(self,
-                              action: #selector(signInButtonPressed),
-                              for: .touchUpInside)
+                               action: #selector(signInButtonPressed),
+                               for: .touchUpInside)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -171,28 +171,31 @@ final class AuthorizationViewController: UIViewController {
     
     // MARK: - Private methods
     private func authorizeUser(login: String, password: String) {
-
+        
         networkService.singIn(login: login, password: password) {
-            [weak self] token in
-            
-            guard let token = token?.token else {
-                print("No token")
-                return
-            }
+            [weak self] result in
             
             DispatchQueue.main.async {
-                let storyboard = UIStoryboard(name: AppDelegate.storyboardName,
-                                              bundle: nil)
                 
-                guard let tabBarController = storyboard.instantiateViewController(withIdentifier: TabBarController.identifier) as? TabBarController else { return }
+                switch result {
+                case let .success(token):
+                    let storyboard = UIStoryboard(name: AppDelegate.storyboardName,
+                                                  bundle: nil)
+                    
+                    guard let tabBarController = storyboard.instantiateViewController(withIdentifier: TabBarController.identifier) as? TabBarController else { return }
+                    
+                    AppDelegate.token = token.token
+                    tabBarController.modalPresentationStyle = .fullScreen
+                    
+                    self?.show(tabBarController, sender: nil)
+                    
+//                    let window = UIWindow(frame: UIScreen.main.bounds)
+//                    window.rootViewController = tabBarController
+//                    window.makeKeyAndVisible()
                 
-                AppDelegate.token = token
-                tabBarController.modalPresentationStyle = .fullScreen
-                self?.show(tabBarController, sender: nil)
-                
-//                let window = UIWindow(frame: UIScreen.main.bounds)
-//                window.rootViewController = tabBarController
-//                window.makeKeyAndVisible()
+                case .failure:
+                    print("No token")
+                }
             }
         }
     }

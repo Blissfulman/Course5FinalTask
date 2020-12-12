@@ -10,13 +10,13 @@ import Foundation
 
 protocol DataTaskServiceProtocol {
     func dataTask<T: Codable>(request: URLRequest,
-                              completion: @escaping (T) -> Void)
+                              completion: @escaping (Result<T, Error>) -> Void)
 }
 
 final class DataTaskService: DataTaskServiceProtocol {
     
     func dataTask<T: Codable>(request: URLRequest,
-                              completion: @escaping (T) -> Void) {
+                              completion: @escaping (Result<T, Error>) -> Void) {
                 
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -33,9 +33,10 @@ final class DataTaskService: DataTaskServiceProtocol {
                      
                 do {
                     let result = try decoder.decode(T.self, from: data)
-                    completion(result)
+                    completion(.success(result))
                 } catch {
                     print(error.localizedDescription)
+                    completion(.failure(error))
                 }
             }
         }.resume()

@@ -9,15 +9,16 @@
 import Foundation
 import UIKit
 
-typealias UserResult = (User?) -> Void
-typealias UsersResult = ([User]?) -> Void
-typealias PostResult = (Post?) -> Void
-typealias PostsResult = ([Post]?) -> Void
+typealias TokenResult = (Result<Token, Error>) -> Void
+typealias UserResult = (Result<User, Error>) -> Void
+typealias UsersResult = (Result<[User], Error>) -> Void
+typealias PostResult = (Result<Post, Error>) -> Void
+typealias PostsResult = (Result<[Post], Error>) -> Void
 
 protocol NetworkServiceProtocol {
     func singIn(login: String,
                 password: String,
-                completion: @escaping (Token?) -> Void)
+                completion: @escaping TokenResult)
     
     func getCurrentUser(token: String,
                         completion: @escaping UserResult)
@@ -83,7 +84,7 @@ final class NetworkService: NetworkServiceProtocol {
     ///   Вызывается после выполнения запроса.
     func singIn(login: String,
                 password: String,
-                completion: @escaping (Token?) -> Void) {
+                completion: @escaping TokenResult) {
         
         guard let url = urlService.getURL(forPath: TokenPath.signIn) else { return }
         

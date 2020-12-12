@@ -9,8 +9,8 @@
 import UIKit
 
 protocol HeaderProfileCollectionViewDelegate: UIViewController {
-    func tapFollowersLabel()
-    func tapFollowingLabel()
+    func followersLabelPressed()
+    func followingLabelPressed()
     func followUnfollowUser()
 }
 
@@ -70,26 +70,26 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     private func setupGestureRecognizers() {
         
         // Жест тапа по подписчикам
-        let followersGR = UITapGestureRecognizer(target: self, action: #selector(tapFollowersLabel(recognizer:)))
+        let followersGR = UITapGestureRecognizer(target: self, action: #selector(followersLabelPressed(recognizer:)))
         followersLabel.isUserInteractionEnabled = true
         followersLabel.addGestureRecognizer(followersGR)
         
         // Жест тапа по подпискам
-        let followingGR = UITapGestureRecognizer(target: self, action: #selector(tapFollowingLabel(recognizer:)))
+        let followingGR = UITapGestureRecognizer(target: self, action: #selector(followingLabelPressed(recognizer:)))
         followingLabel.isUserInteractionEnabled = true
         followingLabel.addGestureRecognizer(followingGR)
     }
     
     // MARK: - Actions
-    @IBAction func tapFollowersLabel(recognizer: UIGestureRecognizer) {
-        delegate?.tapFollowersLabel()
+    @IBAction func followersLabelPressed(recognizer: UIGestureRecognizer) {
+        delegate?.followersLabelPressed()
     }
     
-    @IBAction func tapFollowingLabel(recognizer: UIGestureRecognizer) {
-        delegate?.tapFollowingLabel()
+    @IBAction func followingLabelPressed(recognizer: UIGestureRecognizer) {
+        delegate?.followingLabelPressed()
     }
     
-    @IBAction func followButtonClick(_ sender: UIButton) {
+    @IBAction func followButtonPressed(_ sender: UIButton) {
         delegate?.followUnfollowUser()
     }
 }

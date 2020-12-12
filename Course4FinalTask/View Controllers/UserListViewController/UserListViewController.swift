@@ -93,21 +93,22 @@ final class UserListViewController: UIViewController {
         LoadingView.show()
         
         /// Замыкание, в котором обновляется список отображаемых пользователей.
-        let updateUserList: UsersResult = { [weak self] (userList) in
-            
-            defer {
-                LoadingView.hide()
-            }
+        let updatingUserList: UsersResult = { [weak self] (result) in
             
             DispatchQueue.main.async {
                 
-                guard let userList = userList else {
+                defer {
+                    LoadingView.hide()
+                }
+                
+                switch result {
+                case let .success(userList):
+                    self?.userList = userList
+                    self?.userListTableView.reloadData()
+                case .failure:
                     self?.showAlert(title: "Unknown error!",
                                     message: "Please, try again later")
-                    return
                 }
-                self?.userList = userList
-                self?.userListTableView.reloadData()
             }
         }
         
@@ -116,17 +117,17 @@ final class UserListViewController: UIViewController {
             // Получение пользователей, лайкнувших пост
             networkService.getUsersLikedPost(withID: postID,
                                              token: AppDelegate.token ?? "",
-                                             completion: updateUserList)
+                                             completion: updatingUserList)
         case .followers:
             // Получение подписчиков
             networkService.getUsersFollowingUser(withID: userID,
                                                  token: AppDelegate.token ?? "",
-                                                 completion: updateUserList)
+                                                 completion: updatingUserList)
         case .following:
             // Получение подписок
             networkService.getUsersFollowedByUser(withID: userID,
                                                   token: AppDelegate.token ?? "",
-                                                  completion: updateUserList)
+                                                  completion: updatingUserList)
         case .none:
             break
         }
@@ -160,6 +161,7 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
         return heightForRow
     }
     
+    // MARK: - Navigation
     // Переход на вью пользователя
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
