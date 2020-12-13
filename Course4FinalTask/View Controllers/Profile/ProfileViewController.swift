@@ -15,7 +15,7 @@ final class ProfileViewController: UIViewController {
     @IBOutlet weak var profileCollectionView: UICollectionView!
     
     // MARK: - Properties
-    static let identifier = "ProfileViewController"
+    static let identifier = "profileViewController"
     
     /// Пользователь, данные которого отображает вью.
     var user: User?
@@ -24,7 +24,13 @@ final class ProfileViewController: UIViewController {
     private lazy var photosOfUser = [UIImage]()
     
     /// Логическое значение, указывающее, является ли отображаемый профиль, профилем текущего пользователя.
-    private var isCurrentUser: Bool?
+    private var isCurrentUser: Bool? {
+        willSet {
+            if let newValue = newValue, newValue {
+                addLogOutButton()
+            }
+        }
+    }
 
     /// Количество колонок в представлении фотографий.
     private let numberOfColumnsOfPhotos: CGFloat = 3
@@ -36,6 +42,7 @@ final class ProfileViewController: UIViewController {
     /// Семафор для установки порядка запросов к провайдеру.
     private let semaphore = DispatchSemaphore(value: 1)
     
+    private let appDelegate = AppDelegate.shared
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Lifeсycle methods
@@ -59,6 +66,25 @@ final class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         getUser()
+    }
+    
+    // MARK: - Actions
+    @objc func logOutButtonPressed() {
+        
+        networkService.singOut(token: AppDelegate.token ?? "") { _ in }
+        
+        let authorizationVC = AuthorizationViewController()
+        AppDelegate.token = ""
+        appDelegate.window?.rootViewController = authorizationVC
+    }
+    
+    // MARK: - Private methods
+    private func addLogOutButton() {
+        let logOutButton = UIBarButtonItem(title: "Log Out",
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(logOutButtonPressed))
+        navigationItem.rightBarButtonItem = logOutButton
     }
 }
 

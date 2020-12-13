@@ -45,16 +45,16 @@ final class DataTaskService: DataTaskServiceProtocol {
                 let result = try decoder.decode(T.self, from: data)
                 completion(.success(result))
             } catch {
-                print(error.localizedDescription)
+                if !data.isEmpty {
+                    print(error.localizedDescription)
+                }
                 completion(.failure(error))
             }
         }.resume()
     }
     
-    private func handleServerError<T>(
-        _ response: HTTPURLResponse,
-        completion: (Result<T, Error>) -> Void
-    ) -> Bool {
+    private func handleServerError<T>(_ response: HTTPURLResponse,
+                                      completion: (Result<T, Error>) -> Void) -> Bool {
         
         if response.statusCode == 200 {
             return true

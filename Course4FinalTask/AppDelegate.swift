@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-
         window?.rootViewController = AuthorizationViewController()
         window?.makeKeyAndVisible()
         return true
@@ -26,4 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
     static let storyboardName = "Main"
     static var token: String?
+    
+    static var shared: AppDelegate {
+        UIApplication.shared.delegate as! AppDelegate
+    }
 }

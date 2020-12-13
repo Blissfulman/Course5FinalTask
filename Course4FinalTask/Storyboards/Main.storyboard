@@ -138,7 +138,7 @@
         <!--Profile View Controller-->
         <scene sceneID="dnL-jU-D8c">
             <objects>
-                <viewController storyboardIdentifier="ProfileViewController" id="5I5-kl-9i2" customClass="ProfileViewController" customModule="Course4FinalTask" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profileViewController" id="5I5-kl-9i2" customClass="ProfileViewController" customModule="Course4FinalTask" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aOj-pz-yoY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -15,8 +15,8 @@ extension UIViewController {
         var alertMessage = "Please, try again later"
         
         if let error = error as? ServerError {
-            alertTitle = "Error"
-            alertMessage = error.rawValue
+            alertTitle = error.rawValue
+            alertMessage = ""
         }
         
         DispatchQueue.main.async { [weak self] in

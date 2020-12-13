@@ -54,6 +54,7 @@ final class AuthorizationViewController: UIViewController {
         return button
     }()
     
+    private let appDelegate = AppDelegate.shared
     private let networkService: NetworkServiceProtocol = NetworkService.shared
 
     // MARK: - Lifecycle methods
@@ -78,7 +79,7 @@ final class AuthorizationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        navigationController?.navigationBar.isHidden = true
+//        navigationController?.navigationBar.isHidden = true
 //        usernameTextField.text = nil
 //        passwordTextField.text = nil
     }
@@ -186,13 +187,7 @@ final class AuthorizationViewController: UIViewController {
                     guard let tabBarController = storyboard.instantiateViewController(withIdentifier: TabBarController.identifier) as? TabBarController else { return }
                     
                     AppDelegate.token = token.token
-                    tabBarController.modalPresentationStyle = .fullScreen
-                    self?.show(tabBarController, sender: nil)
-                    
-//                    let window = UIWindow(frame: UIScreen.main.bounds)
-//                    window.rootViewController = tabBarController
-//                    window.makeKeyAndVisible()
-                    
+                    self?.appDelegate.window?.rootViewController = tabBarController
                 }
             case let .failure(error):
                 self?.showAlert(error)

@@ -19,6 +19,8 @@ protocol NetworkServiceProtocol {
     func singIn(login: String,
                 password: String,
                 completion: @escaping TokenResult)
+    func singOut(token: String,
+                 completion: @escaping (Result<Bool, Error>) -> Void)
     
     func getCurrentUser(token: String,
                         completion: @escaping UserResult)
@@ -76,7 +78,7 @@ final class NetworkService: NetworkServiceProtocol {
         self.dataTaskService = dataTaskService
     }
     
-    /// Запрос авторизации пользователя.
+    /// Запрос авторизации пользователя и получения токена.
     /// - Parameters:
     ///   - login: Логин пользователя.
     ///   - password: Пароль пользователя.
@@ -94,6 +96,21 @@ final class NetworkService: NetworkServiceProtocol {
         
         let authorization = Authorization(login: login, password: password)
         request.httpBody = try? JSONEncoder().encode(authorization)
+        
+        dataTaskService.dataTask(request: request, completion: completion)
+    }
+    
+    /// Деавторизует пользователя и инвалидирует токен.
+    /// - Parameter token: Токен текущего пользователя.
+    /// - Parameter completion: Замыкание, вызываемое после выполнения запроса.
+    func singOut(token: String,
+                 completion: @escaping (Result<Bool, Error>) -> Void) {
+        
+        guard let url = urlService.getURL(forPath: TokenPath.signOut) else { return }
+        
+        let request = requestService.request(url: url,
+                                             httpMethod: HTTPMethod.post,
+                                             token: token)
         
         dataTaskService.dataTask(request: request, completion: completion)
     }
