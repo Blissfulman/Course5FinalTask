@@ -14,10 +14,14 @@ protocol URLServiceProtocol {
 
 final class URLService: URLServiceProtocol {
 
+    static let shared = URLService()
+    
     private let scheme = "http"
     private let host = "localhost"
     private let port = 8080
 
+    private init() {}
+    
     func getURL(forPath path: String) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme

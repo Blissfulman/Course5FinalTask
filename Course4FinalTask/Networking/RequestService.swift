@@ -9,16 +9,25 @@
 import Foundation
 
 protocol RequestServiceProtocol {
-    func request(url: URL, httpMethod: String, token: String?) -> URLRequest
+    var token: String { get }
+    func request(url: URL, httpMethod: String) -> URLRequest
 }
 
 final class RequestService: RequestServiceProtocol {
-
-    func request(url: URL, httpMethod: String, token: String?) -> URLRequest {
+    
+    static let shared = RequestService()
+    
+    var token: String {
+        NetworkService.token
+    }
+    
+    private init() {}
+    
+    func request(url: URL, httpMethod: String) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue(token ?? "", forHTTPHeaderField: "token")
+        request.addValue(token, forHTTPHeaderField: "token")
         return request
     }
 }

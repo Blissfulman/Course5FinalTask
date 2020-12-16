@@ -9,14 +9,18 @@
 import Foundation
 
 protocol DataTaskServiceProtocol {
-    func dataTask<T: Codable>(request: URLRequest,
-                              completion: @escaping (Result<T, Error>) -> Void)
+    func dataTask<T: Decodable>(request: URLRequest,
+                                completion: @escaping (Result<T, Error>) -> Void)
 }
 
 final class DataTaskService: DataTaskServiceProtocol {
     
-    func dataTask<T: Codable>(request: URLRequest,
-                              completion: @escaping (Result<T, Error>) -> Void) {
+    static let shared = DataTaskService()
+
+    private init() {}
+    
+    func dataTask<T: Decodable>(request: URLRequest,
+                                completion: @escaping (Result<T, Error>) -> Void) {
                 
         URLSession.shared.dataTask(with: request) {
             [weak self] (data, response, error) in

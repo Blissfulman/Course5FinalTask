@@ -30,7 +30,7 @@ final class FeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         LoadingView.show()
         
-        networkService.getFeed(token: AppDelegate.token ?? "") {
+        networkService.getFeed() {
             [weak self] (result) in
             
             switch result {
@@ -85,7 +85,7 @@ extension FeedViewController: FeedTableViewCellDelegate {
     /// Обновление данных массива постов ленты (вызывается после лайка/анлайка).
     func updateFeedData() {
         
-        networkService.getFeed(token: AppDelegate.token ?? "") {
+        networkService.getFeed() {
             [weak self] (result) in
             
             switch result {

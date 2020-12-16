@@ -71,10 +71,10 @@ final class ProfileViewController: UIViewController {
     // MARK: - Actions
     @objc func logOutButtonPressed() {
         
-        networkService.singOut(token: AppDelegate.token ?? "") { _ in }
+        networkService.singOut() { _ in }
         
         let authorizationVC = AuthorizationViewController()
-        AppDelegate.token = ""
+        NetworkService.token = ""
         appDelegate.window?.rootViewController = authorizationVC
     }
     
@@ -181,10 +181,8 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
         // Подписка/отписка
         user.currentUserFollowsThisUser
             ? networkService.unfollowFromUser(withID: user.id,
-                                              token: AppDelegate.token ?? "",
                                               completion: updatingUser)
             : networkService.followToUser(withID: user.id,
-                                          token: AppDelegate.token ?? "",
                                           completion: updatingUser)
     }
 }
@@ -204,7 +202,7 @@ extension ProfileViewController {
 
             self.semaphore.wait()
 
-            self.networkService.getCurrentUser(token: AppDelegate.token ?? "") {
+            self.networkService.getCurrentUser() {
                 (result) in
                 
                 switch result {
@@ -244,9 +242,7 @@ extension ProfileViewController {
             guard let user = self.user else { return }
             
             // Обновление данных о пользователе
-            self.networkService.getUser(withID: user.id,
-                                        token: AppDelegate.token ?? "") {
-                (result) in
+            self.networkService.getUser(withID: user.id) { (result) in
                 
                 switch result {
                 case let .success(user):
@@ -269,8 +265,7 @@ extension ProfileViewController {
     /// Получение всех изображений постов переданного пользователя.
     private func getPhotos(of user: User) {
                 
-        networkService.getPostsOfUser(withID: user.id, token: AppDelegate.token ?? "") {
-            [weak self] (result) in
+        networkService.getPostsOfUser(withID: user.id) { [weak self] (result) in
             
             guard let self = self else { return }
             

@@ -64,24 +64,6 @@ final class AuthorizationViewController: UIViewController {
         setupUI()
         setupLayout()
         setupTargets()
-        
-//        AuthenticationService().authenticateUser() { [weak self] in
-//
-//            guard let `self` = self else { return }
-//
-//            guard let keychainData = KeychainStorage().getData() else { return }
-//
-//            self.authorizeUser(username: keychainData.username,
-//                               password: keychainData.password)
-//        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        
-//        navigationController?.navigationBar.isHidden = true
-//        usernameTextField.text = nil
-//        passwordTextField.text = nil
     }
     
     // MARK: - Actions
@@ -186,7 +168,7 @@ final class AuthorizationViewController: UIViewController {
                     
                     guard let tabBarController = storyboard.instantiateViewController(withIdentifier: TabBarController.identifier) as? TabBarController else { return }
                     
-                    AppDelegate.token = token.token
+                    NetworkService.token = token.token
                     self?.appDelegate.window?.rootViewController = tabBarController
                 }
             case let .failure(error):

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Post: Codable {
+struct Post: Decodable {
     let id: String
     let description: String
     let image: URL
@@ -22,4 +22,9 @@ struct Post: Codable {
 
 struct PostIDRequest: Encodable {
     let postID: String
+}
+
+struct NewPostRequest: Encodable {
+    let image: String
+    let description: String
 }

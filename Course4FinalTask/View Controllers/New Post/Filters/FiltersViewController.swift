@@ -42,11 +42,11 @@ final class FiltersViewController: UIViewController {
     private let minimumInteritemSpacing: CGFloat = 0
     
     // MARK: - Initializers
-    convenience init(selectedImage: UIImage, thumbnail: UIImage) {
+    convenience init(selectedImage: UIImage) {
         self.init()
         bigImage.image = selectedImage
         originalBigImage = selectedImage
-        thumbnailImage = thumbnail
+        thumbnailImage = originalBigImage.resizeImage()
         filteredThumbnails = .init(repeating: thumbnailImage,
                                    count: filters.count)
     }

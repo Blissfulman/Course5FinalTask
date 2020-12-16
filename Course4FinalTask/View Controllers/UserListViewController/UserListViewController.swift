@@ -111,17 +111,14 @@ final class UserListViewController: UIViewController {
         case .likes:
             // Получение пользователей, лайкнувших пост
             networkService.getUsersLikedPost(withID: postID,
-                                             token: AppDelegate.token ?? "",
                                              completion: updatingUserList)
         case .followers:
             // Получение подписчиков
             networkService.getUsersFollowingUser(withID: userID,
-                                                 token: AppDelegate.token ?? "",
                                                  completion: updatingUserList)
         case .following:
             // Получение подписок
             networkService.getUsersFollowedByUser(withID: userID,
-                                                  token: AppDelegate.token ?? "",
                                                   completion: updatingUserList)
         case .none:
             break

@@ -92,10 +92,8 @@ final class FeedTableViewCell: UITableViewCell {
         // Лайк/анлайк
         cellPost.currentUserLikesThisPost
             ? networkService.unlikePost(withID: cellPost.id,
-                                        token: AppDelegate.token ?? "",
                                         completion: updatingPost)
             : networkService.likePost(withID: cellPost.id,
-                                      token: AppDelegate.token ?? "",
                                       completion: updatingPost)
     }
 }
@@ -115,14 +113,14 @@ extension FeedTableViewCell {
         
         // Жест тапа по автору поста (по аватарке)
         let authorAvatarGR = UITapGestureRecognizer(
-            target: self, action: #selector(authorOfPostPressed(recognizer:))
+            target: self, action: #selector(postAuthorPressed(recognizer:))
         )
         avatarImage.isUserInteractionEnabled = true
         avatarImage.addGestureRecognizer(authorAvatarGR)
         
         // Жест тапа по автору поста (по username)
         let authorUsernameGR = UITapGestureRecognizer(
-            target: self, action: #selector(authorOfPostPressed(recognizer:))
+            target: self, action: #selector(postAuthorPressed(recognizer:))
         )
         authorUsernameLabel.isUserInteractionEnabled = true
         authorUsernameLabel.addGestureRecognizer(authorUsernameGR)
@@ -164,12 +162,11 @@ extension FeedTableViewCell {
     }
     
     /// Тап по автору поста.
-    @IBAction func authorOfPostPressed(recognizer: UIGestureRecognizer) {
+    @IBAction func postAuthorPressed(recognizer: UIGestureRecognizer) {
         
         LoadingView.show()
         
-        networkService.getUser(withID: cellPost.author,
-                               token: AppDelegate.token ?? "") {
+        networkService.getUser(withID: cellPost.author) {
             [weak self] (result) in
             
             switch result {
