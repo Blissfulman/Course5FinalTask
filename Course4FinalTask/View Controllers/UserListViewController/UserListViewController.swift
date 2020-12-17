@@ -1,5 +1,5 @@
 //
-//  YellowViewController.swift
+//  UserListViewController.swift
 //  Course4FinalTask
 //
 //  Created by User on 09.08.2020.

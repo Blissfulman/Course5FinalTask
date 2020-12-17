@@ -52,7 +52,7 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
             followButton.isHidden = false
         }
 
-        avatarImage.image = networkService.getImage(fromURL: user.avatar)
+        avatarImage.getImage(fromURL: user.avatar)
         avatarImage.layer.cornerRadius = CGFloat(avatarImage.bounds.width / 2)
         fullNameLabel.text = user.fullName
         followersLabel.text = "Followers: " + String(user.followedByCount)

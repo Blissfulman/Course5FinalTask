@@ -1,5 +1,5 @@
 //
-//  Models.swift
+//  User.swift
 //  Course4FinalTask
 //
 //  Created by User on 29.11.2020.

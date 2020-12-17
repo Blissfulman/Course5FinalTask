@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  FeedViewController.swift
 //  Course4FinalTask
 //
 //  Created by User on 22.07.2020.

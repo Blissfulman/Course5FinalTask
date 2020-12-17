@@ -1,5 +1,5 @@
 //
-//  PhotoCollectionViewCell.swift
+//  ProfileCollectionViewCell.swift
 //  Course4FinalTask
 //
 //  Created by User on 07.08.2020.

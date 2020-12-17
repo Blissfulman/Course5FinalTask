@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  ProfileViewController.swift
 //  Course4FinalTask
 //
 //  Created by User on 04.08.2020.

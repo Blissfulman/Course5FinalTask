@@ -1,5 +1,5 @@
 //
-//  FeedTableViewCell.swift
+//  FeedTableViewCellDelegate.swift
 //  Course4FinalTask
 //
 //  Created by User on 04.08.2020.
@@ -63,11 +63,11 @@ final class FeedTableViewCell: UITableViewCell {
         cellPost = post
 
         // Заполнение всех элементов ячейки данными
-        avatarImage.image = networkService.getImage(fromURL: post.authorAvatar)
+        avatarImage.getImage(fromURL: post.authorAvatar)
         authorUsernameLabel.text = post.authorUsername
         createdTimeLabel.text = DateFormatter.postDateFormatter
             .string(from: post.createdTime)
-        postImage.image = networkService.getImage(fromURL: post.image)
+        postImage.getImage(fromURL: post.image)
         descriptionLabel.text = post.description
     }
     
