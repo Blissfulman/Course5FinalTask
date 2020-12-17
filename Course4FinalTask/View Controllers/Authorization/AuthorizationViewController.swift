@@ -23,6 +23,9 @@ final class AuthorizationViewController: UIViewController {
         textField.enablesReturnKeyAutomatically = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.addTarget(self,
+                            action: #selector(textFieldsDidChanged),
+                            for: .editingChanged)
         return textField
     }()
     
@@ -39,6 +42,9 @@ final class AuthorizationViewController: UIViewController {
         textField.enablesReturnKeyAutomatically = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.addTarget(self,
+                            action: #selector(textFieldsDidChanged),
+                            for: .editingChanged)
         return textField
     }()
     
@@ -51,6 +57,9 @@ final class AuthorizationViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 15)
         button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self,
+                         action: #selector(signInButtonPressed),
+                         for: .touchUpInside)
         return button
     }()
     
@@ -63,7 +72,6 @@ final class AuthorizationViewController: UIViewController {
                 
         setupUI()
         setupLayout()
-        setupTargets()
     }
     
     // MARK: - Actions
@@ -131,20 +139,6 @@ final class AuthorizationViewController: UIViewController {
                             constant: -16),
             signInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
-    }
-    
-    private func setupTargets() {
-        loginTextField.addTarget(self,
-                                 action: #selector(textFieldsDidChanged),
-                                 for: .editingChanged)
-        
-        passwordTextField.addTarget(self,
-                                    action: #selector(textFieldsDidChanged),
-                                    for: .editingChanged)
-        
-        signInButton.addTarget(self,
-                               action: #selector(signInButtonPressed),
-                               for: .touchUpInside)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -18,7 +18,7 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
         return UINib(nibName: "ProfileCollectionViewCell", bundle: nil)
     }
     
-    func configure(_ photo: UIImage) {
-        photoImage.image = photo
+    func configure(_ post: Post) {
+        photoImage.getImage(fromURL: post.image)
     }
 }

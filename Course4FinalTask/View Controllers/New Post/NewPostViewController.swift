@@ -42,13 +42,13 @@ final class NewPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        newImages = NewImagesProvider.shared.getNewImages()
         setupUI()
         setupLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         LoadingView.show()
-        getNewImages()
         newPostImagesCollectionView.reloadData()
         LoadingView.hide()
     }
@@ -99,20 +99,5 @@ extension NewPostViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = newPostImagesCollectionView.bounds.width / numberOfColumns
         return CGSize(width: size, height: size)
-    }
-}
-
-// MARK: - Data recieving methods
-extension NewPostViewController {
-    
-    /// Получение изображений для использования в новых публикациях.
-    func getNewImages() {
-        let newImagesCount = 8
-        newImages = []
-        
-        for index in 1...newImagesCount {
-            guard let image = UIImage(named: "new\(index)") else { return }
-            newImages.append(image)
-        }
     }
 }

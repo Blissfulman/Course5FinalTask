@@ -20,8 +20,8 @@ final class ProfileViewController: UIViewController {
     /// Пользователь, данные которого отображает вью.
     var user: User?
         
-    /// Массив фотографий постов пользователя.
-    private lazy var photosOfUser = [UIImage]()
+    /// Массив постов пользователя.
+    private lazy var userPosts = [Post]()
     
     /// Логическое значение, указывающее, является ли отображаемый профиль, профилем текущего пользователя.
     private var isCurrentUser: Bool? {
@@ -110,7 +110,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photosOfUser.count
+        return userPosts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -118,7 +118,8 @@ extension ProfileViewController: UICollectionViewDataSource {
             withReuseIdentifier: ProfileCollectionViewCell.identifier,
             for: indexPath
         ) as! ProfileCollectionViewCell
-        cell.configure(photosOfUser[indexPath.item])
+        
+        cell.configure(userPosts[indexPath.item])
         return cell
     }
 }
@@ -192,9 +193,7 @@ extension ProfileViewController {
     
     /// Получение данных о текущем пользователе.
     private func getCurrentUser() {
-        
-//        LoadingView.show()
-        
+                
         // Получение данных о текущем пользователе должно произойти до получения данных об открываемом профиле (которое происходит в методе getUser)
         getDataQueue.async { [weak self] in
             
@@ -252,7 +251,7 @@ extension ProfileViewController {
                         self.semaphore.signal()
                         
                         // Обновление данных об изображениях постов пользователя
-                        self.getPhotos(of: user)
+                        self.getUserPosts(of: user)
                     }
                 case let .failure(error):
                     self.showAlert(error)
@@ -262,8 +261,8 @@ extension ProfileViewController {
         }
     }
 
-    /// Получение всех изображений постов переданного пользователя.
-    private func getPhotos(of user: User) {
+    /// Получение постов пользователя.
+    private func getUserPosts(of user: User) {
                 
         networkService.getPostsOfUser(withID: user.id) { [weak self] (result) in
             
@@ -272,13 +271,7 @@ extension ProfileViewController {
             switch result {
             case let .success(userPosts):
                 DispatchQueue.main.async {
-                    self.photosOfUser = []
-                    userPosts.forEach {
-                        guard let image = self.networkService
-                                .getImage(fromURL: $0.image) else { return }
-                        self.photosOfUser.append(image)
-                    }
-                    
+                    self.userPosts = userPosts
                     self.profileCollectionView.reloadData()
                     LoadingView.hide()
                 }
