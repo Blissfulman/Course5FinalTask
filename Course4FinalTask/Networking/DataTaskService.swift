@@ -57,6 +57,11 @@ final class DataTaskService: DataTaskServiceProtocol {
         }.resume()
     }
     
+    /// Обработка ошибок сервера, по статус-коду в response.
+    /// - Parameters:
+    ///   - response: Ответ от сервера.
+    ///   - completion: Замыкание, в которое возвращается ошибка от сервера. Вызывается, если в ответе от сервера статус-код не равен 200.
+    /// - Returns: Возвращает true если в ответ от сервера пришёл статус-код 200, в иных случаях возвращает false.
     private func handleServerError<T>(_ response: HTTPURLResponse,
                                       completion: (Result<T, Error>) -> Void) -> Bool {
         

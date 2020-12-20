@@ -6,7 +6,6 @@
 //  Copyright © 2020 e-Legion. All rights reserved.
 //
 
-import UIKit
 import Kingfisher
 
 extension UIImageView {

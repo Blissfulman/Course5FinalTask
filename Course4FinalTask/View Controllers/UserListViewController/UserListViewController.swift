@@ -160,7 +160,9 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
         let storyboard = UIStoryboard(name: AppDelegate.storyboardName,
                                       bundle: nil)
         
-        guard let profileVC = storyboard.instantiateViewController(withIdentifier: ProfileViewController.identifier) as? ProfileViewController else { return }
+        guard let profileVC = storyboard.instantiateViewController(
+                withIdentifier: ProfileViewController.identifier
+        ) as? ProfileViewController else { return }
         
         profileVC.user = userList[indexPath.row]
         navigationController?.pushViewController(profileVC, animated: true)

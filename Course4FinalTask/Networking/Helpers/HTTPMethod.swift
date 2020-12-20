@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum HTTPMethod {
-    static let get = "GET"
-    static let post = "POST"
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
 }
