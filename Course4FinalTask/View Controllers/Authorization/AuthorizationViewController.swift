@@ -154,17 +154,13 @@ final class AuthorizationViewController: UIViewController {
             
             switch result {
             case let .success(token):
+                let storyboard = UIStoryboard(name: AppDelegate.storyboardName,
+                                              bundle: nil)
                 
-                DispatchQueue.main.async {
-                    
-                    let storyboard = UIStoryboard(name: AppDelegate.storyboardName,
-                                                  bundle: nil)
-                    
-                    guard let tabBarController = storyboard.instantiateViewController(withIdentifier: TabBarController.identifier) as? TabBarController else { return }
-                    
-                    NetworkService.token = token.token
-                    self?.appDelegate.window?.rootViewController = tabBarController
-                }
+                guard let tabBarController = storyboard.instantiateViewController(withIdentifier: TabBarController.identifier) as? TabBarController else { return }
+                
+                NetworkService.token = token.token
+                self?.appDelegate.window?.rootViewController = tabBarController
             case let .failure(error):
                 self?.showAlert(error)
             }

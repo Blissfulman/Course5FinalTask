@@ -93,15 +93,13 @@ final class UserListViewController: UIViewController {
         LoadingView.show()
         
         /// Замыкание, в котором обновляется список отображаемых пользователей.
-        let updatingUserList: UsersResult = { [weak self] (result) in
+        let updatingUserList: UsersResult = { [weak self] result in
             
             switch result {
             case let .success(userList):
-                DispatchQueue.main.async {
-                    self?.userList = userList
-                    self?.userListTableView.reloadData()
-                    LoadingView.hide()
-                }
+                self?.userList = userList
+                self?.userListTableView.reloadData()
+                LoadingView.hide()
             case let .failure(error):
                 self?.showAlert(error)
             }

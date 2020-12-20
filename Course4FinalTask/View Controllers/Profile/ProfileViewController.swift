@@ -170,10 +170,8 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
             
             switch result {
             case let .success(updatedUser):
-                DispatchQueue.main.async {
-                    self?.user = updatedUser
-                    self?.profileCollectionView.reloadData()
-                }
+                self?.user = updatedUser
+                self?.profileCollectionView.reloadData()
             case let .failure(error):
                 self?.showAlert(error)
             }
@@ -201,24 +199,20 @@ extension ProfileViewController {
 
             self.semaphore.wait()
 
-            self.networkService.getCurrentUser() {
-                (result) in
+            self.networkService.getCurrentUser() { result in
                 
                 switch result {
                 case let .success(currentUser):
-                    DispatchQueue.main.async {
-                        
-                        // Проверка того, открывается ли профиль текущего пользователя
-                        if let userID = self.user?.id, userID != currentUser.id {
-                            self.isCurrentUser = false
-                        } else {
-                            self.isCurrentUser = true
-                            self.user = currentUser
-                        }
-                        
-                        self.navigationItem.title = self.user?.username
-                        self.semaphore.signal()
+                    // Проверка того, открывается ли профиль текущего пользователя
+                    if let userID = self.user?.id, userID != currentUser.id {
+                        self.isCurrentUser = false
+                    } else {
+                        self.isCurrentUser = true
+                        self.user = currentUser
                     }
+                    
+                    self.navigationItem.title = self.user?.username
+                    self.semaphore.signal()
                 case let .failure(error):
                     self.showAlert(error)
                     self.semaphore.signal()
@@ -241,18 +235,16 @@ extension ProfileViewController {
             guard let user = self.user else { return }
             
             // Обновление данных о пользователе
-            self.networkService.getUser(withID: user.id) { (result) in
+            self.networkService.getUser(withID: user.id) { result in
                 
                 switch result {
                 case let .success(user):
-                    DispatchQueue.main.async {
-                        self.user = user
-                        self.profileCollectionView.reloadData()
-                        self.semaphore.signal()
-                        
-                        // Обновление данных об изображениях постов пользователя
-                        self.getUserPosts(of: user)
-                    }
+                    self.user = user
+                    self.profileCollectionView.reloadData()
+                    self.semaphore.signal()
+                    
+                    // Обновление данных об изображениях постов пользователя
+                    self.getUserPosts(of: user)
                 case let .failure(error):
                     self.showAlert(error)
                     self.semaphore.signal()
@@ -264,17 +256,15 @@ extension ProfileViewController {
     /// Получение постов пользователя.
     private func getUserPosts(of user: User) {
                 
-        networkService.getPostsOfUser(withID: user.id) { [weak self] (result) in
+        networkService.getPostsOfUser(withID: user.id) { [weak self] result in
             
             guard let self = self else { return }
             
             switch result {
             case let .success(userPosts):
-                DispatchQueue.main.async {
-                    self.userPosts = userPosts
-                    self.profileCollectionView.reloadData()
-                    LoadingView.hide()
-                }
+                self.userPosts = userPosts
+                self.profileCollectionView.reloadData()
+                LoadingView.hide()
             case let .failure(error):
                 self.showAlert(error)
             }

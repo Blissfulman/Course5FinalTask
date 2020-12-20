@@ -27,9 +27,7 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     static let identifier = "headerProfile"
     
     weak var delegate: HeaderProfileCollectionViewDelegate?
-    
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
-    
+        
     // MARK: - Class methods
     static func nib() -> UINib {
         return UINib(nibName: "HeaderProfileCollectionView", bundle: nil)

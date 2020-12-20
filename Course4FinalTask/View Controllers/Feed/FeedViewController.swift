@@ -31,15 +31,13 @@ final class FeedViewController: UIViewController {
         LoadingView.show()
         
         networkService.getFeed() {
-            [weak self] (result) in
+            [weak self] result in
             
             switch result {
             case let .success(feedPosts):
-                DispatchQueue.main.async {
-                    self?.feedPosts = feedPosts
-                    self?.feedTableView.reloadData()
-                    LoadingView.hide()
-                }
+                self?.feedPosts = feedPosts
+                self?.feedTableView.reloadData()
+                LoadingView.hide()
             case let .failure(error):
                 self?.showAlert(error)
             }
@@ -68,7 +66,9 @@ extension FeedViewController: FeedTableViewCellDelegate {
     
     /// Переход в профиль автора поста.
     func authorOfPostPressed(user: User) {
-        guard let profileVC = storyboard?.instantiateViewController(withIdentifier: ProfileViewController.identifier) as? ProfileViewController else { return }
+        guard let profileVC = storyboard?.instantiateViewController(
+                withIdentifier: ProfileViewController.identifier
+        ) as? ProfileViewController else { return }
         
         profileVC.user = user
         navigationController?.pushViewController(profileVC, animated: true)
@@ -86,7 +86,7 @@ extension FeedViewController: FeedTableViewCellDelegate {
     func updateFeedData() {
         
         networkService.getFeed() {
-            [weak self] (result) in
+            [weak self] result in
             
             switch result {
             case let .success(feedPosts):

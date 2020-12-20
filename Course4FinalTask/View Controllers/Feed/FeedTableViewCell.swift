@@ -76,7 +76,7 @@ final class FeedTableViewCell: UITableViewCell {
     private func likeUnlikePost() {
 
         /// Замыкание, в котором обновляются данные о посте.
-        let updatingPost: PostResult = { [weak self] (result) in
+        let updatingPost: PostResult = { [weak self] result in
             
             switch result {
             case let .success(updatedPost):
@@ -167,14 +167,12 @@ extension FeedTableViewCell {
         LoadingView.show()
         
         networkService.getUser(withID: cellPost.author) {
-            [weak self] (result) in
+            [weak self] result in
             
             switch result {
             case let .success(user):
-                DispatchQueue.main.async {
-                    self?.delegate?.authorOfPostPressed(user: user)
-                    LoadingView.hide()
-                }
+                self?.delegate?.authorOfPostPressed(user: user)
+                LoadingView.hide()
             case let .failure(error):
                 self?.delegate?.showErrorAlert(error)
             }

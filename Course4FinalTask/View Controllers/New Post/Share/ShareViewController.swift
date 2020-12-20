@@ -58,22 +58,19 @@ final class ShareViewController: UIViewController {
             
             switch result {
             case .success:
-                DispatchQueue.main.async {
-                    
-                    // Получение корневого вью элемента таб бара "Feed"
-                    guard let navControllerFeed = self.tabBarController?.viewControllers?.first as? UINavigationController else { return }
-                    navControllerFeed.popToRootViewController(animated: true)
-                    
-                    // Скроллинг в верхнее положение ленты
-                    guard let feedVC = navControllerFeed.viewControllers.first as? FeedViewController else { return }
-                    feedVC.feedTableView.setContentOffset(.zero, animated: true)
-                    
-                    // Переход на ленту
-                    self.tabBarController?.selectedIndex = 0
-                    
-                    // Переход на корневое вью элемента таб бара "New post"
-                    self.navigationController?.popToRootViewController(animated: false)
-                }
+                // Получение корневого вью элемента таб бара "Feed"
+                guard let navControllerFeed = self.tabBarController?.viewControllers?.first as? UINavigationController else { return }
+                navControllerFeed.popToRootViewController(animated: true)
+                
+                // Скроллинг в верхнее положение ленты
+                guard let feedVC = navControllerFeed.viewControllers.first as? FeedViewController else { return }
+                feedVC.feedTableView.setContentOffset(.zero, animated: true)
+                
+                // Переход на ленту
+                self.tabBarController?.selectedIndex = 0
+                
+                // Переход на корневое вью элемента таб бара "New post"
+                self.navigationController?.popToRootViewController(animated: false)
             case let .failure(error):
                 self.showAlert(error)
             }

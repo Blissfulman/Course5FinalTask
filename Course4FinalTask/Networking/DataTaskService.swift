@@ -47,7 +47,9 @@ final class DataTaskService: DataTaskServiceProtocol {
             
             do {
                 let result = try decoder.decode(T.self, from: data)
-                completion(.success(result))
+                DispatchQueue.main.async {
+                    completion(.success(result))
+                }
             } catch {
                 if !data.isEmpty {
                     print(error.localizedDescription)
