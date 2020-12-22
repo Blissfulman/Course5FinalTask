@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ShareViewControllerDelegate: UIViewController {
+    func updateAfterPosting()
+}
+
 final class ShareViewController: UIViewController {
     
     // MARK: - IB Outlets
@@ -15,6 +19,8 @@ final class ShareViewController: UIViewController {
     @IBOutlet weak var descriptionTextField: UITextField!
     
     // MARK: - Properties
+    weak var delegate: ShareViewControllerDelegate?
+    
     /// Переданное изображение для публикации.
     private lazy var transmittedImage = UIImage()
     
@@ -62,12 +68,13 @@ final class ShareViewController: UIViewController {
                 guard let navControllerFeed = self.tabBarController?.viewControllers?.first as? UINavigationController else { return }
                 navControllerFeed.popToRootViewController(animated: true)
                 
-                // Скроллинг в верхнее положение ленты
-                guard let feedVC = navControllerFeed.viewControllers.first as? FeedViewController else { return }
-                feedVC.feedTableView.setContentOffset(.zero, animated: true)
-                
-                // Переход на ленту
+                // Переход в ленту
                 self.tabBarController?.selectedIndex = 0
+                
+                // Вызов метода для прокрутки ленты в верхнее положение
+                guard let feedVC = navControllerFeed.viewControllers.first as? FeedViewController else { return }
+                self.delegate = feedVC
+                self.delegate?.updateAfterPosting()
                 
                 // Переход на корневое вью элемента таб бара "New post"
                 self.navigationController?.popToRootViewController(animated: false)

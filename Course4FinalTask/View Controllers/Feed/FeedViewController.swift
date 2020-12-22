@@ -101,3 +101,13 @@ extension FeedViewController: FeedTableViewCellDelegate {
         self.showAlert(error)
     }
 }
+
+// MARK: - ShareViewControllerDelegate
+extension FeedViewController: ShareViewControllerDelegate {
+    // Прокрутка ленты в верхнее положение
+    func updateAfterPosting() {
+        feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0),
+                                  at: .top,
+                                  animated: true)
+    }
+}
