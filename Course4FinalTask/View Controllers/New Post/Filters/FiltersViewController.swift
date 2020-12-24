@@ -8,16 +8,13 @@
 
 import UIKit
 
-class FiltersViewController: UIViewController {
+final class FiltersViewController: UIViewController {
     
     // MARK: - IB Outlets
     /// Коллекция выбора фильтров с примерами их применения для обработки большого изображения.
     @IBOutlet weak var filtersCollectionView: UICollectionView!
 
     // MARK: - Properties
-    /// Блокирующее вью, отображаемое во время ожидания получения данных.
-    private lazy var blockView = BlockView(parentView: self.tabBarController?.view ?? self.view)
-
     /// Изображение, отображаемое на всю ширину экрана.
     private lazy var bigImage: UIImageView = {
         let imageView = UIImageView()
@@ -45,11 +42,11 @@ class FiltersViewController: UIViewController {
     private let minimumInteritemSpacing: CGFloat = 0
     
     // MARK: - Initializers
-    convenience init(selectedImage: UIImage, thumbnail: UIImage) {
+    convenience init(selectedImage: UIImage) {
         self.init()
         bigImage.image = selectedImage
         originalBigImage = selectedImage
-        thumbnailImage = thumbnail
+        thumbnailImage = originalBigImage.resizeImage()
         filteredThumbnails = .init(repeating: thumbnailImage,
                                    count: filters.count)
     }
@@ -140,7 +137,7 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
     // MARK: - CollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        blockView.show()
+        LoadingView.show()
         
         // Применение выбранного фильтра к большому изображению
         let queue = OperationQueue()
@@ -155,7 +152,7 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
                 guard let outputImage = filterOperation.outputImage else { return }
                 
                 self.bigImage.image = outputImage
-                self.blockView.hide()
+                LoadingView.hide()
             }
         }
         queue.addOperation(filterOperation)

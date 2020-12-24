@@ -6,6 +6,8 @@
 //  Copyright © 2020 e-Legion. All rights reserved.
 //
 
+import Foundation
+
 struct Token: Codable {
-    let name: String
+    let token: String
 }

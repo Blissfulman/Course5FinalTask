@@ -1,5 +1,5 @@
 //
-//  Models.swift
+//  User.swift
 //  Course4FinalTask
 //
 //  Created by User on 29.11.2020.
@@ -8,6 +8,17 @@
 
 import Foundation
 
-struct User {
-    
+struct User: Decodable {
+    let id: String
+    let username: String
+    let fullName: String
+    let avatar: URL
+    let currentUserFollowsThisUser: Bool
+    let currentUserIsFollowedByThisUser: Bool
+    let followsCount: Int
+    let followedByCount: Int
+}
+
+struct UserIDRequest: Encodable {
+    let userID: String
 }

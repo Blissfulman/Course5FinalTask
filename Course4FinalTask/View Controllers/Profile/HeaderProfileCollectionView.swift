@@ -9,12 +9,12 @@
 import UIKit
 
 protocol HeaderProfileCollectionViewDelegate: UIViewController {
-    func tapFollowersLabel()
-    func tapFollowingLabel()
+    func followersLabelPressed()
+    func followingLabelPressed()
     func followUnfollowUser()
 }
 
-class HeaderProfileCollectionView: UICollectionReusableView {
+final class HeaderProfileCollectionView: UICollectionReusableView {
     
     // MARK: - IB Outlets
     @IBOutlet weak var avatarImage: UIImageView!
@@ -27,7 +27,7 @@ class HeaderProfileCollectionView: UICollectionReusableView {
     static let identifier = "headerProfile"
     
     weak var delegate: HeaderProfileCollectionViewDelegate?
-    
+        
     // MARK: - Class methods
     static func nib() -> UINib {
         return UINib(nibName: "HeaderProfileCollectionView", bundle: nil)
@@ -49,45 +49,45 @@ class HeaderProfileCollectionView: UICollectionReusableView {
             setupFollowButton(user: user)
             followButton.isHidden = false
         }
-        
-//        avatarImage.image = user.avatar
-//        avatarImage.layer.cornerRadius = CGFloat(avatarImage.bounds.width / 2)
-//        fullNameLabel.text = user.fullName
-//        followersLabel.text = "Followers: " + String(user.followedByCount)
-//        followingLabel.text = "Following: " + String(user.followsCount)
+
+        avatarImage.getImage(fromURL: user.avatar)
+        avatarImage.layer.cornerRadius = CGFloat(avatarImage.bounds.width / 2)
+        fullNameLabel.text = user.fullName
+        followersLabel.text = "Followers: " + String(user.followedByCount)
+        followingLabel.text = "Following: " + String(user.followsCount)
     }
     
     private func setupFollowButton(user: User) {
     
-//        user.currentUserFollowsThisUser ?
-//            followButton.setTitle("Unfollow", for: .normal) :
-//            followButton.setTitle("Follow", for: .normal)
+        user.currentUserFollowsThisUser ?
+            followButton.setTitle("Unfollow", for: .normal) :
+            followButton.setTitle("Follow", for: .normal)
     }
     
     // MARK: - Setup gesture recognizers
     private func setupGestureRecognizers() {
         
         // Жест тапа по подписчикам
-        let followersGR = UITapGestureRecognizer(target: self, action: #selector(tapFollowersLabel(recognizer:)))
+        let followersGR = UITapGestureRecognizer(target: self, action: #selector(followersLabelPressed(recognizer:)))
         followersLabel.isUserInteractionEnabled = true
         followersLabel.addGestureRecognizer(followersGR)
         
         // Жест тапа по подпискам
-        let followingGR = UITapGestureRecognizer(target: self, action: #selector(tapFollowingLabel(recognizer:)))
+        let followingGR = UITapGestureRecognizer(target: self, action: #selector(followingLabelPressed(recognizer:)))
         followingLabel.isUserInteractionEnabled = true
         followingLabel.addGestureRecognizer(followingGR)
     }
     
     // MARK: - Actions
-    @IBAction func tapFollowersLabel(recognizer: UIGestureRecognizer) {
-        delegate?.tapFollowersLabel()
+    @IBAction func followersLabelPressed(recognizer: UIGestureRecognizer) {
+        delegate?.followersLabelPressed()
     }
     
-    @IBAction func tapFollowingLabel(recognizer: UIGestureRecognizer) {
-        delegate?.tapFollowingLabel()
+    @IBAction func followingLabelPressed(recognizer: UIGestureRecognizer) {
+        delegate?.followingLabelPressed()
     }
     
-    @IBAction func followButtonClick(_ sender: UIButton) {
+    @IBAction func followButtonPressed(_ sender: UIButton) {
         delegate?.followUnfollowUser()
     }
 }

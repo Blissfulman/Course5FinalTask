@@ -1,5 +1,5 @@
 //
-//  FeedTableViewCell.swift
+//  FeedTableViewCellDelegate.swift
 //  Course4FinalTask
 //
 //  Created by User on 04.08.2020.
@@ -9,15 +9,13 @@
 import UIKit
 
 protocol FeedTableViewCellDelegate: UIViewController {
-    func tapAuthorOfPost(user: User)
-    func tapLikesCountLabel(userList: [User])
+    func authorOfPostPressed(user: User)
+    func likesCountLabelPressed(postID: String)
     func updateFeedData()
-    func showBlockView()
-    func hideBlockView()
-    func showErrorAlert()
+    func showErrorAlert(_ error: Error)
 }
 
-class FeedTableViewCell: UITableViewCell {
+final class FeedTableViewCell: UITableViewCell {
 
     // MARK: - IB Outlets
     @IBOutlet weak var avatarImage: UIImageView!
@@ -35,13 +33,21 @@ class FeedTableViewCell: UITableViewCell {
     weak var delegate: FeedTableViewCellDelegate?
     
     /// Пост ячейки
-    private var cellPost: Post!
+    private var cellPost: Post! {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                
+                guard let self = self else { return }
+                
+                self.likeImage.tintColor = self.cellPost
+                    .currentUserLikesThisPost ? .systemBlue : .lightGray
+                self.likesCountLabel.text = "Likes: "
+                    + String(self.cellPost.likedByCount)
+            }
+        }
+    }
     
-    /// Логическое значение, указывающее, лайкнул ли текущий пользователь данный пост.
-    private var isLiked = false
-    
-    /// Количество лайков на этой публикации.
-    private var likedByCount = 0
+    private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Lifeсycle methods
     override func awakeFromNib() {
@@ -53,70 +59,42 @@ class FeedTableViewCell: UITableViewCell {
     // MARK: - Setup the cell
     func configure(_ post: Post) {
                 
-        // Запись переменных поста
-//        isLiked = post.currentUserLikesThisPost
-//        likedByCount = post.likedByCount
-//        cellPost = post
-//
-//        // Заполнение всех элементов ячейки данными
-//        avatarImage.image = post.authorAvatar
-//        authorUsernameLabel.text = post.authorUsername
-//        createdTimeLabel.text = setDateAndTime(post.createdTime)
-//        postImage.image = post.image
-//        updateLikeData()
-//        descriptionLabel.text = post.description
-    }
-    
-    private func setDateAndTime(_ date: Date) -> String {
-        let dateFormat = DateFormatter()
-        dateFormat.dateStyle = .medium
-        dateFormat.timeStyle = .medium
-        dateFormat.doesRelativeDateFormatting = true
-        return dateFormat.string(from: date as Date)
-    }
-    
-    private func updateLikeData() {
-        likeImage.tintColor = isLiked ? .systemBlue : .lightGray
-        likesCountLabel.text = "Likes: " + String(likedByCount)
+        // Сохранения поста ячейки
+        cellPost = post
+
+        // Заполнение всех элементов ячейки данными
+        avatarImage.getImage(fromURL: post.authorAvatar)
+        authorUsernameLabel.text = post.authorUsername
+        createdTimeLabel.text = DateFormatter.postDateFormatter
+            .string(from: post.createdTime)
+        postImage.getImage(fromURL: post.image)
+        descriptionLabel.text = post.description
     }
     
     // MARK: - Working with likes
-    /// Лайк, либо отмена лайка поста.
+    /// Обработка лайка/анлайка поста.
     private func likeUnlikePost() {
 
-        // Лайк/анлайк поста
-//        if isLiked {
-//            DataProviders.shared.postsDataProvider.unlikePost(with: cellPost.id, queue: .main) { _ in }
-//            isLiked = false
-//            likedByCount -= 1
-//        } else {
-//            DataProviders.shared.postsDataProvider.likePost(with: cellPost.id, queue: .main) { _ in }
-//            isLiked = true
-//            likedByCount += 1
-//        }
+        /// Замыкание, в котором обновляются данные о посте.
+        let updatingPost: PostResult = { [weak self] result in
+            
+            switch result {
+            case let .success(updatedPost):
+                self?.cellPost = updatedPost
+                
+                // Обновление данных в массиве постов
+                self?.delegate?.updateFeedData()
+            case .failure:
+                break
+            }
+        }
         
-        // Обновление данных о лайках поста в ячейке (количество и цвет сердечка)
-        updateLikeData()
-        
-        // Получение обновлённого поста
-//        getPost(postID: self.cellPost.id) {
-//            [weak self] (updatedPost) in
-//            
-//            guard let `self` = self else { return }
-//            
-//            guard let updatedPost = updatedPost else {
-//                self.delegate?.showErrorAlert()
-//                return
-//            }
-//            
-//            // Запись переменных поста
-//            self.isLiked = updatedPost.currentUserLikesThisPost
-//            self.likedByCount = updatedPost.likedByCount
-//            self.cellPost = updatedPost
-//        }
-        
-        // Обновление данных в массиве постов
-        delegate?.updateFeedData()
+        // Лайк/анлайк
+        cellPost.currentUserLikesThisPost
+            ? networkService.unlikePost(withID: cellPost.id,
+                                        completion: updatingPost)
+            : networkService.likePost(withID: cellPost.id,
+                                      completion: updatingPost)
     }
 }
 
@@ -127,7 +105,7 @@ extension FeedTableViewCell {
         
         // Жест двойного тапа по картинке поста
         let postImageGR = UITapGestureRecognizer(
-            target: self, action: #selector(tapPostImage(recognizer:))
+            target: self, action: #selector(postImagePressed(recognizer:))
         )
         postImageGR.numberOfTapsRequired = 2
         postImage.isUserInteractionEnabled = true
@@ -135,28 +113,28 @@ extension FeedTableViewCell {
         
         // Жест тапа по автору поста (по аватарке)
         let authorAvatarGR = UITapGestureRecognizer(
-            target: self, action: #selector(tapAuthorOfPost(recognizer:))
+            target: self, action: #selector(postAuthorPressed(recognizer:))
         )
         avatarImage.isUserInteractionEnabled = true
         avatarImage.addGestureRecognizer(authorAvatarGR)
         
         // Жест тапа по автору поста (по username)
         let authorUsernameGR = UITapGestureRecognizer(
-            target: self, action: #selector(tapAuthorOfPost(recognizer:))
+            target: self, action: #selector(postAuthorPressed(recognizer:))
         )
         authorUsernameLabel.isUserInteractionEnabled = true
         authorUsernameLabel.addGestureRecognizer(authorUsernameGR)
         
         // Жест тапа по количеству лайков поста
         let likesCountGR = UITapGestureRecognizer(
-            target: self, action: #selector(tapLikesCountLabel(recognizer:))
+            target: self, action: #selector(likesCountLabelPressed(recognizer:))
         )
         likesCountLabel.isUserInteractionEnabled = true
         likesCountLabel.addGestureRecognizer(likesCountGR)
         
         // Жест тапа по сердечку под постом
         let likeImageGR = UITapGestureRecognizer(
-            target: self, action: #selector(tapLikeImage(recognizer:))
+            target: self, action: #selector(likeImagePressed(recognizer:))
         )
         likeImage.isUserInteractionEnabled = true
         likeImage.addGestureRecognizer(likeImageGR)
@@ -164,12 +142,12 @@ extension FeedTableViewCell {
 
     // MARK: - Actions
     /// Двойной тап по картинке поста.
-    @IBAction func tapPostImage(recognizer: UITapGestureRecognizer) {
+    @IBAction func postImagePressed(recognizer: UITapGestureRecognizer) {
         
         // Проверка отсутствия у поста лайка текущего пользователя
-        guard !isLiked else { return }
+        guard !cellPost.currentUserLikesThisPost else { return }
         
-        // Анимация большого сердца
+        // Анимация большого сердца на картинке поста
         let likeAnimation = CAKeyframeAnimation(keyPath: "opacity")
         likeAnimation.values = [0, 1, 1, 0]
         likeAnimation.keyTimes = [0, 0.1, 0.3, 0.6]
@@ -184,84 +162,31 @@ extension FeedTableViewCell {
     }
     
     /// Тап по автору поста.
-    @IBAction func tapAuthorOfPost(recognizer: UIGestureRecognizer) {
+    @IBAction func postAuthorPressed(recognizer: UIGestureRecognizer) {
         
-        delegate?.showBlockView()
+        LoadingView.show()
         
-//        getUser(userID: cellPost.author) {
-//            [weak self] (user) in
-//
-//            guard let `self` = self else { return }
-//
-//            guard let user = user else {
-//                self.delegate?.showErrorAlert()
-//                self.delegate?.hideBlockView()
-//                return
-//            }
-//
-//            self.delegate?.tapAuthorOfPost(user: user)
-//            self.delegate?.hideBlockView()
-//        }
+        networkService.getUser(withID: cellPost.author) {
+            [weak self] result in
+            
+            switch result {
+            case let .success(user):
+                self?.delegate?.authorOfPostPressed(user: user)
+                LoadingView.hide()
+            case let .failure(error):
+                self?.delegate?.showErrorAlert(error)
+            }
+        }
     }
     
     /// Тап по количеству лайков поста.
-    @IBAction func tapLikesCountLabel(recognizer: UIGestureRecognizer) {
-        
-        delegate?.showBlockView()
-        
-        // Создание массива пользователей, лайкнувших пост
-//        getUsersLikedPost(postID: cellPost.id) {
-//            [weak self] (userList) in
-//
-//            guard let `self` = self else { return }
-//
-//            guard let userList = userList else {
-//                self.delegate?.showErrorAlert()
-//                self.delegate?.hideBlockView()
-//                return
-//            }
-//
-//            self.delegate?.tapLikesCountLabel(userList: userList)
-//            self.delegate?.hideBlockView()
-//        }
+    @IBAction func likesCountLabelPressed(recognizer: UIGestureRecognizer) {
+        guard let cellPost = cellPost else { return }
+        delegate?.likesCountLabelPressed(postID: cellPost.id)
     }
     
     /// Тап  по сердечку под постом.
-    @IBAction func tapLikeImage(recognizer: UIGestureRecognizer) {
+    @IBAction func likeImagePressed(recognizer: UIGestureRecognizer) {
         likeUnlikePost()
     }
-}
-
-// MARK: - Data recieving methods
-extension FeedTableViewCell {
-    
-    /// Получение публикации с переданным ID.
-//    private func getPost(postID: Post.Identifier, completion: @escaping (Post?) -> Void) {
-//        DataProviders.shared.postsDataProvider.post(with: postID, queue: .global(qos: .userInteractive)) {
-//            (post) in
-//            DispatchQueue.main.async {
-//                completion(post)
-//            }
-//        }
-//    }
-    
-    /// Получение пользователя с переданным ID.
-//    private func getUser(userID: User.Identifier, completion: @escaping (User?) -> Void) {
-//        DataProviders.shared.usersDataProvider.user(with: userID, queue: .global(qos: .userInteractive)) {
-//            (user) in
-//            DispatchQueue.main.async {
-//                completion(user)
-//            }
-//        }
-//    }
-    
-    /// Получение пользователей, поставивших лайк на публикацию.
-//    private func getUsersLikedPost(postID: Post.Identifier, completion: @escaping ([User]?) -> Void) {
-//        DataProviders.shared.postsDataProvider.usersLikedPost(with: postID, queue: .global(qos: .userInteractive)) {
-//            (usersLikedPost) in
-//            DispatchQueue.main.async {
-//                completion(usersLikedPost)
-//            }
-//        }
-//    }
 }

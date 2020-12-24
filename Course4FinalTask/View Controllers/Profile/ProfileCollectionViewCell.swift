@@ -1,5 +1,5 @@
 //
-//  PhotoCollectionViewCell.swift
+//  ProfileCollectionViewCell.swift
 //  Course4FinalTask
 //
 //  Created by User on 07.08.2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileCollectionViewCell: UICollectionViewCell {
+final class ProfileCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var photoImage: UIImageView!
     
@@ -18,7 +18,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         return UINib(nibName: "ProfileCollectionViewCell", bundle: nil)
     }
     
-    func configure(_ photo: UIImage) {
-        photoImage.image = photo
+    func configure(_ post: Post) {
+        photoImage.getImage(fromURL: post.image)
     }
 }
