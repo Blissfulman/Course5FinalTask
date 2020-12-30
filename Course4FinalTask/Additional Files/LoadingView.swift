@@ -29,8 +29,8 @@ final class LoadingView {
     }
     
     private static func create() {
-        guard let window = UIApplication.shared
-                .windows.first(where: { $0.isKeyWindow }) else { return }
+        guard let window = UIApplication.shared.windows
+                .first(where: { $0.isKeyWindow }) else { return }
         let frame = UIScreen.main.bounds
         activityIndicator = UIActivityIndicatorView(frame: frame)
         

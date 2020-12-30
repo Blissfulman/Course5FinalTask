@@ -22,8 +22,7 @@ final class NewPostViewController: UIViewController {
         layout.itemSize = CGSize(width: size, height: size)
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
-        let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -61,14 +60,10 @@ final class NewPostViewController: UIViewController {
     // MARK: - Setup layout
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            newPostImagesCollectionView.topAnchor
-                .constraint(equalTo: view.topAnchor),
-            newPostImagesCollectionView.leadingAnchor
-                .constraint(equalTo: view.leadingAnchor),
-            newPostImagesCollectionView.trailingAnchor
-                .constraint(equalTo: view.trailingAnchor),
-            newPostImagesCollectionView.bottomAnchor
-                .constraint(equalTo: view.bottomAnchor)
+            newPostImagesCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            newPostImagesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            newPostImagesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            newPostImagesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
@@ -77,11 +72,15 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
     
     // MARK: - СollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return newImages.count
+        newImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = newPostImagesCollectionView.dequeueReusableCell(withReuseIdentifier: NewPostCollectionViewCell.identifier, for: indexPath) as! NewPostCollectionViewCell
+        
+        let cell = newPostImagesCollectionView.dequeueReusableCell(
+            withReuseIdentifier: NewPostCollectionViewCell.identifier, for: indexPath
+        ) as! NewPostCollectionViewCell
+        
         cell.configure(newImages[indexPath.item])
         return cell
     }

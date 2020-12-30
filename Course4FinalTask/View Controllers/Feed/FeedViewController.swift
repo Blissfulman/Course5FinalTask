@@ -49,7 +49,7 @@ final class FeedViewController: UIViewController {
 extension FeedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return feedPosts.count
+        feedPosts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -76,8 +76,7 @@ extension FeedViewController: FeedTableViewCellDelegate {
     
     /// Переход на экран лайкнувших пост пользователей.
     func likesCountLabelPressed(postID: String) {
-        let likesVC = UserListViewController(postID: postID,
-                                             userListType: .likes)
+        let likesVC = UserListViewController(postID: postID, userListType: .likes)
         
         navigationController?.pushViewController(likesVC, animated: true)
     }

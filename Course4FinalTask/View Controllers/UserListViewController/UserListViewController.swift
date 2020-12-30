@@ -38,9 +38,7 @@ final class UserListViewController: UIViewController {
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Initializers
-    convenience init(postID: String? = nil,
-                     userID: String? = nil,
-                     userListType: UserListType) {
+    convenience init(postID: String? = nil, userID: String? = nil, userListType: UserListType) {
         self.init()
         self.userID = userID
         self.postID = postID
@@ -63,8 +61,7 @@ final class UserListViewController: UIViewController {
     
     // Снятие выделения с ячейки при возврате на вью
     override func viewDidAppear(_ animated: Bool) {
-        guard let selectedRow = userListTableView
-                .indexPathForSelectedRow else { return }
+        guard let selectedRow = userListTableView.indexPathForSelectedRow else { return }
         userListTableView.deselectRow(at: selectedRow, animated: true)
     }
     
@@ -78,12 +75,9 @@ final class UserListViewController: UIViewController {
     private func setupLayout() {
         NSLayoutConstraint.activate([
             userListTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            userListTableView.leadingAnchor
-                .constraint(equalTo: view.leadingAnchor),
-            userListTableView.trailingAnchor
-                .constraint(equalTo: view.trailingAnchor),
-            userListTableView.bottomAnchor
-                .constraint(equalTo: view.bottomAnchor)
+            userListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            userListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            userListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -108,16 +102,13 @@ final class UserListViewController: UIViewController {
         switch userListType {
         case .likes:
             // Получение пользователей, лайкнувших пост
-            networkService.getUsersLikedPost(withID: postID,
-                                             completion: updatingUserList)
+            networkService.getUsersLikedPost(withID: postID, completion: updatingUserList)
         case .followers:
             // Получение подписчиков
-            networkService.getUsersFollowingUser(withID: userID,
-                                                 completion: updatingUserList)
+            networkService.getUsersFollowingUser(withID: userID, completion: updatingUserList)
         case .following:
             // Получение подписок
-            networkService.getUsersFollowedByUser(withID: userID,
-                                                  completion: updatingUserList)
+            networkService.getUsersFollowedByUser(withID: userID, completion: updatingUserList)
         case .none:
             break
         }
@@ -135,8 +126,7 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         
         var content = cell.defaultContentConfiguration()
-        content.directionalLayoutMargins = .init(top: 0, leading: 0,
-                                                 bottom: 1, trailing: 0)
+        content.directionalLayoutMargins = .init(top: 0, leading: 0, bottom: 1, trailing: 0)
         
         let imageURL = userList[indexPath.row].avatar
         content.image = networkService.getImage(fromURL: imageURL)
@@ -148,15 +138,14 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - TableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightForRow
+        heightForRow
     }
     
     // MARK: - Navigation
     // Переход на вью пользователя
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let storyboard = UIStoryboard(name: AppDelegate.storyboardName,
-                                      bundle: nil)
+        let storyboard = UIStoryboard(name: AppDelegate.storyboardName, bundle: nil)
         
         guard let profileVC = storyboard.instantiateViewController(
                 withIdentifier: ProfileViewController.identifier

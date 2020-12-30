@@ -13,7 +13,7 @@ final class FiltersViewController: UIViewController {
     // MARK: - IB Outlets
     /// Коллекция выбора фильтров с примерами их применения для обработки большого изображения.
     @IBOutlet weak var filtersCollectionView: UICollectionView!
-
+    
     // MARK: - Properties
     /// Изображение, отображаемое на всю ширину экрана.
     private lazy var bigImage: UIImageView = {
@@ -32,8 +32,10 @@ final class FiltersViewController: UIViewController {
     private var filteredThumbnails = [UIImage]()
     
     /// Массив имён фильтров для обработки изображения.
-    private let filters = ["CISpotLight", "CIPixellate", "CIUnsharpMask",
-        "CISepiaTone", "CICircularScreen", "CICMYKHalftone", "CIVignetteEffect"]
+    private let filters = [
+        "CISpotLight", "CIPixellate", "CIUnsharpMask", "CISepiaTone",
+        "CICircularScreen", "CICMYKHalftone", "CIVignetteEffect"
+    ]
     
     // Константы размеров элементов коллекции фильтров.
     private let widthForItem: CGFloat = 130
@@ -47,8 +49,7 @@ final class FiltersViewController: UIViewController {
         bigImage.image = selectedImage
         originalBigImage = selectedImage
         thumbnailImage = originalBigImage.resizeImage()
-        filteredThumbnails = .init(repeating: thumbnailImage,
-                                   count: filters.count)
+        filteredThumbnails = .init(repeating: thumbnailImage, count: filters.count)
     }
     
     // MARK: - Lifeсycle methods
@@ -58,11 +59,13 @@ final class FiltersViewController: UIViewController {
         title = "Filters"
         setupUI()
         setupLayout()
-
+        
         filtersCollectionView.dataSource = self
         filtersCollectionView.delegate = self
-        filtersCollectionView.register(FiltersCollectionViewCell.nib(),
-                                       forCellWithReuseIdentifier: FiltersCollectionViewCell.identifier)
+        filtersCollectionView.register(
+            FiltersCollectionViewCell.nib(),
+            forCellWithReuseIdentifier: FiltersCollectionViewCell.identifier
+        )
         filteringThumbnailImages()
     }
     
@@ -79,13 +82,12 @@ final class FiltersViewController: UIViewController {
     
     // MARK: - Setup layout
     private func setupLayout() {
-        let constraints = [
+        NSLayoutConstraint.activate([
             bigImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             bigImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             bigImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             bigImage.heightAnchor.constraint(equalTo: bigImage.widthAnchor)
-        ]
-        NSLayoutConstraint.activate(constraints)
+        ])
     }
     
     // MARK: - Applying filters to thumbnails
@@ -128,7 +130,11 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = filtersCollectionView.dequeueReusableCell(withReuseIdentifier: FiltersCollectionViewCell.identifier, for: indexPath) as! FiltersCollectionViewCell
+        
+        let cell = filtersCollectionView.dequeueReusableCell(
+            withReuseIdentifier: FiltersCollectionViewCell.identifier, for: indexPath
+        ) as! FiltersCollectionViewCell
+        
         cell.configure(photo: filteredThumbnails[indexPath.item],
                        filterName: filters[indexPath.item])
         return cell
@@ -144,14 +150,11 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
         let filterOperation = FilterImageOperation(inputImage: originalBigImage,
                                                    filter: filters[indexPath.item])
         filterOperation.completionBlock = { [weak self] in
-            
-            guard let `self` = self else { return }
-            
+                        
             DispatchQueue.main.async {
-                
                 guard let outputImage = filterOperation.outputImage else { return }
                 
-                self.bigImage.image = outputImage
+                self?.bigImage.image = outputImage
                 LoadingView.hide()
             }
         }
@@ -163,14 +166,14 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
 extension FiltersViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: widthForItem, height: heightForItem)
+        CGSize(width: widthForItem, height: heightForItem)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return minimumLineSpacing
+        minimumLineSpacing
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return minimumInteritemSpacing
+        minimumInteritemSpacing
     }
 }

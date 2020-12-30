@@ -39,10 +39,10 @@ final class FeedTableViewCell: UITableViewCell {
                 
                 guard let self = self else { return }
                 
-                self.likeImage.tintColor = self.cellPost
-                    .currentUserLikesThisPost ? .systemBlue : .lightGray
-                self.likesCountLabel.text = "Likes: "
-                    + String(self.cellPost.likedByCount)
+                self.likeImage.tintColor = self.cellPost.currentUserLikesThisPost
+                    ? .systemBlue
+                    : .lightGray
+                self.likesCountLabel.text = "Likes: " + String(self.cellPost.likedByCount)
             }
         }
     }
@@ -65,8 +65,7 @@ final class FeedTableViewCell: UITableViewCell {
         // Заполнение всех элементов ячейки данными
         avatarImage.getImage(fromURL: post.authorAvatar)
         authorUsernameLabel.text = post.authorUsername
-        createdTimeLabel.text = DateFormatter.postDateFormatter
-            .string(from: post.createdTime)
+        createdTimeLabel.text = DateFormatter.postDateFormatter.string(from: post.createdTime)
         postImage.getImage(fromURL: post.image)
         descriptionLabel.text = post.description
     }
@@ -91,10 +90,8 @@ final class FeedTableViewCell: UITableViewCell {
         
         // Лайк/анлайк
         cellPost.currentUserLikesThisPost
-            ? networkService.unlikePost(withID: cellPost.id,
-                                        completion: updatingPost)
-            : networkService.likePost(withID: cellPost.id,
-                                      completion: updatingPost)
+            ? networkService.unlikePost(withID: cellPost.id, completion: updatingPost)
+            : networkService.likePost(withID: cellPost.id, completion: updatingPost)
     }
 }
 

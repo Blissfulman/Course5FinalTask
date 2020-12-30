@@ -100,8 +100,11 @@ extension ProfileViewController: UICollectionViewDataSource {
                 withReuseIdentifier: HeaderProfileCollectionView.identifier,
                 for: indexPath
             ) as! HeaderProfileCollectionView
+            
             header.delegate = self
-            if let user = user, let isCurrentUser = isCurrentUser {
+            
+            if let user = user,
+               let isCurrentUser = isCurrentUser {
                 header.configure(user: user, isCurrentUser: isCurrentUser)
             }
             return header
@@ -110,7 +113,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return userPosts.count
+        userPosts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -142,8 +145,7 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
         
         guard let user = user else { return }
         
-        let followersVC = UserListViewController(userID: user.id,
-                                                 userListType: .followers)
+        let followersVC = UserListViewController(userID: user.id, userListType: .followers)
 
         navigationController?.pushViewController(followersVC, animated: true)
     }
@@ -153,8 +155,7 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
         
         guard let user = user else { return }
         
-        let followingVC = UserListViewController(userID: user.id,
-                                                 userListType: .following)
+        let followingVC = UserListViewController(userID: user.id, userListType: .following)
         
         navigationController?.pushViewController(followingVC, animated: true)
     }
@@ -179,10 +180,8 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
         
         // Подписка/отписка
         user.currentUserFollowsThisUser
-            ? networkService.unfollowFromUser(withID: user.id,
-                                              completion: updatingUser)
-            : networkService.followToUser(withID: user.id,
-                                          completion: updatingUser)
+            ? networkService.unfollowFromUser(withID: user.id, completion: updatingUser)
+            : networkService.followToUser(withID: user.id, completion: updatingUser)
     }
 }
 

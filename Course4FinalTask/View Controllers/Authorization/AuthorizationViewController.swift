@@ -23,9 +23,7 @@ final class AuthorizationViewController: UIViewController {
         textField.enablesReturnKeyAutomatically = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.addTarget(self,
-                            action: #selector(textFieldsDidChanged),
-                            for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldsDidChanged), for: .editingChanged)
         return textField
     }()
     
@@ -42,9 +40,7 @@ final class AuthorizationViewController: UIViewController {
         textField.enablesReturnKeyAutomatically = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.addTarget(self,
-                            action: #selector(textFieldsDidChanged),
-                            for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldsDidChanged), for: .editingChanged)
         return textField
     }()
     
@@ -57,9 +53,7 @@ final class AuthorizationViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 15)
         button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self,
-                         action: #selector(signInButtonPressed),
-                         for: .touchUpInside)
+        button.addTarget(self, action: #selector(signInButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -106,37 +100,28 @@ final class AuthorizationViewController: UIViewController {
     // MARK: - Setup layout
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            loginTextField.topAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                            constant: 30),
-            loginTextField.leadingAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                            constant: 16),
-            loginTextField.trailingAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                            constant: -16),
+            loginTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                                constant: 30),
+            loginTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                    constant: 16),
+            loginTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                     constant: -16),
             loginTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            passwordTextField.topAnchor
-                .constraint(equalTo: loginTextField.bottomAnchor,
-                            constant: 8),
-            passwordTextField.leadingAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                            constant: 16),
-            passwordTextField.trailingAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                            constant: -16),
+            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor,
+                                                   constant: 8),
+            passwordTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                       constant: 16),
+            passwordTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                        constant: -16),
             passwordTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            signInButton.topAnchor
-                .constraint(equalTo: passwordTextField.bottomAnchor,
-                            constant: 100),
-            signInButton.leadingAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                            constant: 16),
-            signInButton.trailingAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                            constant: -16),
+            signInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor,
+                                              constant: 100),
+            signInButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                  constant: 16),
+            signInButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                   constant: -16),
             signInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
@@ -154,10 +139,11 @@ final class AuthorizationViewController: UIViewController {
             
             switch result {
             case let .success(token):
-                let storyboard = UIStoryboard(name: AppDelegate.storyboardName,
-                                              bundle: nil)
+                let storyboard = UIStoryboard(name: AppDelegate.storyboardName, bundle: nil)
                 
-                guard let tabBarController = storyboard.instantiateViewController(withIdentifier: TabBarController.identifier) as? TabBarController else { return }
+                guard let tabBarController = storyboard.instantiateViewController(
+                        withIdentifier: TabBarController.identifier
+                ) as? TabBarController else { return }
                 
                 NetworkService.token = token.token
                 self?.appDelegate.window?.rootViewController = tabBarController

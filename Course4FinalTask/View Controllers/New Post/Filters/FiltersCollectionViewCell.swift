@@ -16,7 +16,7 @@ final class FiltersCollectionViewCell: UICollectionViewCell {
     static let identifier = "filtersPhotoCell"
     
     static func nib() -> UINib {
-        return UINib(nibName: "FiltersCollectionViewCell", bundle: nil)
+        UINib(nibName: "FiltersCollectionViewCell", bundle: nil)
     }
     
     func configure(photo: UIImage, filterName: String) {

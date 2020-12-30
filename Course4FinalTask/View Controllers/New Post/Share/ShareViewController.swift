@@ -56,8 +56,7 @@ final class ShareViewController: UIViewController {
         guard let description = descriptionTextField.text else { return }
 
         // Публикация нового поста
-        networkService.createPost(image: transmittedImage,
-                                  description: description) {
+        networkService.createPost(image: transmittedImage, description: description) {
             [weak self] result in
             
             guard let self = self else { return }
@@ -65,14 +64,16 @@ final class ShareViewController: UIViewController {
             switch result {
             case .success:
                 // Получение корневого вью элемента таб бара "Feed"
-                guard let navControllerFeed = self.tabBarController?.viewControllers?.first as? UINavigationController else { return }
+                guard let navControllerFeed = self.tabBarController?.viewControllers?.first
+                        as? UINavigationController else { return }
                 navControllerFeed.popToRootViewController(animated: true)
                 
                 // Переход в ленту
                 self.tabBarController?.selectedIndex = 0
                 
                 // Вызов метода для прокрутки ленты в верхнее положение
-                guard let feedVC = navControllerFeed.viewControllers.first as? FeedViewController else { return }
+                guard let feedVC = navControllerFeed.viewControllers.first
+                        as? FeedViewController else { return }
                 self.delegate = feedVC
                 self.delegate?.updateAfterPosting()
                 

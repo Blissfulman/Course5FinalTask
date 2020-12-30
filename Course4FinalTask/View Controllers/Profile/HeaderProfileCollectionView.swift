@@ -25,13 +25,13 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     
     // MARK: - Properties
     static let identifier = "headerProfile"
-    
-    weak var delegate: HeaderProfileCollectionViewDelegate?
         
     // MARK: - Class methods
     static func nib() -> UINib {
-        return UINib(nibName: "HeaderProfileCollectionView", bundle: nil)
+        UINib(nibName: "HeaderProfileCollectionView", bundle: nil)
     }
+    
+    weak var delegate: HeaderProfileCollectionViewDelegate?
     
     // MARK: - Lifeсycle methods
     override func awakeFromNib() {
@@ -58,22 +58,25 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     }
     
     private func setupFollowButton(user: User) {
-    
-        user.currentUserFollowsThisUser ?
-            followButton.setTitle("Unfollow", for: .normal) :
-            followButton.setTitle("Follow", for: .normal)
+        user.currentUserFollowsThisUser
+            ? followButton.setTitle("Unfollow", for: .normal)
+            : followButton.setTitle("Follow", for: .normal)
     }
     
     // MARK: - Setup gesture recognizers
     private func setupGestureRecognizers() {
         
         // Жест тапа по подписчикам
-        let followersGR = UITapGestureRecognizer(target: self, action: #selector(followersLabelPressed(recognizer:)))
+        let followersGR = UITapGestureRecognizer(
+            target: self, action: #selector(followersLabelPressed(recognizer:))
+        )
         followersLabel.isUserInteractionEnabled = true
         followersLabel.addGestureRecognizer(followersGR)
         
         // Жест тапа по подпискам
-        let followingGR = UITapGestureRecognizer(target: self, action: #selector(followingLabelPressed(recognizer:)))
+        let followingGR = UITapGestureRecognizer(
+            target: self, action: #selector(followingLabelPressed(recognizer:))
+        )
         followingLabel.isUserInteractionEnabled = true
         followingLabel.addGestureRecognizer(followingGR)
     }
