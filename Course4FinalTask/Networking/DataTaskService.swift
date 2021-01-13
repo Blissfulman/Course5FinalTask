@@ -71,14 +71,14 @@ final class DataTaskService: DataTaskServiceProtocol {
             return true
         } else {
             let serverError: ServerError
-
+            
             switch response.statusCode {
-                case 400: serverError = .badRequest
-                case 401: serverError = .unauthorized
-                case 404: serverError = .notFound
-                case 406: serverError = .notAcceptable
-                case 422: serverError = .unprocessable
-                default: serverError = .transferError
+            case 400: serverError = .badRequest
+            case 401: serverError = .unauthorized
+            case 404: serverError = .notFound
+            case 406: serverError = .notAcceptable
+            case 422: serverError = .unprocessable
+            default: serverError = .transferError
             }
             completion(.failure(serverError))
             return false
