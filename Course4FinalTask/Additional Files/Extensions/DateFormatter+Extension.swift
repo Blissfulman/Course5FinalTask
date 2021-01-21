@@ -9,6 +9,7 @@
 import Foundation
 
 extension DateFormatter {
+    
     static let serverDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"

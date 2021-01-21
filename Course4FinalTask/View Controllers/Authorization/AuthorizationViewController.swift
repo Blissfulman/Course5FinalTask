@@ -11,6 +11,7 @@ import UIKit
 final class AuthorizationViewController: UIViewController {
 
     // MARK: - Properties
+    
     private lazy var loginTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "login"
@@ -61,6 +62,7 @@ final class AuthorizationViewController: UIViewController {
     private let networkService: NetworkServiceProtocol = NetworkService.shared
 
     // MARK: - Lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -69,6 +71,7 @@ final class AuthorizationViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
     @objc func textFieldsDidChanged() {
         guard let login = loginTextField.text else { return }
         guard let password = passwordTextField.text else { return }
@@ -89,6 +92,7 @@ final class AuthorizationViewController: UIViewController {
     }
     
     // MARK: - Setup UI
+    
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubview(loginTextField)
@@ -98,6 +102,7 @@ final class AuthorizationViewController: UIViewController {
     }
     
     // MARK: - Setup layout
+    
     private func setupLayout() {
         NSLayoutConstraint.activate([
             loginTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
@@ -132,6 +137,7 @@ final class AuthorizationViewController: UIViewController {
     }
     
     // MARK: - Private methods
+    
     private func authorizeUser(login: String, password: String) {
         
         networkService.singIn(login: login, password: password) {
@@ -154,7 +160,8 @@ final class AuthorizationViewController: UIViewController {
     }
 }
 
-// MARK: - TextFieldDelegate
+// MARK: - Text field delegate
+
 extension AuthorizationViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

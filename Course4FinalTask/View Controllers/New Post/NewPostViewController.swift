@@ -11,6 +11,7 @@ import UIKit
 final class NewPostViewController: UIViewController {
     
     // MARK: - Properties
+    
     /// Массив новых изображений.
     private var newImages = [UIImage]()
     
@@ -38,6 +39,7 @@ final class NewPostViewController: UIViewController {
     private let numberOfColumns: CGFloat = 3
     
     // MARK: - Lifeсycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,11 +55,13 @@ final class NewPostViewController: UIViewController {
     }
     
     // MARK: - Setup UI
+    
     private func setupUI() {
         view.addSubview(newPostImagesCollectionView)
     }
     
     // MARK: - Setup layout
+    
     private func setupLayout() {
         NSLayoutConstraint.activate([
             newPostImagesCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -70,7 +74,8 @@ final class NewPostViewController: UIViewController {
 
 extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    // MARK: - СollectionViewDataSource
+    // MARK: - Сollection view data source
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         newImages.count
     }
@@ -85,14 +90,16 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
         return cell
     }
     
-    // MARK: - СollectionViewDelegate
+    // MARK: - Сollection view delegate
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let filtersVC = FiltersViewController(selectedImage: newImages[indexPath.item])
         navigationController?.pushViewController(filtersVC, animated: true)
     }
 }
 
-// MARK: - CollectionViewLayout
+// MARK: - Collection view layout
+
 extension NewPostViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

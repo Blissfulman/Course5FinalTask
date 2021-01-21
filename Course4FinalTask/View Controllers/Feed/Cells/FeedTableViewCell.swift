@@ -17,7 +17,8 @@ protocol FeedTableViewCellDelegate: UIViewController {
 
 final class FeedTableViewCell: UITableViewCell {
 
-    // MARK: - IB Outlets
+    // MARK: - Outlets
+    
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var authorUsernameLabel: UILabel!
     @IBOutlet weak var createdTimeLabel: UILabel!
@@ -28,6 +29,7 @@ final class FeedTableViewCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     
     // MARK: - Properties
+    
     static let identifier = "feedPostCell"
     
     weak var delegate: FeedTableViewCellDelegate?
@@ -50,6 +52,7 @@ final class FeedTableViewCell: UITableViewCell {
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Lifeсycle methods
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -57,6 +60,7 @@ final class FeedTableViewCell: UITableViewCell {
     }
     
     // MARK: - Setup the cell
+    
     func configure(_ post: Post) {
                 
         // Сохранения поста ячейки
@@ -71,6 +75,7 @@ final class FeedTableViewCell: UITableViewCell {
     }
     
     // MARK: - Working with likes
+    
     /// Обработка лайка/анлайка поста.
     private func likeUnlikePost() {
 
@@ -95,9 +100,10 @@ final class FeedTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - Setup gesture recognizers
+
 extension FeedTableViewCell {
     
-    // MARK: - Setup gesture recognizers
     private func setupGestureRecognizers() {
         
         // Жест двойного тапа по картинке поста
@@ -136,8 +142,12 @@ extension FeedTableViewCell {
         likeImage.isUserInteractionEnabled = true
         likeImage.addGestureRecognizer(likeImageGR)
     }
+}
 
-    // MARK: - Actions
+// MARK: - Actions
+
+extension FeedTableViewCell {
+    
     /// Двойной тап по картинке поста.
     @IBAction func postImagePressed(recognizer: UITapGestureRecognizer) {
         

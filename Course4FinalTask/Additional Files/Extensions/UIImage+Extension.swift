@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIImage {
+    
     func resizeImage(to size: CGSize? = CGSize(width: 50, height: 50)) -> UIImage {
         guard let size = size else {
             return UIImage()

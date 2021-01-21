@@ -14,11 +14,13 @@ protocol ShareViewControllerDelegate: UIViewController {
 
 final class ShareViewController: UIViewController {
     
-    // MARK: - IB Outlets
+    // MARK: - Outlets
+    
     @IBOutlet weak var shareImage: UIImageView!
     @IBOutlet weak var descriptionTextField: UITextField!
     
     // MARK: - Properties
+    
     weak var delegate: ShareViewControllerDelegate?
     
     /// Переданное изображение для публикации.
@@ -27,12 +29,14 @@ final class ShareViewController: UIViewController {
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Initializers
+    
     convenience init(transmittedImage: UIImage) {
         self.init()
         self.transmittedImage = transmittedImage
     }
     
     // MARK: - Lifeсycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +44,7 @@ final class ShareViewController: UIViewController {
     }
     
     // MARK: - Setup UI
+    
     func setupUI() {
         shareImage.image = transmittedImage
         
@@ -51,6 +56,7 @@ final class ShareViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
     @objc func shareButtonPressed() {
         
         guard let description = descriptionTextField.text else { return }

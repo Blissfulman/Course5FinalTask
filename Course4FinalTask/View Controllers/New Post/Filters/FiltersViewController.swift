@@ -10,11 +10,13 @@ import UIKit
 
 final class FiltersViewController: UIViewController {
     
-    // MARK: - IB Outlets
+    // MARK: - Outlets
+    
     /// Коллекция выбора фильтров с примерами их применения для обработки большого изображения.
     @IBOutlet weak var filtersCollectionView: UICollectionView!
     
     // MARK: - Properties
+    
     /// Изображение, отображаемое на всю ширину экрана.
     private lazy var bigImage: UIImageView = {
         let imageView = UIImageView()
@@ -44,6 +46,7 @@ final class FiltersViewController: UIViewController {
     private let minimumInteritemSpacing: CGFloat = 0
     
     // MARK: - Initializers
+    
     convenience init(selectedImage: UIImage) {
         self.init()
         bigImage.image = selectedImage
@@ -53,6 +56,7 @@ final class FiltersViewController: UIViewController {
     }
     
     // MARK: - Lifeсycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,6 +74,7 @@ final class FiltersViewController: UIViewController {
     }
     
     // MARK: - Setup UI
+    
     func setupUI() {
         let nextButton = UIBarButtonItem(title: "Next",
                                          style: .plain,
@@ -81,6 +86,7 @@ final class FiltersViewController: UIViewController {
     }
     
     // MARK: - Setup layout
+    
     private func setupLayout() {
         NSLayoutConstraint.activate([
             bigImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -91,6 +97,7 @@ final class FiltersViewController: UIViewController {
     }
     
     // MARK: - Applying filters to thumbnails
+    
     func filteringThumbnailImages() {
         
         let queue = OperationQueue()
@@ -115,6 +122,7 @@ final class FiltersViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
     @objc func pressedNextButton() {
         guard let image = bigImage.image else { return }
         let shareVC = ShareViewController(transmittedImage: image)
@@ -124,7 +132,8 @@ final class FiltersViewController: UIViewController {
 
 extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    // MARK: - CollectionViewDataSource
+    // MARK: - Collection view data source
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         filters.count
     }
@@ -140,7 +149,8 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
         return cell
     }
     
-    // MARK: - CollectionViewDelegate
+    // MARK: - Collection view delegate
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         LoadingView.show()
@@ -162,7 +172,8 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
-// MARK: - CollectionViewLayout
+// MARK: - Collection view layout
+
 extension FiltersViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

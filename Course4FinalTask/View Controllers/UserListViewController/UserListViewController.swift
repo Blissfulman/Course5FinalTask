@@ -10,7 +10,8 @@ import UIKit
 
 final class UserListViewController: UIViewController {
     
-    // MARK: - Properties    
+    // MARK: - Properties
+    
     /// ID пользователя, подписчиков либо подписок которого, требуется отобразить.
     private var userID: String!
     
@@ -38,6 +39,7 @@ final class UserListViewController: UIViewController {
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Initializers
+    
     convenience init(postID: String? = nil, userID: String? = nil, userListType: UserListType) {
         self.init()
         self.userID = userID
@@ -46,6 +48,7 @@ final class UserListViewController: UIViewController {
     }
     
     // MARK: - Lifeсycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,12 +69,14 @@ final class UserListViewController: UIViewController {
     }
     
     // MARK: - Setup UI
+    
     private func setupUI() {
         view.addSubview(userListTableView)
         title = userListType.rawValue
     }
     
     // MARK: - Setup layout
+    
     private func setupLayout() {
         NSLayoutConstraint.activate([
             userListTableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -82,6 +87,7 @@ final class UserListViewController: UIViewController {
     }
     
     // MARK: - Updating user list data
+    
     private func updateUserList() {
         
         LoadingView.show()
@@ -117,7 +123,8 @@ final class UserListViewController: UIViewController {
  
 extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
     
-    // MARK: - TableViewDataSource
+    // MARK: - Table view data source
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         userList.count
     }
@@ -136,12 +143,14 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 
-    // MARK: - TableViewDelegate
+    // MARK: - Table view delegate
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         heightForRow
     }
     
     // MARK: - Navigation
+    
     // Переход на вью пользователя
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         

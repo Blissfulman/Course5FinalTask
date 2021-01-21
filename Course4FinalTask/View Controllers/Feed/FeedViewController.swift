@@ -10,16 +10,19 @@ import UIKit
 
 final class FeedViewController: UIViewController {
     
-    // MARK: - IB Outlets
+    // MARK: - Outlets
+    
     @IBOutlet weak var feedTableView: UITableView!
     
     // MARK: - Properties
+    
     /// Массив постов ленты.
     private var feedPosts = [Post]()
     
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Lifeсycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -45,7 +48,8 @@ final class FeedViewController: UIViewController {
     }
 }
 
-// MARK: - TableViewDataSource
+// MARK: - Table view data source
+
 extension FeedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,7 +65,8 @@ extension FeedViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - FeedTableViewCellDelegate
+// MARK: - Table view cell delegate
+
 extension FeedViewController: FeedTableViewCellDelegate {
     
     /// Переход в профиль автора поста.
@@ -102,6 +107,7 @@ extension FeedViewController: FeedTableViewCellDelegate {
 }
 
 // MARK: - ShareViewControllerDelegate
+
 extension FeedViewController: ShareViewControllerDelegate {
     // Прокрутка ленты в верхнее положение
     func updateAfterPosting() {

@@ -10,11 +10,13 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: - IB Outlets
+    // MARK: - Outlets
+    
     /// Коллекция, отображающая информацию о пользователе.
     @IBOutlet weak var profileCollectionView: UICollectionView!
     
     // MARK: - Properties
+    
     static let identifier = "profileViewController"
     
     /// Пользователь, данные которого отображает вью.
@@ -36,8 +38,7 @@ final class ProfileViewController: UIViewController {
     private let numberOfColumnsOfPhotos: CGFloat = 3
     
     /// Очередь для выстраивания запросов данных у провайдера.
-    private let getDataQueue = DispatchQueue(label: "getDataQueue",
-                                             qos: .userInteractive)
+    private let getDataQueue = DispatchQueue(label: "getDataQueue", qos: .userInteractive)
     
     /// Семафор для установки порядка запросов к провайдеру.
     private let semaphore = DispatchSemaphore(value: 1)
@@ -46,6 +47,7 @@ final class ProfileViewController: UIViewController {
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Lifeсycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -65,12 +67,14 @@ final class ProfileViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         getUser()
     }
     
     // MARK: - Actions
+    
     @objc func logOutButtonPressed() {
-        
         networkService.singOut() { _ in }
         
         let authorizationVC = AuthorizationViewController()
@@ -79,6 +83,7 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - Private methods
+    
     private func addLogOutButton() {
         let logOutButton = UIBarButtonItem(title: "Log Out",
                                            style: .plain,
@@ -88,7 +93,8 @@ final class ProfileViewController: UIViewController {
     }
 }
 
-// MARK: - СollectionViewDataSource
+// MARK: - Сollection view data source
+
 extension ProfileViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -127,7 +133,8 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - CollectionViewLayout
+// MARK: - Collection view layout
+
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -137,9 +144,11 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - HeaderProfileCollectionViewDelegate
+
 extension ProfileViewController: HeaderProfileCollectionViewDelegate {
     
     // MARK: - Navigation
+    
     /// Переход на подписчиков пользователя.
     func followersLabelPressed() {
         
@@ -161,6 +170,7 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
     }
     
     // MARK: - Working with followings
+    
     /// Подписка, либо отписка от пользователя.
     func followUnfollowUser() {
         
@@ -186,6 +196,7 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
 }
 
 // MARK: - Data recieving methods
+
 extension ProfileViewController {
     
     /// Получение данных о текущем пользователе.

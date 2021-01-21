@@ -16,7 +16,8 @@ protocol HeaderProfileCollectionViewDelegate: UIViewController {
 
 final class HeaderProfileCollectionView: UICollectionReusableView {
     
-    // MARK: - IB Outlets
+    // MARK: - Outlets
+    
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var fullNameLabel: UILabel!
     @IBOutlet weak var followersLabel: UILabel!
@@ -24,9 +25,11 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     @IBOutlet weak var followButton: UIButton!
     
     // MARK: - Properties
+    
     static let identifier = "headerProfile"
         
     // MARK: - Class methods
+    
     static func nib() -> UINib {
         UINib(nibName: "HeaderProfileCollectionView", bundle: nil)
     }
@@ -34,6 +37,7 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     weak var delegate: HeaderProfileCollectionViewDelegate?
     
     // MARK: - Lifeсycle methods
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -42,6 +46,7 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     }
     
     // MARK: - Setup the cell
+    
     func configure(user: User, isCurrentUser: Bool) {
         
         // Если это не профиль текущего пользователя, то устанавливается кнопка подписки/отписки
@@ -64,6 +69,7 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     }
     
     // MARK: - Setup gesture recognizers
+    
     private func setupGestureRecognizers() {
         
         // Жест тапа по подписчикам
@@ -82,6 +88,7 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     }
     
     // MARK: - Actions
+    
     @IBAction func followersLabelPressed(recognizer: UIGestureRecognizer) {
         delegate?.followersLabelPressed()
     }
