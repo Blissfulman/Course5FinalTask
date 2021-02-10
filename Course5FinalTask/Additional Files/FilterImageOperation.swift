@@ -2,7 +2,7 @@
 //  FilterImageOperation.swift
 //  Course5FinalTask
 //
-//  Created by User on 07.10.2020.
+//  Created by Evgeny Novgorodov on 07.10.2020.
 //  Copyright © 2020 e-Legion. All rights reserved.
 //
 

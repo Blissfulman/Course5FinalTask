@@ -2,7 +2,7 @@
 //  UserListViewController.swift
 //  Course5FinalTask
 //
-//  Created by User on 09.08.2020.
+//  Created by Evgeny Novgorodov on 09.08.2020.
 //  Copyright © 2020 e-Legion. All rights reserved.
 //
 
@@ -15,7 +15,7 @@ final class UserListViewController: UIViewController {
     /// ID пользователя, подписчиков либо подписок которого, требуется отобразить.
     private var userID: String!
     
-    /// ID поста, лайкнувших пользователей которого, требуется отобрвзить.
+    /// ID поста, лайкнувших пользователей которого, требуется отобразить.
     private var postID: String!
     
     /// Тип списка отображаемых пользователей.
