@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  UserModel.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 29.11.2020.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct User: Decodable {
+struct UserModel: Decodable {
     let id: String
     let username: String
     let fullName: String
@@ -19,6 +19,6 @@ struct User: Decodable {
     let followedByCount: Int
 }
 
-struct UserIDRequest: Encodable {
+struct UserIDRequestModel: Encodable {
     let userID: String
 }

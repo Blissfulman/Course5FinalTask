@@ -11,7 +11,7 @@ import Foundation
 protocol UserListViewModelProtocol {
     
     /// Список отображаемых в таблице пользователей.
-    var userList: Box<[User]> { get }
+    var userList: Box<[UserModel]> { get }
     
     /// Получаемая от сервера ошибка.
     var error: Box<Error?> { get }
@@ -23,7 +23,7 @@ protocol UserListViewModelProtocol {
     
     func getUserImageData(atIndexPath: IndexPath) -> Data?
     func getUserFullName(atIndexPath: IndexPath) -> String?
-    func getUser(atIndexPath: IndexPath) -> User
+    func getUser(atIndexPath: IndexPath) -> UserModel
     func updateUserList()
 }
 
@@ -31,7 +31,7 @@ final class UserListViewModel: UserListViewModelProtocol {
     
     // MARK: - Properties
     
-    var userList = Box([User]())
+    var userList = Box([UserModel]())
     
     var error: Box<Error?> = Box(nil)
     
@@ -71,7 +71,7 @@ final class UserListViewModel: UserListViewModelProtocol {
         userList.value[indexPath.row].fullName
     }
     
-    func getUser(atIndexPath indexPath: IndexPath) -> User {
+    func getUser(atIndexPath indexPath: IndexPath) -> UserModel {
         userList.value[indexPath.row]
     }
     

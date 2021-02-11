@@ -17,7 +17,7 @@ final class FeedViewController: UIViewController {
     // MARK: - Properties
     
     /// Массив постов ленты.
-    private var feedPosts = [Post]()
+    private var feedPosts = [PostModel]()
     
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
@@ -70,7 +70,7 @@ extension FeedViewController: UITableViewDataSource {
 extension FeedViewController: FeedTableViewCellDelegate {
     
     /// Переход в профиль автора поста.
-    func authorOfPostPressed(user: User) {
+    func authorOfPostPressed(user: UserModel) {
         guard let profileVC = storyboard?.instantiateViewController(
                 withIdentifier: ProfileViewController.identifier
         ) as? ProfileViewController else { return }

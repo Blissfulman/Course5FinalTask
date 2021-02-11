@@ -1,5 +1,5 @@
 //
-//  Post.swift
+//  PostModel.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 30.11.2020.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Post: Decodable {
+struct PostModel: Decodable {
     let id: String
     let description: String
     let image: URL
@@ -20,11 +20,11 @@ struct Post: Decodable {
     let authorAvatar: URL
 }
 
-struct PostIDRequest: Encodable {
+struct PostIDRequestModel: Encodable {
     let postID: String
 }
 
-struct NewPostRequest: Encodable {
+struct NewPostRequestModel: Encodable {
     let image: String
     let description: String
 }

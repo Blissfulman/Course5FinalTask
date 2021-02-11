@@ -20,10 +20,10 @@ final class ProfileViewController: UIViewController {
     static let identifier = "profileViewController"
     
     /// Пользователь, данные которого отображает вью.
-    var user: User?
+    var user: UserModel?
         
     /// Массив постов пользователя.
-    private lazy var userPosts = [Post]()
+    private lazy var userPosts = [PostModel]()
     
     /// Логическое значение, указывающее, является ли отображаемый профиль, профилем текущего пользователя.
     private var isCurrentUser: Bool? {
@@ -266,7 +266,7 @@ extension ProfileViewController {
     }
 
     /// Получение постов пользователя.
-    private func getUserPosts(of user: User) {
+    private func getUserPosts(of user: UserModel) {
                 
         networkService.getPostsOfUser(withID: user.id) { [weak self] result in
             

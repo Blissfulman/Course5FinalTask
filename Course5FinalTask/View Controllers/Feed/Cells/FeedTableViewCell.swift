@@ -9,7 +9,7 @@
 import UIKit
 
 protocol FeedTableViewCellDelegate: UIViewController {
-    func authorOfPostPressed(user: User)
+    func authorOfPostPressed(user: UserModel)
     func likesCountLabelPressed(postID: String)
     func updateFeedData()
     func showErrorAlert(_ error: Error)
@@ -35,7 +35,7 @@ final class FeedTableViewCell: UITableViewCell {
     weak var delegate: FeedTableViewCellDelegate?
     
     /// Пост ячейки
-    private var cellPost: Post! {
+    private var cellPost: PostModel! {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 
@@ -61,7 +61,7 @@ final class FeedTableViewCell: UITableViewCell {
     
     // MARK: - Setup the cell
     
-    func configure(_ post: Post) {
+    func configure(_ post: PostModel) {
                 
         // Сохранения поста ячейки
         cellPost = post

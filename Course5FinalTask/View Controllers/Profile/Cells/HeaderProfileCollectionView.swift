@@ -47,7 +47,7 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     
     // MARK: - Setup the cell
     
-    func configure(user: User, isCurrentUser: Bool) {
+    func configure(user: UserModel, isCurrentUser: Bool) {
         
         // Если это не профиль текущего пользователя, то устанавливается кнопка подписки/отписки
         if !isCurrentUser {
@@ -62,7 +62,7 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
         followingLabel.text = "Following: " + String(user.followsCount)
     }
     
-    private func setupFollowButton(user: User) {
+    private func setupFollowButton(user: UserModel) {
         user.currentUserFollowsThisUser
             ? followButton.setTitle("Unfollow", for: .normal)
             : followButton.setTitle("Follow", for: .normal)

@@ -15,9 +15,9 @@
 		CE0190E725D472DF002D48BA /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0190E625D472DF002D48BA /* UIConstants.swift */; };
 		CE3B33DE258A1BE30004F938 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3B33DD258A1BE30004F938 /* UIImage+Extension.swift */; };
 		CE3DD1DE2585301C00C31D7F /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DD1DD2585301C00C31D7F /* ServerError.swift */; };
-		CE4075B9257549D9006F4592 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075B8257549D9006F4592 /* Token.swift */; };
-		CE4075BB25754AC0006F4592 /* Autorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075BA25754AC0006F4592 /* Autorization.swift */; };
-		CE4075BD25754AF7006F4592 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075BC25754AF7006F4592 /* Post.swift */; };
+		CE4075B9257549D9006F4592 /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075B8257549D9006F4592 /* TokenModel.swift */; };
+		CE4075BB25754AC0006F4592 /* AutorizationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075BA25754AC0006F4592 /* AutorizationModel.swift */; };
+		CE4075BD25754AF7006F4592 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075BC25754AF7006F4592 /* PostModel.swift */; };
 		CE4075C325755F4B006F4592 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075C225755F4B006F4592 /* AuthorizationViewController.swift */; };
 		CE4075C52576A5E1006F4592 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075C42576A5E1006F4592 /* NetworkService.swift */; };
 		CE4075C72576A7B4006F4592 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075C62576A7B4006F4592 /* Paths.swift */; };
@@ -31,7 +31,7 @@
 		CE6D676E24E02574002FE7F2 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6D676D24E02574002FE7F2 /* UserListViewController.swift */; };
 		CE6E2D5224D947DA00A4B08B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E2D5124D947DA00A4B08B /* ProfileViewController.swift */; };
 		CE6E2D5624D9BD3300A4B08B /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E2D5524D9BD3300A4B08B /* FeedTableViewCell.swift */; };
-		CE76326A2573743F00E4F7AE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7632692573743F00E4F7AE /* User.swift */; };
+		CE76326A2573743F00E4F7AE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7632692573743F00E4F7AE /* UserModel.swift */; };
 		CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */; };
 		CE813ABE2580F77D006DCCBB /* UserListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE813ABD2580F77D006DCCBB /* UserListType.swift */; };
 		CE9BEA7A258B19090006EFEA /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9BEA79258B19090006EFEA /* UIImageView+Extension.swift */; };
@@ -83,9 +83,9 @@
 		CE0190E625D472DF002D48BA /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		CE3B33DD258A1BE30004F938 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		CE3DD1DD2585301C00C31D7F /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
-		CE4075B8257549D9006F4592 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		CE4075BA25754AC0006F4592 /* Autorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Autorization.swift; sourceTree = "<group>"; };
-		CE4075BC25754AF7006F4592 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		CE4075B8257549D9006F4592 /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
+		CE4075BA25754AC0006F4592 /* AutorizationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutorizationModel.swift; sourceTree = "<group>"; };
+		CE4075BC25754AF7006F4592 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		CE4075C225755F4B006F4592 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		CE4075C42576A5E1006F4592 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		CE4075C62576A7B4006F4592 /* Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paths.swift; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 		CE6D676D24E02574002FE7F2 /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		CE6E2D5124D947DA00A4B08B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CE6E2D5524D9BD3300A4B08B /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
-		CE7632692573743F00E4F7AE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		CE7632692573743F00E4F7AE /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CE813ABD2580F77D006DCCBB /* UserListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListType.swift; sourceTree = "<group>"; };
 		CE9BEA79258B19090006EFEA /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
@@ -325,10 +325,10 @@
 		CE76326D257374BA00E4F7AE /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				CE4075B8257549D9006F4592 /* Token.swift */,
-				CE4075BA25754AC0006F4592 /* Autorization.swift */,
-				CE7632692573743F00E4F7AE /* User.swift */,
-				CE4075BC25754AF7006F4592 /* Post.swift */,
+				CE4075B8257549D9006F4592 /* TokenModel.swift */,
+				CE4075BA25754AC0006F4592 /* AutorizationModel.swift */,
+				CE7632692573743F00E4F7AE /* UserModel.swift */,
+				CE4075BC25754AF7006F4592 /* PostModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -530,7 +530,7 @@
 				74B79258202B3254006BCB41 /* AppDelegate.swift in Sources */,
 				CE9C3593252A421A00730A47 /* FiltersCollectionViewCell.swift in Sources */,
 				CE4075CD2576B3C0006F4592 /* HTTPMethod.swift in Sources */,
-				CE4075BB25754AC0006F4592 /* Autorization.swift in Sources */,
+				CE4075BB25754AC0006F4592 /* AutorizationModel.swift in Sources */,
 				CE0190E725D472DF002D48BA /* UIConstants.swift in Sources */,
 				CECB0BFF24C8725D0086A593 /* FeedViewController.swift in Sources */,
 				CE6D676E24E02574002FE7F2 /* UserListViewController.swift in Sources */,
@@ -538,7 +538,7 @@
 				CEBE92AD25264BF6002A6A63 /* NewPostViewController.swift in Sources */,
 				CE6E2D5624D9BD3300A4B08B /* FeedTableViewCell.swift in Sources */,
 				CE4075D52577FE4E006F4592 /* DateFormatter+Extension.swift in Sources */,
-				CE76326A2573743F00E4F7AE /* User.swift in Sources */,
+				CE76326A2573743F00E4F7AE /* UserModel.swift in Sources */,
 				CE813ABE2580F77D006DCCBB /* UserListType.swift in Sources */,
 				CE4075CB2576B34E006F4592 /* RequestService.swift in Sources */,
 				CED3279624DED6D200BB1A80 /* HeaderProfileCollectionView.swift in Sources */,
@@ -551,8 +551,8 @@
 				CEA36F3F252E264000386D64 /* FilterImageOperation.swift in Sources */,
 				CE9BEA7A258B19090006EFEA /* UIImageView+Extension.swift in Sources */,
 				CE0190E525D46509002D48BA /* Box.swift in Sources */,
-				CE4075BD25754AF7006F4592 /* Post.swift in Sources */,
-				CE4075B9257549D9006F4592 /* Token.swift in Sources */,
+				CE4075BD25754AF7006F4592 /* PostModel.swift in Sources */,
+				CE4075B9257549D9006F4592 /* TokenModel.swift in Sources */,
 				CE4075C325755F4B006F4592 /* AuthorizationViewController.swift in Sources */,
 				CE4075DD257BB59F006F4592 /* DataTaskService.swift in Sources */,
 				CEBE92B22528C588002A6A63 /* NewPostCollectionViewCell.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  Token.swift
+//  TokenModel.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 30.11.2020.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct Token: Codable {
+struct TokenModel: Codable {
     let token: String
 }
