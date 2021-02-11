@@ -154,8 +154,9 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
         
         guard let user = user else { return }
         
-        let followersVC = UserListViewController(userID: user.id, userListType: .followers)
-
+        let followersVC = UserListViewController()
+        followersVC.viewModel = UserListViewModel(userID: user.id, userListType: .followers)
+        
         navigationController?.pushViewController(followersVC, animated: true)
     }
 
@@ -164,7 +165,8 @@ extension ProfileViewController: HeaderProfileCollectionViewDelegate {
         
         guard let user = user else { return }
         
-        let followingVC = UserListViewController(userID: user.id, userListType: .following)
+        let followingVC = UserListViewController()
+        followingVC.viewModel = UserListViewModel(userID: user.id, userListType: .following)
         
         navigationController?.pushViewController(followingVC, animated: true)
     }

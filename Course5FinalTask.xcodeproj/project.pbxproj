@@ -10,6 +10,9 @@
 		74B79258202B3254006BCB41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B79257202B3254006BCB41 /* AppDelegate.swift */; };
 		74B7925F202B3254006BCB41 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74B7925E202B3254006BCB41 /* Assets.xcassets */; };
 		CE0190A525D4214B002D48BA /* Pods_Course5FinalTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0190A425D4214B002D48BA /* Pods_Course5FinalTask.framework */; };
+		CE0190E125D4546B002D48BA /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0190E025D4546B002D48BA /* UserListViewModel.swift */; };
+		CE0190E525D46509002D48BA /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0190E425D46509002D48BA /* Box.swift */; };
+		CE0190E725D472DF002D48BA /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0190E625D472DF002D48BA /* UIConstants.swift */; };
 		CE3B33DE258A1BE30004F938 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3B33DD258A1BE30004F938 /* UIImage+Extension.swift */; };
 		CE3DD1DE2585301C00C31D7F /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DD1DD2585301C00C31D7F /* ServerError.swift */; };
 		CE4075B9257549D9006F4592 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075B8257549D9006F4592 /* Token.swift */; };
@@ -75,6 +78,9 @@
 		BAE900884E60C549945C0EA7 /* Pods_Course4FinalTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Course4FinalTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C25BEC33B84758FFB3785A52 /* Pods-Course4FinalTask.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Course4FinalTask.debug.xcconfig"; path = "Target Support Files/Pods-Course4FinalTask/Pods-Course4FinalTask.debug.xcconfig"; sourceTree = "<group>"; };
 		CE0190A425D4214B002D48BA /* Pods_Course5FinalTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_Course5FinalTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE0190E025D4546B002D48BA /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
+		CE0190E425D46509002D48BA /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
+		CE0190E625D472DF002D48BA /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		CE3B33DD258A1BE30004F938 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		CE3DD1DD2585301C00C31D7F /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
 		CE4075B8257549D9006F4592 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -238,20 +244,21 @@
 			path = Authorization;
 			sourceTree = "<group>";
 		};
-		CE4075D125776F0E006F4592 /* UserListViewController */ = {
+		CE4075D125776F0E006F4592 /* UserList */ = {
 			isa = PBXGroup;
 			children = (
 				CE6D676D24E02574002FE7F2 /* UserListViewController.swift */,
+				CE0190E025D4546B002D48BA /* UserListViewModel.swift */,
 			);
-			path = UserListViewController;
+			path = UserList;
 			sourceTree = "<group>";
 		};
-		CE4075D225776F59006F4592 /* TabBarController */ = {
+		CE4075D225776F59006F4592 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
 				CE4075CE2576BABC006F4592 /* TabBarController.swift */,
 			);
-			path = TabBarController;
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		CE4075D32577FDEE006F4592 /* Extensions */ = {
@@ -306,11 +313,11 @@
 			isa = PBXGroup;
 			children = (
 				CE4075C125755F1B006F4592 /* Authorization */,
-				CE4075D225776F59006F4592 /* TabBarController */,
+				CE4075D225776F59006F4592 /* TabBar */,
 				CED3279724DEE22900BB1A80 /* Feed */,
 				CEBE92AA25264B72002A6A63 /* New Post */,
 				CED3279824DEE23C00BB1A80 /* Profile */,
-				CE4075D125776F0E006F4592 /* UserListViewController */,
+				CE4075D125776F0E006F4592 /* UserList */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -329,11 +336,13 @@
 		CEA36F3D252E25E300386D64 /* Additional Files */ = {
 			isa = PBXGroup;
 			children = (
-				CE4075D32577FDEE006F4592 /* Extensions */,
+				CE0190E625D472DF002D48BA /* UIConstants.swift */,
 				CEA36F3E252E264000386D64 /* FilterImageOperation.swift */,
 				CE4075DA257AC629006F4592 /* LoadingView.swift */,
 				CE813ABD2580F77D006DCCBB /* UserListType.swift */,
 				CE9BEA7D258BB9690006EFEA /* NewImagesProvider.swift */,
+				CE0190E425D46509002D48BA /* Box.swift */,
+				CE4075D32577FDEE006F4592 /* Extensions */,
 			);
 			path = "Additional Files";
 			sourceTree = "<group>";
@@ -522,6 +531,7 @@
 				CE9C3593252A421A00730A47 /* FiltersCollectionViewCell.swift in Sources */,
 				CE4075CD2576B3C0006F4592 /* HTTPMethod.swift in Sources */,
 				CE4075BB25754AC0006F4592 /* Autorization.swift in Sources */,
+				CE0190E725D472DF002D48BA /* UIConstants.swift in Sources */,
 				CECB0BFF24C8725D0086A593 /* FeedViewController.swift in Sources */,
 				CE6D676E24E02574002FE7F2 /* UserListViewController.swift in Sources */,
 				CE6E2D5224D947DA00A4B08B /* ProfileViewController.swift in Sources */,
@@ -534,11 +544,13 @@
 				CED3279624DED6D200BB1A80 /* HeaderProfileCollectionView.swift in Sources */,
 				CE9BEA7E258BB9690006EFEA /* NewImagesProvider.swift in Sources */,
 				CEB0222424DD79C3009D0615 /* ProfileCollectionViewCell.swift in Sources */,
+				CE0190E125D4546B002D48BA /* UserListViewModel.swift in Sources */,
 				CE4075C92576A904006F4592 /* URLService.swift in Sources */,
 				CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */,
 				CEBE92B62529AA7A002A6A63 /* FiltersViewController.swift in Sources */,
 				CEA36F3F252E264000386D64 /* FilterImageOperation.swift in Sources */,
 				CE9BEA7A258B19090006EFEA /* UIImageView+Extension.swift in Sources */,
+				CE0190E525D46509002D48BA /* Box.swift in Sources */,
 				CE4075BD25754AF7006F4592 /* Post.swift in Sources */,
 				CE4075B9257549D9006F4592 /* Token.swift in Sources */,
 				CE4075C325755F4B006F4592 /* AuthorizationViewController.swift in Sources */,

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iko-r1-BaW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iko-r1-BaW">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,7 +11,7 @@
         <!--Feed-->
         <scene sceneID="p2l-zO-MDH">
             <objects>
-                <viewController id="pzD-iW-bJL" customClass="FeedViewController" customModule="Course4FinalTask" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pzD-iW-bJL" customClass="FeedViewController" customModule="Course5FinalTask" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sfw-hu-zRY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="692"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="feedPostCell" rowHeight="596" id="c53-f0-ryK" customClass="FeedTableViewCell" customModule="Course4FinalTask" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="feedPostCell" rowHeight="596" id="c53-f0-ryK" customClass="FeedTableViewCell" customModule="Course5FinalTask" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="596"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c53-f0-ryK" id="IGU-Cu-wyD">
@@ -138,7 +138,7 @@
         <!--Profile View Controller-->
         <scene sceneID="dnL-jU-D8c">
             <objects>
-                <viewController storyboardIdentifier="profileViewController" id="5I5-kl-9i2" customClass="ProfileViewController" customModule="Course4FinalTask" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profileViewController" id="5I5-kl-9i2" customClass="ProfileViewController" customModule="Course5FinalTask" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aOj-pz-yoY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -181,26 +181,10 @@
             </objects>
             <point key="canvasLocation" x="2019" y="1626"/>
         </scene>
-        <!--User List View Controller-->
-        <scene sceneID="rXj-oY-4bE">
-            <objects>
-                <viewController id="CWI-F2-3KF" customClass="UserListViewController" customModule="Course4FinalTask" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="s4q-Ur-3lw">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="4hP-hf-m5O"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="s7N-o7-bST"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0YD-DH-m9m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2994" y="174"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="kMO-g4-OnZ">
             <objects>
-                <tabBarController storyboardIdentifier="tabBarController" automaticallyAdjustsScrollViewInsets="NO" id="iko-r1-BaW" customClass="TabBarController" customModule="Course4FinalTask" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabBarController" automaticallyAdjustsScrollViewInsets="NO" id="iko-r1-BaW" customClass="TabBarController" customModule="Course5FinalTask" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tbu-gP-sh3">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -258,7 +242,7 @@
         <!--New post-->
         <scene sceneID="8WK-JH-LQU">
             <objects>
-                <viewController id="g6O-j2-g37" customClass="NewPostViewController" customModule="Course4FinalTask" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="g6O-j2-g37" customClass="NewPostViewController" customModule="Course5FinalTask" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0GF-Ek-wK0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
