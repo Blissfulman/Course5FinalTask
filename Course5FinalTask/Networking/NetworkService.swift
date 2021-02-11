@@ -157,31 +157,28 @@ final class NetworkService: NetworkServiceProtocol {
         guard let url = urlService.getURL(forPath: TokenPath.signOut) else { return }
         
         let request = requestService.request(url: url, httpMethod: .post)
-        
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
     func getCurrentUser(completion: @escaping UserResult) {
         
-        guard let url = urlService.getURL(forPath: UserPath.currentUser) else { return }
+        guard let url = UserURLCreator.currentUser.url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
-                
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
     func getUser(withID userID: String, completion: @escaping UserResult) {
         
-        guard let url = urlService.getURL(forPath: UserPath.users + userID) else { return }
+        guard let url = UserURLCreator.getUser(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
-                
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
     func followToUser(withID userID: String, completion: @escaping UserResult) {
         
-        guard let url = urlService.getURL(forPath: UserPath.follow) else { return }
+        guard let url = UserURLCreator.follow.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
         
@@ -193,7 +190,7 @@ final class NetworkService: NetworkServiceProtocol {
 
     func unfollowFromUser(withID userID: String, completion: @escaping UserResult) {
         
-        guard let url = urlService.getURL(forPath: UserPath.unfollow) else { return }
+        guard let url = UserURLCreator.unfollow.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
         
@@ -205,52 +202,47 @@ final class NetworkService: NetworkServiceProtocol {
 
     func getUsersFollowingUser(withID userID: String, completion: @escaping UsersResult) {
         
-        guard let url = urlService.getURL(forPath: UserPath.users + userID + UserPath.followers) else { return }
+        guard let url = UserURLCreator.followers(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
-        
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
     func getUsersFollowedByUser(withID userID: String, completion: @escaping UsersResult) {
         
-        guard let url = urlService.getURL(forPath: UserPath.users + userID + UserPath.following) else { return }
+        guard let url = UserURLCreator.followings(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
-        
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
     func getPostsOfUser(withID userID: String, completion: @escaping PostsResult) {
         
-        guard let url = urlService.getURL(forPath: UserPath.users + userID + PostPath.posts) else { return }
+        guard let url = PostURLCreator.userPosts(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
-                
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
     func getFeed(completion: @escaping PostsResult) {
         
-        guard let url = urlService.getURL(forPath: PostPath.feed) else { return }
+        guard let url = PostURLCreator.feed.url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
-                
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
     func getPost(withID postID: String, completion: @escaping PostResult) {
         
-        guard let url = urlService.getURL(forPath: PostPath.posts + postID) else { return }
+        guard let url = PostURLCreator.post(postID: postID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
-                
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
     func likePost(withID postID: String, completion: @escaping PostResult) {
         
-        guard let url = urlService.getURL(forPath: PostPath.like) else { return }
+        guard let url = PostURLCreator.like.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
         
@@ -262,7 +254,7 @@ final class NetworkService: NetworkServiceProtocol {
 
     func unlikePost(withID postID: String, completion: @escaping PostResult) {
         
-        guard let url = urlService.getURL(forPath: PostPath.unlike) else { return }
+        guard let url = PostURLCreator.unlike.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
         
@@ -274,16 +266,15 @@ final class NetworkService: NetworkServiceProtocol {
 
     func getUsersLikedPost(withID postID: String, completion: @escaping UsersResult) {
         
-        guard let url = urlService.getURL(forPath: PostPath.posts + postID + PostPath.likes) else { return }
+        guard let url = PostURLCreator.usersLikedPost(postID: postID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
-        
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
     func createPost(image: UIImage, description: String, completion: @escaping PostResult) {
         
-        guard let url = urlService.getURL(forPath: PostPath.create) else { return }
+        guard let url = PostURLCreator.create.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
                         
