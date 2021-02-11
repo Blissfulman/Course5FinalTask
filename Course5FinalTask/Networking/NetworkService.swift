@@ -128,21 +128,18 @@ final class NetworkService: NetworkServiceProtocol {
     
     static var token = ""
     
-    private let urlService: URLServiceProtocol
     private let requestService: RequestServiceProtocol
     private let dataTaskService: DataTaskServiceProtocol
     
-    private init(urlService: URLServiceProtocol = URLService.shared,
-                 requestService: RequestServiceProtocol = RequestService.shared,
+    private init(requestService: RequestServiceProtocol = RequestService.shared,
                  dataTaskService: DataTaskServiceProtocol = DataTaskService.shared) {
-        self.urlService = urlService
         self.requestService = requestService
         self.dataTaskService = dataTaskService
     }
     
     func singIn(login: String, password: String, completion: @escaping TokenResult) {
         
-        guard let url = urlService.getURL(forPath: TokenPath.signIn) else { return }
+        guard let url = AuthorizationURLCreator.signIn.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
         
@@ -154,7 +151,7 @@ final class NetworkService: NetworkServiceProtocol {
     
     func singOut(completion: @escaping (Result<Bool, Error>) -> Void) {
         
-        guard let url = urlService.getURL(forPath: TokenPath.signOut) else { return }
+        guard let url = AuthorizationURLCreator.signOut.url else { return }
         
         let request = requestService.request(url: url, httpMethod: .post)
         dataTaskService.dataTask(request: request, completion: completion)

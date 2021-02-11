@@ -20,8 +20,7 @@
 		CE4075BD25754AF7006F4592 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075BC25754AF7006F4592 /* PostModel.swift */; };
 		CE4075C325755F4B006F4592 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075C225755F4B006F4592 /* AuthorizationViewController.swift */; };
 		CE4075C52576A5E1006F4592 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075C42576A5E1006F4592 /* NetworkService.swift */; };
-		CE4075C72576A7B4006F4592 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075C62576A7B4006F4592 /* Paths.swift */; };
-		CE4075C92576A904006F4592 /* URLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075C82576A904006F4592 /* URLService.swift */; };
+		CE4075C72576A7B4006F4592 /* AuthorizationURLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075C62576A7B4006F4592 /* AuthorizationURLCreator.swift */; };
 		CE4075CB2576B34E006F4592 /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075CA2576B34E006F4592 /* RequestService.swift */; };
 		CE4075CD2576B3C0006F4592 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075CC2576B3C0006F4592 /* HTTPMethod.swift */; };
 		CE4075CF2576BABC006F4592 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075CE2576BABC006F4592 /* TabBarController.swift */; };
@@ -91,8 +90,7 @@
 		CE4075BC25754AF7006F4592 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		CE4075C225755F4B006F4592 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		CE4075C42576A5E1006F4592 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		CE4075C62576A7B4006F4592 /* Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paths.swift; sourceTree = "<group>"; };
-		CE4075C82576A904006F4592 /* URLService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLService.swift; sourceTree = "<group>"; };
+		CE4075C62576A7B4006F4592 /* AuthorizationURLCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationURLCreator.swift; sourceTree = "<group>"; };
 		CE4075CA2576B34E006F4592 /* RequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestService.swift; sourceTree = "<group>"; };
 		CE4075CC2576B3C0006F4592 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		CE4075CE2576BABC006F4592 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -224,11 +222,11 @@
 			isa = PBXGroup;
 			children = (
 				CEFF9CA225D5A661004C357F /* ServerConstants.swift */,
-				CE4075C62576A7B4006F4592 /* Paths.swift */,
+				CE4075C62576A7B4006F4592 /* AuthorizationURLCreator.swift */,
+				CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */,
 				CEFF9CA625D5B2E5004C357F /* PostURLCreator.swift */,
 				CE4075CC2576B3C0006F4592 /* HTTPMethod.swift */,
 				CE3DD1DD2585301C00C31D7F /* ServerError.swift */,
-				CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -237,7 +235,6 @@
 			isa = PBXGroup;
 			children = (
 				CE3DD1DF2585350300C31D7F /* Helpers */,
-				CE4075C82576A904006F4592 /* URLService.swift */,
 				CE4075CA2576B34E006F4592 /* RequestService.swift */,
 				CE4075DC257BB59F006F4592 /* DataTaskService.swift */,
 				CE4075C42576A5E1006F4592 /* NetworkService.swift */,
@@ -530,7 +527,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE4075C52576A5E1006F4592 /* NetworkService.swift in Sources */,
-				CE4075C72576A7B4006F4592 /* Paths.swift in Sources */,
+				CE4075C72576A7B4006F4592 /* AuthorizationURLCreator.swift in Sources */,
 				CE4075CF2576BABC006F4592 /* TabBarController.swift in Sources */,
 				CEA36F43252F78C200386D64 /* ShareViewController.swift in Sources */,
 				CE3B33DE258A1BE30004F938 /* UIImage+Extension.swift in Sources */,
@@ -557,7 +554,6 @@
 				CE9BEA7E258BB9690006EFEA /* NewImagesProvider.swift in Sources */,
 				CEB0222424DD79C3009D0615 /* ProfileCollectionViewCell.swift in Sources */,
 				CE0190E125D4546B002D48BA /* UserListViewModel.swift in Sources */,
-				CE4075C92576A904006F4592 /* URLService.swift in Sources */,
 				CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */,
 				CEBE92B62529AA7A002A6A63 /* FiltersViewController.swift in Sources */,
 				CEA36F3F252E264000386D64 /* FilterImageOperation.swift in Sources */,
