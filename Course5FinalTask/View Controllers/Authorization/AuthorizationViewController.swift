@@ -12,6 +12,8 @@ final class AuthorizationViewController: UIViewController {
 
     // MARK: - Properties
     
+    var viewModel: AuthorizationViewModelProtocol!
+    
     private lazy var loginTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "login"
@@ -59,8 +61,7 @@ final class AuthorizationViewController: UIViewController {
     }()
     
     private let appDelegate = AppDelegate.shared
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
-
+    
     // MARK: - Lifecycle methods
     
     override func viewDidLoad() {
@@ -68,27 +69,22 @@ final class AuthorizationViewController: UIViewController {
                 
         setupUI()
         setupLayout()
+        setupViewModelBinding()
     }
     
     // MARK: - Actions
     
     @objc func textFieldsDidChanged() {
-        guard let login = loginTextField.text else { return }
-        guard let password = passwordTextField.text else { return }
+        viewModel.login = loginTextField.text
+        viewModel.password = passwordTextField.text
         
-        signInButton.isEnabled = !login.isEmpty && !password.isEmpty
-        signInButton.alpha = signInButton.isEnabled ? 1 : 0.3
+        signInButton.isEnabled = viewModel.isEnabledSignInButton
+        signInButton.alpha = CGFloat(viewModel.signInButtonAlpha)
     }
     
     @objc private func signInButtonPressed() {
-        
         view.endEditing(true)
-        
-        guard let login = loginTextField.text,
-              let password = passwordTextField.text
-        else { return }
-        
-        authorizeUser(login: login, password: password)
+        viewModel.authorizeUser()
     }
     
     // MARK: - Setup UI
@@ -131,31 +127,22 @@ final class AuthorizationViewController: UIViewController {
         ])
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        view.endEditing(true)
-    }
-    
     // MARK: - Private methods
     
-    private func authorizeUser(login: String, password: String) {
-        
-        networkService.singIn(login: login, password: password) {
-            [weak self] result in
+    private func setupViewModelBinding() {
+        viewModel.authorizationSuccess = { [weak self] in
+            let storyboard = UIStoryboard(name: AppDelegate.storyboardName, bundle: nil)
             
-            switch result {
-            case let .success(token):
-                let storyboard = UIStoryboard(name: AppDelegate.storyboardName, bundle: nil)
-                
-                guard let tabBarController = storyboard.instantiateViewController(
-                        withIdentifier: TabBarController.identifier
-                ) as? TabBarController else { return }
-                
-                NetworkService.token = token.token
-                self?.appDelegate.window?.rootViewController = tabBarController
-            case let .failure(error):
-                self?.showAlert(error)
-            }
+            guard let tabBarController = storyboard.instantiateViewController(
+                    withIdentifier: TabBarController.identifier
+            ) as? TabBarController else { return }
+            
+            self?.appDelegate.window?.rootViewController = tabBarController
+        }
+        
+        viewModel.error.bind { [weak self] error in
+            guard let error = error else { return }
+            self?.showAlert(error)
         }
     }
 }
@@ -163,6 +150,11 @@ final class AuthorizationViewController: UIViewController {
 // MARK: - Text field delegate
 
 extension AuthorizationViewController: UITextFieldDelegate {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         

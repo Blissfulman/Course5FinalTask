@@ -18,7 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = AuthorizationViewController()
+        let authorizationCV = AuthorizationViewController()
+        authorizationCV.viewModel = AuthorizationViewModel()
+        window?.rootViewController = authorizationCV
         window?.makeKeyAndVisible()
         return true
     }
