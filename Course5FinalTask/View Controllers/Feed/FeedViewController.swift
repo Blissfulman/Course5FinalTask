@@ -109,7 +109,7 @@ extension FeedViewController: FeedTableViewCellDelegate {
 
 // MARK: - ShareViewControllerDelegate
 
-extension FeedViewController: ShareViewControllerDelegate {
+extension FeedViewController: SharingViewControllerDelegate {
     // Прокрутка ленты в верхнее положение
     func updateAfterPosting() {
         feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0),

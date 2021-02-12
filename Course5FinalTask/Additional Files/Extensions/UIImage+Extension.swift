@@ -18,11 +18,4 @@ extension UIImage {
             draw(in: CGRect(origin: .zero, size: size))
         }
     }
-    
-    func encodeToBase64() -> String {
-        guard let imageData = self.jpegData(compressionQuality: 1)?.base64EncodedString() else {
-            return ""
-        }
-        return imageData
-    }
 }

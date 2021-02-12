@@ -124,9 +124,12 @@ final class FiltersViewController: UIViewController {
     // MARK: - Actions
     
     @objc func pressedNextButton() {
-        guard let image = bigImage.image else { return }
-        let shareVC = ShareViewController(transmittedImage: image)
-        navigationController?.pushViewController(shareVC, animated: true)
+        guard let image = bigImage.image,
+              let imageData = image.pngData() else { return }
+        
+        let sharingVC = SharingViewController()
+        sharingVC.viewModel = SharingViewModel(imageData: imageData)
+        navigationController?.pushViewController(sharingVC, animated: true)
     }
 }
 

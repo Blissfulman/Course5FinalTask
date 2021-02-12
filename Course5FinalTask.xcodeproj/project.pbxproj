@@ -38,8 +38,8 @@
 		CE9C3593252A421A00730A47 /* FiltersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C3591252A421A00730A47 /* FiltersCollectionViewCell.swift */; };
 		CE9C3594252A421A00730A47 /* FiltersCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE9C3592252A421A00730A47 /* FiltersCollectionViewCell.xib */; };
 		CEA36F3F252E264000386D64 /* FilterImageOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA36F3E252E264000386D64 /* FilterImageOperation.swift */; };
-		CEA36F43252F78C200386D64 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA36F41252F78C200386D64 /* ShareViewController.swift */; };
-		CEA36F44252F78C200386D64 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA36F42252F78C200386D64 /* ShareViewController.xib */; };
+		CEA36F43252F78C200386D64 /* SharingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA36F41252F78C200386D64 /* SharingViewController.swift */; };
+		CEA36F44252F78C200386D64 /* SharingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA36F42252F78C200386D64 /* SharingViewController.xib */; };
 		CEB0222424DD79C3009D0615 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0222324DD79C3009D0615 /* ProfileCollectionViewCell.swift */; };
 		CEBE92AD25264BF6002A6A63 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */; };
 		CEBE92B02528C4CC002A6A63 /* NewPostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE92AF2528C4CC002A6A63 /* NewPostCollectionViewCell.xib */; };
@@ -55,6 +55,7 @@
 		CEFF9CA325D5A661004C357F /* ServerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA225D5A661004C357F /* ServerConstants.swift */; };
 		CEFF9CA525D5B2C3004C357F /* UserURLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */; };
 		CEFF9CA725D5B2E5004C357F /* PostURLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA625D5B2E5004C357F /* PostURLCreator.swift */; };
+		CEFF9CA925D6D455004C357F /* SharingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA825D6D455004C357F /* SharingViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -108,8 +109,8 @@
 		CE9C3591252A421A00730A47 /* FiltersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersCollectionViewCell.swift; sourceTree = "<group>"; };
 		CE9C3592252A421A00730A47 /* FiltersCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FiltersCollectionViewCell.xib; sourceTree = "<group>"; };
 		CEA36F3E252E264000386D64 /* FilterImageOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterImageOperation.swift; sourceTree = "<group>"; };
-		CEA36F41252F78C200386D64 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		CEA36F42252F78C200386D64 /* ShareViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareViewController.xib; sourceTree = "<group>"; };
+		CEA36F41252F78C200386D64 /* SharingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViewController.swift; sourceTree = "<group>"; };
+		CEA36F42252F78C200386D64 /* SharingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SharingViewController.xib; sourceTree = "<group>"; };
 		CEB0222324DD79C3009D0615 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		CEBE92AF2528C4CC002A6A63 /* NewPostCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPostCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 		CEFF9CA225D5A661004C357F /* ServerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConstants.swift; sourceTree = "<group>"; };
 		CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserURLCreator.swift; sourceTree = "<group>"; };
 		CEFF9CA625D5B2E5004C357F /* PostURLCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostURLCreator.swift; sourceTree = "<group>"; };
+		CEFF9CA825D6D455004C357F /* SharingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViewModel.swift; sourceTree = "<group>"; };
 		EF8B126BC14502BF444F363E /* Pods-Course4FinalTask.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Course4FinalTask.release.xcconfig"; path = "Target Support Files/Pods-Course4FinalTask/Pods-Course4FinalTask.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -234,10 +236,10 @@
 		CE4075BE25754B21006F4592 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				CE3DD1DF2585350300C31D7F /* Helpers */,
 				CE4075CA2576B34E006F4592 /* RequestService.swift */,
 				CE4075DC257BB59F006F4592 /* DataTaskService.swift */,
 				CE4075C42576A5E1006F4592 /* NetworkService.swift */,
+				CE3DD1DF2585350300C31D7F /* Helpers */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -353,13 +355,14 @@
 			path = "Additional Files";
 			sourceTree = "<group>";
 		};
-		CEA36F40252F785000386D64 /* Share */ = {
+		CEA36F40252F785000386D64 /* Sharing */ = {
 			isa = PBXGroup;
 			children = (
-				CEA36F41252F78C200386D64 /* ShareViewController.swift */,
-				CEA36F42252F78C200386D64 /* ShareViewController.xib */,
+				CEA36F41252F78C200386D64 /* SharingViewController.swift */,
+				CEFF9CA825D6D455004C357F /* SharingViewModel.swift */,
+				CEA36F42252F78C200386D64 /* SharingViewController.xib */,
 			);
-			path = Share;
+			path = Sharing;
 			sourceTree = "<group>";
 		};
 		CEBE92AA25264B72002A6A63 /* New Post */ = {
@@ -368,7 +371,7 @@
 				CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */,
 				CE48841925B9D61F00BCB7F9 /* Cells */,
 				CEBE92B32529A9D7002A6A63 /* Filters */,
-				CEA36F40252F785000386D64 /* Share */,
+				CEA36F40252F785000386D64 /* Sharing */,
 			);
 			path = "New Post";
 			sourceTree = "<group>";
@@ -471,7 +474,7 @@
 				CEBE92B02528C4CC002A6A63 /* NewPostCollectionViewCell.xib in Resources */,
 				74B7925F202B3254006BCB41 /* Assets.xcassets in Resources */,
 				CE9C3594252A421A00730A47 /* FiltersCollectionViewCell.xib in Resources */,
-				CEA36F44252F78C200386D64 /* ShareViewController.xib in Resources */,
+				CEA36F44252F78C200386D64 /* SharingViewController.xib in Resources */,
 				CECB0BFB24C86E870086A593 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -529,12 +532,13 @@
 				CE4075C52576A5E1006F4592 /* NetworkService.swift in Sources */,
 				CE4075C72576A7B4006F4592 /* AuthorizationURLCreator.swift in Sources */,
 				CE4075CF2576BABC006F4592 /* TabBarController.swift in Sources */,
-				CEA36F43252F78C200386D64 /* ShareViewController.swift in Sources */,
+				CEA36F43252F78C200386D64 /* SharingViewController.swift in Sources */,
 				CE3B33DE258A1BE30004F938 /* UIImage+Extension.swift in Sources */,
 				CE4075DB257AC629006F4592 /* LoadingView.swift in Sources */,
 				CE3DD1DE2585301C00C31D7F /* ServerError.swift in Sources */,
 				74B79258202B3254006BCB41 /* AppDelegate.swift in Sources */,
 				CE9C3593252A421A00730A47 /* FiltersCollectionViewCell.swift in Sources */,
+				CEFF9CA925D6D455004C357F /* SharingViewModel.swift in Sources */,
 				CEFF9CA525D5B2C3004C357F /* UserURLCreator.swift in Sources */,
 				CE4075CD2576B3C0006F4592 /* HTTPMethod.swift in Sources */,
 				CE4075BB25754AC0006F4592 /* AutorizationModel.swift in Sources */,

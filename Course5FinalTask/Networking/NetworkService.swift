@@ -116,7 +116,7 @@ protocol NetworkServiceProtocol {
     ///   - description: Описание публикации.
     ///   - completion: Замыкание, в которое возвращаются опубликованная публикация.
     ///   Вызывается после выполнения запроса.
-    func createPost(image: UIImage, description: String, completion: @escaping PostResult)
+    func createPost(imageData: String, description: String, completion: @escaping PostResult)
     
     /// Получение изображения по URL.
     func getImage(fromURL url: URL) -> UIImage?
@@ -269,14 +269,13 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func createPost(image: UIImage, description: String, completion: @escaping PostResult) {
+    func createPost(imageData: String, description: String, completion: @escaping PostResult) {
         
         guard let url = PostURLCreator.create.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
                         
-        let newPostRequest = NewPostRequestModel(image: image.encodeToBase64(),
-                                                 description: description)
+        let newPostRequest = NewPostRequestModel(image: imageData, description: description)
         request.httpBody = try? JSONEncoder().encode(newPostRequest)
         
         dataTaskService.dataTask(request: request, completion: completion)
