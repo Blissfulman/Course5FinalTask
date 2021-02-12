@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - Protocols
+
 protocol UserListViewModelProtocol {
     
     /// Список отображаемых в таблице пользователей.
@@ -61,6 +63,8 @@ final class UserListViewModel: UserListViewModelProtocol {
         self.postID = postID
         self.userListType = userListType
     }
+    
+    // MARK: - Public methods
     
     func getUserImageData(atIndexPath indexPath: IndexPath) -> Data? {
         let url = userList.value[indexPath.row].avatar

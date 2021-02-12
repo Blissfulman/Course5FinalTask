@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - Protocols
+
 protocol SharingViewModelProtocol {
     var imageData: Data { get }
     var postDidCreateSuccessfully: (() -> Void)? { get set }
@@ -30,9 +32,13 @@ final class SharingViewModel: SharingViewModelProtocol {
     
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
+    // MARK: - Initializers
+    
     init(imageData: Data) {
         self.imageData = imageData
     }
+    
+    // MARK: - Public methods
     
     func createPost(withDescription description: String) {
         networkService.createPost(imageData: imageData.base64EncodedString(),

@@ -13,7 +13,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Outlets
     
     /// Коллекция, отображающая информацию о пользователе.
-    @IBOutlet weak var profileCollectionView: UICollectionView!
+    @IBOutlet private weak var profileCollectionView: UICollectionView!
     
     // MARK: - Properties
     

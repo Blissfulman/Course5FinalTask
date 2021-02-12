@@ -10,8 +10,8 @@ import UIKit
 
 final class FiltersCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var filterNameLabel: UILabel!
+    @IBOutlet private weak var thumbnailImageView: UIImageView!
+    @IBOutlet private weak var filterNameLabel: UILabel!
     
     static let identifier = "filtersPhotoCell"
     

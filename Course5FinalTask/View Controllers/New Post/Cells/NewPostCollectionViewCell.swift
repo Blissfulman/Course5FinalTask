@@ -10,7 +10,7 @@ import UIKit
 
 final class NewPostCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var photoImage: UIImageView!
+    @IBOutlet private weak var photoImageView: UIImageView!
     
     static let identifier = "newPhotoCell"
     
@@ -21,6 +21,6 @@ final class NewPostCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(_ photo: UIImage) {
-        photoImage.image = photo
+        photoImageView.image = photo
     }
 }

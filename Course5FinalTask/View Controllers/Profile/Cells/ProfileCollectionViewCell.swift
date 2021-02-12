@@ -10,7 +10,7 @@ import UIKit
 
 final class ProfileCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var photoImage: UIImageView!
+    @IBOutlet private weak var photoImageView: UIImageView!
     
     static let identifier = "photoCell"
     
@@ -19,6 +19,6 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(_ post: PostModel) {
-        photoImage.getImage(fromURL: post.image)
+        photoImageView.getImage(fromURL: post.image)
     }
 }

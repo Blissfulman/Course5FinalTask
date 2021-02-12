@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: - Protocols
+
 protocol FeedTableViewCellDelegate: UIViewController {
     func authorOfPostPressed(user: UserModel)
     func likesCountLabelPressed(postID: String)
@@ -19,14 +21,14 @@ final class FeedTableViewCell: UITableViewCell {
 
     // MARK: - Outlets
     
-    @IBOutlet weak var avatarImage: UIImageView!
-    @IBOutlet weak var authorUsernameLabel: UILabel!
-    @IBOutlet weak var createdTimeLabel: UILabel!
-    @IBOutlet weak var postImage: UIImageView!
-    @IBOutlet weak var bigLikeImage: UIImageView!
-    @IBOutlet weak var likesCountLabel: UILabel!
-    @IBOutlet weak var likeImage: UIImageView!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet private weak var avatarImage: UIImageView!
+    @IBOutlet private weak var authorUsernameLabel: UILabel!
+    @IBOutlet private weak var createdTimeLabel: UILabel!
+    @IBOutlet private weak var postImage: UIImageView!
+    @IBOutlet private weak var bigLikeImage: UIImageView!
+    @IBOutlet private weak var likesCountLabel: UILabel!
+    @IBOutlet private weak var likeImage: UIImageView!
+    @IBOutlet private weak var descriptionLabel: UILabel!
     
     // MARK: - Properties
     
@@ -108,7 +110,7 @@ extension FeedTableViewCell {
         
         // Жест двойного тапа по картинке поста
         let postImageGR = UITapGestureRecognizer(
-            target: self, action: #selector(postImagePressed(recognizer:))
+            target: self, action: #selector(postImageDoubleTapped(recognizer:))
         )
         postImageGR.numberOfTapsRequired = 2
         postImage.isUserInteractionEnabled = true
@@ -149,7 +151,7 @@ extension FeedTableViewCell {
 extension FeedTableViewCell {
     
     /// Двойной тап по картинке поста.
-    @IBAction func postImagePressed(recognizer: UITapGestureRecognizer) {
+    @IBAction func postImageDoubleTapped(recognizer: UITapGestureRecognizer) {
         
         // Проверка отсутствия у поста лайка текущего пользователя
         guard !cellPost.currentUserLikesThisPost else { return }

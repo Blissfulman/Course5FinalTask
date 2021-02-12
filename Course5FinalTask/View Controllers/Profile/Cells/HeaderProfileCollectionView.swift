@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: - Protocols
+
 protocol HeaderProfileCollectionViewDelegate: UIViewController {
     func followersLabelPressed()
     func followingLabelPressed()
@@ -18,21 +20,23 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var avatarImage: UIImageView!
-    @IBOutlet weak var fullNameLabel: UILabel!
-    @IBOutlet weak var followersLabel: UILabel!
-    @IBOutlet weak var followingLabel: UILabel!
-    @IBOutlet weak var followButton: UIButton!
+    @IBOutlet private weak var avatarImage: UIImageView!
+    @IBOutlet private weak var fullNameLabel: UILabel!
+    @IBOutlet private weak var followersLabel: UILabel!
+    @IBOutlet private weak var followingLabel: UILabel!
+    @IBOutlet private weak var followButton: UIButton!
     
-    // MARK: - Properties
+    // MARK: - Class properties
     
     static let identifier = "headerProfile"
-        
+    
     // MARK: - Class methods
     
     static func nib() -> UINib {
         UINib(nibName: "HeaderProfileCollectionView", bundle: nil)
     }
+    
+    // MARK: - Properties
     
     weak var delegate: HeaderProfileCollectionViewDelegate?
     
@@ -45,7 +49,21 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
         setupGestureRecognizers()
     }
     
-    // MARK: - Setup the cell
+    // MARK: - Actions
+    
+    @IBAction func followersLabelPressed(recognizer: UIGestureRecognizer) {
+        delegate?.followersLabelPressed()
+    }
+    
+    @IBAction func followingLabelPressed(recognizer: UIGestureRecognizer) {
+        delegate?.followingLabelPressed()
+    }
+    
+    @IBAction func followButtonPressed(_ sender: UIButton) {
+        delegate?.followUnfollowUser()
+    }
+    
+    // MARK: - Public methods
     
     func configure(user: UserModel, isCurrentUser: Bool) {
         
@@ -62,13 +80,13 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
         followingLabel.text = "Following: " + String(user.followsCount)
     }
     
+    // MARK: - Private methods
+    
     private func setupFollowButton(user: UserModel) {
         user.currentUserFollowsThisUser
             ? followButton.setTitle("Unfollow", for: .normal)
             : followButton.setTitle("Follow", for: .normal)
     }
-    
-    // MARK: - Setup gesture recognizers
     
     private func setupGestureRecognizers() {
         
@@ -85,19 +103,5 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
         )
         followingLabel.isUserInteractionEnabled = true
         followingLabel.addGestureRecognizer(followingGR)
-    }
-    
-    // MARK: - Actions
-    
-    @IBAction func followersLabelPressed(recognizer: UIGestureRecognizer) {
-        delegate?.followersLabelPressed()
-    }
-    
-    @IBAction func followingLabelPressed(recognizer: UIGestureRecognizer) {
-        delegate?.followingLabelPressed()
-    }
-    
-    @IBAction func followButtonPressed(_ sender: UIButton) {
-        delegate?.followUnfollowUser()
     }
 }

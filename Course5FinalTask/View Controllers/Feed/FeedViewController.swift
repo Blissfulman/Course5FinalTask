@@ -12,7 +12,7 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var feedTableView: UITableView!
+    @IBOutlet private weak var feedTableView: UITableView!
     
     // MARK: - Properties
     
