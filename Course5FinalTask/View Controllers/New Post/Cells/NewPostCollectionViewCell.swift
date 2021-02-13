@@ -14,7 +14,7 @@ final class NewPostCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "newPhotoCell"
     
-    weak var delegate: HeaderProfileCollectionViewDelegate?
+    weak var delegate: ProfileHeaderDelegate?
     
     static func nib() -> UINib {
         UINib(nibName: "NewPostCollectionViewCell", bundle: nil)

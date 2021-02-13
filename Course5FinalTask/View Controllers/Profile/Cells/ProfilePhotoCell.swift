@@ -1,5 +1,5 @@
 //
-//  ProfileCollectionViewCell.swift
+//  ProfilePhotoCell.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 07.08.2020.
@@ -8,14 +8,14 @@
 
 import UIKit
 
-final class ProfileCollectionViewCell: UICollectionViewCell {
+final class ProfilePhotoCell: UICollectionViewCell {
     
     @IBOutlet private weak var photoImageView: UIImageView!
     
-    static let identifier = "photoCell"
+    static let identifier = String(describing: ProfilePhotoCell.self)
     
     static func nib() -> UINib {
-        UINib(nibName: "ProfileCollectionViewCell", bundle: nil)
+        UINib(nibName: identifier, bundle: nil)
     }
     
     func configure(_ post: PostModel) {

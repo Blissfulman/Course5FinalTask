@@ -26,7 +26,7 @@ final class AuthorizationViewController: UIViewController {
         textField.enablesReturnKeyAutomatically = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.addTarget(self, action: #selector(textFieldsDidChanged), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldsEditingChanged), for: .editingChanged)
         return textField
     }()
     
@@ -43,7 +43,7 @@ final class AuthorizationViewController: UIViewController {
         textField.enablesReturnKeyAutomatically = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.addTarget(self, action: #selector(textFieldsDidChanged), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldsEditingChanged), for: .editingChanged)
         return textField
     }()
     
@@ -74,7 +74,7 @@ final class AuthorizationViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc func textFieldsDidChanged() {
+    @objc func textFieldsEditingChanged() {
         viewModel.login = loginTextField.text
         viewModel.password = passwordTextField.text
         
@@ -94,7 +94,7 @@ final class AuthorizationViewController: UIViewController {
         view.addSubview(loginTextField)
         view.addSubview(passwordTextField)
         view.addSubview(signInButton)
-        signInButton.layer.cornerRadius = 5
+        signInButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
     }
     
     // MARK: - Setup layout

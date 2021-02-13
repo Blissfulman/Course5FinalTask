@@ -1,5 +1,5 @@
 //
-//  HeaderProfileCollectionView.swift
+//  ProfileHeader.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 08.08.2020.
@@ -10,17 +10,17 @@ import UIKit
 
 // MARK: - Protocols
 
-protocol HeaderProfileCollectionViewDelegate: UIViewController {
+protocol ProfileHeaderDelegate: UIViewController {
     func followersLabelPressed()
     func followingLabelPressed()
     func followUnfollowUser()
 }
 
-final class HeaderProfileCollectionView: UICollectionReusableView {
+final class ProfileHeader: UICollectionReusableView {
     
     // MARK: - Outlets
     
-    @IBOutlet private weak var avatarImage: UIImageView!
+    @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var fullNameLabel: UILabel!
     @IBOutlet private weak var followersLabel: UILabel!
     @IBOutlet private weak var followingLabel: UILabel!
@@ -28,24 +28,24 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
     
     // MARK: - Class properties
     
-    static let identifier = "headerProfile"
+    static let identifier = String(describing: ProfileHeader.self)
     
     // MARK: - Class methods
     
     static func nib() -> UINib {
-        UINib(nibName: "HeaderProfileCollectionView", bundle: nil)
+        UINib(nibName: identifier, bundle: nil)
     }
     
     // MARK: - Properties
     
-    weak var delegate: HeaderProfileCollectionViewDelegate?
+    weak var delegate: ProfileHeaderDelegate?
     
     // MARK: - Lifeсycle methods
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        followButton.layer.cornerRadius = 5
+        followButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
         setupGestureRecognizers()
     }
     
@@ -73,8 +73,8 @@ final class HeaderProfileCollectionView: UICollectionReusableView {
             followButton.isHidden = false
         }
 
-        avatarImage.getImage(fromURL: user.avatar)
-        avatarImage.layer.cornerRadius = CGFloat(avatarImage.bounds.width / 2)
+        avatarImageView.getImage(fromURL: user.avatar)
+        avatarImageView.layer.cornerRadius = CGFloat(avatarImageView.bounds.width / 2)
         fullNameLabel.text = user.fullName
         followersLabel.text = "Followers: " + String(user.followedByCount)
         followingLabel.text = "Following: " + String(user.followsCount)

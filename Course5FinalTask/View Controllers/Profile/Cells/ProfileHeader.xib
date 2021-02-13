@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="headerProfile" id="lvA-Kr-fAk" customClass="HeaderProfileCollectionView" customModule="Course4FinalTask" customModuleProvider="target">
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProfileHeader" id="lvA-Kr-fAk" customClass="ProfileHeader" customModule="Course5FinalTask" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -65,7 +65,7 @@
                 <constraint firstItem="pIT-PN-cQl" firstAttribute="bottom" secondItem="Y2H-SS-Q3h" secondAttribute="bottom" id="yV7-bA-Xyx"/>
             </constraints>
             <connections>
-                <outlet property="avatarImage" destination="Y2H-SS-Q3h" id="Fs3-8c-QK9"/>
+                <outlet property="avatarImageView" destination="Y2H-SS-Q3h" id="Fs3-8c-QK9"/>
                 <outlet property="followButton" destination="7g5-em-Wod" id="T3c-rg-100"/>
                 <outlet property="followersLabel" destination="5rH-Os-4vr" id="JdJ-e6-MCD"/>
                 <outlet property="followingLabel" destination="pIT-PN-cQl" id="ZKs-nc-r9a"/>

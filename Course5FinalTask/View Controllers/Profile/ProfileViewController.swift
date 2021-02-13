@@ -17,7 +17,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     
-    static let identifier = "profileViewController"
+    static let identifier = String(describing: ProfileViewController.self)
     
     /// Пользователь, данные которого отображает вью.
     var user: UserModel?
@@ -52,13 +52,13 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         profileCollectionView.register(
-            ProfileCollectionViewCell.nib(),
-            forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier
+            ProfilePhotoCell.nib(),
+            forCellWithReuseIdentifier: ProfilePhotoCell.identifier
         )
         profileCollectionView.register(
-            HeaderProfileCollectionView.nib(),
+            ProfileHeader.nib(),
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: HeaderProfileCollectionView.identifier
+            withReuseIdentifier: ProfileHeader.identifier
         )
 
         profileCollectionView.dataSource = self
@@ -103,9 +103,9 @@ extension ProfileViewController: UICollectionViewDataSource {
         case UICollectionView.elementKindSectionHeader:
             let header = profileCollectionView.dequeueReusableSupplementaryView(
                 ofKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: HeaderProfileCollectionView.identifier,
+                withReuseIdentifier: ProfileHeader.identifier,
                 for: indexPath
-            ) as! HeaderProfileCollectionView
+            ) as! ProfileHeader
             
             header.delegate = self
             
@@ -124,9 +124,9 @@ extension ProfileViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = profileCollectionView.dequeueReusableCell(
-            withReuseIdentifier: ProfileCollectionViewCell.identifier,
+            withReuseIdentifier: ProfilePhotoCell.identifier,
             for: indexPath
-        ) as! ProfileCollectionViewCell
+        ) as! ProfilePhotoCell
         
         cell.configure(userPosts[indexPath.item])
         return cell
@@ -145,7 +145,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - HeaderProfileCollectionViewDelegate
 
-extension ProfileViewController: HeaderProfileCollectionViewDelegate {
+extension ProfileViewController: ProfileHeaderDelegate {
     
     // MARK: - Navigation
     
