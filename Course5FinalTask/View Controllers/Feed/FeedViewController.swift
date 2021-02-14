@@ -57,8 +57,8 @@ extension FeedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier,
-                                                 for: indexPath) as! FeedTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: FeedPostCell.identifier,
+                                                 for: indexPath) as! FeedPostCell
         cell.configure(feedPosts[indexPath.row])
         cell.delegate = self
         return cell
@@ -67,7 +67,7 @@ extension FeedViewController: UITableViewDataSource {
 
 // MARK: - Table view cell delegate
 
-extension FeedViewController: FeedTableViewCellDelegate {
+extension FeedViewController: FeedPostCellDelegate {
     
     /// Переход в профиль автора поста.
     func authorOfPostPressed(user: UserModel) {

@@ -1,5 +1,5 @@
 //
-//  FeedTableViewCellDelegate.swift
+//  FeedPostCell.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 04.08.2020.
@@ -10,31 +10,31 @@ import UIKit
 
 // MARK: - Protocols
 
-protocol FeedTableViewCellDelegate: UIViewController {
+protocol FeedPostCellDelegate: UIViewController {
     func authorOfPostPressed(user: UserModel)
     func likesCountLabelPressed(postID: String)
     func updateFeedData()
     func showErrorAlert(_ error: Error)
 }
 
-final class FeedTableViewCell: UITableViewCell {
+final class FeedPostCell: UITableViewCell {
 
     // MARK: - Outlets
     
-    @IBOutlet private weak var avatarImage: UIImageView!
+    @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var authorUsernameLabel: UILabel!
     @IBOutlet private weak var createdTimeLabel: UILabel!
-    @IBOutlet private weak var postImage: UIImageView!
+    @IBOutlet private weak var postImageView: UIImageView!
     @IBOutlet private weak var bigLikeImage: UIImageView!
     @IBOutlet private weak var likesCountLabel: UILabel!
-    @IBOutlet private weak var likeImage: UIImageView!
+    @IBOutlet private weak var likeImageView: UIImageView!
     @IBOutlet private weak var descriptionLabel: UILabel!
     
     // MARK: - Properties
     
-    static let identifier = "feedPostCell"
+    static let identifier = String(describing: FeedPostCell.self)
     
-    weak var delegate: FeedTableViewCellDelegate?
+    weak var delegate: FeedPostCellDelegate?
     
     /// Пост ячейки
     private var cellPost: PostModel! {
@@ -43,7 +43,7 @@ final class FeedTableViewCell: UITableViewCell {
                 
                 guard let self = self else { return }
                 
-                self.likeImage.tintColor = self.cellPost.currentUserLikesThisPost
+                self.likeImageView.tintColor = self.cellPost.currentUserLikesThisPost
                     ? .systemBlue
                     : .lightGray
                 self.likesCountLabel.text = "Likes: " + String(self.cellPost.likedByCount)
@@ -69,10 +69,10 @@ final class FeedTableViewCell: UITableViewCell {
         cellPost = post
 
         // Заполнение всех элементов ячейки данными
-        avatarImage.getImage(fromURL: post.authorAvatar)
+        avatarImageView.getImage(fromURL: post.authorAvatar)
         authorUsernameLabel.text = post.authorUsername
         createdTimeLabel.text = DateFormatter.postDateFormatter.string(from: post.createdTime)
-        postImage.getImage(fromURL: post.image)
+        postImageView.getImage(fromURL: post.image)
         descriptionLabel.text = post.description
     }
     
@@ -104,7 +104,7 @@ final class FeedTableViewCell: UITableViewCell {
 
 // MARK: - Setup gesture recognizers
 
-extension FeedTableViewCell {
+extension FeedPostCell {
     
     private func setupGestureRecognizers() {
         
@@ -113,15 +113,15 @@ extension FeedTableViewCell {
             target: self, action: #selector(postImageDoubleTapped(recognizer:))
         )
         postImageGR.numberOfTapsRequired = 2
-        postImage.isUserInteractionEnabled = true
-        postImage.addGestureRecognizer(postImageGR)
+        postImageView.isUserInteractionEnabled = true
+        postImageView.addGestureRecognizer(postImageGR)
         
         // Жест тапа по автору поста (по аватарке)
         let authorAvatarGR = UITapGestureRecognizer(
             target: self, action: #selector(postAuthorPressed(recognizer:))
         )
-        avatarImage.isUserInteractionEnabled = true
-        avatarImage.addGestureRecognizer(authorAvatarGR)
+        avatarImageView.isUserInteractionEnabled = true
+        avatarImageView.addGestureRecognizer(authorAvatarGR)
         
         // Жест тапа по автору поста (по username)
         let authorUsernameGR = UITapGestureRecognizer(
@@ -141,14 +141,14 @@ extension FeedTableViewCell {
         let likeImageGR = UITapGestureRecognizer(
             target: self, action: #selector(likeImagePressed(recognizer:))
         )
-        likeImage.isUserInteractionEnabled = true
-        likeImage.addGestureRecognizer(likeImageGR)
+        likeImageView.isUserInteractionEnabled = true
+        likeImageView.addGestureRecognizer(likeImageGR)
     }
 }
 
 // MARK: - Actions
 
-extension FeedTableViewCell {
+extension FeedPostCell {
     
     /// Двойной тап по картинке поста.
     @IBAction func postImageDoubleTapped(recognizer: UITapGestureRecognizer) {

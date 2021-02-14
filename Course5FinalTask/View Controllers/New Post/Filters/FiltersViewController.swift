@@ -60,26 +60,23 @@ final class FiltersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Filters"
         setupUI()
         setupLayout()
         
         filtersCollectionView.dataSource = self
         filtersCollectionView.delegate = self
-        filtersCollectionView.register(
-            FiltersCollectionViewCell.nib(),
-            forCellWithReuseIdentifier: FiltersCollectionViewCell.identifier
-        )
+        filtersCollectionView.register(FilterCell.nib(),
+                                       forCellWithReuseIdentifier: FilterCell.identifier)
         filteringThumbnailImages()
     }
     
     // MARK: - Setup UI
     
-    func setupUI() {
-        let nextButton = UIBarButtonItem(title: "Next",
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(pressedNextButton))
+    private func setupUI() {
+        title = "Filters"
+        let nextButton = UIBarButtonItem(
+            title: "Next", style: .plain, target: self, action: #selector(pressedNextButton)
+        )
         navigationItem.rightBarButtonItem = nextButton
         
         view.addSubview(bigImage)
@@ -98,7 +95,7 @@ final class FiltersViewController: UIViewController {
     
     // MARK: - Applying filters to thumbnails
     
-    func filteringThumbnailImages() {
+    private func filteringThumbnailImages() {
         
         let queue = OperationQueue()
         
@@ -144,8 +141,8 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = filtersCollectionView.dequeueReusableCell(
-            withReuseIdentifier: FiltersCollectionViewCell.identifier, for: indexPath
-        ) as! FiltersCollectionViewCell
+            withReuseIdentifier: FilterCell.identifier, for: indexPath
+        ) as! FilterCell
         
         cell.configure(photo: filteredThumbnails[indexPath.item],
                        filterName: filters[indexPath.item])

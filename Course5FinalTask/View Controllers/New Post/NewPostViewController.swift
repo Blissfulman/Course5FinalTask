@@ -28,8 +28,8 @@ final class NewPostViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(
-            NewPostCollectionViewCell.nib(),
-            forCellWithReuseIdentifier: NewPostCollectionViewCell.identifier
+            NewPhotoCell.nib(),
+            forCellWithReuseIdentifier: NewPhotoCell.identifier
         )
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -83,8 +83,8 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = newPostImagesCollectionView.dequeueReusableCell(
-            withReuseIdentifier: NewPostCollectionViewCell.identifier, for: indexPath
-        ) as! NewPostCollectionViewCell
+            withReuseIdentifier: NewPhotoCell.identifier, for: indexPath
+        ) as! NewPhotoCell
         
         cell.configure(newImages[indexPath.item])
         return cell

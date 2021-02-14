@@ -10,5 +10,5 @@ import UIKit
 
 final class TabBarController: UITabBarController {
     
-    static let identifier = "tabBarController"
+    static let identifier = String(describing: TabBarController.self)
 }

@@ -1,5 +1,5 @@
 //
-//  NewPostCollectionViewCell.swift
+//  NewPhotoCell.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 03.10.2020.
@@ -8,16 +8,14 @@
 
 import UIKit
 
-final class NewPostCollectionViewCell: UICollectionViewCell {
+final class NewPhotoCell: UICollectionViewCell {
     
     @IBOutlet private weak var photoImageView: UIImageView!
     
-    static let identifier = "newPhotoCell"
-    
-    weak var delegate: ProfileHeaderDelegate?
+    static let identifier = String(describing: NewPhotoCell.self)
     
     static func nib() -> UINib {
-        UINib(nibName: "NewPostCollectionViewCell", bundle: nil)
+        UINib(nibName: identifier, bundle: nil)
     }
     
     func configure(_ photo: UIImage) {

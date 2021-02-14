@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="692"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="feedPostCell" rowHeight="596" id="c53-f0-ryK" customClass="FeedTableViewCell" customModule="Course5FinalTask" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FeedPostCell" rowHeight="596" id="c53-f0-ryK" customClass="FeedPostCell" customModule="Course5FinalTask" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="596"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c53-f0-ryK" id="IGU-Cu-wyD">
@@ -101,13 +101,13 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="authorUsernameLabel" destination="qWN-re-v9F" id="i6R-ha-NOU"/>
-                                            <outlet property="avatarImage" destination="epL-2L-w5y" id="j8T-57-An7"/>
+                                            <outlet property="avatarImageView" destination="epL-2L-w5y" id="j8T-57-An7"/>
                                             <outlet property="bigLikeImage" destination="cDw-BJ-Fff" id="cfd-Mn-vsp"/>
                                             <outlet property="createdTimeLabel" destination="Bjn-vE-7jY" id="hum-Ye-7aG"/>
                                             <outlet property="descriptionLabel" destination="koh-0n-yzI" id="nfs-Jd-L2e"/>
-                                            <outlet property="likeImage" destination="DHS-p4-7xv" id="dWN-l4-IAQ"/>
+                                            <outlet property="likeImageView" destination="DHS-p4-7xv" id="dWN-l4-IAQ"/>
                                             <outlet property="likesCountLabel" destination="vfZ-Qv-72Y" id="xdO-f9-SMG"/>
-                                            <outlet property="postImage" destination="9Xz-6T-tLU" id="2f5-za-QVt"/>
+                                            <outlet property="postImageView" destination="9Xz-6T-tLU" id="2f5-za-QVt"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -184,7 +184,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="kMO-g4-OnZ">
             <objects>
-                <tabBarController storyboardIdentifier="tabBarController" automaticallyAdjustsScrollViewInsets="NO" id="iko-r1-BaW" customClass="TabBarController" customModule="Course5FinalTask" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" automaticallyAdjustsScrollViewInsets="NO" id="iko-r1-BaW" customClass="TabBarController" customModule="Course5FinalTask" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tbu-gP-sh3">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>

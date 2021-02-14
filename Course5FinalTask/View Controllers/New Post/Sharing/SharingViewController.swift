@@ -36,12 +36,6 @@ final class SharingViewController: UIViewController {
         setupViewModelBinding()
     }
     
-    // MARK: - Actions
-    
-    @objc func shareButtonPressed() {
-        viewModel.createPost(withDescription: descriptionTextField.text ?? "")
-    }
-    
     // MARK: - Setup UI
     
     private func setupUI() {
@@ -51,6 +45,12 @@ final class SharingViewController: UIViewController {
             title: "Share", style: .plain, target: self, action: #selector(shareButtonPressed)
         )
         navigationItem.rightBarButtonItem = shareButton
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func shareButtonPressed() {
+        viewModel.createPost(withDescription: descriptionTextField.text ?? "")
     }
     
     // MARK: - Private methods
