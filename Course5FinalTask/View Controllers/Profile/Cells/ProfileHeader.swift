@@ -51,15 +51,15 @@ final class ProfileHeader: UICollectionReusableView {
     
     // MARK: - Actions
     
-    @IBAction func followersLabelPressed(recognizer: UIGestureRecognizer) {
+    @IBAction private func followersLabelPressed(recognizer: UIGestureRecognizer) {
         delegate?.followersLabelPressed()
     }
     
-    @IBAction func followingLabelPressed(recognizer: UIGestureRecognizer) {
+    @IBAction private func followingLabelPressed(recognizer: UIGestureRecognizer) {
         delegate?.followingLabelPressed()
     }
     
-    @IBAction func followButtonPressed(_ sender: UIButton) {
+    @IBAction private func followButtonPressed(_ sender: UIButton) {
         delegate?.followUnfollowUser()
     }
     

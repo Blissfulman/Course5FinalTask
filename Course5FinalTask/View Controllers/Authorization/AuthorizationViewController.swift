@@ -72,21 +72,6 @@ final class AuthorizationViewController: UIViewController {
         setupViewModelBinding()
     }
     
-    // MARK: - Actions
-    
-    @objc func textFieldsEditingChanged() {
-        viewModel.login = loginTextField.text
-        viewModel.password = passwordTextField.text
-        
-        signInButton.isEnabled = viewModel.isEnabledSignInButton
-        signInButton.alpha = CGFloat(viewModel.signInButtonAlpha)
-    }
-    
-    @objc private func signInButtonPressed() {
-        view.endEditing(true)
-        viewModel.authorizeUser()
-    }
-    
     // MARK: - Setup UI
     
     private func setupUI() {
@@ -125,6 +110,21 @@ final class AuthorizationViewController: UIViewController {
                                                    constant: -16),
             signInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func textFieldsEditingChanged() {
+        viewModel.login = loginTextField.text
+        viewModel.password = passwordTextField.text
+        
+        signInButton.isEnabled = viewModel.isEnabledSignInButton
+        signInButton.alpha = CGFloat(viewModel.signInButtonAlpha)
+    }
+    
+    @objc private func signInButtonPressed() {
+        view.endEditing(true)
+        viewModel.authorizeUser()
     }
     
     // MARK: - Private methods

@@ -93,6 +93,17 @@ final class FiltersViewController: UIViewController {
         ])
     }
     
+    // MARK: - Actions
+    
+    @objc private func pressedNextButton() {
+        guard let image = bigImage.image,
+              let imageData = image.pngData() else { return }
+        
+        let sharingVC = SharingViewController()
+        sharingVC.viewModel = SharingViewModel(imageData: imageData)
+        navigationController?.pushViewController(sharingVC, animated: true)
+    }
+    
     // MARK: - Applying filters to thumbnails
     
     private func filteringThumbnailImages() {
@@ -116,17 +127,6 @@ final class FiltersViewController: UIViewController {
             }
             queue.addOperation(filterOperation)
         }
-    }
-    
-    // MARK: - Actions
-    
-    @objc func pressedNextButton() {
-        guard let image = bigImage.image,
-              let imageData = image.pngData() else { return }
-        
-        let sharingVC = SharingViewController()
-        sharingVC.viewModel = SharingViewModel(imageData: imageData)
-        navigationController?.pushViewController(sharingVC, animated: true)
     }
 }
 

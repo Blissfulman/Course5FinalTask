@@ -23,5 +23,4 @@ final class FilterCell: UICollectionViewCell {
         thumbnailImageView.image = photo
         filterNameLabel.text = filterName
     }
-
 }

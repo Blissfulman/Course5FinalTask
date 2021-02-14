@@ -52,15 +52,12 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         profileCollectionView.register(
-            ProfilePhotoCell.nib(),
-            forCellWithReuseIdentifier: ProfilePhotoCell.identifier
-        )
-        profileCollectionView.register(
             ProfileHeader.nib(),
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: ProfileHeader.identifier
         )
-
+        profileCollectionView.register(ProfilePhotoCell.nib(),
+                                       forCellWithReuseIdentifier: ProfilePhotoCell.identifier)
         profileCollectionView.dataSource = self
         
         getCurrentUser()
@@ -74,7 +71,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc func logOutButtonPressed() {
+    @objc private func logOutButtonPressed() {
         networkService.singOut() { _ in }
         
         let authorizationVC = AuthorizationViewController()
@@ -85,10 +82,9 @@ final class ProfileViewController: UIViewController {
     // MARK: - Private methods
     
     private func addLogOutButton() {
-        let logOutButton = UIBarButtonItem(title: "Log Out",
-                                           style: .plain,
-                                           target: self,
-                                           action: #selector(logOutButtonPressed))
+        let logOutButton = UIBarButtonItem(
+            title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonPressed)
+        )
         navigationItem.rightBarButtonItem = logOutButton
     }
 }
@@ -124,8 +120,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = profileCollectionView.dequeueReusableCell(
-            withReuseIdentifier: ProfilePhotoCell.identifier,
-            for: indexPath
+            withReuseIdentifier: ProfilePhotoCell.identifier, for: indexPath
         ) as! ProfilePhotoCell
         
         cell.configure(userPosts[indexPath.item])

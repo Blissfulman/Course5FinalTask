@@ -61,7 +61,7 @@ final class FeedPostCell: UITableViewCell {
         setupGestureRecognizers()
     }
     
-    // MARK: - Setup the cell
+    // MARK: - Public methods
     
     func configure(_ post: PostModel) {
                 
@@ -151,7 +151,7 @@ extension FeedPostCell {
 extension FeedPostCell {
     
     /// Двойной тап по картинке поста.
-    @IBAction func postImageDoubleTapped(recognizer: UITapGestureRecognizer) {
+    @IBAction private func postImageDoubleTapped(recognizer: UITapGestureRecognizer) {
         
         // Проверка отсутствия у поста лайка текущего пользователя
         guard !cellPost.currentUserLikesThisPost else { return }
@@ -171,7 +171,7 @@ extension FeedPostCell {
     }
     
     /// Тап по автору поста.
-    @IBAction func postAuthorPressed(recognizer: UIGestureRecognizer) {
+    @IBAction private func postAuthorPressed(recognizer: UIGestureRecognizer) {
         
         LoadingView.show()
         
@@ -189,13 +189,13 @@ extension FeedPostCell {
     }
     
     /// Тап по количеству лайков поста.
-    @IBAction func likesCountLabelPressed(recognizer: UIGestureRecognizer) {
+    @IBAction private func likesCountLabelPressed(recognizer: UIGestureRecognizer) {
         guard let cellPost = cellPost else { return }
         delegate?.likesCountLabelPressed(postID: cellPost.id)
     }
     
     /// Тап  по сердечку под постом.
-    @IBAction func likeImagePressed(recognizer: UIGestureRecognizer) {
+    @IBAction private func likeImagePressed(recognizer: UIGestureRecognizer) {
         likeUnlikePost()
     }
 }
