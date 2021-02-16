@@ -9,7 +9,7 @@
 import UIKit
 
 final class AuthorizationViewController: UIViewController {
-
+    
     // MARK: - Properties
     
     var viewModel: AuthorizationViewModelProtocol!

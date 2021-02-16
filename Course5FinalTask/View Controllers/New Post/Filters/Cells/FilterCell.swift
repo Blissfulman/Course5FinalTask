@@ -19,8 +19,8 @@ final class FilterCell: UICollectionViewCell {
         UINib(nibName: identifier, bundle: nil)
     }
     
-    func configure(photo: UIImage, filterName: String) {
-        thumbnailImageView.image = photo
+    func configure(imageData: Data, filterName: String) {
+        thumbnailImageView.image = UIImage(data: imageData)
         filterNameLabel.text = filterName
     }
 }

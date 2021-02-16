@@ -27,10 +27,8 @@ final class NewPostViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(
-            NewPhotoCell.nib(),
-            forCellWithReuseIdentifier: NewPhotoCell.identifier
-        )
+        collectionView.register(NewPhotoCell.nib(),
+                                forCellWithReuseIdentifier: NewPhotoCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -93,7 +91,10 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
     // MARK: - Сollection view delegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let filtersVC = FiltersViewController(selectedImage: newImages[indexPath.item])
+        guard let imageData = newImages[indexPath.item].pngData() else { return }
+        
+        let filtersVC = FiltersViewController()
+        filtersVC.viewModel = FiltersViewModel(imageData: imageData)
         navigationController?.pushViewController(filtersVC, animated: true)
     }
 }
