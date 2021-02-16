@@ -177,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				74B79257202B3254006BCB41 /* AppDelegate.swift */,
-				CE7632682573732A00E4F7AE /* View Controllers */,
+				CE7632682573732A00E4F7AE /* Modules */,
 				CE76326D257374BA00E4F7AE /* Models */,
 				CE4075BE25754B21006F4592 /* Networking */,
 				74B7927B202B3427006BCB41 /* Storyboards */,
@@ -322,17 +322,19 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		CE7632682573732A00E4F7AE /* View Controllers */ = {
+		CE7632682573732A00E4F7AE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
 				CE4075C125755F1B006F4592 /* Authorization */,
 				CE4075D225776F59006F4592 /* TabBar */,
 				CED3279724DEE22900BB1A80 /* Feed */,
 				CEBE92AA25264B72002A6A63 /* New Post */,
+				CEBE92B32529A9D7002A6A63 /* Filters */,
+				CEA36F40252F785000386D64 /* Sharing */,
 				CED3279824DEE23C00BB1A80 /* Profile */,
 				CE4075D125776F0E006F4592 /* UserList */,
 			);
-			path = "View Controllers";
+			path = Modules;
 			sourceTree = "<group>";
 		};
 		CE76326D257374BA00E4F7AE /* Models */ = {
@@ -375,8 +377,6 @@
 			children = (
 				CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */,
 				CE48841925B9D61F00BCB7F9 /* Cells */,
-				CEBE92B32529A9D7002A6A63 /* Filters */,
-				CEA36F40252F785000386D64 /* Sharing */,
 			);
 			path = "New Post";
 			sourceTree = "<group>";
