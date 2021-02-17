@@ -18,14 +18,25 @@ final class SharingViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet private weak var sharingImageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var descriptionTextField: UITextField!
     
     // MARK: - Properties
     
     weak var delegate: SharingViewControllerDelegate?
     
-    var viewModel: SharingViewModelProtocol!
+    var viewModel: SharingViewModelProtocol
+    
+    // MARK: - Initializers
+    
+    init(viewModel: SharingViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifeсycle methods
     
@@ -39,7 +50,7 @@ final class SharingViewController: UIViewController {
     // MARK: - Setup UI
     
     private func setupUI() {
-        sharingImageView.image = UIImage(data: viewModel.imageData)
+        imageView.image = UIImage(data: viewModel.imageData)
         
         let shareButton = UIBarButtonItem(
             title: "Share", style: .plain, target: self, action: #selector(shareButtonPressed)
@@ -50,7 +61,7 @@ final class SharingViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func shareButtonPressed() {
-        viewModel.createPost(withDescription: descriptionTextField.text ?? "")
+        viewModel.createPost(withDescription: descriptionTextField.text)
     }
     
     // MARK: - Private methods
@@ -65,7 +76,7 @@ final class SharingViewController: UIViewController {
             // Переход в ленту
             self.tabBarController?.selectedIndex = 0
             
-            // Вызов метода для прокрутки ленты в верхнее положение
+            // Вызов метода, который выполнит прокрутку ленты в верхнее положение
             guard let feedVC = navControllerFeed.viewControllers.first
                     as? FeedViewController else { return }
             self.delegate = feedVC

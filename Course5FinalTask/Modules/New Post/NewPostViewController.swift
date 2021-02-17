@@ -93,8 +93,7 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let imageData = newImages[indexPath.item].pngData() else { return }
         
-        let filtersVC = FiltersViewController()
-        filtersVC.viewModel = FiltersViewModel(imageData: imageData)
+        let filtersVC = FiltersViewController(viewModel: FiltersViewModel(imageData: imageData))
         navigationController?.pushViewController(filtersVC, animated: true)
     }
 }

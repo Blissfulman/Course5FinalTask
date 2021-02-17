@@ -19,6 +19,7 @@ protocol FiltersViewModelProtocol {
     
     func getCellData(at: IndexPath) -> (thumbnail: Data, filterName: String)
     func applyFilter(at: IndexPath)
+    func getSharingViewModel() -> SharingViewModelProtocol
 }
 
 final class FiltersViewModel: FiltersViewModelProtocol {
@@ -71,6 +72,10 @@ final class FiltersViewModel: FiltersViewModelProtocol {
             LoadingView.hide()
         }
         queue.addOperation(filterOperation)
+    }
+    
+    func getSharingViewModel() -> SharingViewModelProtocol {
+        SharingViewModel(imageData: image.value)
     }
     
     // MARK: - Private methods

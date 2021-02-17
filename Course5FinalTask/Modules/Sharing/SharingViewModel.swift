@@ -17,7 +17,7 @@ protocol SharingViewModelProtocol {
     
     init(imageData: Data)
     
-    func createPost(withDescription: String)
+    func createPost(withDescription: String?)
 }
 
 final class SharingViewModel: SharingViewModelProtocol {
@@ -40,18 +40,14 @@ final class SharingViewModel: SharingViewModelProtocol {
     
     // MARK: - Public methods
     
-    func createPost(withDescription description: String) {
+    func createPost(withDescription description: String?) {
         networkService.createPost(imageData: imageData.base64EncodedString(),
-                                  description: description) {
-            [weak self] result in
-            
-            guard let self = self else { return }
-            
+                                  description: description ?? "") { [weak self] result in
             switch result {
             case .success:
-                self.postDidCreateSuccessfully?()
+                self?.postDidCreateSuccessfully?()
             case let .failure(error):
-                self.error.value = error
+                self?.error.value = error
             }
         }
     }

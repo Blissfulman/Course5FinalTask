@@ -17,7 +17,7 @@ final class FiltersViewController: UIViewController {
     
     // MARK: - Properties
     
-    var viewModel: FiltersViewModelProtocol!
+    var viewModel: FiltersViewModelProtocol
     
     /// Изображение, отображаемое на всю ширину экрана.
     private lazy var imageView: UIImageView = {
@@ -25,6 +25,17 @@ final class FiltersViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
+    // MARK: - Initializers
+    
+    init(viewModel: FiltersViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifeсycle methods
     
@@ -66,11 +77,7 @@ final class FiltersViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func nextButtonTapped() {
-        guard let image = imageView.image,
-              let imageData = image.pngData() else { return }
-        
-        let sharingVC = SharingViewController()
-        sharingVC.viewModel = SharingViewModel(imageData: imageData)
+        let sharingVC = SharingViewController(viewModel: viewModel.getSharingViewModel())
         navigationController?.pushViewController(sharingVC, animated: true)
     }
     

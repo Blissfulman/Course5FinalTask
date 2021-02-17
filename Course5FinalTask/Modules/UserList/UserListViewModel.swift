@@ -11,13 +11,8 @@ import Foundation
 // MARK: - Protocols
 
 protocol UserListViewModelProtocol {
-    
-    /// Список отображаемых в таблице пользователей.
     var userList: Box<[UserModel]> { get }
-    
-    /// Получаемая от сервера ошибка.
     var error: Box<Error?> { get }
-    
     var title: String? { get }
     var numberOfRows: Int { get }
     
