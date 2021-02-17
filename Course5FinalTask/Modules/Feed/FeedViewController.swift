@@ -81,9 +81,8 @@ extension FeedViewController: FeedPostCellDelegate {
     
     /// Переход на экран лайкнувших пост пользователей.
     func likesCountLabelPressed(postID: String) {
-        let likesVC = UserListViewController()
-        likesVC.viewModel = UserListViewModel(postID: postID, userListType: .likes)
-        
+        let userListVM = UserListViewModel(postID: postID, userListType: .likes)
+        let likesVC = UserListViewController(viewModel: userListVM)
         navigationController?.pushViewController(likesVC, animated: true)
     }
     

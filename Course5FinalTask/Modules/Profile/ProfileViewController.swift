@@ -146,23 +146,19 @@ extension ProfileViewController: ProfileHeaderDelegate {
     
     /// Переход на подписчиков пользователя.
     func followersLabelPressed() {
-        
         guard let user = user else { return }
         
-        let followersVC = UserListViewController()
-        followersVC.viewModel = UserListViewModel(userID: user.id, userListType: .followers)
-        
+        let userListVM = UserListViewModel(userID: user.id, userListType: .followers)
+        let followersVC = UserListViewController(viewModel: userListVM)
         navigationController?.pushViewController(followersVC, animated: true)
     }
 
     /// Переход на подписки пользователя.
     func followingLabelPressed() {
-        
         guard let user = user else { return }
         
-        let followingVC = UserListViewController()
-        followingVC.viewModel = UserListViewModel(userID: user.id, userListType: .following)
-        
+        let userListVM = UserListViewModel(userID: user.id, userListType: .following)
+        let followingVC = UserListViewController(viewModel: userListVM)
         navigationController?.pushViewController(followingVC, animated: true)
     }
     
@@ -170,7 +166,6 @@ extension ProfileViewController: ProfileHeaderDelegate {
     
     /// Подписка, либо отписка от пользователя.
     func followUnfollowUser() {
-        
         guard let user = user else { return }
         
         /// Замыкание, в котором обновляются данные о пользователе.

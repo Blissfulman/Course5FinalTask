@@ -12,7 +12,18 @@ final class UserListViewController: UITableViewController {
     
     // MARK: - Properties
     
-    var viewModel: UserListViewModelProtocol!
+    var viewModel: UserListViewModelProtocol
+    
+    // MARK: - Initializers
+    
+    init(viewModel: UserListViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifeсycle methods
     
