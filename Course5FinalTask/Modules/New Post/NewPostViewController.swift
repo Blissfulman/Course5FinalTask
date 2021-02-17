@@ -12,13 +12,13 @@ final class NewPostViewController: UIViewController {
     
     // MARK: - Properties
     
-    /// Массив новых изображений.
-    private var newImages = [UIImage]()
+    var viewModel: NewPostViewModelProtocol = NewPostViewModel()
+    
+    private let numberOfColumns: CGFloat = 3
     
     /// Коллекция изображений для использования в новых публикациях.
-    private lazy var newPostImagesCollectionView: UICollectionView = {
+    private lazy var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let numberOfColumns: CGFloat = 3
         let size = self.view.bounds.width / numberOfColumns
         layout.itemSize = CGSize(width: size, height: size)
         layout.minimumLineSpacing = 0
@@ -33,39 +33,29 @@ final class NewPostViewController: UIViewController {
         return collectionView
     }()
     
-    /// Количество колонок в представлении изображений.
-    private let numberOfColumns: CGFloat = 3
-    
     // MARK: - Lifeсycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        newImages = NewImagesProvider.shared.getNewImages()
         setupUI()
         setupLayout()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        LoadingView.show()
-        newPostImagesCollectionView.reloadData()
-        LoadingView.hide()
     }
     
     // MARK: - Setup UI
     
     private func setupUI() {
-        view.addSubview(newPostImagesCollectionView)
+        view.addSubview(imagesCollectionView)
     }
     
     // MARK: - Setup layout
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            newPostImagesCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            newPostImagesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            newPostImagesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            newPostImagesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            imagesCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            imagesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            imagesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            imagesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
@@ -75,35 +65,23 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
     // MARK: - Сollection view data source
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        newImages.count
+        viewModel.numberOfItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = newPostImagesCollectionView.dequeueReusableCell(
+        let cell = imagesCollectionView.dequeueReusableCell(
             withReuseIdentifier: NewPhotoCell.identifier, for: indexPath
         ) as! NewPhotoCell
         
-        cell.configure(newImages[indexPath.item])
+        cell.configure(viewModel.getCellData(at: indexPath))
         return cell
     }
     
     // MARK: - Сollection view delegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let imageData = newImages[indexPath.item].pngData() else { return }
-        
-        let filtersVC = FiltersViewController(viewModel: FiltersViewModel(imageData: imageData))
+        let filtersVC = FiltersViewController(viewModel: viewModel.getFiltersViewModel(at: indexPath))
         navigationController?.pushViewController(filtersVC, animated: true)
-    }
-}
-
-// MARK: - Collection view layout
-
-extension NewPostViewController: UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = newPostImagesCollectionView.bounds.width / numberOfColumns
-        return CGSize(width: size, height: size)
     }
 }

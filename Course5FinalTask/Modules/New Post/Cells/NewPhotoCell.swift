@@ -18,7 +18,7 @@ final class NewPhotoCell: UICollectionViewCell {
         UINib(nibName: identifier, bundle: nil)
     }
     
-    func configure(_ photo: UIImage) {
-        photoImageView.image = photo
+    func configure(_ imageData: Data) {
+        photoImageView.image = UIImage(data: imageData)
     }
 }
