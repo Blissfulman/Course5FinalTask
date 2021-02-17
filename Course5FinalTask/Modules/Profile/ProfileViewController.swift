@@ -43,7 +43,6 @@ final class ProfileViewController: UIViewController {
     /// Семафор для установки порядка запросов к провайдеру.
     private let semaphore = DispatchSemaphore(value: 1)
     
-    private let appDelegate = AppDelegate.shared
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Lifeсycle methods
@@ -74,9 +73,9 @@ final class ProfileViewController: UIViewController {
     @objc private func logOutButtonPressed() {
         networkService.singOut() { _ in }
         
-        let authorizationVC = AuthorizationViewController()
+        let authorizationVC = AuthorizationViewController(viewModel: AuthorizationViewModel())
         NetworkService.token = ""
-        appDelegate.window?.rootViewController = authorizationVC
+        AppDelegate.shared.window?.rootViewController = authorizationVC
     }
     
     // MARK: - Private methods

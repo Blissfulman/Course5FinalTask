@@ -12,7 +12,7 @@ final class AuthorizationViewController: UIViewController {
     
     // MARK: - Properties
     
-    var viewModel: AuthorizationViewModelProtocol!
+    var viewModel: AuthorizationViewModelProtocol
     
     private lazy var loginTextField: UITextField = {
         let textField = UITextField()
@@ -60,7 +60,16 @@ final class AuthorizationViewController: UIViewController {
         return button
     }()
     
-    private let appDelegate = AppDelegate.shared
+    // MARK: - Initializers
+    
+    init(viewModel: AuthorizationViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle methods
     
@@ -130,14 +139,14 @@ final class AuthorizationViewController: UIViewController {
     // MARK: - Private methods
     
     private func setupViewModelBinding() {
-        viewModel.authorizationSuccess = { [weak self] in
+        viewModel.authorizationSuccess = {
             let storyboard = UIStoryboard(name: AppDelegate.storyboardName, bundle: nil)
             
             guard let tabBarController = storyboard.instantiateViewController(
                     withIdentifier: TabBarController.identifier
             ) as? TabBarController else { return }
             
-            self?.appDelegate.window?.rootViewController = tabBarController
+            AppDelegate.shared.window?.rootViewController = tabBarController
         }
         
         viewModel.error.bind { [weak self] error in
