@@ -41,12 +41,6 @@
                             <constraint firstAttribute="width" secondItem="KoD-co-jZQ" secondAttribute="height" multiplier="1:1" id="GlI-te-gQU"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Likes: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u4M-OC-hFG">
-                        <rect key="frame" x="15" y="478.5" width="52" height="17"/>
-                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="like" translatesAutoresizingMaskIntoConstraints="NO" id="Yg7-SV-Gbi">
                         <rect key="frame" x="355" y="465" width="44" height="44"/>
                         <constraints>
@@ -63,15 +57,41 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bigLike" translatesAutoresizingMaskIntoConstraints="NO" id="0Uw-Lj-LwZ">
                         <rect key="frame" x="157" y="208" width="100" height="100"/>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ax0-tl-HZ9">
+                        <rect key="frame" x="15" y="478.5" width="44" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="55" id="ofg-Tk-b4j"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                        <inset key="contentEdgeInsets" minX="2" minY="0.0" maxX="2" maxY="0.0"/>
+                        <inset key="titleEdgeInsets" minX="-2" minY="0.0" maxX="-2" maxY="0.0"/>
+                        <state key="normal" title="Likes:">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="likesCountButtonTapped" destination="pZ3-bL-6se" eventType="touchUpInside" id="o8B-Q4-IRI"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Xb-Xb-Aia">
+                        <rect key="frame" x="355" y="465" width="44" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="PhT-ec-MO6"/>
+                            <constraint firstAttribute="width" constant="44" id="wmq-3h-i9h"/>
+                        </constraints>
+                        <state key="normal" image="like"/>
+                        <connections>
+                            <action selector="likeButtonTapped" destination="pZ3-bL-6se" eventType="touchUpInside" id="vnw-uu-urT"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="u4M-OC-hFG" firstAttribute="leading" secondItem="RQx-85-nX2" secondAttribute="leading" constant="15" id="1u7-Pi-GjZ"/>
                     <constraint firstItem="OIo-43-dFL" firstAttribute="leading" secondItem="RQx-85-nX2" secondAttribute="leading" constant="15" id="DFU-Vx-t4R"/>
                     <constraint firstItem="Yg7-SV-Gbi" firstAttribute="top" secondItem="KoD-co-jZQ" secondAttribute="bottom" id="Oh7-oU-5Px"/>
-                    <constraint firstItem="u4M-OC-hFG" firstAttribute="centerY" secondItem="Yg7-SV-Gbi" secondAttribute="centerY" id="R7W-D4-IDP"/>
+                    <constraint firstItem="Ax0-tl-HZ9" firstAttribute="centerY" secondItem="Yg7-SV-Gbi" secondAttribute="centerY" id="Qoo-QJ-8Fj"/>
                     <constraint firstItem="L0b-Ii-Qel" firstAttribute="bottom" secondItem="OIo-43-dFL" secondAttribute="bottom" id="TBJ-vb-cma"/>
+                    <constraint firstItem="Ax0-tl-HZ9" firstAttribute="leading" secondItem="RQx-85-nX2" secondAttribute="leading" constant="15" id="TVM-aQ-vzj"/>
                     <constraint firstAttribute="trailing" secondItem="KoD-co-jZQ" secondAttribute="trailing" id="UIS-QW-LGv"/>
                     <constraint firstAttribute="trailing" secondItem="4d3-n5-p2d" secondAttribute="trailing" constant="15" id="UVL-Qh-2S1"/>
                     <constraint firstItem="Oxq-jq-I4P" firstAttribute="leading" secondItem="OIo-43-dFL" secondAttribute="trailing" constant="8" id="Xre-gv-6Dm"/>
@@ -80,11 +100,13 @@
                     <constraint firstItem="L0b-Ii-Qel" firstAttribute="leading" secondItem="Oxq-jq-I4P" secondAttribute="leading" id="jeW-jD-Uq4"/>
                     <constraint firstItem="KoD-co-jZQ" firstAttribute="leading" secondItem="RQx-85-nX2" secondAttribute="leading" id="l3V-HO-UgU"/>
                     <constraint firstItem="Oxq-jq-I4P" firstAttribute="top" secondItem="OIo-43-dFL" secondAttribute="top" id="lfc-R8-rql"/>
+                    <constraint firstAttribute="trailing" secondItem="4Xb-Xb-Aia" secondAttribute="trailing" constant="15" id="o87-bk-NWB"/>
                     <constraint firstItem="4d3-n5-p2d" firstAttribute="top" secondItem="Yg7-SV-Gbi" secondAttribute="bottom" id="q6T-vj-jpq"/>
                     <constraint firstItem="0Uw-Lj-LwZ" firstAttribute="centerX" secondItem="KoD-co-jZQ" secondAttribute="centerX" id="qZC-4p-dk7"/>
                     <constraint firstItem="0Uw-Lj-LwZ" firstAttribute="centerY" secondItem="KoD-co-jZQ" secondAttribute="centerY" id="qed-f9-CW9"/>
                     <constraint firstItem="KoD-co-jZQ" firstAttribute="top" secondItem="OIo-43-dFL" secondAttribute="bottom" constant="8" id="rOh-7f-kId"/>
                     <constraint firstItem="OIo-43-dFL" firstAttribute="top" secondItem="RQx-85-nX2" secondAttribute="top" constant="8" id="rWN-FP-VZq"/>
+                    <constraint firstItem="4Xb-Xb-Aia" firstAttribute="centerY" secondItem="Ax0-tl-HZ9" secondAttribute="centerY" id="ttg-Zb-lak"/>
                     <constraint firstItem="4d3-n5-p2d" firstAttribute="leading" secondItem="RQx-85-nX2" secondAttribute="leading" constant="15" id="x6K-12-ucY"/>
                 </constraints>
             </tableViewCellContentView>
@@ -94,8 +116,8 @@
                 <outlet property="bigLikeImage" destination="0Uw-Lj-LwZ" id="slW-f9-EzP"/>
                 <outlet property="createdTimeLabel" destination="L0b-Ii-Qel" id="Pxq-Jl-mHg"/>
                 <outlet property="descriptionLabel" destination="4d3-n5-p2d" id="J7g-FS-6k5"/>
-                <outlet property="likeImageView" destination="Yg7-SV-Gbi" id="tja-n5-i2C"/>
-                <outlet property="likesCountLabel" destination="u4M-OC-hFG" id="ygM-K3-jgr"/>
+                <outlet property="likeButton" destination="4Xb-Xb-Aia" id="Uc7-xx-SKw"/>
+                <outlet property="likesCountButton" destination="Ax0-tl-HZ9" id="gNz-Ku-OoX"/>
                 <outlet property="postImageView" destination="KoD-co-jZQ" id="7jj-xN-oUq"/>
             </connections>
             <point key="canvasLocation" x="409" y="-416"/>

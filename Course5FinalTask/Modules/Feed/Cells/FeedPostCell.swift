@@ -26,8 +26,8 @@ final class FeedPostCell: UITableViewCell {
     @IBOutlet private weak var createdTimeLabel: UILabel!
     @IBOutlet private weak var postImageView: UIImageView!
     @IBOutlet private weak var bigLikeImage: UIImageView!
-    @IBOutlet private weak var likesCountLabel: UILabel!
-    @IBOutlet private weak var likeImageView: UIImageView!
+    @IBOutlet private weak var likesCountButton: UIButton!
+    @IBOutlet private weak var likeButton: UIButton!
     @IBOutlet private weak var descriptionLabel: UILabel!
     
     // MARK: - Properties
@@ -36,17 +36,19 @@ final class FeedPostCell: UITableViewCell {
     
     weak var delegate: FeedPostCellDelegate?
     
-    /// Пост ячейки
     private var cellPost: PostModel! {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 
                 guard let self = self else { return }
                 
-                self.likeImageView.tintColor = self.cellPost.currentUserLikesThisPost
-                    ? .systemBlue
-                    : .lightGray
-                self.likesCountLabel.text = "Likes: " + String(self.cellPost.likedByCount)
+                UIView.animate(withDuration: 0.3) {
+                    self.likeButton.tintColor = self.cellPost.currentUserLikesThisPost
+                        ? .systemBlue
+                        : .lightGray
+                }
+                self.likesCountButton.setTitle("Likes: " + String(self.cellPost.likedByCount),
+                                               for: .normal)
             }
         }
     }
@@ -124,31 +126,17 @@ extension FeedPostCell {
         
         // Жест тапа по автору поста (по аватарке)
         let authorAvatarGR = UITapGestureRecognizer(
-            target: self, action: #selector(postAuthorPressed(recognizer:))
+            target: self, action: #selector(postAuthorTapped(recognizer:))
         )
         avatarImageView.isUserInteractionEnabled = true
         avatarImageView.addGestureRecognizer(authorAvatarGR)
         
         // Жест тапа по автору поста (по username)
         let authorUsernameGR = UITapGestureRecognizer(
-            target: self, action: #selector(postAuthorPressed(recognizer:))
+            target: self, action: #selector(postAuthorTapped(recognizer:))
         )
         authorUsernameLabel.isUserInteractionEnabled = true
         authorUsernameLabel.addGestureRecognizer(authorUsernameGR)
-        
-        // Жест тапа по количеству лайков поста
-        let likesCountGR = UITapGestureRecognizer(
-            target: self, action: #selector(likesCountLabelPressed(recognizer:))
-        )
-        likesCountLabel.isUserInteractionEnabled = true
-        likesCountLabel.addGestureRecognizer(likesCountGR)
-        
-        // Жест тапа по сердечку под постом
-        let likeImageGR = UITapGestureRecognizer(
-            target: self, action: #selector(likeImagePressed(recognizer:))
-        )
-        likeImageView.isUserInteractionEnabled = true
-        likeImageView.addGestureRecognizer(likeImageGR)
     }
 }
 
@@ -156,7 +144,6 @@ extension FeedPostCell {
 
 extension FeedPostCell {
     
-    /// Двойной тап по картинке поста.
     @IBAction private func postImageDoubleTapped(recognizer: UITapGestureRecognizer) {
         
         // Проверка отсутствия у поста лайка текущего пользователя
@@ -176,8 +163,7 @@ extension FeedPostCell {
         likeUnlikePost()
     }
     
-    /// Тап по автору поста.
-    @IBAction private func postAuthorPressed(recognizer: UIGestureRecognizer) {
+    @IBAction private func postAuthorTapped(recognizer: UIGestureRecognizer) {
         
         LoadingView.show()
         
@@ -194,14 +180,12 @@ extension FeedPostCell {
         }
     }
     
-    /// Тап по количеству лайков поста.
-    @IBAction private func likesCountLabelPressed(recognizer: UIGestureRecognizer) {
+    @IBAction func likesCountButtonTapped() {
         guard let cellPost = cellPost else { return }
         delegate?.likesCountLabelPressed(postID: cellPost.id)
     }
     
-    /// Тап  по сердечку под постом.
-    @IBAction private func likeImagePressed(recognizer: UIGestureRecognizer) {
+    @IBAction private func likeButtonTapped() {
         likeUnlikePost()
     }
 }
