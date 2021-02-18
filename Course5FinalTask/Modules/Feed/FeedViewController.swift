@@ -71,14 +71,14 @@ extension FeedViewController: UITableViewDataSource {
 extension FeedViewController: FeedPostCellDelegate {
     
     /// Переход в профиль автора поста.
-    func authorOfPostPressed(user: UserModel) {
+    func authorOfPostTapped(user: UserModel) {
         let profileVC = ProfileViewController(nibName: nil, bundle: nil)
         profileVC.user = user
         navigationController?.pushViewController(profileVC, animated: true)
     }
     
     /// Переход на экран лайкнувших пост пользователей.
-    func likesCountLabelPressed(postID: String) {
+    func likesCountLabelTapped(postID: String) {
         let userListVM = UserListViewModel(postID: postID, userListType: .likes)
         let likesVC = UserListViewController(viewModel: userListVM)
         navigationController?.pushViewController(likesVC, animated: true)

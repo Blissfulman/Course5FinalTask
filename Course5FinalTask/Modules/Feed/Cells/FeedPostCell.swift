@@ -11,8 +11,8 @@ import UIKit
 // MARK: - Protocols
 
 protocol FeedPostCellDelegate: UIViewController {
-    func authorOfPostPressed(user: UserModel)
-    func likesCountLabelPressed(postID: String)
+    func authorOfPostTapped(user: UserModel)
+    func likesCountLabelTapped(postID: String)
     func updateFeedData()
     func showErrorAlert(_ error: Error)
 }
@@ -170,7 +170,7 @@ extension FeedPostCell {
             
             switch result {
             case let .success(user):
-                self?.delegate?.authorOfPostPressed(user: user)
+                self?.delegate?.authorOfPostTapped(user: user)
                 LoadingView.hide()
             case let .failure(error):
                 self?.delegate?.showErrorAlert(error)
@@ -180,7 +180,7 @@ extension FeedPostCell {
     
     @IBAction func likesCountButtonTapped() {
         guard let cellPost = cellPost else { return }
-        delegate?.likesCountLabelPressed(postID: cellPost.id)
+        delegate?.likesCountLabelTapped(postID: cellPost.id)
     }
     
     @IBAction private func likeButtonTapped() {

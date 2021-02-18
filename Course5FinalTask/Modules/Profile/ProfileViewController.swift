@@ -70,7 +70,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc private func logOutButtonPressed() {
+    @objc private func logOutButtonTapped() {
         networkService.singOut() { _ in }
         
         let authorizationVC = AuthorizationViewController(viewModel: AuthorizationViewModel())
@@ -82,7 +82,7 @@ final class ProfileViewController: UIViewController {
     
     private func addLogOutButton() {
         let logOutButton = UIBarButtonItem(
-            title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonPressed)
+            title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonTapped)
         )
         navigationItem.rightBarButtonItem = logOutButton
     }
@@ -148,7 +148,7 @@ extension ProfileViewController: ProfileHeaderDelegate {
     // MARK: - Navigation
     
     /// Переход на подписчиков пользователя.
-    func followersLabelPressed() {
+    func followersLabelTapped() {
         guard let user = user else { return }
         
         let userListVM = UserListViewModel(userID: user.id, userListType: .followers)
@@ -157,7 +157,7 @@ extension ProfileViewController: ProfileHeaderDelegate {
     }
 
     /// Переход на подписки пользователя.
-    func followingLabelPressed() {
+    func followingLabelTapped() {
         guard let user = user else { return }
         
         let userListVM = UserListViewModel(userID: user.id, userListType: .following)

@@ -1,5 +1,5 @@
 //
-//  ShareViewModel.swift
+//  SharingViewModel.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 12.02.2021.

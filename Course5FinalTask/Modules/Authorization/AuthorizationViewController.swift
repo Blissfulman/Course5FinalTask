@@ -56,7 +56,7 @@ final class AuthorizationViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 15)
         button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(signInButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -129,7 +129,7 @@ final class AuthorizationViewController: UIViewController {
         signInButton.alpha = CGFloat(viewModel.signInButtonAlpha)
     }
     
-    @objc private func signInButtonPressed() {
+    @objc private func signInButtonTapped() {
         view.endEditing(true)
         viewModel.authorizeUser()
     }
@@ -163,7 +163,7 @@ extension AuthorizationViewController: UITextFieldDelegate {
         if textField == loginTextField {
             passwordTextField.becomeFirstResponder()
         } else {
-            signInButtonPressed()
+            signInButtonTapped()
         }
         return true
     }

@@ -47,7 +47,7 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                     <connections>
-                        <action selector="followButtonPressed:" destination="lvA-Kr-fAk" eventType="touchUpInside" id="3E9-UL-eiP"/>
+                        <action selector="followButtonTapped:" destination="lvA-Kr-fAk" eventType="touchUpInside" id="3E9-UL-eiP"/>
                     </connections>
                 </button>
             </subviews>

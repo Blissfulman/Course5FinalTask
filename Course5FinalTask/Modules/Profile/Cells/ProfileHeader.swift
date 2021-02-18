@@ -11,8 +11,8 @@ import UIKit
 // MARK: - Protocols
 
 protocol ProfileHeaderDelegate: UIViewController {
-    func followersLabelPressed()
-    func followingLabelPressed()
+    func followersLabelTapped()
+    func followingLabelTapped()
     func followUnfollowUser()
 }
 
@@ -49,20 +49,6 @@ final class ProfileHeader: UICollectionReusableView {
         setupGestureRecognizers()
     }
     
-    // MARK: - Actions
-    
-    @IBAction private func followersLabelPressed(recognizer: UIGestureRecognizer) {
-        delegate?.followersLabelPressed()
-    }
-    
-    @IBAction private func followingLabelPressed(recognizer: UIGestureRecognizer) {
-        delegate?.followingLabelPressed()
-    }
-    
-    @IBAction private func followButtonPressed(_ sender: UIButton) {
-        delegate?.followUnfollowUser()
-    }
-    
     // MARK: - Public methods
     
     func configure(user: UserModel, isCurrentUser: Bool) {
@@ -80,6 +66,20 @@ final class ProfileHeader: UICollectionReusableView {
         followingLabel.text = "Following: " + String(user.followsCount)
     }
     
+    // MARK: - Actions
+    
+    @IBAction private func followersLabelTapped(recognizer: UIGestureRecognizer) {
+        delegate?.followersLabelTapped()
+    }
+    
+    @IBAction private func followingLabelTapped(recognizer: UIGestureRecognizer) {
+        delegate?.followingLabelTapped()
+    }
+    
+    @IBAction private func followButtonTapped(_ sender: UIButton) {
+        delegate?.followUnfollowUser()
+    }
+    
     // MARK: - Private methods
     
     private func setupFollowButton(user: UserModel) {
@@ -92,14 +92,14 @@ final class ProfileHeader: UICollectionReusableView {
         
         // Жест тапа по подписчикам
         let followersGR = UITapGestureRecognizer(
-            target: self, action: #selector(followersLabelPressed(recognizer:))
+            target: self, action: #selector(followersLabelTapped(recognizer:))
         )
         followersLabel.isUserInteractionEnabled = true
         followersLabel.addGestureRecognizer(followersGR)
         
         // Жест тапа по подпискам
         let followingGR = UITapGestureRecognizer(
-            target: self, action: #selector(followingLabelPressed(recognizer:))
+            target: self, action: #selector(followingLabelTapped(recognizer:))
         )
         followingLabel.isUserInteractionEnabled = true
         followingLabel.addGestureRecognizer(followingGR)

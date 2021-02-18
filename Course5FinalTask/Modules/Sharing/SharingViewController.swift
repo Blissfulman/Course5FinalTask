@@ -53,14 +53,14 @@ final class SharingViewController: UIViewController {
         imageView.image = UIImage(data: viewModel.imageData)
         
         let shareButton = UIBarButtonItem(
-            title: "Share", style: .plain, target: self, action: #selector(shareButtonPressed)
+            title: "Share", style: .plain, target: self, action: #selector(shareButtonTapped)
         )
         navigationItem.rightBarButtonItem = shareButton
     }
     
     // MARK: - Actions
     
-    @objc private func shareButtonPressed() {
+    @objc private func shareButtonTapped() {
         viewModel.createPost(withDescription: descriptionTextField.text)
     }
     
