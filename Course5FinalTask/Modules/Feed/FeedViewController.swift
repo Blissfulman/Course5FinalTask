@@ -30,6 +30,8 @@ final class FeedViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         LoadingView.show()
         
         networkService.getFeed() {
@@ -84,9 +86,7 @@ extension FeedViewController: FeedPostCellDelegate {
     
     /// Обновление данных массива постов ленты (вызывается после лайка/анлайка).
     func updateFeedData() {
-        
-        networkService.getFeed() {
-            [weak self] result in
+        networkService.getFeed() { [weak self] result in
             
             switch result {
             case let .success(feedPosts):
@@ -102,9 +102,10 @@ extension FeedViewController: FeedPostCellDelegate {
     }
 }
 
-// MARK: - ShareViewControllerDelegate
+// MARK: - SharingViewControllerDelegate
 
 extension FeedViewController: SharingViewControllerDelegate {
+    
     // Прокрутка ленты в верхнее положение
     func updateAfterPosting() {
         feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)

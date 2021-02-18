@@ -73,7 +73,7 @@ final class FeedPostCell: UITableViewCell {
     
     func configure(_ post: PostModel) {
                 
-        // Сохранения поста ячейки
+        // Сохранение поста ячейки
         cellPost = post
 
         // Заполнение всех элементов ячейки данными
@@ -95,8 +95,6 @@ final class FeedPostCell: UITableViewCell {
             switch result {
             case let .success(updatedPost):
                 self?.cellPost = updatedPost
-                
-                // Обновление данных в массиве постов
                 self?.delegate?.updateFeedData()
             case .failure:
                 break
