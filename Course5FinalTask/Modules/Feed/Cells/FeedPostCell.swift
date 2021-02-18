@@ -53,6 +53,12 @@ final class FeedPostCell: UITableViewCell {
     
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
+    // MARK: - Class methods
+    
+    static func nib() -> UINib {
+        UINib(nibName: identifier, bundle: nil)
+    }
+    
     // MARK: - Lifeсycle methods
     
     override func awakeFromNib() {

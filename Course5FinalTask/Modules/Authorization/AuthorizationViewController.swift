@@ -85,9 +85,7 @@ final class AuthorizationViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .white
-        view.addSubview(loginTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(signInButton)
+        [loginTextField, passwordTextField, signInButton].forEach { view.addSubview($0) }
         signInButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
     }
     
@@ -140,12 +138,7 @@ final class AuthorizationViewController: UIViewController {
     
     private func setupViewModelBinding() {
         viewModel.authorizationSuccess = {
-            let storyboard = UIStoryboard(name: AppDelegate.storyboardName, bundle: nil)
-            
-            guard let tabBarController = storyboard.instantiateViewController(
-                    withIdentifier: TabBarController.identifier
-            ) as? TabBarController else { return }
-            
+            let tabBarController = TabBarController()
             AppDelegate.shared.window?.rootViewController = tabBarController
         }
         

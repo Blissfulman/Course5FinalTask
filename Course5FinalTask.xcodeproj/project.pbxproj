@@ -32,6 +32,10 @@
 		CE76326A2573743F00E4F7AE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7632692573743F00E4F7AE /* UserModel.swift */; };
 		CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */; };
 		CE813ABE2580F77D006DCCBB /* UserListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE813ABD2580F77D006DCCBB /* UserListType.swift */; };
+		CE88991825DE4404000DA414 /* NewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991725DE4404000DA414 /* NewPostViewController.xib */; };
+		CE88991A25DE4998000DA414 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991925DE4998000DA414 /* ProfileViewController.xib */; };
+		CE88991C25DE55EA000DA414 /* FeedPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991B25DE55EA000DA414 /* FeedPostCell.xib */; };
+		CE88991E25DE5680000DA414 /* FeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991D25DE5680000DA414 /* FeedViewController.xib */; };
 		CE9BEA7A258B19090006EFEA /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9BEA79258B19090006EFEA /* UIImageView+Extension.swift */; };
 		CE9BEA7E258BB9690006EFEA /* NewImagesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9BEA7D258BB9690006EFEA /* NewImagesProvider.swift */; };
 		CE9C3593252A421A00730A47 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C3591252A421A00730A47 /* FilterCell.swift */; };
@@ -45,7 +49,6 @@
 		CEBE92B22528C588002A6A63 /* NewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE92B12528C588002A6A63 /* NewPhotoCell.swift */; };
 		CEBE92B62529AA7A002A6A63 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE92B42529AA7A002A6A63 /* FiltersViewController.swift */; };
 		CEBE92B72529AA7A002A6A63 /* FiltersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE92B52529AA7A002A6A63 /* FiltersViewController.xib */; };
-		CECB0BFB24C86E870086A593 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CECB0BFA24C86E870086A593 /* Main.storyboard */; };
 		CECB0BFD24C86FFA0086A593 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CECB0BFC24C86FFA0086A593 /* LaunchScreen.storyboard */; };
 		CECB0BFF24C8725D0086A593 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECB0BFE24C8725D0086A593 /* FeedViewController.swift */; };
 		CED3279024DE6E4000BB1A80 /* ProfilePhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CED3278F24DE6E4000BB1A80 /* ProfilePhotoCell.xib */; };
@@ -106,6 +109,10 @@
 		CE7632692573743F00E4F7AE /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CE813ABD2580F77D006DCCBB /* UserListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListType.swift; sourceTree = "<group>"; };
+		CE88991725DE4404000DA414 /* NewPostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPostViewController.xib; sourceTree = "<group>"; };
+		CE88991925DE4998000DA414 /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
+		CE88991B25DE55EA000DA414 /* FeedPostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedPostCell.xib; sourceTree = "<group>"; };
+		CE88991D25DE5680000DA414 /* FeedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedViewController.xib; sourceTree = "<group>"; };
 		CE9BEA79258B19090006EFEA /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		CE9BEA7D258BB9690006EFEA /* NewImagesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewImagesProvider.swift; sourceTree = "<group>"; };
 		CE9C3591252A421A00730A47 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
@@ -119,7 +126,6 @@
 		CEBE92B12528C588002A6A63 /* NewPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPhotoCell.swift; sourceTree = "<group>"; };
 		CEBE92B42529AA7A002A6A63 /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		CEBE92B52529AA7A002A6A63 /* FiltersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FiltersViewController.xib; sourceTree = "<group>"; };
-		CECB0BFA24C86E870086A593 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CECB0BFC24C86FFA0086A593 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CECB0BFE24C8725D0086A593 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		CED3278F24DE6E4000BB1A80 /* ProfilePhotoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfilePhotoCell.xib; sourceTree = "<group>"; };
@@ -182,20 +188,11 @@
 				CE7632682573732A00E4F7AE /* Modules */,
 				CE76326D257374BA00E4F7AE /* Models */,
 				CE4075BE25754B21006F4592 /* Networking */,
-				74B7927B202B3427006BCB41 /* Storyboards */,
 				CEA36F3D252E25E300386D64 /* Additional Files */,
 				74B7927D202B3434006BCB41 /* Supporting Files */,
 				74B7927C202B342E006BCB41 /* Resources */,
 			);
 			path = Course5FinalTask;
-			sourceTree = "<group>";
-		};
-		74B7927B202B3427006BCB41 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				CECB0BFA24C86E870086A593 /* Main.storyboard */,
-			);
-			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		74B7927C202B342E006BCB41 /* Resources */ = {
@@ -300,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				CE6E2D5524D9BD3300A4B08B /* FeedPostCell.swift */,
+				CE88991B25DE55EA000DA414 /* FeedPostCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -379,6 +377,7 @@
 			children = (
 				CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */,
 				CEEB25AA25DD70EE009EF29B /* NewPostViewModel.swift */,
+				CE88991725DE4404000DA414 /* NewPostViewController.xib */,
 				CE48841925B9D61F00BCB7F9 /* Cells */,
 			);
 			path = "New Post";
@@ -399,6 +398,7 @@
 			isa = PBXGroup;
 			children = (
 				CECB0BFE24C8725D0086A593 /* FeedViewController.swift */,
+				CE88991D25DE5680000DA414 /* FeedViewController.xib */,
 				CE48841A25B9D63A00BCB7F9 /* Cells */,
 			);
 			path = Feed;
@@ -408,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				CE6E2D5124D947DA00A4B08B /* ProfileViewController.swift */,
+				CE88991925DE4998000DA414 /* ProfileViewController.xib */,
 				CE48841C25B9D65700BCB7F9 /* Cells */,
 			);
 			path = Profile;
@@ -481,10 +482,13 @@
 				CECB0BFD24C86FFA0086A593 /* LaunchScreen.storyboard in Resources */,
 				CED3279424DED5EC00BB1A80 /* ProfileHeader.xib in Resources */,
 				CEBE92B02528C4CC002A6A63 /* NewPhotoCell.xib in Resources */,
+				CE88991A25DE4998000DA414 /* ProfileViewController.xib in Resources */,
+				CE88991E25DE5680000DA414 /* FeedViewController.xib in Resources */,
 				74B7925F202B3254006BCB41 /* Assets.xcassets in Resources */,
+				CE88991C25DE55EA000DA414 /* FeedPostCell.xib in Resources */,
 				CE9C3594252A421A00730A47 /* FilterCell.xib in Resources */,
 				CEA36F44252F78C200386D64 /* SharingViewController.xib in Resources */,
-				CECB0BFB24C86E870086A593 /* Main.storyboard in Resources */,
+				CE88991825DE4404000DA414 /* NewPostViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

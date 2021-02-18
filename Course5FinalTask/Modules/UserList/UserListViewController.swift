@@ -93,13 +93,7 @@ extension UserListViewController {
     // MARK: - Navigation
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let storyboard = UIStoryboard(name: AppDelegate.storyboardName, bundle: nil)
-        
-        guard let profileVC = storyboard.instantiateViewController(
-            withIdentifier: ProfileViewController.identifier
-        ) as? ProfileViewController else { return }
-        
+        let profileVC = ProfileViewController(nibName: nil, bundle: nil)
         profileVC.user = viewModel.getUser(atIndexPath: indexPath)
         navigationController?.pushViewController(profileVC, animated: true)
     }

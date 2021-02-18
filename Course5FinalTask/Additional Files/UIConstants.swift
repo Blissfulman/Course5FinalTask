@@ -10,6 +10,8 @@ import UIKit
 
 enum UIConstants {
     
+    static let profileHeaderHeight: CGFloat = 86
+    
     /// Высота строки в таблице списка пользователей.
     static let userListHeightForRow: CGFloat = 45
     

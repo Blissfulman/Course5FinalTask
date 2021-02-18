@@ -26,8 +26,7 @@ final class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        feedTableView.dataSource = self
-        feedTableView.separatorStyle = .none
+        feedTableView.register(FeedPostCell.nib(), forCellReuseIdentifier: FeedPostCell.identifier)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,10 +70,7 @@ extension FeedViewController: FeedPostCellDelegate {
     
     /// Переход в профиль автора поста.
     func authorOfPostPressed(user: UserModel) {
-        guard let profileVC = storyboard?.instantiateViewController(
-                withIdentifier: ProfileViewController.identifier
-        ) as? ProfileViewController else { return }
-        
+        let profileVC = ProfileViewController(nibName: nil, bundle: nil)
         profileVC.user = user
         navigationController?.pushViewController(profileVC, animated: true)
     }
@@ -111,8 +107,6 @@ extension FeedViewController: FeedPostCellDelegate {
 extension FeedViewController: SharingViewControllerDelegate {
     // Прокрутка ленты в верхнее положение
     func updateAfterPosting() {
-        feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0),
-                                  at: .top,
-                                  animated: true)
+        feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
 }
