@@ -6,8 +6,6 @@
 //  Copyright © 2021 e-Legion. All rights reserved.
 //
 
-import Foundation
-
 protocol AuthorizationViewModelProtocol {
     var login: String? { get set }
     var password: String? { get set }

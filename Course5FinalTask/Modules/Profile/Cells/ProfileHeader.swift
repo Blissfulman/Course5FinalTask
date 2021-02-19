@@ -68,11 +68,11 @@ final class ProfileHeader: UICollectionReusableView {
     
     // MARK: - Actions
     
-    @IBAction private func followersLabelTapped(recognizer: UIGestureRecognizer) {
+    @IBAction private func followersLabelTapped() {
         delegate?.followersLabelTapped()
     }
     
-    @IBAction private func followingLabelTapped(recognizer: UIGestureRecognizer) {
+    @IBAction private func followingLabelTapped() {
         delegate?.followingLabelTapped()
     }
     
@@ -89,18 +89,15 @@ final class ProfileHeader: UICollectionReusableView {
     }
     
     private func setupGestureRecognizers() {
-        
         // Жест тапа по подписчикам
-        let followersGR = UITapGestureRecognizer(
-            target: self, action: #selector(followersLabelTapped(recognizer:))
-        )
+        let followersGR = UITapGestureRecognizer(target: self,
+                                                 action: #selector(followersLabelTapped))
         followersLabel.isUserInteractionEnabled = true
         followersLabel.addGestureRecognizer(followersGR)
         
         // Жест тапа по подпискам
-        let followingGR = UITapGestureRecognizer(
-            target: self, action: #selector(followingLabelTapped(recognizer:))
-        )
+        let followingGR = UITapGestureRecognizer(target: self,
+                                                 action: #selector(followingLabelTapped))
         followingLabel.isUserInteractionEnabled = true
         followingLabel.addGestureRecognizer(followingGR)
     }
