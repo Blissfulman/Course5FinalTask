@@ -44,7 +44,7 @@ final class FiltersViewController: UIViewController {
         
         setupUI()
         setupLayout()
-        setupViewModelBinding()
+        setupViewModelBindings()
         
         filtersCollectionView.register(FilterCell.nib(),
                                        forCellWithReuseIdentifier: FilterCell.identifier)
@@ -83,7 +83,7 @@ final class FiltersViewController: UIViewController {
     
     // MARK: - Private methods
     
-    private func setupViewModelBinding() {
+    private func setupViewModelBindings() {
         viewModel.image.bind { [weak self] image in
             DispatchQueue.main.async {
                 self?.imageView.image = UIImage(data: image)

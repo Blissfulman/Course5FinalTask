@@ -30,7 +30,8 @@ final class UserListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUI()
+        title = viewModel.title
+        setupViewModelBindings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,21 +40,21 @@ final class UserListViewController: UITableViewController {
         viewModel.updateUserList()
     }
     
-    // Снятие выделения с ячейки при возврате на вью
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // Снятие выделения с ячейки при возврате на вью
         guard let selectedRow = tableView.indexPathForSelectedRow else { return }
         tableView.deselectRow(at: selectedRow, animated: true)
     }
     
     // MARK: - Private methods
     
-    private func setupUI() {
-        title = viewModel.title
+    private func setupViewModelBindings() {
         viewModel.userList.bind { [weak self] _ in
             self?.tableView.reloadData()
         }
+        
         viewModel.error.bind { [weak self] error in
             guard let error = error else { return }
             self?.showAlert(error)

@@ -10,17 +10,17 @@ import UIKit
 
 // MARK: - Protocols
 
-protocol ProfileHeaderDelegate: UIViewController {
+protocol ProfileHeaderViewDelegate: UIViewController {
     func followersLabelTapped()
     func followingLabelTapped()
-    func followUnfollowUser()
+    func showErrorAlert(_ error: Error)
 }
 
-final class ProfileHeader: UICollectionReusableView {
+final class ProfileHeaderView: UICollectionReusableView {
     
     // MARK: - Class properties
     
-    static let identifier = String(describing: ProfileHeader.self)
+    static let identifier = String(describing: ProfileHeaderView.self)
     
     // MARK: - Class methods
     
@@ -33,37 +33,60 @@ final class ProfileHeader: UICollectionReusableView {
     @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var fullNameLabel: UILabel!
     @IBOutlet private weak var followersLabel: UILabel!
-    @IBOutlet private weak var followingLabel: UILabel!
+    @IBOutlet private weak var followingsLabel: UILabel!
     @IBOutlet private weak var followButton: UIButton!
     
     // MARK: - Properties
     
-    weak var delegate: ProfileHeaderDelegate?
+    var viewModel: ProfileHeaderViewModelProtocol? {
+        didSet {
+            setupUI()
+            setupViewModelBindings()
+        }
+    }
+    
+    weak var delegate: ProfileHeaderViewDelegate?
     
     // MARK: - Lifeсycle methods
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        followButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
         setupGestureRecognizers()
     }
     
-    // MARK: - Public methods
+    // MARK: - Setup UI
     
-    func configure(user: UserModel, isCurrentUser: Bool) {
-        
-        // Если это не профиль текущего пользователя, то устанавливается кнопка подписки/отписки
-        if !isCurrentUser {
-            setupFollowButton(user: user)
-            followButton.isHidden = false
-        }
-
-        avatarImageView.getImage(fromURL: user.avatar)
+    private func setupUI() {
+        followButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
         avatarImageView.layer.cornerRadius = CGFloat(avatarImageView.bounds.width / 2)
-        fullNameLabel.text = user.fullName
-        followersLabel.text = "Followers: " + String(user.followedByCount)
-        followingLabel.text = "Following: " + String(user.followsCount)
+        
+        guard let viewModel = viewModel else { return }
+        
+        // Если это не профиль текущего пользователя, то кнопка подписки/отписки становится видимой
+        followButton.isHidden = viewModel.isHiddenFollowButton
+    }
+    
+    // MARK: - Private methods
+    
+    private func setupViewModelBindings() {
+        guard let viewModel = viewModel else { return }
+        
+        viewModel.user.bind { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.avatarImageView.image = UIImage(data: viewModel.avatarImageData)
+            self.fullNameLabel.text = viewModel.userFullName
+            self.followersLabel.text = viewModel.followersLabelTitle
+            self.followingsLabel.text = viewModel.followingsLabelTitle
+            self.followButton.setTitle(viewModel.followButtonTitle, for: .normal)
+            self.followersLabel.text = viewModel.followersLabelTitle
+        }
+        
+        viewModel.error.bind { [weak self] error in
+            guard let error = error else { return }
+            self?.delegate?.showErrorAlert(error)
+        }
     }
     
     // MARK: - Actions
@@ -76,16 +99,8 @@ final class ProfileHeader: UICollectionReusableView {
         delegate?.followingLabelTapped()
     }
     
-    @IBAction private func followButtonTapped(_ sender: UIButton) {
-        delegate?.followUnfollowUser()
-    }
-    
-    // MARK: - Private methods
-    
-    private func setupFollowButton(user: UserModel) {
-        user.currentUserFollowsThisUser
-            ? followButton.setTitle("Unfollow", for: .normal)
-            : followButton.setTitle("Follow", for: .normal)
+    @IBAction private func followButtonTapped() {
+        viewModel?.followButtonDidTapped()
     }
     
     private func setupGestureRecognizers() {
@@ -98,7 +113,7 @@ final class ProfileHeader: UICollectionReusableView {
         // Жест тапа по подпискам
         let followingGR = UITapGestureRecognizer(target: self,
                                                  action: #selector(followingLabelTapped))
-        followingLabel.isUserInteractionEnabled = true
-        followingLabel.addGestureRecognizer(followingGR)
+        followingsLabel.isUserInteractionEnabled = true
+        followingsLabel.addGestureRecognizer(followingGR)
     }
 }

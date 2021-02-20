@@ -121,7 +121,7 @@ protocol NetworkServiceProtocol {
     func createPost(imageData: String, description: String, completion: @escaping PostResult)
     
     /// Получение изображения по URL.
-    func getImage(fromURL url: URL) -> UIImage?
+    func getImageData(fromURL url: URL) -> Data?
 }
 
 final class NetworkService: NetworkServiceProtocol {
@@ -290,8 +290,8 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func getImage(fromURL url: URL) -> UIImage? {
+    func getImageData(fromURL url: URL) -> Data? {
         guard let imageData = try? Data(contentsOf: url) else { return nil }
-        return UIImage(data: imageData)
+        return UIImage(data: imageData)?.pngData()
     }
 }

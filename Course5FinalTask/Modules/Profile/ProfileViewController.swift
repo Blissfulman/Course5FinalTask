@@ -52,14 +52,12 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         profileCollectionView.register(
-            ProfileHeader.nib(),
+            ProfileHeaderView.nib(),
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: ProfileHeader.identifier
+            withReuseIdentifier: ProfileHeaderView.identifier
         )
         profileCollectionView.register(ProfilePhotoCell.nib(),
                                        forCellWithReuseIdentifier: ProfilePhotoCell.identifier)
-        profileCollectionView.dataSource = self
-        
         getCurrentUser()
     }
     
@@ -99,15 +97,14 @@ extension ProfileViewController: UICollectionViewDataSource {
         case UICollectionView.elementKindSectionHeader:
             let header = profileCollectionView.dequeueReusableSupplementaryView(
                 ofKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: ProfileHeader.identifier,
+                withReuseIdentifier: ProfileHeaderView.identifier,
                 for: indexPath
-            ) as! ProfileHeader
+            ) as! ProfileHeaderView
             
             header.delegate = self
             
-            if let user = user,
-               let isCurrentUser = isCurrentUser {
-                header.configure(user: user, isCurrentUser: isCurrentUser)
+            if let user = user, let isCurrentUser = isCurrentUser {
+                header.viewModel = ProfileHeaderViewModel(user: user, isCurrentUser: isCurrentUser)
             }
             return header
         default: fatalError("Unexpected element kind")
@@ -142,9 +139,9 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: - HeaderProfileCollectionViewDelegate
+// MARK: - ProfileHeaderViewDelegate
 
-extension ProfileViewController: ProfileHeaderDelegate {
+extension ProfileViewController: ProfileHeaderViewDelegate {
     
     // MARK: - Navigation
     
@@ -166,28 +163,8 @@ extension ProfileViewController: ProfileHeaderDelegate {
         navigationController?.pushViewController(followingVC, animated: true)
     }
     
-    // MARK: - Working with followings
-    
-    /// Подписка, либо отписка от пользователя.
-    func followUnfollowUser() {
-        guard let user = user else { return }
-        
-        /// Замыкание, в котором обновляются данные о пользователе.
-        let updatingUser: UserResult = { [weak self] result in
-            
-            switch result {
-            case let .success(updatedUser):
-                self?.user = updatedUser
-                self?.profileCollectionView.reloadData()
-            case let .failure(error):
-                self?.showAlert(error)
-            }
-        }
-        
-        // Подписка/отписка
-        user.currentUserFollowsThisUser
-            ? networkService.unfollowFromUser(withID: user.id, completion: updatingUser)
-            : networkService.followToUser(withID: user.id, completion: updatingUser)
+    func showErrorAlert(_ error: Error) {
+        self.showAlert(error)
     }
 }
 

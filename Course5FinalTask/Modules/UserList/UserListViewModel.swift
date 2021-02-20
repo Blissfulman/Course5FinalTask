@@ -80,7 +80,6 @@ final class UserListViewModel: UserListViewModelProtocol {
         
         /// Замыкание, в котором обновляется список отображаемых пользователей, либо вернувшаяся ошибка.
         let updatingUserList: UsersResult = { [weak self] result in
-                        
             switch result {
             case .success(let userList):
                 self?.userList.value = userList

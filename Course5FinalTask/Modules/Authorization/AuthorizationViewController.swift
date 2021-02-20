@@ -78,7 +78,7 @@ final class AuthorizationViewController: UIViewController {
                 
         setupUI()
         setupLayout()
-        setupViewModelBinding()
+        setupViewModelBindings()
     }
     
     // MARK: - Setup UI
@@ -136,7 +136,7 @@ final class AuthorizationViewController: UIViewController {
     
     // MARK: - Private methods
     
-    private func setupViewModelBinding() {
+    private func setupViewModelBindings() {
         viewModel.authorizationSuccess = {
             let tabBarController = TabBarController()
             AppDelegate.shared.window?.rootViewController = tabBarController

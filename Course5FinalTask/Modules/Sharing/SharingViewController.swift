@@ -23,9 +23,8 @@ final class SharingViewController: UIViewController {
     
     // MARK: - Properties
     
-    weak var delegate: SharingViewControllerDelegate?
-    
     var viewModel: SharingViewModelProtocol
+    weak var delegate: SharingViewControllerDelegate?
     
     // MARK: - Initializers
     
@@ -44,7 +43,7 @@ final class SharingViewController: UIViewController {
         super.viewDidLoad()
         
         setupUI()
-        setupViewModelBinding()
+        setupViewModelBindings()
     }
     
     // MARK: - Setup UI
@@ -66,7 +65,7 @@ final class SharingViewController: UIViewController {
     
     // MARK: - Private methods
     
-    private func setupViewModelBinding() {
+    private func setupViewModelBindings() {
         viewModel.postDidCreateSuccessfully = {
             // Получение корневого вью элемента таб бара "Feed"
             guard let navControllerFeed = self.tabBarController?.viewControllers?.first

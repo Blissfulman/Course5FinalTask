@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProfileHeader" id="lvA-Kr-fAk" customClass="ProfileHeader" customModule="Course5FinalTask" customModuleProvider="target">
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProfileHeaderView" id="lvA-Kr-fAk" customClass="ProfileHeaderView" customModule="Course5FinalTask" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -33,8 +33,8 @@
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Following: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIT-PN-cQl">
-                    <rect key="frame" x="316" y="61" width="82" height="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Followings: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIT-PN-cQl">
+                    <rect key="frame" x="309" y="61" width="89" height="17"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -47,7 +47,7 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                     <connections>
-                        <action selector="followButtonTapped:" destination="lvA-Kr-fAk" eventType="touchUpInside" id="3E9-UL-eiP"/>
+                        <action selector="followButtonTapped" destination="lvA-Kr-fAk" eventType="touchUpInside" id="VIg-RK-wOq"/>
                     </connections>
                 </button>
             </subviews>
@@ -68,7 +68,7 @@
                 <outlet property="avatarImageView" destination="Y2H-SS-Q3h" id="Fs3-8c-QK9"/>
                 <outlet property="followButton" destination="7g5-em-Wod" id="T3c-rg-100"/>
                 <outlet property="followersLabel" destination="5rH-Os-4vr" id="JdJ-e6-MCD"/>
-                <outlet property="followingLabel" destination="pIT-PN-cQl" id="ZKs-nc-r9a"/>
+                <outlet property="followingsLabel" destination="pIT-PN-cQl" id="ZKs-nc-r9a"/>
                 <outlet property="fullNameLabel" destination="Spr-9B-fVD" id="I0h-Un-9g2"/>
             </connections>
             <point key="canvasLocation" x="11.594202898550726" y="-368.30357142857139"/>
