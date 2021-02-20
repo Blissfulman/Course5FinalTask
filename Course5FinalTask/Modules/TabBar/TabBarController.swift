@@ -10,6 +10,10 @@ import UIKit
 
 final class TabBarController: UITabBarController {
     
+    // MARK: - Class properties
+    
+    static let identifier = String(describing: TabBarController.self)
+    
     // MARK: - Nested types
     
     private enum Titles {
@@ -23,10 +27,6 @@ final class TabBarController: UITabBarController {
         static let newPost = "plus"
         static let profile = "profile"
     }
-    
-    // MARK: - Properties
-    
-    static let identifier = String(describing: TabBarController.self)
     
     // MARK: - Lifecycle methods
     

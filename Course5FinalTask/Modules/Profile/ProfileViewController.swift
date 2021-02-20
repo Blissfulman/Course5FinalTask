@@ -10,14 +10,15 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
+    // MARK: - Class properties
+    
+    static let identifier = String(describing: ProfileViewController.self)
+    
     // MARK: - Outlets
     
-    /// Коллекция, отображающая информацию о пользователе.
     @IBOutlet private weak var profileCollectionView: UICollectionView!
     
     // MARK: - Properties
-    
-    static let identifier = String(describing: ProfileViewController.self)
     
     /// Пользователь, данные которого отображает вью.
     var user: UserModel?

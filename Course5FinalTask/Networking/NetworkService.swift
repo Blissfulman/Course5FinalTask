@@ -14,6 +14,8 @@ typealias UsersResult = (Result<[UserModel], Error>) -> Void
 typealias PostResult = (Result<PostModel, Error>) -> Void
 typealias PostsResult = (Result<[PostModel], Error>) -> Void
 
+// MARK: - Protocols
+
 protocol NetworkServiceProtocol {
     /// Переменная, в которой хранится полученный от сервера токен.
     static var token: String { get set }
@@ -124,18 +126,25 @@ protocol NetworkServiceProtocol {
 
 final class NetworkService: NetworkServiceProtocol {
     
-    static let shared: NetworkServiceProtocol = NetworkService()
+    // MARK: - Class properties
     
+    static let shared: NetworkServiceProtocol = NetworkService()
     static var token = ""
+    
+    // MARK: - Properties
     
     private let requestService: RequestServiceProtocol
     private let dataTaskService: DataTaskServiceProtocol
+    
+    // MARK: - Initializers
     
     private init(requestService: RequestServiceProtocol = RequestService.shared,
                  dataTaskService: DataTaskServiceProtocol = DataTaskService.shared) {
         self.requestService = requestService
         self.dataTaskService = dataTaskService
     }
+    
+    // MARK: - Public methods
     
     func singIn(login: String, password: String, completion: @escaping TokenResult) {
         

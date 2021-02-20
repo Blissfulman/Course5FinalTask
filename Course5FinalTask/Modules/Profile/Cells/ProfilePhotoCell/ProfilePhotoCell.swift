@@ -10,13 +10,13 @@ import UIKit
 
 final class ProfilePhotoCell: UICollectionViewCell {
     
-    @IBOutlet private weak var photoImageView: UIImageView!
-    
     static let identifier = String(describing: ProfilePhotoCell.self)
     
     static func nib() -> UINib {
         UINib(nibName: identifier, bundle: nil)
     }
+    
+    @IBOutlet private weak var photoImageView: UIImageView!
     
     func configure(_ post: PostModel) {
         photoImageView.getImage(fromURL: post.image)

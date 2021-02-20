@@ -10,6 +10,7 @@ import UIKit
 
 enum UIConstants {
     
+    /// Высота хедера на экране профиля.
     static let profileHeaderHeight: CGFloat = 86
     
     /// Высота строки в таблице списка пользователей.

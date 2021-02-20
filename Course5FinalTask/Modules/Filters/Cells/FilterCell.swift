@@ -9,15 +9,15 @@
 import UIKit
 
 final class FilterCell: UICollectionViewCell {
-
-    @IBOutlet private weak var thumbnailImageView: UIImageView!
-    @IBOutlet private weak var filterNameLabel: UILabel!
     
     static let identifier = String(describing: FilterCell.self)
     
     static func nib() -> UINib {
         UINib(nibName: identifier, bundle: nil)
     }
+    
+    @IBOutlet private weak var thumbnailImageView: UIImageView!
+    @IBOutlet private weak var filterNameLabel: UILabel!
     
     func configure(imageData: Data, filterName: String) {
         thumbnailImageView.image = UIImage(data: imageData)

@@ -18,14 +18,6 @@ protocol ProfileHeaderDelegate: UIViewController {
 
 final class ProfileHeader: UICollectionReusableView {
     
-    // MARK: - Outlets
-    
-    @IBOutlet private weak var avatarImageView: UIImageView!
-    @IBOutlet private weak var fullNameLabel: UILabel!
-    @IBOutlet private weak var followersLabel: UILabel!
-    @IBOutlet private weak var followingLabel: UILabel!
-    @IBOutlet private weak var followButton: UIButton!
-    
     // MARK: - Class properties
     
     static let identifier = String(describing: ProfileHeader.self)
@@ -35,6 +27,14 @@ final class ProfileHeader: UICollectionReusableView {
     static func nib() -> UINib {
         UINib(nibName: identifier, bundle: nil)
     }
+    
+    // MARK: - Outlets
+    
+    @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var fullNameLabel: UILabel!
+    @IBOutlet private weak var followersLabel: UILabel!
+    @IBOutlet private weak var followingLabel: UILabel!
+    @IBOutlet private weak var followButton: UIButton!
     
     // MARK: - Properties
     

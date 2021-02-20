@@ -18,7 +18,17 @@ protocol FeedPostCellDelegate: UIViewController {
 }
 
 final class FeedPostCell: UITableViewCell {
-
+    
+    // MARK: - Class properties
+    
+    static let identifier = String(describing: FeedPostCell.self)
+    
+    // MARK: - Class methods
+    
+    static func nib() -> UINib {
+        UINib(nibName: identifier, bundle: nil)
+    }
+    
     // MARK: - Outlets
     
     @IBOutlet private weak var avatarImageView: UIImageView!
@@ -31,8 +41,6 @@ final class FeedPostCell: UITableViewCell {
     @IBOutlet private weak var descriptionLabel: UILabel!
     
     // MARK: - Properties
-    
-    static let identifier = String(describing: FeedPostCell.self)
     
     weak var delegate: FeedPostCellDelegate?
     
@@ -54,12 +62,6 @@ final class FeedPostCell: UITableViewCell {
     }
     
     private let networkService: NetworkServiceProtocol = NetworkService.shared
-    
-    // MARK: - Class methods
-    
-    static func nib() -> UINib {
-        UINib(nibName: identifier, bundle: nil)
-    }
     
     // MARK: - Lifeсycle methods
     
