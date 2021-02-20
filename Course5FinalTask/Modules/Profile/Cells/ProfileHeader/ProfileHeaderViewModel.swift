@@ -17,8 +17,8 @@ protocol ProfileHeaderViewModelProtocol {
     var userFullName: String { get }
     var isHiddenFollowButton: Bool { get }
     var followButtonTitle: String { get }
-    var followersLabelTitle: String { get }
-    var followingsLabelTitle: String { get }
+    var followersButtonTitle: String { get }
+    var followingsButtonTitle: String { get }
     
     init(user: UserModel, isCurrentUser: Bool)
     
@@ -48,11 +48,11 @@ final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
         user.value.currentUserFollowsThisUser ? "Unfollow" : "Follow"
     }
     
-    var followersLabelTitle: String {
+    var followersButtonTitle: String {
         "Followers: " + String(user.value.followedByCount)
     }
     
-    var followingsLabelTitle: String {
+    var followingsButtonTitle: String {
         "Followings: " + String(user.value.followsCount)
     }
     

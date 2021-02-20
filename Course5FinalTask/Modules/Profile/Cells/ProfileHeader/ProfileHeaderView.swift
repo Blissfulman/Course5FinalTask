@@ -11,8 +11,8 @@ import UIKit
 // MARK: - Protocols
 
 protocol ProfileHeaderViewDelegate: UIViewController {
-    func followersLabelTapped()
-    func followingLabelTapped()
+    func followersButtonTapped()
+    func followingButtonTapped()
     func showErrorAlert(_ error: Error)
 }
 
@@ -32,8 +32,8 @@ final class ProfileHeaderView: UICollectionReusableView {
     
     @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var fullNameLabel: UILabel!
-    @IBOutlet private weak var followersLabel: UILabel!
-    @IBOutlet private weak var followingsLabel: UILabel!
+    @IBOutlet private weak var followersButton: UIButton!
+    @IBOutlet private weak var followingsButton: UIButton!
     @IBOutlet private weak var followButton: UIButton!
     
     // MARK: - Properties
@@ -46,14 +46,6 @@ final class ProfileHeaderView: UICollectionReusableView {
     }
     
     weak var delegate: ProfileHeaderViewDelegate?
-    
-    // MARK: - Lifeсycle methods
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        setupGestureRecognizers()
-    }
     
     // MARK: - Setup UI
     
@@ -77,10 +69,9 @@ final class ProfileHeaderView: UICollectionReusableView {
             
             self.avatarImageView.image = UIImage(data: viewModel.avatarImageData)
             self.fullNameLabel.text = viewModel.userFullName
-            self.followersLabel.text = viewModel.followersLabelTitle
-            self.followingsLabel.text = viewModel.followingsLabelTitle
+            self.followersButton.setTitle(viewModel.followersButtonTitle, for: .normal)
+            self.followingsButton.setTitle(viewModel.followingsButtonTitle, for: .normal)
             self.followButton.setTitle(viewModel.followButtonTitle, for: .normal)
-            self.followersLabel.text = viewModel.followersLabelTitle
         }
         
         viewModel.error.bind { [weak self] error in
@@ -91,29 +82,15 @@ final class ProfileHeaderView: UICollectionReusableView {
     
     // MARK: - Actions
     
-    @IBAction private func followersLabelTapped() {
-        delegate?.followersLabelTapped()
+    @IBAction private func followersButtonTapped() {
+        delegate?.followersButtonTapped()
     }
     
-    @IBAction private func followingLabelTapped() {
-        delegate?.followingLabelTapped()
+    @IBAction private func followingButtonTapped() {
+        delegate?.followingButtonTapped()
     }
     
     @IBAction private func followButtonTapped() {
         viewModel?.followButtonDidTapped()
-    }
-    
-    private func setupGestureRecognizers() {
-        // Жест тапа по подписчикам
-        let followersGR = UITapGestureRecognizer(target: self,
-                                                 action: #selector(followersLabelTapped))
-        followersLabel.isUserInteractionEnabled = true
-        followersLabel.addGestureRecognizer(followersGR)
-        
-        // Жест тапа по подпискам
-        let followingGR = UITapGestureRecognizer(target: self,
-                                                 action: #selector(followingLabelTapped))
-        followingsLabel.isUserInteractionEnabled = true
-        followingsLabel.addGestureRecognizer(followingGR)
     }
 }

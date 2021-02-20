@@ -146,7 +146,7 @@ extension ProfileViewController: ProfileHeaderViewDelegate {
     // MARK: - Navigation
     
     /// Переход на подписчиков пользователя.
-    func followersLabelTapped() {
+    func followersButtonTapped() {
         guard let user = user else { return }
         
         let userListVM = UserListViewModel(userID: user.id, userListType: .followers)
@@ -155,7 +155,7 @@ extension ProfileViewController: ProfileHeaderViewDelegate {
     }
 
     /// Переход на подписки пользователя.
-    func followingLabelTapped() {
+    func followingButtonTapped() {
         guard let user = user else { return }
         
         let userListVM = UserListViewModel(userID: user.id, userListType: .following)
