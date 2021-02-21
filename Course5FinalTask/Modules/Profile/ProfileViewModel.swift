@@ -23,6 +23,7 @@ protocol ProfileViewModelProtocol {
     func getUser()
     func getCellData(at indexPath: IndexPath) -> Data
     func logOutButtonTapped()
+    func getProfileHeaderViewModel() -> ProfileHeaderViewModelProtocol?
     func getUserListViewModel(withUserListType userListType: UserListType) -> UserListViewModelProtocol?
     func getAuthorizationViewModel() -> AuthorizationViewModelProtocol
 }
@@ -124,6 +125,12 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     func logOutButtonTapped() {
         networkService.singOut() { _ in }
         NetworkService.token = ""
+    }
+    
+    func getProfileHeaderViewModel() -> ProfileHeaderViewModelProtocol? {
+        guard let user = user.value, let isCurrentUser = isCurrentUser.value else { return nil }
+        
+        return ProfileHeaderViewModel(user: user, isCurrentUser: isCurrentUser)
     }
     
     func getUserListViewModel(withUserListType userListType: UserListType) -> UserListViewModelProtocol? {

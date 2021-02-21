@@ -115,8 +115,8 @@ extension ProfileViewController: UICollectionViewDataSource {
             
             header.delegate = self
             
-            if let user = viewModel.user.value, let isCurrentUser = viewModel.isCurrentUser.value {
-                header.viewModel = ProfileHeaderViewModel(user: user, isCurrentUser: isCurrentUser)
+            if let profileHeaderViewModel = viewModel.getProfileHeaderViewModel() {
+                header.viewModel = profileHeaderViewModel
             }
             return header
         default: fatalError("Unexpected element kind")
