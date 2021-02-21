@@ -17,8 +17,8 @@ protocol FiltersViewModelProtocol {
     
     init(imageData: Data)
     
-    func getCellData(at: IndexPath) -> (thumbnail: Data, filterName: String)
-    func applyFilter(at: IndexPath)
+    func getCellData(at indexPath: IndexPath) -> (thumbnail: Data, filterName: String)
+    func applyFilter(at indexPath: IndexPath)
     func getSharingViewModel() -> SharingViewModelProtocol
 }
 

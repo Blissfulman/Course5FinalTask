@@ -9,5 +9,5 @@
 enum UserListType: String {
     case likes = "Likes"
     case followers = "Followers"
-    case following = "Following"
+    case followings = "Followings"
 }

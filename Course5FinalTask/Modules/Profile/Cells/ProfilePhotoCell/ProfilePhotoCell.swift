@@ -18,7 +18,7 @@ final class ProfilePhotoCell: UICollectionViewCell {
     
     @IBOutlet private weak var photoImageView: UIImageView!
     
-    func configure(_ post: PostModel) {
-        photoImageView.getImage(fromURL: post.image)
+    func configure(_ imageData: Data) {
+        photoImageView.image = UIImage(data: imageData)
     }
 }

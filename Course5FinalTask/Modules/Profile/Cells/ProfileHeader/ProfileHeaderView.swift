@@ -12,7 +12,7 @@ import UIKit
 
 protocol ProfileHeaderViewDelegate: UIViewController {
     func followersButtonTapped()
-    func followingButtonTapped()
+    func followingsButtonTapped()
     func showErrorAlert(_ error: Error)
 }
 
@@ -69,9 +69,9 @@ final class ProfileHeaderView: UICollectionReusableView {
             
             self.avatarImageView.image = UIImage(data: viewModel.avatarImageData)
             self.fullNameLabel.text = viewModel.userFullName
+            self.followButton.setTitle(viewModel.followButtonTitle, for: .normal)
             self.followersButton.setTitle(viewModel.followersButtonTitle, for: .normal)
             self.followingsButton.setTitle(viewModel.followingsButtonTitle, for: .normal)
-            self.followButton.setTitle(viewModel.followButtonTitle, for: .normal)
         }
         
         viewModel.error.bind { [weak self] error in
@@ -86,8 +86,8 @@ final class ProfileHeaderView: UICollectionReusableView {
         delegate?.followersButtonTapped()
     }
     
-    @IBAction private func followingButtonTapped() {
-        delegate?.followingButtonTapped()
+    @IBAction private func followingsButtonTapped() {
+        delegate?.followingsButtonTapped()
     }
     
     @IBAction private func followButtonTapped() {

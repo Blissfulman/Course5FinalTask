@@ -20,31 +20,21 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     
-    /// Пользователь, данные которого отображает вью.
-    var user: UserModel?
-        
-    /// Массив постов пользователя.
-    private lazy var userPosts = [PostModel]()
-    
-    /// Логическое значение, указывающее, является ли отображаемый профиль, профилем текущего пользователя.
-    private var isCurrentUser: Bool? {
-        willSet {
-            if let newValue = newValue, newValue {
-                addLogOutButton()
-            }
-        }
-    }
+    var viewModel: ProfileViewModelProtocol
 
     /// Количество колонок в представлении фотографий.
-    private let numberOfColumnsOfPhotos: CGFloat = 3
+    private let numberOfColumns: CGFloat = 3
     
-    /// Очередь для выстраивания запросов данных у провайдера.
-    private let getDataQueue = DispatchQueue(label: "getDataQueue", qos: .userInteractive)
+    // MARK: - Initializers
     
-    /// Семафор для установки порядка запросов к провайдеру.
-    private let semaphore = DispatchSemaphore(value: 1)
+    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, viewModel: ProfileViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
     
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifeсycle methods
     
@@ -58,26 +48,48 @@ final class ProfileViewController: UIViewController {
         )
         profileCollectionView.register(ProfilePhotoCell.nib(),
                                        forCellWithReuseIdentifier: ProfilePhotoCell.identifier)
-        getCurrentUser()
+        viewModel.getCurrentUser()
+        setupViewModelBindings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        getUser()
+        viewModel.getUser()
     }
     
     // MARK: - Actions
     
     @objc private func logOutButtonTapped() {
-        networkService.singOut() { _ in }
-        
-        let authorizationVC = AuthorizationViewController(viewModel: AuthorizationViewModel())
-        NetworkService.token = ""
+        viewModel.logOutButtonTapped()
+
+        let authorizationVC = AuthorizationViewController(viewModel: viewModel.getAuthorizationViewModel())
         AppDelegate.shared.window?.rootViewController = authorizationVC
     }
     
     // MARK: - Private methods
+        
+    private func setupViewModelBindings() {
+        viewModel.user.bind { [weak self] user in
+            self?.navigationItem.title = user?.username
+            self?.profileCollectionView.reloadData()
+        }
+        
+        viewModel.isCurrentUser.bind { [weak self] isCurrentUser in
+            if let isCurrentUser = isCurrentUser, isCurrentUser {
+                self?.addLogOutButton()
+            }
+        }
+        
+        viewModel.userPosts.bind { [weak self] _ in
+            self?.profileCollectionView.reloadData()
+        }
+        
+        viewModel.error.bind { [weak self] error in
+            guard let error = error else { return }
+            self?.showAlert(error)
+        }
+    }
     
     private func addLogOutButton() {
         let logOutButton = UIBarButtonItem(
@@ -103,7 +115,7 @@ extension ProfileViewController: UICollectionViewDataSource {
             
             header.delegate = self
             
-            if let user = user, let isCurrentUser = isCurrentUser {
+            if let user = viewModel.user.value, let isCurrentUser = viewModel.isCurrentUser.value {
                 header.viewModel = ProfileHeaderViewModel(user: user, isCurrentUser: isCurrentUser)
             }
             return header
@@ -112,7 +124,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        userPosts.count
+        viewModel.numberOfItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -120,7 +132,7 @@ extension ProfileViewController: UICollectionViewDataSource {
             withReuseIdentifier: ProfilePhotoCell.identifier, for: indexPath
         ) as! ProfilePhotoCell
         
-        cell.configure(userPosts[indexPath.item])
+        cell.configure(viewModel.getCellData(at: indexPath))
         return cell
     }
 }
@@ -130,11 +142,11 @@ extension ProfileViewController: UICollectionViewDataSource {
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        CGSize(width: profileCollectionView.bounds.width, height: UIConstants.profileHeaderHeight)
+        CGSize(width: profileCollectionView.frame.width, height: UIConstants.profileHeaderHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = profileCollectionView.bounds.width / numberOfColumnsOfPhotos
+        let size = profileCollectionView.frame.width / numberOfColumns
         return CGSize(width: size, height: size)
     }
 }
@@ -147,110 +159,21 @@ extension ProfileViewController: ProfileHeaderViewDelegate {
     
     /// Переход на подписчиков пользователя.
     func followersButtonTapped() {
-        guard let user = user else { return }
+        guard let userListVM = viewModel.getUserListViewModel(withUserListType: .followers) else { return }
         
-        let userListVM = UserListViewModel(userID: user.id, userListType: .followers)
         let followersVC = UserListViewController(viewModel: userListVM)
         navigationController?.pushViewController(followersVC, animated: true)
     }
 
     /// Переход на подписки пользователя.
-    func followingButtonTapped() {
-        guard let user = user else { return }
+    func followingsButtonTapped() {
+        guard let userListVM = viewModel.getUserListViewModel(withUserListType: .followings) else { return }
         
-        let userListVM = UserListViewModel(userID: user.id, userListType: .following)
         let followingVC = UserListViewController(viewModel: userListVM)
         navigationController?.pushViewController(followingVC, animated: true)
     }
     
     func showErrorAlert(_ error: Error) {
         self.showAlert(error)
-    }
-}
-
-// MARK: - Data recieving methods
-
-extension ProfileViewController {
-    
-    /// Получение данных о текущем пользователе.
-    private func getCurrentUser() {
-                
-        // Получение данных о текущем пользователе должно произойти до получения данных об открываемом профиле (которое происходит в методе getUser)
-        getDataQueue.async { [weak self] in
-            
-            guard let self = self else { return }
-
-            self.semaphore.wait()
-
-            self.networkService.getCurrentUser() { result in
-                
-                switch result {
-                case let .success(currentUser):
-                    // Проверка того, открывается ли профиль текущего пользователя
-                    if let userID = self.user?.id, userID != currentUser.id {
-                        self.isCurrentUser = false
-                    } else {
-                        self.isCurrentUser = true
-                        self.user = currentUser
-                    }
-                    
-                    self.navigationItem.title = self.user?.username
-                    self.semaphore.signal()
-                case let .failure(error):
-                    self.showAlert(error)
-                    self.semaphore.signal()
-                }
-            }
-        }
-    }
-    
-    /// Получение данных об открываемом пользователе.
-    private func getUser() {
-        LoadingView.show()
-        
-        getDataQueue.async { [weak self] in
-            
-            guard let self = self else { return }
-
-            self.semaphore.wait()
-            
-            // Эта строка после семафора, потому что наличие user можно проверять только после окончания выполнения функции getCurrentUser()
-            guard let user = self.user else { return }
-            
-            // Обновление данных о пользователе
-            self.networkService.getUser(withID: user.id) { result in
-                
-                switch result {
-                case let .success(user):
-                    self.user = user
-                    self.profileCollectionView.reloadData()
-                    self.semaphore.signal()
-                    
-                    // Обновление данных об изображениях постов пользователя
-                    self.getUserPosts(of: user)
-                case let .failure(error):
-                    self.showAlert(error)
-                    self.semaphore.signal()
-                }
-            }
-        }
-    }
-
-    /// Получение постов пользователя.
-    private func getUserPosts(of user: UserModel) {
-                
-        networkService.getPostsOfUser(withID: user.id) { [weak self] result in
-            
-            guard let self = self else { return }
-            
-            switch result {
-            case let .success(userPosts):
-                self.userPosts = userPosts
-                self.profileCollectionView.reloadData()
-                LoadingView.hide()
-            case let .failure(error):
-                self.showAlert(error)
-            }
-        }
     }
 }

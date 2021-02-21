@@ -14,7 +14,7 @@ protocol NewPostViewModelProtocol {
     var images: [Data] { get }
     var numberOfItems: Int { get }
     
-    func getCellData(at: IndexPath) -> Data
+    func getCellData(at indexPath: IndexPath) -> Data
     func getFiltersViewModel(at indexPath: IndexPath) -> FiltersViewModelProtocol
 }
 

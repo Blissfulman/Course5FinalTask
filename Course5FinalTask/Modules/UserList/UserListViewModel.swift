@@ -18,9 +18,9 @@ protocol UserListViewModelProtocol {
     
     init(postID: String?, userID: String?, userListType: UserListType)
     
-    func getUserImageData(atIndexPath: IndexPath) -> Data?
-    func getUserFullName(atIndexPath: IndexPath) -> String?
-    func getUser(atIndexPath: IndexPath) -> UserModel
+    func getUserImageData(at indexPath: IndexPath) -> Data?
+    func getUserFullName(at indexPath: IndexPath) -> String?
+    func getProfileViewModel(at indexPath: IndexPath) -> ProfileViewModelProtocol
     func updateUserList()
 }
 
@@ -61,17 +61,18 @@ final class UserListViewModel: UserListViewModelProtocol {
     
     // MARK: - Public methods
     
-    func getUserImageData(atIndexPath indexPath: IndexPath) -> Data? {
+    func getUserImageData(at indexPath: IndexPath) -> Data? {
         let url = userList.value[indexPath.row].avatar
         return try? Data(contentsOf: url)
     }
     
-    func getUserFullName(atIndexPath indexPath: IndexPath) -> String? {
+    func getUserFullName(at indexPath: IndexPath) -> String? {
         userList.value[indexPath.row].fullName
     }
     
-    func getUser(atIndexPath indexPath: IndexPath) -> UserModel {
-        userList.value[indexPath.row]
+    func getProfileViewModel(at indexPath: IndexPath) -> ProfileViewModelProtocol {
+        let user = userList.value[indexPath.row]
+        return ProfileViewModel(user: user)
     }
     
     func updateUserList() {
@@ -94,7 +95,7 @@ final class UserListViewModel: UserListViewModelProtocol {
             networkService.getUsersLikedPost(withID: postID, completion: updatingUserList)
         case .followers:
             networkService.getUsersFollowingUser(withID: userID, completion: updatingUserList)
-        case .following:
+        case .followings:
             networkService.getUsersFollowedByUser(withID: userID, completion: updatingUserList)
         }
     }

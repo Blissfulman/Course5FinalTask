@@ -72,8 +72,9 @@ extension FeedViewController: FeedPostCellDelegate {
     
     /// Переход в профиль автора поста.
     func authorOfPostTapped(user: UserModel) {
-        let profileVC = ProfileViewController(nibName: nil, bundle: nil)
-        profileVC.user = user
+        let profileVC = ProfileViewController(nibName: nil,
+                                              bundle: nil,
+                                              viewModel: ProfileViewModel(user: user))
         navigationController?.pushViewController(profileVC, animated: true)
     }
     

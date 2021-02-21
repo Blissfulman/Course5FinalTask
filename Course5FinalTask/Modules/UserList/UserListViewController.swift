@@ -75,8 +75,8 @@ extension UserListViewController {
         
         var content = cell.defaultContentConfiguration()
         content.directionalLayoutMargins = .init(top: 0, leading: 0, bottom: 1, trailing: 0)
-        content.image = UIImage(data: viewModel.getUserImageData(atIndexPath: indexPath) ?? Data())
-        content.text = viewModel.getUserFullName(atIndexPath: indexPath)
+        content.image = UIImage(data: viewModel.getUserImageData(at: indexPath) ?? Data())
+        content.text = viewModel.getUserFullName(at: indexPath)
         
         cell.contentConfiguration = content
         return cell
@@ -94,8 +94,8 @@ extension UserListViewController {
     // MARK: - Navigation
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let profileVC = ProfileViewController(nibName: nil, bundle: nil)
-        profileVC.user = viewModel.getUser(atIndexPath: indexPath)
+        let profileViewModel = viewModel.getProfileViewModel(at: indexPath)
+        let profileVC = ProfileViewController(nibName: nil, bundle: nil, viewModel: profileViewModel)
         navigationController?.pushViewController(profileVC, animated: true)
     }
 }

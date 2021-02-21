@@ -49,7 +49,7 @@ final class TabBarController: UITabBarController {
         let secondTabBarVC = UINavigationController(rootViewController: newPostVC)
         secondTabBarVC.tabBarItem.image = UIImage(named: Images.newPost)
         
-        let profileVC = ProfileViewController(nibName: nil, bundle: nil)
+        let profileVC = ProfileViewController(nibName: nil, bundle: nil, viewModel: ProfileViewModel())
         profileVC.title = Titles.profile
         let thirdTabBarVC = UINavigationController(rootViewController: profileVC)
         thirdTabBarVC.tabBarItem.image = UIImage(named: Images.profile)
