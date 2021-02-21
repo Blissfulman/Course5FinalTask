@@ -50,7 +50,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
         networkService.singIn(login: login, password: password) { [weak self] result in
             
             switch result {
-            case let .success(token):
+            case .success(let token):
                 NetworkService.token = token.token
                 self?.authorizationSuccess?()
             case .failure(let error):

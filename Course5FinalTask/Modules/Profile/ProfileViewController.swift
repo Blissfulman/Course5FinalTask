@@ -61,7 +61,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func logOutButtonTapped() {
-        viewModel.logOutButtonTapped()
+        viewModel.logOutButtonDidTap()
 
         let authorizationVC = AuthorizationViewController(viewModel: viewModel.getAuthorizationViewModel())
         AppDelegate.shared.window?.rootViewController = authorizationVC

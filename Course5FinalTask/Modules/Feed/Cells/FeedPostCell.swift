@@ -95,7 +95,7 @@ final class FeedPostCell: UITableViewCell {
         let updatingPost: PostResult = { [weak self] result in
             
             switch result {
-            case let .success(updatedPost):
+            case .success(let updatedPost):
                 self?.cellPost = updatedPost
                 self?.delegate?.updateFeedData()
             case .failure:
@@ -171,10 +171,10 @@ extension FeedPostCell {
             [weak self] result in
             
             switch result {
-            case let .success(user):
+            case .success(let user):
                 self?.delegate?.authorOfPostTapped(user: user)
                 LoadingView.hide()
-            case let .failure(error):
+            case .failure(let error):
                 self?.delegate?.showErrorAlert(error)
             }
         }

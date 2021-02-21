@@ -38,11 +38,11 @@ final class FeedViewController: UIViewController {
             [weak self] result in
             
             switch result {
-            case let .success(feedPosts):
+            case .success(let feedPosts):
                 self?.feedPosts = feedPosts
                 self?.feedTableView.reloadData()
                 LoadingView.hide()
-            case let .failure(error):
+            case .failure(let error):
                 self?.showAlert(error)
             }
         }
@@ -90,9 +90,9 @@ extension FeedViewController: FeedPostCellDelegate {
         networkService.getFeed() { [weak self] result in
             
             switch result {
-            case let .success(feedPosts):
+            case .success(let feedPosts):
                 self?.feedPosts = feedPosts
-            case let .failure(error):
+            case .failure(let error):
                 self?.showAlert(error)
             }
         }

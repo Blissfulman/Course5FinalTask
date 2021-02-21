@@ -46,7 +46,7 @@ final class SharingViewModel: SharingViewModelProtocol {
             switch result {
             case .success:
                 self?.postDidCreateSuccessfully?()
-            case let .failure(error):
+            case .failure(let error):
                 self?.error.value = error
             }
         }
