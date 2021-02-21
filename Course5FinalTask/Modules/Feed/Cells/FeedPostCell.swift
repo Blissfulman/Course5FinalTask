@@ -149,15 +149,7 @@ extension FeedPostCell {
         // Проверка отсутствия у поста лайка текущего пользователя
         guard !cellPost.currentUserLikesThisPost else { return }
         
-        // Анимация большого сердца на картинке поста
-        let likeAnimation = CAKeyframeAnimation(keyPath: "opacity")
-        likeAnimation.values = [0, 1, 1, 0]
-        likeAnimation.keyTimes = [0, 0.1, 0.3, 0.6]
-        likeAnimation.timingFunctions = [.init(name: .linear),
-                                         .init(name: .linear),
-                                         .init(name: .easeOut)]
-        likeAnimation.duration = 0.6
-        bigLikeImage.layer.add(likeAnimation, forKey: nil)
+        bigLikeImage.bigLikeAnimation()
         
         // Обработка лайка
         likeUnlikePost()

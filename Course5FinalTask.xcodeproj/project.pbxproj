@@ -46,6 +46,7 @@
 		CEA36F43252F78C200386D64 /* SharingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA36F41252F78C200386D64 /* SharingViewController.swift */; };
 		CEA36F44252F78C200386D64 /* SharingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA36F42252F78C200386D64 /* SharingViewController.xib */; };
 		CEB0222424DD79C3009D0615 /* ProfilePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0222324DD79C3009D0615 /* ProfilePhotoCell.swift */; };
+		CEB7A7E625E2B6F1009D9897 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */; };
 		CEBE92AD25264BF6002A6A63 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */; };
 		CEBE92B02528C4CC002A6A63 /* NewPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE92AF2528C4CC002A6A63 /* NewPhotoCell.xib */; };
 		CEBE92B22528C588002A6A63 /* NewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE92B12528C588002A6A63 /* NewPhotoCell.swift */; };
@@ -125,6 +126,7 @@
 		CEA36F41252F78C200386D64 /* SharingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViewController.swift; sourceTree = "<group>"; };
 		CEA36F42252F78C200386D64 /* SharingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SharingViewController.xib; sourceTree = "<group>"; };
 		CEB0222324DD79C3009D0615 /* ProfilePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhotoCell.swift; sourceTree = "<group>"; };
+		CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		CEBE92AF2528C4CC002A6A63 /* NewPhotoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPhotoCell.xib; sourceTree = "<group>"; };
 		CEBE92B12528C588002A6A63 /* NewPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPhotoCell.swift; sourceTree = "<group>"; };
@@ -300,9 +302,10 @@
 			isa = PBXGroup;
 			children = (
 				CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */,
-				CE4075D42577FE4E006F4592 /* DateFormatter+Extension.swift */,
-				CEDA405725DBF86C008D0B71 /* Data+Extension.swift */,
 				CE9BEA79258B19090006EFEA /* UIImageView+Extension.swift */,
+				CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */,
+				CEDA405725DBF86C008D0B71 /* Data+Extension.swift */,
+				CE4075D42577FE4E006F4592 /* DateFormatter+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 				CE3DD1DE2585301C00C31D7F /* ServerError.swift in Sources */,
 				74B79258202B3254006BCB41 /* AppDelegate.swift in Sources */,
 				CE9C3593252A421A00730A47 /* FilterCell.swift in Sources */,
+				CEB7A7E625E2B6F1009D9897 /* UIView+Extension.swift in Sources */,
 				CEFF9CA925D6D455004C357F /* SharingViewModel.swift in Sources */,
 				CEFF9CA525D5B2C3004C357F /* UserURLCreator.swift in Sources */,
 				CE4075CD2576B3C0006F4592 /* HTTPMethod.swift in Sources */,
