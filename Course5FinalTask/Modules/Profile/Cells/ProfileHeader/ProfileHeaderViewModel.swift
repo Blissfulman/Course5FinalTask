@@ -33,7 +33,7 @@ final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
     var error: Box<Error?> = Box(nil)
     
     var avatarImageData: Data {
-        networkService.getImageData(fromURL: user.value.avatar) ?? Data()
+        networkService.fetchImageData(fromURL: user.value.avatar) ?? Data()
     }
     
     var userFullName: String {

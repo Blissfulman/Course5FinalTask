@@ -167,7 +167,7 @@ extension FeedPostCell {
         
         LoadingView.show()
         
-        networkService.getUser(withID: cellPost.author) {
+        networkService.fetchUser(withID: cellPost.author) {
             [weak self] result in
             
             switch result {

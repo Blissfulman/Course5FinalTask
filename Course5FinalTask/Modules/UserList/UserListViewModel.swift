@@ -92,11 +92,11 @@ final class UserListViewModel: UserListViewModelProtocol {
         
         switch userListType {
         case .likes:
-            networkService.getUsersLikedPost(withID: postID, completion: updatingUserList)
+            networkService.fetchUsersLikedPost(withID: postID, completion: updatingUserList)
         case .followers:
-            networkService.getUsersFollowingUser(withID: userID, completion: updatingUserList)
+            networkService.fetchUsersFollowingUser(withID: userID, completion: updatingUserList)
         case .followings:
-            networkService.getUsersFollowedByUser(withID: userID, completion: updatingUserList)
+            networkService.fetchUsersFollowedByUser(withID: userID, completion: updatingUserList)
         }
     }
 }

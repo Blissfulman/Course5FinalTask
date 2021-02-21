@@ -66,7 +66,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
             self.semaphore.wait()
 
-            self.networkService.getCurrentUser() { result in
+            self.networkService.fetchCurrentUser() { result in
                 
                 switch result {
                 case .success(let currentUser):
@@ -101,7 +101,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             guard let user = self.user.value else { return }
             
             // Обновление данных о пользователе
-            self.networkService.getUser(withID: user.id) { result in
+            self.networkService.fetchUser(withID: user.id) { result in
                 
                 switch result {
                 case .success(let user):
@@ -119,7 +119,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
     
     func getCellData(at indexPath: IndexPath) -> Data {
-        networkService.getImageData(fromURL: userPosts.value[indexPath.item].image) ?? Data()
+        networkService.fetchImageData(fromURL: userPosts.value[indexPath.item].image) ?? Data()
     }
     
     func logOutButtonDidTap() {
@@ -147,7 +147,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     /// Получение постов пользователя.
     private func getUserPosts(of user: UserModel) {
-        networkService.getPostsOfUser(withID: user.id) { [weak self] result in
+        networkService.fetchPostsOfUser(withID: user.id) { [weak self] result in
             
             guard let self = self else { return }
             

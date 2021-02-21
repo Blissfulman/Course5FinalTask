@@ -34,7 +34,7 @@ final class FeedViewController: UIViewController {
         
         LoadingView.show()
         
-        networkService.getFeed() {
+        networkService.fetchFeed() {
             [weak self] result in
             
             switch result {
@@ -87,7 +87,7 @@ extension FeedViewController: FeedPostCellDelegate {
     
     /// Обновление данных массива постов ленты (вызывается после лайка/анлайка).
     func updateFeedData() {
-        networkService.getFeed() { [weak self] result in
+        networkService.fetchFeed() { [weak self] result in
             
             switch result {
             case .success(let feedPosts):
