@@ -16,10 +16,18 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Properties
     
-    /// Массив постов ленты.
-    private var feedPosts = [PostModel]()
+    var viewModel: FeedViewModelProtocol
     
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    // MARK: - Initializers
+    
+    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, viewModel: FeedViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifeсycle methods
     
@@ -27,24 +35,26 @@ final class FeedViewController: UIViewController {
         super.viewDidLoad()
                 
         feedTableView.register(FeedPostCell.nib(), forCellReuseIdentifier: FeedPostCell.identifier)
+        setupViewModelBindings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        LoadingView.show()
+        viewModel.getFeedPosts(withUpdatingTableView: true)
+    }
+    
+    // MARK: - Private methods
         
-        networkService.fetchFeed() {
-            [weak self] result in
-            
-            switch result {
-            case .success(let feedPosts):
-                self?.feedPosts = feedPosts
-                self?.feedTableView.reloadData()
-                LoadingView.hide()
-            case .failure(let error):
-                self?.showAlert(error)
-            }
+    private func setupViewModelBindings() {
+        
+        viewModel.tableViewNeedUpdating = { [weak self] in
+            self?.feedTableView.reloadData()
+        }
+        
+        viewModel.error.bind { [weak self] error in
+            guard let error = error else { return }
+            self?.showAlert(error)
         }
     }
 }
@@ -54,13 +64,13 @@ final class FeedViewController: UIViewController {
 extension FeedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        feedPosts.count
+        viewModel.numberOfRows
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FeedPostCell.identifier,
                                                  for: indexPath) as! FeedPostCell
-        cell.configure(feedPosts[indexPath.row])
+        cell.configure(viewModel.getPost(at: indexPath))
         cell.delegate = self
         return cell
     }
@@ -79,7 +89,7 @@ extension FeedViewController: FeedPostCellDelegate {
     }
     
     /// Переход на экран лайкнувших пост пользователей.
-    func likesCountLabelTapped(postID: String) {
+    func likesCountButtonTapped(postID: String) {
         let userListVM = UserListViewModel(postID: postID, userListType: .likes)
         let likesVC = UserListViewController(viewModel: userListVM)
         navigationController?.pushViewController(likesVC, animated: true)
@@ -87,19 +97,11 @@ extension FeedViewController: FeedPostCellDelegate {
     
     /// Обновление данных массива постов ленты (вызывается после лайка/анлайка).
     func updateFeedData() {
-        networkService.fetchFeed() { [weak self] result in
-            
-            switch result {
-            case .success(let feedPosts):
-                self?.feedPosts = feedPosts
-            case .failure(let error):
-                self?.showAlert(error)
-            }
-        }
+        viewModel.getFeedPosts(withUpdatingTableView: false)
     }
         
     func showErrorAlert(_ error: Error) {
-        self.showAlert(error)
+        showAlert(error)
     }
 }
 

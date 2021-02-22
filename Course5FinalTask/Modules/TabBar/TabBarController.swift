@@ -39,7 +39,7 @@ final class TabBarController: UITabBarController {
     // MARK: - Private methods
     
     private func setupTabs() {
-        let feedVC = FeedViewController(nibName: nil, bundle: nil)
+        let feedVC = FeedViewController(nibName: nil, bundle: nil, viewModel: FeedViewModel())
         feedVC.title = Titles.feed
         let firstTabBarVC = UINavigationController(rootViewController: feedVC)
         firstTabBarVC.tabBarItem.image = UIImage(named: Images.feed)
