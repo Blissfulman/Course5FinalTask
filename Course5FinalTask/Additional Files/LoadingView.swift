@@ -29,8 +29,7 @@ final class LoadingView {
     }
     
     private static func setup() {
-        guard let window = UIApplication.shared.windows
-                .first(where: { $0.isKeyWindow }) else { return }
+        guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
         
         activityIndicator.backgroundColor = UIColor(white: 0, alpha: 0.7)
         activityIndicator.color = .white

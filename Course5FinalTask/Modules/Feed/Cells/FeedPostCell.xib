@@ -16,13 +16,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="596"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="authorUsername" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oxq-jq-I4P">
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="authorUsername" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oxq-jq-I4P">
                         <rect key="frame" x="58" y="8" width="113.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OIo-43-dFL">
+                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OIo-43-dFL">
                         <rect key="frame" x="15" y="8" width="35" height="35"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="35" id="7iN-gh-9zk"/>
@@ -35,7 +35,7 @@
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KoD-co-jZQ">
+                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KoD-co-jZQ">
                         <rect key="frame" x="0.0" y="51" width="414" height="414"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="KoD-co-jZQ" secondAttribute="height" multiplier="1:1" id="GlI-te-gQU"/>
@@ -113,7 +113,7 @@
             <connections>
                 <outlet property="authorUsernameLabel" destination="Oxq-jq-I4P" id="lf1-f8-m5C"/>
                 <outlet property="avatarImageView" destination="OIo-43-dFL" id="RBh-I3-ZTA"/>
-                <outlet property="bigLikeImage" destination="0Uw-Lj-LwZ" id="slW-f9-EzP"/>
+                <outlet property="bigLikeImageView" destination="0Uw-Lj-LwZ" id="slW-f9-EzP"/>
                 <outlet property="createdTimeLabel" destination="L0b-Ii-Qel" id="Pxq-Jl-mHg"/>
                 <outlet property="descriptionLabel" destination="4d3-n5-p2d" id="J7g-FS-6k5"/>
                 <outlet property="likeButton" destination="4Xb-Xb-Aia" id="Uc7-xx-SKw"/>

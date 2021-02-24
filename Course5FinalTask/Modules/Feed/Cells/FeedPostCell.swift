@@ -8,15 +8,6 @@
 
 import UIKit
 
-// MARK: - Protocols
-
-protocol FeedPostCellDelegate: UIViewController {
-    func authorOfPostTapped(user: UserModel)
-    func likesCountButtonTapped(postID: String)
-    func updateFeedData()
-    func showErrorAlert(_ error: Error)
-}
-
 final class FeedPostCell: UITableViewCell {
     
     // MARK: - Class properties
@@ -35,34 +26,15 @@ final class FeedPostCell: UITableViewCell {
     @IBOutlet private weak var authorUsernameLabel: UILabel!
     @IBOutlet private weak var createdTimeLabel: UILabel!
     @IBOutlet private weak var postImageView: UIImageView!
-    @IBOutlet private weak var bigLikeImage: UIImageView!
+    @IBOutlet private weak var bigLikeImageView: UIImageView!
     @IBOutlet private weak var likesCountButton: UIButton!
     @IBOutlet private weak var likeButton: UIButton!
     @IBOutlet private weak var descriptionLabel: UILabel!
     
     // MARK: - Properties
     
-    weak var delegate: FeedPostCellDelegate?
-    
-    private var cellPost: PostModel! {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                
-                guard let self = self else { return }
-                
-                UIView.animate(withDuration: 0.3) {
-                    self.likeButton.tintColor = self.cellPost.currentUserLikesThisPost
-                        ? .systemBlue
-                        : .lightGray
-                }
-                self.likesCountButton.setTitle("Likes: " + String(self.cellPost.likedByCount),
-                                               for: .normal)
-            }
-        }
-    }
-    
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
-    
+    var viewModel: FeedPostCellViewModelProtocol!
+        
     // MARK: - Lifeсycle methods
     
     override func awakeFromNib() {
@@ -73,40 +45,31 @@ final class FeedPostCell: UITableViewCell {
     
     // MARK: - Public methods
     
-    func configure(_ post: PostModel) {
-                
-        // Сохранение поста ячейки
-        cellPost = post
-
-        // Заполнение всех элементов ячейки данными
-        avatarImageView.getImage(fromURL: post.authorAvatar)
-        authorUsernameLabel.text = post.authorUsername
-        createdTimeLabel.text = DateFormatter.postDateFormatter.string(from: post.createdTime)
-        postImageView.getImage(fromURL: post.image)
-        descriptionLabel.text = post.description
+    func configure() {
+        setupViewModelBindings()
     }
     
-    // MARK: - Working with likes
-    
-    /// Обработка лайка/анлайка поста.
-    private func likeUnlikePost() {
-
-        /// Замыкание, в котором обновляются данные о посте.
-        let updatingPost: PostResult = { [weak self] result in
-            
-            switch result {
-            case .success(let updatedPost):
-                self?.cellPost = updatedPost
-                self?.delegate?.updateFeedData()
-            case .failure:
-                break
-            }
-        }
+    // MARK: - Private methods
         
-        // Лайк/анлайк
-        cellPost.currentUserLikesThisPost
-            ? networkService.unlikePost(withID: cellPost.id, completion: updatingPost)
-            : networkService.likePost(withID: cellPost.id, completion: updatingPost)
+    private func setupViewModelBindings() {
+        viewModel.post.bind { [weak self] post in
+            self?.avatarImageView.getImage(fromURL: post.authorAvatar)
+            self?.authorUsernameLabel.text = post.authorUsername
+            self?.createdTimeLabel.text = DateFormatter.postDateFormatter.string(from: post.createdTime)
+            self?.postImageView.getImage(fromURL: post.image)
+            self?.descriptionLabel.text = post.description
+            
+            UIView.animate(withDuration: 0.3) {
+                self?.likeButton.tintColor = post.currentUserLikesThisPost
+                    ? .systemBlue
+                    : .lightGray
+            }
+            self?.likesCountButton.setTitle(self?.viewModel?.likesCountButtonTitle ?? "", for: .normal)
+        }
+
+        viewModel.bigLikeNeedAnimating = { [weak self] in
+            self?.bigLikeImageView.bigLikeAnimation()
+        }
     }
 }
 
@@ -118,24 +81,21 @@ extension FeedPostCell {
         
         // Жест двойного тапа по картинке поста
         let postImageGR = UITapGestureRecognizer(
-            target: self, action: #selector(postImageDoubleTapped(recognizer:))
+            target: self, action: #selector(postImageDoubleTapped)
         )
         postImageGR.numberOfTapsRequired = 2
-        postImageView.isUserInteractionEnabled = true
         postImageView.addGestureRecognizer(postImageGR)
         
         // Жест тапа по автору поста (по аватарке)
         let authorAvatarGR = UITapGestureRecognizer(
-            target: self, action: #selector(postAuthorTapped(recognizer:))
+            target: self, action: #selector(postAuthorTapped)
         )
-        avatarImageView.isUserInteractionEnabled = true
         avatarImageView.addGestureRecognizer(authorAvatarGR)
         
         // Жест тапа по автору поста (по username)
         let authorUsernameGR = UITapGestureRecognizer(
-            target: self, action: #selector(postAuthorTapped(recognizer:))
+            target: self, action: #selector(postAuthorTapped)
         )
-        authorUsernameLabel.isUserInteractionEnabled = true
         authorUsernameLabel.addGestureRecognizer(authorUsernameGR)
     }
 }
@@ -144,40 +104,19 @@ extension FeedPostCell {
 
 extension FeedPostCell {
     
-    @IBAction private func postImageDoubleTapped(recognizer: UITapGestureRecognizer) {
-        
-        // Проверка отсутствия у поста лайка текущего пользователя
-        guard !cellPost.currentUserLikesThisPost else { return }
-        
-        bigLikeImage.bigLikeAnimation()
-        
-        // Обработка лайка
-        likeUnlikePost()
+    @objc private func postImageDoubleTapped() {
+        viewModel.postImageDoubleTapped()
     }
     
-    @IBAction private func postAuthorTapped(recognizer: UIGestureRecognizer) {
-        
-        LoadingView.show()
-        
-        networkService.fetchUser(withID: cellPost.author) {
-            [weak self] result in
-            
-            switch result {
-            case .success(let user):
-                self?.delegate?.authorOfPostTapped(user: user)
-                LoadingView.hide()
-            case .failure(let error):
-                self?.delegate?.showErrorAlert(error)
-            }
-        }
+    @objc private func postAuthorTapped() {
+        viewModel.postAuthorTapped()
     }
     
-    @IBAction func likesCountButtonTapped() {
-        guard let cellPost = cellPost else { return }
-        delegate?.likesCountButtonTapped(postID: cellPost.id)
+    @IBAction private func likesCountButtonTapped() {
+        viewModel.likesCountButtonTapped()
     }
     
     @IBAction private func likeButtonTapped() {
-        likeUnlikePost()
+        viewModel.likeUnlikePost()
     }
 }

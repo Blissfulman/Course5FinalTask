@@ -51,7 +51,7 @@ final class ProfileHeaderView: UICollectionReusableView {
     
     private func setupUI() {
         followButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
-        avatarImageView.layer.cornerRadius = CGFloat(avatarImageView.bounds.width / 2)
+        avatarImageView.layer.cornerRadius = avatarImageView.halfWidthCornerRadius()
         
         guard let viewModel = viewModel else { return }
         

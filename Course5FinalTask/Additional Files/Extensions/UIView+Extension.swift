@@ -10,6 +10,12 @@ import UIKit
 
 extension UIView {
     
+    /// Возвращает радиус скругления, равный половине ширины вью.
+    func halfWidthCornerRadius() -> CGFloat {
+        self.frame.width / 2
+    }
+    
+    /// Анимация лайка при двойном тапе по изображению поста в ленте.
     func bigLikeAnimation() {
         let likeAnimation = CAKeyframeAnimation(keyPath: "opacity")
         likeAnimation.values = [0, 1, 1, 0]

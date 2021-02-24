@@ -16,7 +16,7 @@ protocol FeedViewModelProtocol {
     var numberOfRows: Int { get }
     
     func getFeedPosts(withUpdatingTableView: Bool)
-    func getPost(at indexPath: IndexPath) -> PostModel // FIXME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    func getFeedPostCellViewModel(at indexPath: IndexPath) -> FeedPostCellViewModelProtocol
 }
 
 final class FeedViewModel: FeedViewModelProtocol {
@@ -55,7 +55,7 @@ final class FeedViewModel: FeedViewModelProtocol {
         }
     }
     
-    func getPost(at indexPath: IndexPath) -> PostModel {
-        posts[indexPath.row]
+    func getFeedPostCellViewModel(at indexPath: IndexPath) -> FeedPostCellViewModelProtocol {
+        FeedPostCellViewModel(post: posts[indexPath.row])
     }
 }
