@@ -71,8 +71,8 @@ extension FeedViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: FeedPostCell.identifier,
                                                  for: indexPath) as! FeedPostCell
         cell.viewModel = viewModel.getFeedPostCellViewModel(at: indexPath)
+        cell.viewModel?.delegate = self
         cell.configure()
-        cell.viewModel.delegate = self
         return cell
     }
 }

@@ -10,6 +10,13 @@ import UIKit
 
 final class FeedPostCell: UITableViewCell {
     
+    // MARK: - Nested types
+    
+    enum LikeColor {
+        static let like = UIColor.systemBlue
+        static let unlike = UIColor.lightGray
+    }
+    
     // MARK: - Class properties
     
     static let identifier = String(describing: FeedPostCell.self)
@@ -33,7 +40,7 @@ final class FeedPostCell: UITableViewCell {
     
     // MARK: - Properties
     
-    var viewModel: FeedPostCellViewModelProtocol!
+    var viewModel: FeedPostCellViewModelProtocol?
         
     // MARK: - Lifeсycle methods
     
@@ -46,15 +53,15 @@ final class FeedPostCell: UITableViewCell {
     // MARK: - Public methods
     
     func configure() {
+        guard let viewModel = viewModel else { return }
+        
         avatarImageView.image = UIImage(data: viewModel.avatarImageData)
         authorUsernameLabel.text = viewModel.authorUsername
         createdTimeLabel.text = viewModel.createdTime
         postImageView.image = UIImage(data: viewModel.postImageData)
         descriptionLabel.text = viewModel.description
         likesCountButton.setTitle(viewModel.likesCountButtonTitle, for: .normal)
-        likeButton.tintColor = viewModel.currentUserLikesThisPost
-            ? .systemBlue // FIXME: CONSTANTS
-            : .lightGray
+        likeButton.tintColor = viewModel.currentUserLikesThisPost ? LikeColor.like : LikeColor.unlike
         
         setupViewModelBindings()
     }
@@ -62,19 +69,19 @@ final class FeedPostCell: UITableViewCell {
     // MARK: - Actions
     
     @objc private func postAuthorTapped() {
-        viewModel.postAuthorTapped()
+        viewModel?.postAuthorTapped()
     }
     
     @objc private func postImageDoubleTapped() {
-        viewModel.postImageDoubleTapped()
+        viewModel?.postImageDoubleTapped()
     }
     
     @IBAction private func likesCountButtonTapped() {
-        viewModel.likesCountButtonTapped()
+        viewModel?.likesCountButtonTapped()
     }
     
     @IBAction private func likeButtonTapped() {
-        viewModel.likeUnlikePost()
+        viewModel?.likeUnlikePost()
     }
     
     // MARK: - Private methods
@@ -102,19 +109,16 @@ final class FeedPostCell: UITableViewCell {
     }
     
     private func setupViewModelBindings() {
-        
-        viewModel.likeDataNeedUpdating = { [weak self] in
-            guard let self = self else { return }
-            
-            self.likesCountButton.setTitle(self.viewModel.likesCountButtonTitle, for: .normal)
+        viewModel?.likeDataNeedUpdating = { [weak self] in
+            self?.likesCountButton.setTitle(self?.viewModel?.likesCountButtonTitle, for: .normal)
             UIView.animate(withDuration: 0.3) {
-                self.likeButton.tintColor = self.viewModel.currentUserLikesThisPost
-                    ? .systemBlue // FIXME: CONSTANTS
-                    : .lightGray
+                self?.likeButton.tintColor = self?.viewModel?.currentUserLikesThisPost ?? false
+                    ? LikeColor.like
+                    : LikeColor.unlike
             }
         }
 
-        viewModel.bigLikeNeedAnimating = { [weak self] in
+        viewModel?.bigLikeNeedAnimating = { [weak self] in
             self?.bigLikeImageView.bigLikeAnimation()
         }
     }
