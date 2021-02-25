@@ -18,14 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = AuthorizationViewController()
+        let authorizationCV = AuthorizationViewController(viewModel: AuthorizationViewModel())
+        window?.rootViewController = authorizationCV
         window?.makeKeyAndVisible()
         return true
     }
 }
 
 extension AppDelegate {
-    static let storyboardName = "Main"
     
     static var shared: AppDelegate {
         UIApplication.shared.delegate as! AppDelegate

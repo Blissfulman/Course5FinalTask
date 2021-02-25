@@ -20,13 +20,14 @@ extension UIViewController {
         }
         
         DispatchQueue.main.async { [weak self] in
+            LoadingView.hide()
+            
             let alert = UIAlertController(title: alertTitle,
                                           message: alertMessage,
                                           preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default)
             alert.addAction(okAction)
             self?.present(alert, animated: true)
-            LoadingView.hide()
         }
     }
 }
