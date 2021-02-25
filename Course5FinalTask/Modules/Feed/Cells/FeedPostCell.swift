@@ -46,36 +46,38 @@ final class FeedPostCell: UITableViewCell {
     // MARK: - Public methods
     
     func configure() {
+        avatarImageView.image = UIImage(data: viewModel.avatarImageData)
+        authorUsernameLabel.text = viewModel.authorUsername
+        createdTimeLabel.text = viewModel.createdTime
+        postImageView.image = UIImage(data: viewModel.postImageData)
+        descriptionLabel.text = viewModel.description
+        likesCountButton.setTitle(viewModel.likesCountButtonTitle, for: .normal)
+        likeButton.tintColor = viewModel.currentUserLikesThisPost
+            ? .systemBlue // FIXME: CONSTANTS
+            : .lightGray
+        
         setupViewModelBindings()
     }
     
-    // MARK: - Private methods
-        
-    private func setupViewModelBindings() {
-        viewModel.post.bind { [weak self] post in
-            self?.avatarImageView.getImage(fromURL: post.authorAvatar)
-            self?.authorUsernameLabel.text = post.authorUsername
-            self?.createdTimeLabel.text = DateFormatter.postDateFormatter.string(from: post.createdTime)
-            self?.postImageView.getImage(fromURL: post.image)
-            self?.descriptionLabel.text = post.description
-            
-            UIView.animate(withDuration: 0.3) {
-                self?.likeButton.tintColor = post.currentUserLikesThisPost
-                    ? .systemBlue
-                    : .lightGray
-            }
-            self?.likesCountButton.setTitle(self?.viewModel?.likesCountButtonTitle ?? "", for: .normal)
-        }
-
-        viewModel.bigLikeNeedAnimating = { [weak self] in
-            self?.bigLikeImageView.bigLikeAnimation()
-        }
+    // MARK: - Actions
+    
+    @objc private func postAuthorTapped() {
+        viewModel.postAuthorTapped()
     }
-}
-
-// MARK: - Setup gesture recognizers
-
-extension FeedPostCell {
+    
+    @objc private func postImageDoubleTapped() {
+        viewModel.postImageDoubleTapped()
+    }
+    
+    @IBAction private func likesCountButtonTapped() {
+        viewModel.likesCountButtonTapped()
+    }
+    
+    @IBAction private func likeButtonTapped() {
+        viewModel.likeUnlikePost()
+    }
+    
+    // MARK: - Private methods
     
     private func setupGestureRecognizers() {
         
@@ -98,25 +100,22 @@ extension FeedPostCell {
         )
         authorUsernameLabel.addGestureRecognizer(authorUsernameGR)
     }
-}
+    
+    private func setupViewModelBindings() {
+        
+        viewModel.likeDataNeedUpdating = { [weak self] in
+            guard let self = self else { return }
+            
+            self.likesCountButton.setTitle(self.viewModel.likesCountButtonTitle, for: .normal)
+            UIView.animate(withDuration: 0.3) {
+                self.likeButton.tintColor = self.viewModel.currentUserLikesThisPost
+                    ? .systemBlue // FIXME: CONSTANTS
+                    : .lightGray
+            }
+        }
 
-// MARK: - Actions
-
-extension FeedPostCell {
-    
-    @objc private func postImageDoubleTapped() {
-        viewModel.postImageDoubleTapped()
-    }
-    
-    @objc private func postAuthorTapped() {
-        viewModel.postAuthorTapped()
-    }
-    
-    @IBAction private func likesCountButtonTapped() {
-        viewModel.likesCountButtonTapped()
-    }
-    
-    @IBAction private func likeButtonTapped() {
-        viewModel.likeUnlikePost()
+        viewModel.bigLikeNeedAnimating = { [weak self] in
+            self?.bigLikeImageView.bigLikeAnimation()
+        }
     }
 }

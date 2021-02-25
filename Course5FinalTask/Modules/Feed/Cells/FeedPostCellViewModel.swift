@@ -19,9 +19,15 @@ protocol FeedPostCellViewModelDelegate: AnyObject {
 
 protocol FeedPostCellViewModelProtocol {
     var delegate: FeedPostCellViewModelDelegate? { get set }
-    var post: Box<PostModel> { get }
-    var bigLikeNeedAnimating: (() -> Void)? { get set }
+    var avatarImageData: Data { get }
+    var authorUsername: String { get }
+    var createdTime: String { get }
+    var postImageData: Data { get }
+    var description: String { get }
     var likesCountButtonTitle: String { get }
+    var currentUserLikesThisPost: Bool { get }
+    var bigLikeNeedAnimating: (() -> Void)? { get set }
+    var likeDataNeedUpdating: (() -> Void)? { get set }
     
     init(post: PostModel)
     
@@ -37,20 +43,44 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     
     weak var delegate: FeedPostCellViewModelDelegate?
     
-    var post: Box<PostModel>
-    
-    var bigLikeNeedAnimating: (() -> Void)?
-    
-    var likesCountButtonTitle: String {
-        "Likes: " + String(post.value.likedByCount)
+    var avatarImageData: Data {
+        networkService.fetchImageData(fromURL: post.authorAvatar) ?? Data()
     }
     
+    var authorUsername: String {
+        post.authorUsername
+    }
+    
+    var createdTime: String {
+        DateFormatter.postDateFormatter.string(from: post.createdTime)
+    }
+    
+    var postImageData: Data {
+        networkService.fetchImageData(fromURL: post.image) ?? Data()
+    }
+    
+    var description: String {
+        post.description
+    }
+    
+    var likesCountButtonTitle: String {
+        "Likes: " + String(post.likedByCount)
+    }
+    
+    var currentUserLikesThisPost: Bool {
+        post.currentUserLikesThisPost
+    }
+    
+    var bigLikeNeedAnimating: (() -> Void)?
+    var likeDataNeedUpdating: (() -> Void)?
+    
+    private var post: PostModel
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Initializers
     
     init(post: PostModel) {
-        self.post = Box(post)
+        self.post = post
     }
     
     func likeUnlikePost() {
@@ -58,7 +88,8 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
         let updatingPost: PostResult = { [weak self] result in
             switch result {
             case .success(let updatedPost):
-                self?.post.value = updatedPost
+                self?.post = updatedPost
+                self?.likeDataNeedUpdating?()
                 self?.delegate?.updateFeedData()
             case .failure:
                 break
@@ -66,15 +97,15 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
         }
         
         // Лайк/анлайк
-        post.value.currentUserLikesThisPost
-            ? networkService.unlikePost(withID: post.value.id, completion: updatingPost)
-            : networkService.likePost(withID: post.value.id, completion: updatingPost)
+        post.currentUserLikesThisPost
+            ? networkService.unlikePost(withID: post.id, completion: updatingPost)
+            : networkService.likePost(withID: post.id, completion: updatingPost)
     }
     
     func postAuthorTapped() {
         LoadingView.show()
         
-        networkService.fetchUser(withID: post.value.author) { [weak self] result in
+        networkService.fetchUser(withID: post.author) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.delegate?.authorOfPostTapped(user: user)
@@ -86,13 +117,13 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     func postImageDoubleTapped() {
-        guard !post.value.currentUserLikesThisPost else { return }
+        guard !post.currentUserLikesThisPost else { return }
         
-        likeUnlikePost()
         bigLikeNeedAnimating?()
+        likeUnlikePost()
     }
     
     func likesCountButtonTapped() {
-        delegate?.likesCountButtonTapped(postID: post.value.id)
+        delegate?.likesCountButtonTapped(postID: post.id)
     }
 }
