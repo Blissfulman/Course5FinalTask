@@ -10,25 +10,22 @@ import UIKit
 
 final class FilterImageOperation: Operation {
     
-    private var inputImage: UIImage
-    private(set) var outputImage: UIImage?
-    private var chosenFilter: String
+    private var inputImage: Data
+    private(set) var outputImage: Data?
+    private var filterName: String
     
-    init(inputImage: UIImage, filter: String) {
-        self.chosenFilter = filter
+    init(inputImage: Data, filter: String) {
+        self.filterName = filter
         self.inputImage = inputImage
     }
     
     override func main() {
         
-        // Создание контекста
         let context = CIContext()
-        
-        // Создание CIImage
-        let coreImage = CIImage(image: inputImage)
+        let coreImage = CIImage(data: inputImage)
         
         // Создание фильтра
-        guard let filter = CIFilter(name: chosenFilter) else { return }
+        guard let filter = CIFilter(name: filterName) else { return }
         filter.setValue(coreImage, forKey: kCIInputImageKey)
         
         // Добавление фильтра к изображению
@@ -38,7 +35,6 @@ final class FilterImageOperation: Operation {
         guard let cgImage = context.createCGImage(filteredImage,
                                                   from: filteredImage.extent) else { return }
         
-        // Создание итогового UIImage
-        outputImage = UIImage(cgImage: cgImage)
+        outputImage = UIImage(cgImage: cgImage).pngData()
     }
 }

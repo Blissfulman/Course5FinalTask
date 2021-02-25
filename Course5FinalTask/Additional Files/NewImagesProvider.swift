@@ -9,28 +9,24 @@
 import UIKit
 
 protocol NewImagesProviderProtocol {
-    func getNewImages() -> [UIImage]
+    static func getImages() -> [Data]
 }
 
 final class NewImagesProvider: NewImagesProviderProtocol {
     
-    static let shared = NewImagesProvider()
-    
-    private init() {}
-    
     /// Получение изображений для использования в новых публикациях.
-    func getNewImages() -> [UIImage] {
+    static func getImages() -> [Data] {
         
-        var newImages = [UIImage]()
+        var images = [Data?]()
         
         // !!! Временно захардкоженное значение количества новых изображений !!!
         let newImagesCount = 8
         
         for index in 1...newImagesCount {
             if let image = UIImage(named: "new\(index)") {
-                newImages.append(image)
+                images.append(image.pngData())
             }
         }
-        return newImages
+        return images.compactMap { $0 }
     }
 }
