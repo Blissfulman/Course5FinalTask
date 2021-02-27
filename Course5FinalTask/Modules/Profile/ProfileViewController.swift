@@ -112,10 +112,8 @@ extension ProfileViewController: UICollectionViewDataSource {
                 withReuseIdentifier: ProfileHeaderView.identifier,
                 for: indexPath
             ) as! ProfileHeaderView
-            
-            header.delegate = self
-            
-            if let profileHeaderViewModel = viewModel.getProfileHeaderViewModel() {
+                        
+            if let profileHeaderViewModel = viewModel.getProfileHeaderViewModel(delegate: self) {
                 header.viewModel = profileHeaderViewModel
             }
             return header
@@ -151,9 +149,9 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: - ProfileHeaderViewDelegate
+// MARK: - ProfileHeaderViewModelDelegate
 
-extension ProfileViewController: ProfileHeaderViewDelegate {
+extension ProfileViewController: ProfileHeaderViewModelDelegate {
     
     // MARK: - Navigation
     

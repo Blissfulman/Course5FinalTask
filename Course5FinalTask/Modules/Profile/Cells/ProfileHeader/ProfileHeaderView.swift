@@ -8,14 +8,6 @@
 
 import UIKit
 
-// MARK: - Protocols
-
-protocol ProfileHeaderViewDelegate: UIViewController {
-    func followersButtonTapped()
-    func followingsButtonTapped()
-    func showErrorAlert(_ error: Error)
-}
-
 final class ProfileHeaderView: UICollectionReusableView {
     
     // MARK: - Class properties
@@ -44,9 +36,7 @@ final class ProfileHeaderView: UICollectionReusableView {
             setupViewModelBindings()
         }
     }
-    
-    weak var delegate: ProfileHeaderViewDelegate?
-    
+        
     // MARK: - Setup UI
     
     private func setupUI() {
@@ -57,6 +47,20 @@ final class ProfileHeaderView: UICollectionReusableView {
         
         // Если это не профиль текущего пользователя, то кнопка подписки/отписки становится видимой
         followButton.isHidden = viewModel.isHiddenFollowButton
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction private func followButtonTapped() {
+        viewModel?.followButtonDidTapped()
+    }
+    
+    @IBAction private func followersButtonTapped() {
+        viewModel?.followersButtonTapped()
+    }
+
+    @IBAction private func followingsButtonTapped() {
+        viewModel?.followingsButtonTapped()
     }
     
     // MARK: - Private methods
@@ -73,24 +77,5 @@ final class ProfileHeaderView: UICollectionReusableView {
             self.followersButton.setTitle(viewModel.followersButtonTitle, for: .normal)
             self.followingsButton.setTitle(viewModel.followingsButtonTitle, for: .normal)
         }
-        
-        viewModel.error.bind { [weak self] error in
-            guard let error = error else { return }
-            self?.delegate?.showErrorAlert(error)
-        }
-    }
-    
-    // MARK: - Actions
-    
-    @IBAction private func followersButtonTapped() {
-        delegate?.followersButtonTapped()
-    }
-    
-    @IBAction private func followingsButtonTapped() {
-        delegate?.followingsButtonTapped()
-    }
-    
-    @IBAction private func followButtonTapped() {
-        viewModel?.followButtonDidTapped()
     }
 }

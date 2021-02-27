@@ -23,7 +23,7 @@ protocol ProfileViewModelProtocol {
     func getUser()
     func getCellData(at indexPath: IndexPath) -> Data
     func logOutButtonDidTap()
-    func getProfileHeaderViewModel() -> ProfileHeaderViewModelProtocol?
+    func getProfileHeaderViewModel(delegate: ProfileHeaderViewModelDelegate) -> ProfileHeaderViewModelProtocol?
     func getUserListViewModel(withUserListType userListType: UserListType) -> UserListViewModelProtocol?
     func getAuthorizationViewModel() -> AuthorizationViewModelProtocol
 }
@@ -127,10 +127,10 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         NetworkService.token = ""
     }
     
-    func getProfileHeaderViewModel() -> ProfileHeaderViewModelProtocol? {
+    func getProfileHeaderViewModel(delegate: ProfileHeaderViewModelDelegate) -> ProfileHeaderViewModelProtocol? {
         guard let user = user.value, let isCurrentUser = isCurrentUser.value else { return nil }
         
-        return ProfileHeaderViewModel(user: user, isCurrentUser: isCurrentUser)
+        return ProfileHeaderViewModel(user: user, isCurrentUser: isCurrentUser, delegate: delegate)
     }
     
     func getUserListViewModel(withUserListType userListType: UserListType) -> UserListViewModelProtocol? {
@@ -153,7 +153,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             
             switch result {
             case .success(let userPosts):
-                self.userPosts.value = userPosts
+                self.userPosts.value = userPosts.reversed()
                 LoadingView.hide()
             case .failure(let error):
                 self.error.value = error
