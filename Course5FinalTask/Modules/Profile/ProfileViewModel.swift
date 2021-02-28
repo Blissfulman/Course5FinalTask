@@ -119,7 +119,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
     
     func getCellData(at indexPath: IndexPath) -> Data {
-        networkService.fetchImageData(fromURL: userPosts.value[indexPath.item].image) ?? Data()
+        userPosts.value[indexPath.item].image.fetchPNGImageData()
     }
     
     func logOutButtonDidTap() {

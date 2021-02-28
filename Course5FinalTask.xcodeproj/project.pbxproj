@@ -49,6 +49,7 @@
 		CEB7A7E625E2B6F1009D9897 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */; };
 		CEB7A7E825E2BC96009D9897 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7A7E725E2BC96009D9897 /* FeedViewModel.swift */; };
 		CEB7A7EB25E37DCE009D9897 /* FeedPostCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7A7EA25E37DCE009D9897 /* FeedPostCellViewModel.swift */; };
+		CEB7A7F425EA7B6F009D9897 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7A7F325EA7B6F009D9897 /* URL+Extension.swift */; };
 		CEBE92AD25264BF6002A6A63 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */; };
 		CEBE92B02528C4CC002A6A63 /* NewPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE92AF2528C4CC002A6A63 /* NewPhotoCell.xib */; };
 		CEBE92B22528C588002A6A63 /* NewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE92B12528C588002A6A63 /* NewPhotoCell.swift */; };
@@ -131,6 +132,7 @@
 		CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		CEB7A7E725E2BC96009D9897 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		CEB7A7EA25E37DCE009D9897 /* FeedPostCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostCellViewModel.swift; sourceTree = "<group>"; };
+		CEB7A7F325EA7B6F009D9897 /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		CEBE92AF2528C4CC002A6A63 /* NewPhotoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPhotoCell.xib; sourceTree = "<group>"; };
 		CEBE92B12528C588002A6A63 /* NewPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPhotoCell.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */,
 				CEDA405725DBF86C008D0B71 /* Data+Extension.swift */,
 				CE4075D42577FE4E006F4592 /* DateFormatter+Extension.swift */,
+				CEB7A7F325EA7B6F009D9897 /* URL+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -614,6 +617,7 @@
 				CEBE92B62529AA7A002A6A63 /* FiltersViewController.swift in Sources */,
 				CEA36F3F252E264000386D64 /* FilterImageOperation.swift in Sources */,
 				CE9BEA7A258B19090006EFEA /* UIImageView+Extension.swift in Sources */,
+				CEB7A7F425EA7B6F009D9897 /* URL+Extension.swift in Sources */,
 				CE0190E525D46509002D48BA /* Box.swift in Sources */,
 				CE4075BD25754AF7006F4592 /* PostModel.swift in Sources */,
 				CE4075B9257549D9006F4592 /* TokenModel.swift in Sources */,

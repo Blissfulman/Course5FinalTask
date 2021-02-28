@@ -44,7 +44,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     weak var delegate: FeedPostCellViewModelDelegate?
     
     var avatarImageData: Data {
-        networkService.fetchImageData(fromURL: post.authorAvatar) ?? Data()
+        post.authorAvatar.fetchPNGImageData()
     }
     
     var authorUsername: String {
@@ -56,7 +56,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     var postImageData: Data {
-        networkService.fetchImageData(fromURL: post.image) ?? Data()
+        post.image.fetchPNGImageData()
     }
     
     var description: String {

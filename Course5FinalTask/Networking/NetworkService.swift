@@ -119,9 +119,6 @@ protocol NetworkServiceProtocol {
     ///   - completion: Замыкание, в которое возвращаются опубликованная публикация.
     ///   Вызывается после выполнения запроса.
     func createPost(imageData: String, description: String, completion: @escaping PostResult)
-    
-    /// Получение изображения по URL.
-    func fetchImageData(fromURL url: URL) -> Data?
 }
 
 final class NetworkService: NetworkServiceProtocol {
@@ -288,10 +285,5 @@ final class NetworkService: NetworkServiceProtocol {
         request.httpBody = try? JSONEncoder().encode(newPostRequest)
         
         dataTaskService.dataTask(request: request, completion: completion)
-    }
-
-    func fetchImageData(fromURL url: URL) -> Data? {
-        guard let imageData = try? Data(contentsOf: url) else { return nil }
-        return UIImage(data: imageData)?.pngData()
     }
 }

@@ -20,7 +20,6 @@ final class FilterImageOperation: Operation {
     }
     
     override func main() {
-        
         let context = CIContext()
         let coreImage = CIImage(data: inputImage)
         

@@ -47,7 +47,6 @@ final class FeedViewController: UIViewController {
     // MARK: - Private methods
         
     private func setupViewModelBindings() {
-        
         viewModel.tableViewNeedUpdating = { [weak self] in
             self?.feedTableView.reloadData()
         }
