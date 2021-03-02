@@ -28,7 +28,7 @@ protocol NetworkServiceProtocol {
     ///   Вызывается после выполнения запроса.
     func singIn(login: String, password: String, completion: @escaping TokenResult)
     
-    /// Деавторизует пользователя и инвалидирует токен.
+    /// Деавторизация пользователя и инвалидация токена.
     /// - Parameter completion: Замыкание, вызываемое после выполнения запроса.
     func singOut(completion: @escaping (Result<Bool, Error>) -> Void)
     

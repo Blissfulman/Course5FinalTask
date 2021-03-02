@@ -360,7 +360,7 @@
 				CE4075C125755F1B006F4592 /* Authorization */,
 				CE4075D225776F59006F4592 /* TabBar */,
 				CED3279724DEE22900BB1A80 /* Feed */,
-				CEBE92AA25264B72002A6A63 /* New Post */,
+				CEBE92AA25264B72002A6A63 /* NewPost */,
 				CEBE92B32529A9D7002A6A63 /* Filters */,
 				CEA36F40252F785000386D64 /* Sharing */,
 				CED3279824DEE23C00BB1A80 /* Profile */,
@@ -404,7 +404,7 @@
 			path = Sharing;
 			sourceTree = "<group>";
 		};
-		CEBE92AA25264B72002A6A63 /* New Post */ = {
+		CEBE92AA25264B72002A6A63 /* NewPost */ = {
 			isa = PBXGroup;
 			children = (
 				CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */,
@@ -412,7 +412,7 @@
 				CE88991725DE4404000DA414 /* NewPostViewController.xib */,
 				CE48841925B9D61F00BCB7F9 /* Cells */,
 			);
-			path = "New Post";
+			path = NewPost;
 			sourceTree = "<group>";
 		};
 		CEBE92B32529A9D7002A6A63 /* Filters */ = {
