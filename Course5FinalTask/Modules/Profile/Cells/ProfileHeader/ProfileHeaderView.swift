@@ -66,11 +66,7 @@ final class ProfileHeaderView: UICollectionReusableView {
     // MARK: - Private methods
     
     private func setupViewModelBindings() {
-        guard let viewModel = viewModel else { return }
-        
-        viewModel.user.bind { [weak self] _ in
-            guard let self = self else { return }
-            
+        viewModel?.user.bind { [unowned self, unowned viewModel = self.viewModel!] _ in
             self.avatarImageView.image = UIImage(data: viewModel.avatarImageData)
             self.fullNameLabel.text = viewModel.userFullName
             self.followButton.setTitle(viewModel.followButtonTitle, for: .normal)

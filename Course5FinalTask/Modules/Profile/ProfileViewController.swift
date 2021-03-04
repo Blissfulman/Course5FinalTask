@@ -70,24 +70,24 @@ final class ProfileViewController: UIViewController {
     // MARK: - Private methods
         
     private func setupViewModelBindings() {
-        viewModel.user.bind { [weak self] user in
-            self?.navigationItem.title = user?.username
-            self?.profileCollectionView.reloadData()
+        viewModel.user.bind { [unowned self] user in
+            self.navigationItem.title = user?.username
+            self.profileCollectionView.reloadData()
         }
         
-        viewModel.isCurrentUser.bind { [weak self] isCurrentUser in
+        viewModel.isCurrentUser.bind { [unowned self] isCurrentUser in
             if let isCurrentUser = isCurrentUser, isCurrentUser {
-                self?.addLogOutButton()
+                self.addLogOutButton()
             }
         }
         
-        viewModel.userPosts.bind { [weak self] _ in
-            self?.profileCollectionView.reloadData()
+        viewModel.userPosts.bind { [unowned self] _ in
+            self.profileCollectionView.reloadData()
         }
         
-        viewModel.error.bind { [weak self] error in
+        viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self?.showAlert(error)
+            self.showAlert(error)
         }
     }
     

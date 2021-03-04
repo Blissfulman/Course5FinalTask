@@ -51,13 +51,13 @@ final class UserListViewController: UITableViewController {
     // MARK: - Private methods
     
     private func setupViewModelBindings() {
-        viewModel.userList.bind { [weak self] _ in
-            self?.tableView.reloadData()
+        viewModel.userList.bind { [unowned self] _ in
+            self.tableView.reloadData()
         }
         
-        viewModel.error.bind { [weak self] error in
+        viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self?.showAlert(error)
+            self.showAlert(error)
         }
     }
 }

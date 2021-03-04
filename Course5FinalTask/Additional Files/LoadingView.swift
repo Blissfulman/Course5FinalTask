@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Вью с индикатором активности, отображаемое во время загрузки данных.
+/// Класс, содержащий вью с индикатором активности, отображаемым во время загрузки данных.
 final class LoadingView {
     
     static var activityIndicator = UIActivityIndicatorView(frame: UIScreen.main.bounds)

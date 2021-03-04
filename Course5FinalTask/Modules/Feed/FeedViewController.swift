@@ -47,13 +47,13 @@ final class FeedViewController: UIViewController {
     // MARK: - Private methods
         
     private func setupViewModelBindings() {
-        viewModel.tableViewNeedUpdating = { [weak self] in
-            self?.feedTableView.reloadData()
+        viewModel.tableViewNeedUpdating = { [unowned self] in
+            self.feedTableView.reloadData()
         }
         
-        viewModel.error.bind { [weak self] error in
+        viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self?.showAlert(error)
+            self.showAlert(error)
         }
     }
 }

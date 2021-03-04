@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - Protocols
+
 protocol DataTaskServiceProtocol {
     func dataTask<T: Decodable>(request: URLRequest,
                                 completion: @escaping (Result<T, Error>) -> Void)
@@ -15,15 +17,20 @@ protocol DataTaskServiceProtocol {
 
 final class DataTaskService: DataTaskServiceProtocol {
     
+    // MARK: - Class properties
+    
     static let shared = DataTaskService()
-
+    
+    // MARK: - Initializers
+    
     private init() {}
+    
+    // MARK: - Public methods
     
     func dataTask<T: Decodable>(request: URLRequest,
                                 completion: @escaping (Result<T, Error>) -> Void) {
                 
-        URLSession.shared.dataTask(with: request) {
-            [weak self] (data, response, error) in
+        URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             
             guard let self = self else { return }
             
@@ -38,8 +45,8 @@ final class DataTaskService: DataTaskServiceProtocol {
                 return
             }
             
-            guard self.handleServerError(httpResponse,
-                                         completion: completion) else { return }
+            guard self.handleServerError(httpResponse, completion: completion) else { return }
+            
             print(httpResponse.statusCode, request.url?.path ?? "")
             
             let decoder = JSONDecoder()
@@ -58,6 +65,8 @@ final class DataTaskService: DataTaskServiceProtocol {
             }
         }.resume()
     }
+    
+    // MARK: - Private methods
     
     /// Обработка ошибок сервера, по статус-коду в response.
     /// - Parameters:
@@ -80,6 +89,7 @@ final class DataTaskService: DataTaskServiceProtocol {
             case 422: serverError = .unprocessable
             default: serverError = .transferError
             }
+            
             completion(.failure(serverError))
             return false
         }

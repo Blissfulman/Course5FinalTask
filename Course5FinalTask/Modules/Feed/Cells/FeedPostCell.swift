@@ -109,17 +109,17 @@ final class FeedPostCell: UITableViewCell {
     }
     
     private func setupViewModelBindings() {
-        viewModel?.likeDataNeedUpdating = { [weak self] in
-            self?.likesCountButton.setTitle(self?.viewModel?.likesCountButtonTitle, for: .normal)
+        viewModel?.likeDataNeedUpdating = { [unowned self] in
+            self.likesCountButton.setTitle(self.viewModel?.likesCountButtonTitle, for: .normal)
             UIView.animate(withDuration: 0.3) {
-                self?.likeButton.tintColor = self?.viewModel?.currentUserLikesThisPost ?? false
+                self.likeButton.tintColor = self.viewModel?.currentUserLikesThisPost ?? false
                     ? LikeColor.like
                     : LikeColor.unlike
             }
         }
 
-        viewModel?.bigLikeNeedAnimating = { [weak self] in
-            self?.bigLikeImageView.bigLikeAnimation()
+        viewModel?.bigLikeNeedAnimating = { [unowned self] in
+            self.bigLikeImageView.bigLikeAnimation()
         }
     }
 }
