@@ -13,6 +13,7 @@
 		CE0190E125D4546B002D48BA /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0190E025D4546B002D48BA /* UserListViewModel.swift */; };
 		CE0190E525D46509002D48BA /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0190E425D46509002D48BA /* Box.swift */; };
 		CE0190E725D472DF002D48BA /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0190E625D472DF002D48BA /* UIConstants.swift */; };
+		CE02BA1425F3BE8500788EE3 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE02BA1325F3BE8500788EE3 /* KeychainService.swift */; };
 		CE16595925E0D1B2008E609A /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE16595825E0D1B2008E609A /* ProfileHeaderViewModel.swift */; };
 		CE16595D25E18D06008E609A /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE16595C25E18D06008E609A /* ProfileViewModel.swift */; };
 		CE3DD1DE2585301C00C31D7F /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DD1DD2585301C00C31D7F /* ServerError.swift */; };
@@ -96,6 +97,7 @@
 		CE0190E025D4546B002D48BA /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		CE0190E425D46509002D48BA /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		CE0190E625D472DF002D48BA /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
+		CE02BA1325F3BE8500788EE3 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		CE16595825E0D1B2008E609A /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		CE16595C25E18D06008E609A /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CE3DD1DD2585301C00C31D7F /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
@@ -199,7 +201,7 @@
 				74B79257202B3254006BCB41 /* AppDelegate.swift */,
 				CE7632682573732A00E4F7AE /* Modules */,
 				CE76326D257374BA00E4F7AE /* Models */,
-				CE4075BE25754B21006F4592 /* Networking */,
+				CE4075BE25754B21006F4592 /* Services */,
 				CEA36F3D252E25E300386D64 /* Additional Files */,
 				74B7927D202B3434006BCB41 /* Supporting Files */,
 				74B7927C202B342E006BCB41 /* Resources */,
@@ -235,6 +237,25 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		CE02BA1125F3BE3B00788EE3 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				CE4075CA2576B34E006F4592 /* RequestService.swift */,
+				CE4075DC257BB59F006F4592 /* DataTaskService.swift */,
+				CE4075C42576A5E1006F4592 /* NetworkService.swift */,
+				CE3DD1DF2585350300C31D7F /* Helpers */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		CE02BA1225F3BE5700788EE3 /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				CE02BA1325F3BE8500788EE3 /* KeychainService.swift */,
+			);
+			path = Keychain;
+			sourceTree = "<group>";
+		};
 		CE16595A25E0D20E008E609A /* ProfileHeader */ = {
 			isa = PBXGroup;
 			children = (
@@ -267,15 +288,13 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		CE4075BE25754B21006F4592 /* Networking */ = {
+		CE4075BE25754B21006F4592 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				CE4075CA2576B34E006F4592 /* RequestService.swift */,
-				CE4075DC257BB59F006F4592 /* DataTaskService.swift */,
-				CE4075C42576A5E1006F4592 /* NetworkService.swift */,
-				CE3DD1DF2585350300C31D7F /* Helpers */,
+				CE02BA1225F3BE5700788EE3 /* Keychain */,
+				CE02BA1125F3BE3B00788EE3 /* Networking */,
 			);
-			path = Networking;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		CE4075C125755F1B006F4592 /* Authorization */ = {
@@ -587,6 +606,7 @@
 				CEB7A7EB25E37DCE009D9897 /* FeedPostCellViewModel.swift in Sources */,
 				CE3DD1DE2585301C00C31D7F /* ServerError.swift in Sources */,
 				74B79258202B3254006BCB41 /* AppDelegate.swift in Sources */,
+				CE02BA1425F3BE8500788EE3 /* KeychainService.swift in Sources */,
 				CE9C3593252A421A00730A47 /* FilterCell.swift in Sources */,
 				CEB7A7E625E2B6F1009D9897 /* UIView+Extension.swift in Sources */,
 				CEFF9CA925D6D455004C357F /* SharingViewModel.swift in Sources */,
