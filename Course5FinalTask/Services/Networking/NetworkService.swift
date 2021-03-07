@@ -28,6 +28,12 @@ protocol NetworkServiceProtocol {
     ///   Вызывается после выполнения запроса.
     func singIn(login: String, password: String, completion: @escaping TokenResult)
     
+    /// Проверка валидности токена.
+    /// - Parameters:
+    ///   - token: Проверяемый токен.
+    ///   - completion: Замыкание, вызываемое после выполнения запроса.
+    func checkToken(token: String, completion: @escaping (Result<Bool, Error>) -> Void)
+    
     /// Деавторизация пользователя и инвалидация токена.
     /// - Parameter completion: Замыкание, вызываемое после выполнения запроса.
     func singOut(completion: @escaping (Result<Bool, Error>) -> Void)
@@ -144,7 +150,6 @@ final class NetworkService: NetworkServiceProtocol {
     // MARK: - Public methods
     
     func singIn(login: String, password: String, completion: @escaping TokenResult) {
-        
         guard let url = AuthorizationURLCreator.signIn.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
@@ -155,8 +160,18 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
     
-    func singOut(completion: @escaping (Result<Bool, Error>) -> Void) {
+    func checkToken(token: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let url = AuthorizationURLCreator.checkToken.url else { return }
         
+        var request = requestService.request(url: url, httpMethod: .get)
+        
+        let token = TokenModel(token: token)
+        request.httpBody = try? JSONEncoder().encode(token)
+
+        dataTaskService.dataTask(request: request, completion: completion)
+    }
+    
+    func singOut(completion: @escaping (Result<Bool, Error>) -> Void) {
         guard let url = AuthorizationURLCreator.signOut.url else { return }
         
         let request = requestService.request(url: url, httpMethod: .post)
@@ -164,7 +179,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func fetchCurrentUser(completion: @escaping UserResult) {
-        
         guard let url = UserURLCreator.currentUser.url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
@@ -172,7 +186,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func fetchUser(withID userID: String, completion: @escaping UserResult) {
-        
         guard let url = UserURLCreator.getUser(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
@@ -180,7 +193,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func followToUser(withID userID: String, completion: @escaping UserResult) {
-        
         guard let url = UserURLCreator.follow.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
@@ -192,7 +204,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func unfollowFromUser(withID userID: String, completion: @escaping UserResult) {
-        
         guard let url = UserURLCreator.unfollow.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
@@ -204,7 +215,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func fetchUsersFollowingUser(withID userID: String, completion: @escaping UsersResult) {
-        
         guard let url = UserURLCreator.followers(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
@@ -212,7 +222,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func fetchUsersFollowedByUser(withID userID: String, completion: @escaping UsersResult) {
-        
         guard let url = UserURLCreator.followings(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
@@ -220,7 +229,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func fetchPostsOfUser(withID userID: String, completion: @escaping PostsResult) {
-        
         guard let url = PostURLCreator.userPosts(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
@@ -228,7 +236,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func fetchFeed(completion: @escaping PostsResult) {
-        
         guard let url = PostURLCreator.feed.url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
@@ -236,7 +243,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func fetchPost(withID postID: String, completion: @escaping PostResult) {
-        
         guard let url = PostURLCreator.post(postID: postID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
@@ -244,7 +250,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func likePost(withID postID: String, completion: @escaping PostResult) {
-        
         guard let url = PostURLCreator.like.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
@@ -256,7 +261,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func unlikePost(withID postID: String, completion: @escaping PostResult) {
-        
         guard let url = PostURLCreator.unlike.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
@@ -268,7 +272,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func fetchUsersLikedPost(withID postID: String, completion: @escaping UsersResult) {
-        
         guard let url = PostURLCreator.usersLikedPost(postID: postID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
@@ -276,7 +279,6 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func createPost(imageData: String, description: String, completion: @escaping PostResult) {
-        
         guard let url = PostURLCreator.create.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
