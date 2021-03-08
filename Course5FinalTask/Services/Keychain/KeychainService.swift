@@ -13,6 +13,7 @@ import Foundation
 protocol KeychainServiceProtocol {
     func getToken() -> TokenModel?
     func saveToken(_ token: TokenModel) -> Bool
+    func removeToken() -> Bool
 }
 
 final class KeychainService: KeychainServiceProtocol {
@@ -42,25 +43,31 @@ final class KeychainService: KeychainServiceProtocol {
             var attributesToUpdate = [String: AnyObject]()
             attributesToUpdate[kSecValueData as String] = tokenData as AnyObject
             
-            let query = keychainQuery(service: serviceName)
+            let query = keychainQuery()
             let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
             return status == noErr
         }
         
-        var item = keychainQuery(service: serviceName)
+        var item = keychainQuery()
         item[kSecValueData as String] = tokenData as AnyObject
         let status = SecItemAdd(item as CFDictionary, nil)
         
         return status == noErr
     }
     
+    func removeToken() -> Bool {
+        let item = keychainQuery()
+        let status = SecItemDelete(item as CFDictionary)
+        return status == noErr
+    }
+    
     // MARK: - Private methods
     
-    private func keychainQuery(service: String) -> [String: AnyObject] {
+    private func keychainQuery() -> [String: AnyObject] {
         var query = [String: AnyObject]()
         query[kSecClass as String] = kSecClassGenericPassword
         query[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlocked
-        query[kSecAttrService as String] = service as AnyObject
+        query[kSecAttrService as String] = serviceName as AnyObject
         
 //        if let account = account {
             query[kSecAttrAccount as String] = "token" as AnyObject
@@ -70,7 +77,7 @@ final class KeychainService: KeychainServiceProtocol {
     }
 
     private func readToken(service: String) -> String? {
-        var query = keychainQuery(service: service)
+        var query = keychainQuery()
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         query[kSecReturnData as String] = kCFBooleanTrue
         query[kSecReturnAttributes as String] = kCFBooleanTrue
@@ -92,7 +99,7 @@ final class KeychainService: KeychainServiceProtocol {
     }
     
     private func readAllItems(service: String) -> [String: String]? {
-        var query = keychainQuery(service: service)
+        var query = keychainQuery()
         query[kSecMatchLimit as String] = kSecMatchLimitAll
         query[kSecReturnData as String] = kCFBooleanTrue
         query[kSecReturnAttributes as String] = kCFBooleanTrue

@@ -58,7 +58,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
                     print("Token is valid")
                     self?.authorizationSuccess?()
                 case .failure(let error):
-                    let _ = self?.keychainService.saveToken(TokenModel(token: ""))
+                    let _ = self?.keychainService.removeToken()
                     self?.error.value = error
                 }
             }

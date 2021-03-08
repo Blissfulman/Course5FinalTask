@@ -127,7 +127,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         networkService.singOut() { [weak self] result in
             switch result {
             case .success:
-                let _ = self?.keychainService.saveToken(TokenModel(token: ""))
+                let _ = self?.keychainService.removeToken()
             case .failure(let error):
                 self?.error.value = error
             }
