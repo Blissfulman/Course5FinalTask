@@ -11,7 +11,7 @@ import Foundation
 // MARK: - Protocols
 
 protocol DataTaskServiceProtocol {
-    func simpleDataTask(request: URLRequest, completion: @escaping (Result<Bool, Error>) -> Void)
+    func simpleDataTask(request: URLRequest, completion: @escaping VoidResult)
     func dataTask<T: Decodable>(request: URLRequest,
                                 completion: @escaping (Result<T, Error>) -> Void)
 }
@@ -28,7 +28,7 @@ final class DataTaskService: DataTaskServiceProtocol {
     
     // MARK: - Public methods
     
-    func simpleDataTask(request: URLRequest, completion: @escaping (Result<Bool, Error>) -> Void) {
+    func simpleDataTask(request: URLRequest, completion: @escaping VoidResult) {
         URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             
             guard let self = self else { return }
@@ -46,7 +46,7 @@ final class DataTaskService: DataTaskServiceProtocol {
             guard self.handleServerError(httpResponse, completion: completion) else { return }
             
             print(httpResponse.statusCode, request.url?.path ?? "")
-            completion(.success(true))
+            completion(.success(()))
         }.resume()
     }
     

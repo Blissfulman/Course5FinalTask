@@ -54,7 +54,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
                 LoadingView.hide()
                 
                 switch result {
-                case .success(_):
+                case .success:
                     print("Token is valid")
                     self?.authorizationSuccess?()
                 case .failure(let error):

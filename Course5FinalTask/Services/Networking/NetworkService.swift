@@ -9,6 +9,7 @@
 import UIKit
 
 typealias TokenResult = (Result<TokenModel, Error>) -> Void
+typealias VoidResult = (Result<Void, Error>) -> Void
 typealias UserResult = (Result<UserModel, Error>) -> Void
 typealias UsersResult = (Result<[UserModel], Error>) -> Void
 typealias PostResult = (Result<PostModel, Error>) -> Void
@@ -28,11 +29,11 @@ protocol NetworkServiceProtocol {
     
     /// Проверка валидности токена.
     /// - Parameter completion: Замыкание, вызываемое после выполнения запроса.
-    func checkToken(completion: @escaping (Result<Bool, Error>) -> Void)
+    func checkToken(completion: @escaping VoidResult)
     
     /// Деавторизация пользователя и инвалидация токена.
     /// - Parameter completion: Замыкание, вызываемое после выполнения запроса.
-    func singOut(completion: @escaping (Result<Bool, Error>) -> Void)
+    func singOut(completion: @escaping VoidResult)
     
     /// Получение текущего пользователя.
     /// - Parameter completion: Замыкание, в которое возвращается текущий пользователь.
@@ -155,14 +156,14 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
     
-    func checkToken(completion: @escaping (Result<Bool, Error>) -> Void) {
+    func checkToken(completion: @escaping VoidResult) {
         guard let url = AuthorizationURLCreator.checkToken.url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
         dataTaskService.simpleDataTask(request: request, completion: completion)
     }
     
-    func singOut(completion: @escaping (Result<Bool, Error>) -> Void) {
+    func singOut(completion: @escaping VoidResult) {
         guard let url = AuthorizationURLCreator.signOut.url else { return }
         
         let request = requestService.request(url: url, httpMethod: .post)
