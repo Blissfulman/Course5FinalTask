@@ -50,6 +50,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     /// Семафор для установки порядка запросов к провайдеру.
     private let semaphore = DispatchSemaphore(value: 1)
     
+    private let keychainService: KeychainServiceProtocol = KeychainService()
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Initializers
@@ -123,8 +124,14 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
     
     func logOutButtonDidTap() {
-        networkService.singOut() { _ in }
-        NetworkService.token = ""
+        networkService.singOut() { [weak self] result in
+            switch result {
+            case .success:
+                let _ = self?.keychainService.saveToken(TokenModel(token: ""))
+            case .failure(let error):
+                self?.error.value = error
+            }
+        }
     }
     
     func getProfileHeaderViewModel(delegate: ProfileHeaderViewModelDelegate) -> ProfileHeaderViewModelProtocol? {

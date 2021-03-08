@@ -11,6 +11,7 @@ import Foundation
 // MARK: - Protocols
 
 protocol DataTaskServiceProtocol {
+    func simpleDataTask(request: URLRequest, completion: @escaping (Result<Bool, Error>) -> Void)
     func dataTask<T: Decodable>(request: URLRequest,
                                 completion: @escaping (Result<T, Error>) -> Void)
 }
@@ -27,9 +28,7 @@ final class DataTaskService: DataTaskServiceProtocol {
     
     // MARK: - Public methods
     
-    func dataTask<T: Decodable>(request: URLRequest,
-                                completion: @escaping (Result<T, Error>) -> Void) {
-                
+    func simpleDataTask(request: URLRequest, completion: @escaping (Result<Bool, Error>) -> Void) {
         URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             
             guard let self = self else { return }
@@ -39,8 +38,31 @@ final class DataTaskService: DataTaskServiceProtocol {
                 completion(.failure(error))
             }
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                  let data = data else {
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("Receive HTTP response error")
+                return
+            }
+            
+            guard self.handleServerError(httpResponse, completion: completion) else { return }
+            
+            print(httpResponse.statusCode, request.url?.path ?? "")
+            completion(.success(true))
+        }.resume()
+    }
+    
+    func dataTask<T: Decodable>(request: URLRequest,
+                                completion: @escaping (Result<T, Error>) -> Void) {
+        
+        URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
+            
+            guard let self = self else { return }
+            
+            if let error = error {
+                print(error.localizedDescription)
+                completion(.failure(error))
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, let data = data else {
                 print("Receive HTTP response error")
                 return
             }

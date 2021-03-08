@@ -11,8 +11,8 @@ import Foundation
 // MARK: - Protocols
 
 protocol KeychainServiceProtocol {
-    func getData() -> (login: String, password: String)?
-    func savePassword(login: String, password: String) -> Bool
+    func getToken() -> TokenModel?
+    func saveToken(_ token: TokenModel) -> Bool
 }
 
 final class KeychainService: KeychainServiceProtocol {
@@ -24,33 +24,31 @@ final class KeychainService: KeychainServiceProtocol {
     // MARK: - Public methods
     
     /// Получение данных с сохранённым паролем.
-    func getData() -> (login: String, password: String)? {
-        guard let passwordItems = readAllItems(service: serviceName),
-              let login = passwordItems.keys.first,
-              let password = passwordItems[login]
+    func getToken() -> TokenModel? {
+        guard let items = readAllItems(service: serviceName),
+              let key = items.keys.first,
+              let token = items[key]
         else {
             print("No keychain data")
             return nil
         }
-        print(login)
-        print(password)
-        return (login: login, password: password)
+        return TokenModel(token: token)
     }
     
-    func savePassword(login: String, password: String) -> Bool {
-        let passwordData = password.data(using: .utf8)
+    func saveToken(_ token: TokenModel) -> Bool {
+        let tokenData = token.token.data(using: .utf8)
         
-        if readPassword(service: serviceName, account: login) != nil {
+        if readToken(service: serviceName) != nil {
             var attributesToUpdate = [String: AnyObject]()
-            attributesToUpdate[kSecValueData as String] = passwordData as AnyObject
+            attributesToUpdate[kSecValueData as String] = tokenData as AnyObject
             
-            let query = keychainQuery(service: serviceName, account: login)
+            let query = keychainQuery(service: serviceName)
             let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
             return status == noErr
         }
         
-        var item = keychainQuery(service: serviceName, account: login)
-        item[kSecValueData as String] = passwordData as AnyObject
+        var item = keychainQuery(service: serviceName)
+        item[kSecValueData as String] = tokenData as AnyObject
         let status = SecItemAdd(item as CFDictionary, nil)
         
         return status == noErr
@@ -58,21 +56,21 @@ final class KeychainService: KeychainServiceProtocol {
     
     // MARK: - Private methods
     
-    private func keychainQuery(service: String, account: String? = nil) -> [String: AnyObject] {
+    private func keychainQuery(service: String) -> [String: AnyObject] {
         var query = [String: AnyObject]()
         query[kSecClass as String] = kSecClassGenericPassword
         query[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlocked
         query[kSecAttrService as String] = service as AnyObject
         
-        if let account = account {
-            query[kSecAttrAccount as String] = account as AnyObject
-        }
+//        if let account = account {
+            query[kSecAttrAccount as String] = "token" as AnyObject
+//        }
         
         return query
     }
 
-    private func readPassword(service: String, account: String?) -> String? {
-        var query = keychainQuery(service: service, account: account)
+    private func readToken(service: String) -> String? {
+        var query = keychainQuery(service: service)
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         query[kSecReturnData as String] = kCFBooleanTrue
         query[kSecReturnAttributes as String] = kCFBooleanTrue

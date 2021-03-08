@@ -14,6 +14,7 @@ protocol AuthorizationViewModelProtocol {
     var authorizationSuccess: (() -> Void)? { get set }
     var error: Box<Error?> { get }
     
+    func checkAuthorization()
     func authorizeUser()
 }
 
@@ -40,18 +41,37 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
     
     var error: Box<Error?> = Box(nil)
     
+    private let keychainService: KeychainServiceProtocol = KeychainService()
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Public methods
+    
+    func checkAuthorization() {
+        if let _ = keychainService.getToken() {
+            LoadingView.show()
+            
+            networkService.checkToken { [weak self] result in
+                LoadingView.hide()
+                
+                switch result {
+                case .success(_):
+                    print("Token is valid")
+                    self?.authorizationSuccess?()
+                case .failure(let error):
+                    let _ = self?.keychainService.saveToken(TokenModel(token: ""))
+                    self?.error.value = error
+                }
+            }
+        }
+    }
     
     func authorizeUser() {
         guard let login = login, let password = password else { return }
         
         networkService.singIn(login: login, password: password) { [weak self] result in
-            
             switch result {
-            case .success(let token):
-                NetworkService.token = token.token
+            case .success(let tokenModel):
+                let _ = self?.keychainService.saveToken(tokenModel)
                 self?.authorizationSuccess?()
             case .failure(let error):
                 self?.error.value = error

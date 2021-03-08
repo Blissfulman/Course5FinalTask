@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - Protocols
+
 protocol RequestServiceProtocol {
     var token: String { get }
     func request(url: URL, httpMethod: HTTPMethod) -> URLRequest
@@ -15,13 +17,23 @@ protocol RequestServiceProtocol {
 
 final class RequestService: RequestServiceProtocol {
     
+    // MARK: - Class properties
+    
     static let shared = RequestService()
     
+    // MARK: - Properties
+    
     var token: String {
-        NetworkService.token
+        keychainService.getToken()?.token ?? ""
     }
     
+    private let keychainService: KeychainServiceProtocol = KeychainService()
+    
+    // MARK: - Initializers
+    
     private init() {}
+    
+    // MARK: - Public methods
     
     func request(url: URL, httpMethod: HTTPMethod) -> URLRequest {
         var request = URLRequest(url: url)

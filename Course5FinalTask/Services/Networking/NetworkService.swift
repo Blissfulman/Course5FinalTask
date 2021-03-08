@@ -17,8 +17,6 @@ typealias PostsResult = (Result<[PostModel], Error>) -> Void
 // MARK: - Protocols
 
 protocol NetworkServiceProtocol {
-    /// Переменная, в которой хранится полученный от сервера токен.
-    static var token: String { get set }
     
     /// Запрос авторизации пользователя и получения токена.
     /// - Parameters:
@@ -29,10 +27,8 @@ protocol NetworkServiceProtocol {
     func singIn(login: String, password: String, completion: @escaping TokenResult)
     
     /// Проверка валидности токена.
-    /// - Parameters:
-    ///   - token: Проверяемый токен.
-    ///   - completion: Замыкание, вызываемое после выполнения запроса.
-    func checkToken(token: String, completion: @escaping (Result<Bool, Error>) -> Void)
+    /// - Parameter completion: Замыкание, вызываемое после выполнения запроса.
+    func checkToken(completion: @escaping (Result<Bool, Error>) -> Void)
     
     /// Деавторизация пользователя и инвалидация токена.
     /// - Parameter completion: Замыкание, вызываемое после выполнения запроса.
@@ -132,7 +128,6 @@ final class NetworkService: NetworkServiceProtocol {
     // MARK: - Class properties
     
     static let shared: NetworkServiceProtocol = NetworkService()
-    static var token = ""
     
     // MARK: - Properties
     
@@ -160,22 +155,18 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
     
-    func checkToken(token: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+    func checkToken(completion: @escaping (Result<Bool, Error>) -> Void) {
         guard let url = AuthorizationURLCreator.checkToken.url else { return }
         
-        var request = requestService.request(url: url, httpMethod: .get)
-        
-        let token = TokenModel(token: token)
-        request.httpBody = try? JSONEncoder().encode(token)
-
-        dataTaskService.dataTask(request: request, completion: completion)
+        let request = requestService.request(url: url, httpMethod: .get)
+        dataTaskService.simpleDataTask(request: request, completion: completion)
     }
     
     func singOut(completion: @escaping (Result<Bool, Error>) -> Void) {
         guard let url = AuthorizationURLCreator.signOut.url else { return }
         
         let request = requestService.request(url: url, httpMethod: .post)
-        dataTaskService.dataTask(request: request, completion: completion)
+        dataTaskService.simpleDataTask(request: request, completion: completion)
     }
 
     func fetchCurrentUser(completion: @escaping UserResult) {
