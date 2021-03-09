@@ -42,7 +42,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
     var error: Box<Error?> = Box(nil)
     
     private let keychainService: KeychainServiceProtocol = KeychainService()
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let authorizationService: AuthorizationServiceProtocol = AuthorizationService.shared
     
     // MARK: - Public methods
     
@@ -50,7 +50,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
         if let _ = keychainService.getToken() {
             LoadingView.show()
             
-            networkService.checkToken { [weak self] result in
+            authorizationService.checkToken { [weak self] result in
                 LoadingView.hide()
                 
                 switch result {
@@ -68,7 +68,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
     func authorizeUser() {
         guard let login = login, let password = password else { return }
         
-        networkService.singIn(login: login, password: password) { [weak self] result in
+        authorizationService.singIn(login: login, password: password) { [weak self] result in
             switch result {
             case .success(let tokenModel):
                 let _ = self?.keychainService.saveToken(tokenModel)

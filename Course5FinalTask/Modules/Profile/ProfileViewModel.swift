@@ -51,6 +51,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     private let semaphore = DispatchSemaphore(value: 1)
     
     private let keychainService: KeychainServiceProtocol = KeychainService()
+    private let authorizationService: AuthorizationServiceProtocol = AuthorizationService.shared
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     
     // MARK: - Initializers
@@ -124,7 +125,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
     
     func logOutButtonDidTap() {
-        networkService.singOut() { [weak self] result in
+        authorizationService.singOut() { [weak self] result in
             switch result {
             case .success:
                 let _ = self?.keychainService.removeToken()
