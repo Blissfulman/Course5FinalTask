@@ -75,7 +75,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     var likeDataNeedUpdating: (() -> Void)?
     
     private var post: PostModel
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let dataService: DataServiceProtocol = DataService.shared
     
     // MARK: - Initializers
     
@@ -98,14 +98,14 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
         
         // Лайк/анлайк
         post.currentUserLikesThisPost
-            ? networkService.unlikePost(withID: post.id, completion: updatingPost)
-            : networkService.likePost(withID: post.id, completion: updatingPost)
+            ? dataService.unlikePost(withID: post.id, completion: updatingPost)
+            : dataService.likePost(withID: post.id, completion: updatingPost)
     }
     
     func postAuthorTapped() {
         LoadingView.show()
         
-        networkService.fetchUser(withID: post.author) { [weak self] result in
+        dataService.fetchUser(withID: post.author) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.delegate?.authorOfPostTapped(user: user)

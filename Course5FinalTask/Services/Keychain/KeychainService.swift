@@ -12,8 +12,8 @@ import Foundation
 
 protocol KeychainServiceProtocol {
     func getToken() -> TokenModel?
-    func saveToken(_ token: TokenModel) -> Bool
-    func removeToken() -> Bool
+    @discardableResult func saveToken(_ token: TokenModel) -> Bool
+    @discardableResult func removeToken() -> Bool
 }
 
 final class KeychainService: KeychainServiceProtocol {
@@ -24,7 +24,6 @@ final class KeychainService: KeychainServiceProtocol {
     
     // MARK: - Public methods
     
-    /// Получение данных с сохранённым паролем.
     func getToken() -> TokenModel? {
         guard let items = readAllItems(service: serviceName),
               let key = items.keys.first,
@@ -52,10 +51,12 @@ final class KeychainService: KeychainServiceProtocol {
         item[kSecValueData as String] = tokenData as AnyObject
         let status = SecItemAdd(item as CFDictionary, nil)
         
+        if status == noErr { print("Token saved") }
         return status == noErr
     }
     
     func removeToken() -> Bool {
+        print("Removing keychain data")
         let item = keychainQuery()
         let status = SecItemDelete(item as CFDictionary)
         return status == noErr
@@ -68,10 +69,7 @@ final class KeychainService: KeychainServiceProtocol {
         query[kSecClass as String] = kSecClassGenericPassword
         query[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlocked
         query[kSecAttrService as String] = serviceName as AnyObject
-        
-//        if let account = account {
-            query[kSecAttrAccount as String] = "token" as AnyObject
-//        }
+        query[kSecAttrAccount as String] = "token" as AnyObject
         
         return query
     }

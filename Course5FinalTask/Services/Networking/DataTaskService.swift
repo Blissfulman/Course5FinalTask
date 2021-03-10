@@ -36,6 +36,7 @@ final class DataTaskService: DataTaskServiceProtocol {
             if let error = error {
                 print(error.localizedDescription)
                 completion(.failure(error))
+                return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
@@ -60,6 +61,7 @@ final class DataTaskService: DataTaskServiceProtocol {
             if let error = error {
                 print(error.localizedDescription)
                 completion(.failure(error))
+                return
             }
             
             guard let httpResponse = response as? HTTPURLResponse, let data = data else {

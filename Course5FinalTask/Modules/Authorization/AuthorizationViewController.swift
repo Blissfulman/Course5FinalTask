@@ -147,10 +147,7 @@ final class AuthorizationViewController: UIViewController {
         
         viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            if let serverError = error as? ServerError, serverError == .unauthorized {
-            } else {
-                self.showAlert(error)
-            }
+            self.showAlert(error)
         }
     }
 }

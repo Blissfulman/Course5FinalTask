@@ -52,7 +52,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     private let keychainService: KeychainServiceProtocol = KeychainService()
     private let authorizationService: AuthorizationServiceProtocol = AuthorizationService.shared
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let dataService: DataServiceProtocol = DataService.shared
     
     // MARK: - Initializers
     
@@ -68,8 +68,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
             self.semaphore.wait()
 
-            self.networkService.fetchCurrentUser() { result in
-                
+            self.dataService.fetchCurrentUser() { result in
                 switch result {
                 case .success(let currentUser):
                     // Проверка того, открывается ли профиль текущего пользователя
@@ -79,7 +78,6 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                         self.isCurrentUser.value = true
                         self.user.value = currentUser
                     }
-                    
                     self.semaphore.signal()
                 case .failure(let error):
                     self.error.value = error
@@ -103,8 +101,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             guard let user = self.user.value else { return }
             
             // Обновление данных о пользователе
-            self.networkService.fetchUser(withID: user.id) { result in
-                
+            self.dataService.fetchUser(withID: user.id) { result in
                 switch result {
                 case .success(let user):
                     self.user.value = user
@@ -128,7 +125,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         authorizationService.singOut() { [weak self] result in
             switch result {
             case .success:
-                let _ = self?.keychainService.removeToken()
+                self?.keychainService.removeToken()
             case .failure(let error):
                 self?.error.value = error
             }
@@ -155,8 +152,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     /// Получение постов пользователя.
     private func getUserPosts(of user: UserModel) {
-        networkService.fetchPostsOfUser(withID: user.id) { [weak self] result in
-            
+        dataService.fetchPostsOfUser(withID: user.id) { [weak self] result in
             guard let self = self else { return }
             
             switch result {

@@ -32,7 +32,7 @@ final class FeedViewModel: FeedViewModelProtocol {
     }
     
     private var posts = [PostModel]()
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let dataService: DataServiceProtocol = DataService.shared
     
     // MARK: - Public methods
     
@@ -41,7 +41,7 @@ final class FeedViewModel: FeedViewModelProtocol {
             LoadingView.show()
         }
         
-        networkService.fetchFeed() { [weak self] result in
+        dataService.fetchFeed() { [weak self] result in
             switch result {
             case .success(let feedPosts):
                 self?.posts = feedPosts

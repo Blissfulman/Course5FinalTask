@@ -58,8 +58,15 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
                     print("Token is valid")
                     self?.authorizationSuccess?()
                 case .failure(let error):
-                    let _ = self?.keychainService.removeToken()
-                    self?.error.value = error
+                    if let serverError = error as? ServerError, serverError == .unauthorized {
+                        // Токен не валиден
+                        self?.keychainService.removeToken()
+                    } else {
+                        // Токен валиден, но нет соединения с сервером
+                        NetworkService.setOnlineStatus(to: false)
+                        print("Entering to offline mode")
+                        self?.authorizationSuccess?()
+                    }
                 }
             }
         }
@@ -71,7 +78,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
         authorizationService.singIn(login: login, password: password) { [weak self] result in
             switch result {
             case .success(let tokenModel):
-                let _ = self?.keychainService.saveToken(tokenModel)
+                self?.keychainService.saveToken(tokenModel)
                 self?.authorizationSuccess?()
             case .failure(let error):
                 self?.error.value = error

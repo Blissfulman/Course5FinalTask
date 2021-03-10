@@ -14,17 +14,23 @@ final class LoadingView {
     static var activityIndicator = UIActivityIndicatorView(frame: UIScreen.main.bounds)
     
     static func show() {
-        DispatchQueue.main.async {
-            setup()
-            activityIndicator.startAnimating()
-            activityIndicator.isHidden = false
+        // Т.к. в оффлайн режиме отображать блокирующее вью не требуется, выполняется проверка данного статуса
+        if NetworkService.isOnline {
+            DispatchQueue.main.async {
+                setup()
+                activityIndicator.startAnimating()
+                activityIndicator.isHidden = false
+            }
         }
     }
     
     static func hide() {
-        DispatchQueue.main.async {
-            activityIndicator.stopAnimating()
-            activityIndicator.removeFromSuperview()
+        // Скрывать блокирующее вью в оффлайн режиме также не потребуется
+        if NetworkService.isOnline {
+            DispatchQueue.main.async {
+                activityIndicator.stopAnimating()
+                activityIndicator.removeFromSuperview()
+            }
         }
     }
     
