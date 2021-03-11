@@ -16,6 +16,7 @@
 		CE02BA1425F3BE8500788EE3 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE02BA1325F3BE8500788EE3 /* KeychainService.swift */; };
 		CE16595925E0D1B2008E609A /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE16595825E0D1B2008E609A /* ProfileHeaderViewModel.swift */; };
 		CE16595D25E18D06008E609A /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE16595C25E18D06008E609A /* ProfileViewModel.swift */; };
+		CE20DD6F25FA158C00274A95 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DD6E25FA158C00274A95 /* AppError.swift */; };
 		CE3A168325F7F8C900FFA849 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A168225F7F8C900FFA849 /* DataService.swift */; };
 		CE3A168525F7FA2E00FFA849 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A168425F7FA2E00FFA849 /* AuthorizationService.swift */; };
 		CE3DD1DE2585301C00C31D7F /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DD1DD2585301C00C31D7F /* ServerError.swift */; };
@@ -102,6 +103,7 @@
 		CE02BA1325F3BE8500788EE3 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		CE16595825E0D1B2008E609A /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		CE16595C25E18D06008E609A /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		CE20DD6E25FA158C00274A95 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		CE3A168225F7F8C900FFA849 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		CE3A168425F7FA2E00FFA849 /* AuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationService.swift; sourceTree = "<group>"; };
 		CE3DD1DD2585301C00C31D7F /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				CE813ABD2580F77D006DCCBB /* UserListType.swift */,
 				CE9BEA7D258BB9690006EFEA /* NewImagesProvider.swift */,
 				CE0190E425D46509002D48BA /* Box.swift */,
+				CE20DD6E25FA158C00274A95 /* AppError.swift */,
 				CE4075D32577FDEE006F4592 /* Extensions */,
 			);
 			path = "Additional Files";
@@ -647,6 +650,7 @@
 				CE9BEA7A258B19090006EFEA /* UIImageView+Extension.swift in Sources */,
 				CEB7A7F425EA7B6F009D9897 /* URL+Extension.swift in Sources */,
 				CE0190E525D46509002D48BA /* Box.swift in Sources */,
+				CE20DD6F25FA158C00274A95 /* AppError.swift in Sources */,
 				CE4075BD25754AF7006F4592 /* PostModel.swift in Sources */,
 				CE4075B9257549D9006F4592 /* TokenModel.swift in Sources */,
 				CE4075C325755F4B006F4592 /* AuthorizationViewController.swift in Sources */,

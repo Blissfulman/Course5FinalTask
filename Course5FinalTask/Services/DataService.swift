@@ -115,8 +115,8 @@ final class DataService: DataServiceProtocol {
     // MARK: - Properties
     
     private let networkService: NetworkServiceProtocol = NetworkService.shared
-    
     private let isOnline: Bool
+    private let offlineError = AppError.offlineError
     
     // MARK: - Initializers
     
@@ -139,15 +139,15 @@ final class DataService: DataServiceProtocol {
     }
     
     func followToUser(withID userID: String, completion: @escaping UserResult) {
-        if isOnline {
-            networkService.followToUser(withID: userID, completion: completion)
-        }
+        isOnline
+            ? networkService.followToUser(withID: userID, completion: completion)
+            : completion(.failure(offlineError))
     }
     
     func unfollowFromUser(withID userID: String, completion: @escaping UserResult) {
-        if isOnline {
-            networkService.unfollowFromUser(withID: userID, completion: completion)
-        }
+        isOnline
+            ? networkService.unfollowFromUser(withID: userID, completion: completion)
+            : completion(.failure(offlineError))
     }
     
     func fetchUsersFollowingUser(withID userID: String, completion: @escaping UsersResult) {
