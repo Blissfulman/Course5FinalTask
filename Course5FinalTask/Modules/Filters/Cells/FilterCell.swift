@@ -10,12 +10,6 @@ import UIKit
 
 final class FilterCell: UICollectionViewCell {
     
-    static let identifier = String(describing: FilterCell.self)
-    
-    static func nib() -> UINib {
-        UINib(nibName: identifier, bundle: nil)
-    }
-    
     @IBOutlet private weak var thumbnailImageView: UIImageView!
     @IBOutlet private weak var filterNameLabel: UILabel!
     

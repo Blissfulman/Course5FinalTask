@@ -17,16 +17,6 @@ final class FeedPostCell: UITableViewCell {
         static let unlike = UIColor.lightGray
     }
     
-    // MARK: - Class properties
-    
-    static let identifier = String(describing: FeedPostCell.self)
-    
-    // MARK: - Class methods
-    
-    static func nib() -> UINib {
-        UINib(nibName: identifier, bundle: nil)
-    }
-    
     // MARK: - Outlets
     
     @IBOutlet private weak var avatarImageView: UIImageView!

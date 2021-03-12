@@ -55,7 +55,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
                 
                 switch result {
                 case .success:
-                    print("Token is valid")
+                    print("Token is valid!")
                     self?.authorizationSuccess?()
                 case .failure(let error):
                     if let serverError = error as? ServerError, serverError == .unauthorized {
@@ -64,7 +64,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
                     } else {
                         // Токен валиден, но нет соединения с сервером
                         NetworkService.setOnlineStatus(to: false)
-                        print("Entering to offline mode")
+                        print("Entering to offline mode...")
                         self?.authorizationSuccess?()
                     }
                 }
