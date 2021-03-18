@@ -19,6 +19,7 @@
 		CE20DD6F25FA158C00274A95 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DD6E25FA158C00274A95 /* AppError.swift */; };
 		CE20DDE525FB410900274A95 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DDE425FB410900274A95 /* UITableViewCell+Extension.swift */; };
 		CE20DDE925FB439A00274A95 /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DDE825FB439A00274A95 /* UICollectionReusableView+Extension.swift */; };
+		CE2FF9602603D47900FDA68D /* CoreDataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF95E2603D47900FDA68D /* CoreDataModels.xcdatamodeld */; };
 		CE3A168325F7F8C900FFA849 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A168225F7F8C900FFA849 /* DataService.swift */; };
 		CE3A168525F7FA2E00FFA849 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A168425F7FA2E00FFA849 /* AuthorizationService.swift */; };
 		CE3DD1DE2585301C00C31D7F /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DD1DD2585301C00C31D7F /* ServerError.swift */; };
@@ -108,6 +109,7 @@
 		CE20DD6E25FA158C00274A95 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		CE20DDE425FB410900274A95 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		CE20DDE825FB439A00274A95 /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
+		CE2FF95F2603D47900FDA68D /* CoreDataModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModels.xcdatamodel; sourceTree = "<group>"; };
 		CE3A168225F7F8C900FFA849 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		CE3A168425F7FA2E00FFA849 /* AuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationService.swift; sourceTree = "<group>"; };
 		CE3DD1DD2585301C00C31D7F /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
@@ -285,6 +287,14 @@
 			path = ProfilePhotoCell;
 			sourceTree = "<group>";
 		};
+		CE2FF95D2603D40600FDA68D /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				CE2FF95E2603D47900FDA68D /* CoreDataModels.xcdatamodeld */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		CE3DD1DF2585350300C31D7F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,8 +313,9 @@
 			children = (
 				CE3A168425F7FA2E00FFA849 /* AuthorizationService.swift */,
 				CE3A168225F7F8C900FFA849 /* DataService.swift */,
-				CE02BA1225F3BE5700788EE3 /* Keychain */,
 				CE02BA1125F3BE3B00788EE3 /* Networking */,
+				CE02BA1225F3BE5700788EE3 /* Keychain */,
+				CE2FF95D2603D40600FDA68D /* Storage */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -652,6 +663,7 @@
 				CEB0222424DD79C3009D0615 /* ProfilePhotoCell.swift in Sources */,
 				CE0190E125D4546B002D48BA /* UserListViewModel.swift in Sources */,
 				CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */,
+				CE2FF9602603D47900FDA68D /* CoreDataModels.xcdatamodeld in Sources */,
 				CEBE92B62529AA7A002A6A63 /* FiltersViewController.swift in Sources */,
 				CEA36F3F252E264000386D64 /* FilterImageOperation.swift in Sources */,
 				CE9BEA7A258B19090006EFEA /* UIImageView+Extension.swift in Sources */,
@@ -853,6 +865,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		CE2FF95E2603D47900FDA68D /* CoreDataModels.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CE2FF95F2603D47900FDA68D /* CoreDataModels.xcdatamodel */,
+			);
+			currentVersion = CE2FF95F2603D47900FDA68D /* CoreDataModels.xcdatamodel */;
+			path = CoreDataModels.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 74B7924C202B3254006BCB41 /* Project object */;
 }

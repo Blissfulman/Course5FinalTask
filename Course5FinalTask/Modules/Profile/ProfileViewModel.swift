@@ -45,7 +45,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
     
     /// Очередь для выстраивания запросов данных у провайдера.
-    private let getDataQueue = DispatchQueue(label: "getDataQueue", qos: .userInteractive)
+    private let receiveDataQueue = DispatchQueue(label: "receiveDataQueue", qos: .userInteractive)
     
     /// Семафор для установки порядка запросов к провайдеру.
     private let semaphore = DispatchSemaphore(value: 1)
@@ -62,8 +62,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     func getCurrentUser() {
         // Получение данных о текущем пользователе должно произойти до получения данных об открываемом профиле (которое происходит в методе getUser)
-        getDataQueue.async { [weak self] in
-            
+        receiveDataQueue.async { [weak self] in
             guard let self = self else { return }
 
             self.semaphore.wait()
@@ -91,8 +90,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     func getUser() {
         LoadingView.show()
         
-        getDataQueue.async { [weak self] in
-            
+        receiveDataQueue.async { [weak self] in
             guard let self = self else { return }
 
             self.semaphore.wait()
