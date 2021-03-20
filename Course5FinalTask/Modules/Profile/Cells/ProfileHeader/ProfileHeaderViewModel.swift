@@ -65,7 +65,7 @@ final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
     }
     
     private let isCurrentUser: Bool
-    private let dataService: DataServiceProtocol = DataService.shared
+    private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
     // MARK: - Initializers
     
@@ -90,8 +90,8 @@ final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
         
         // Подписка/отписка
         user.value.currentUserFollowsThisUser
-            ? dataService.unfollowFromUser(withID: user.value.id, completion: updatingUser)
-            : dataService.followToUser(withID: user.value.id, completion: updatingUser)
+            ? dataFetchingService.unfollowFromUser(withID: user.value.id, completion: updatingUser)
+            : dataFetchingService.followToUser(withID: user.value.id, completion: updatingUser)
     }
     
     func followersButtonTapped() {

@@ -52,7 +52,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     private let keychainService: KeychainServiceProtocol = KeychainService()
     private let authorizationService: AuthorizationServiceProtocol = AuthorizationService.shared
-    private let dataService: DataServiceProtocol = DataService.shared
+    private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
     // MARK: - Initializers
     
@@ -67,7 +67,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
             self.semaphore.wait()
 
-            self.dataService.fetchCurrentUser() { result in
+            self.dataFetchingService.fetchCurrentUser() { result in
                 switch result {
                 case .success(let currentUser):
                     // Проверка того, открывается ли профиль текущего пользователя
@@ -99,7 +99,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             guard let user = self.user.value else { return }
             
             // Обновление данных о пользователе
-            self.dataService.fetchUser(withID: user.id) { result in
+            self.dataFetchingService.fetchUser(withID: user.id) { result in
                 switch result {
                 case .success(let user):
                     self.user.value = user
@@ -116,7 +116,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
     
     func getCellData(at indexPath: IndexPath) -> Data {
-        userPosts.value[indexPath.item].image.fetchPNGImageData()
+        userPosts.value[indexPath.item].getImageData()
     }
     
     func logOutButtonDidTap() {
@@ -150,7 +150,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     /// Получение постов пользователя.
     private func getUserPosts(of user: UserModel) {
-        dataService.fetchPostsOfUser(withID: user.id) { [weak self] result in
+        dataFetchingService.fetchPostsOfUser(withID: user.id) { [weak self] result in
             guard let self = self else { return }
             
             switch result {

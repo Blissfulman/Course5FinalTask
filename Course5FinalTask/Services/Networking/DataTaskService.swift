@@ -18,7 +18,7 @@ protocol DataTaskServiceProtocol {
 
 final class DataTaskService: DataTaskServiceProtocol {
     
-    // MARK: - Class properties
+    // MARK: - Static properties
     
     static let shared = DataTaskService()
     

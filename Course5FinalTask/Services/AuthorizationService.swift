@@ -34,22 +34,18 @@ protocol AuthorizationServiceProtocol {
 
 final class AuthorizationService: AuthorizationServiceProtocol {
     
-    // MARK: - Class properties
+    // MARK: - Static properties
     
     static let shared: AuthorizationServiceProtocol = AuthorizationService()
     
     // MARK: - Properties
     
-    private let requestService: RequestServiceProtocol
-    private let dataTaskService: DataTaskServiceProtocol
+    private let requestService: RequestServiceProtocol = RequestService.shared
+    private let dataTaskService: DataTaskServiceProtocol = DataTaskService.shared
     
     // MARK: - Initializers
     
-    private init(requestService: RequestServiceProtocol = RequestService.shared,
-                 dataTaskService: DataTaskServiceProtocol = DataTaskService.shared) {
-        self.requestService = requestService
-        self.dataTaskService = dataTaskService
-    }
+    private init() {}
     
     // MARK: - Public methods
     

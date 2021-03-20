@@ -17,3 +17,12 @@ extension URL {
         return pngImageData
     }
 }
+
+extension Optional where Wrapped == URL {
+    
+    /// Возвращает изображение в формате PNG Data, загруженное по URL, либо, случае неудачи, - Data().
+    func fetchPNGImageData() -> Data {
+        guard let url = self else { return Data() }
+        return url.fetchPNGImageData()
+    }
+}

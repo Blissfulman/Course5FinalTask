@@ -1,5 +1,5 @@
 //
-//  DataService.swift
+//  DataFetchingService.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 09.03.2021.
@@ -15,7 +15,7 @@ typealias UsersResult = (Result<[UserModel], Error>) -> Void
 typealias PostResult = (Result<PostModel, Error>) -> Void
 typealias PostsResult = (Result<[PostModel], Error>) -> Void
 
-protocol DataServiceProtocol {
+protocol DataFetchingServiceProtocol {
     
     /// Получение текущего пользователя.
     /// - Parameter completion: Замыкание, в которое возвращается текущий пользователь.
@@ -106,15 +106,16 @@ protocol DataServiceProtocol {
     func createPost(imageData: String, description: String, completion: @escaping PostResult)
 }
 
-final class DataService: DataServiceProtocol {
+final class DataFetchingService: DataFetchingServiceProtocol {
     
-    // MARK: - Class properties
+    // MARK: - Static properties
     
-    static let shared: DataServiceProtocol = DataService()
+    static let shared: DataFetchingServiceProtocol = DataFetchingService()
     
     // MARK: - Properties
     
     private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
     private let isOnline: Bool
     private let offlineError = AppError.offlineError
     
@@ -169,8 +170,20 @@ final class DataService: DataServiceProtocol {
     }
     
     func fetchFeed(completion: @escaping PostsResult) {
-        if isOnline {
-            networkService.fetchFeed(completion: completion)
+        guard isOnline else {
+            completion(.success(dataStorageService.getPosts()))
+            return
+        }
+        networkService.fetchFeed { [weak self] result in
+            switch result {
+            case let .success(feedPosts):
+                completion(.success(feedPosts))
+                DispatchQueue.global().async {
+                    self?.dataStorageService.savePosts(feedPosts)
+                }
+            case let .failure(error):
+                completion(.failure(error))
+            }
         }
     }
     
@@ -181,15 +194,15 @@ final class DataService: DataServiceProtocol {
     }
     
     func likePost(withID postID: String, completion: @escaping PostResult) {
-        if isOnline {
-            networkService.likePost(withID: postID, completion: completion)
-        }
+        isOnline
+            ? networkService.likePost(withID: postID, completion: completion)
+            : completion(.failure(offlineError))
     }
     
     func unlikePost(withID postID: String, completion: @escaping PostResult) {
-        if isOnline {
-            networkService.unlikePost(withID: postID, completion: completion)
-        }
+        isOnline
+            ? networkService.unlikePost(withID: postID, completion: completion)
+            : completion(.failure(offlineError))
     }
     
     func fetchUsersLikedPost(withID postID: String, completion: @escaping UsersResult) {
@@ -199,8 +212,8 @@ final class DataService: DataServiceProtocol {
     }
     
     func createPost(imageData: String, description: String, completion: @escaping PostResult) {
-        if isOnline {
-            networkService.createPost(imageData: imageData, description: description, completion: completion)
-        }
+        isOnline
+            ? networkService.createPost(imageData: imageData, description: description, completion: completion)
+            : completion(.failure(offlineError))
     }
 }

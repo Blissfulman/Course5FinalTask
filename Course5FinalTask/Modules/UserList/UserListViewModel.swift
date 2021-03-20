@@ -49,7 +49,7 @@ final class UserListViewModel: UserListViewModelProtocol {
     /// Тип списка отображаемых пользователей.
     private let userListType: UserListType
     
-    private let dataService: DataServiceProtocol = DataService.shared
+    private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
     // MARK: - Initializers
     
@@ -92,11 +92,11 @@ final class UserListViewModel: UserListViewModelProtocol {
         
         switch userListType {
         case .likes:
-            dataService.fetchUsersLikedPost(withID: postID, completion: updatingUserList)
+            dataFetchingService.fetchUsersLikedPost(withID: postID, completion: updatingUserList)
         case .followers:
-            dataService.fetchUsersFollowingUser(withID: userID, completion: updatingUserList)
+            dataFetchingService.fetchUsersFollowingUser(withID: userID, completion: updatingUserList)
         case .followings:
-            dataService.fetchUsersFollowedByUser(withID: userID, completion: updatingUserList)
+            dataFetchingService.fetchUsersFollowedByUser(withID: userID, completion: updatingUserList)
         }
     }
 }

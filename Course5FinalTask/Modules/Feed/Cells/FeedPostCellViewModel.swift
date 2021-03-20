@@ -44,7 +44,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     weak var delegate: FeedPostCellViewModelDelegate?
     
     var avatarImageData: Data {
-        post.authorAvatar.fetchPNGImageData()
+        post.getAuthorAvatarData()
     }
     
     var authorUsername: String {
@@ -56,7 +56,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     var postImageData: Data {
-        post.image.fetchPNGImageData()
+        post.getImageData()
     }
     
     var description: String {
@@ -75,7 +75,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     var likeDataNeedUpdating: (() -> Void)?
     
     private var post: PostModel
-    private let dataService: DataServiceProtocol = DataService.shared
+    private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
     // MARK: - Initializers
     
@@ -91,21 +91,22 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
                 self?.post = updatedPost
                 self?.likeDataNeedUpdating?()
                 self?.delegate?.updateFeedData()
-            case .failure:
-                break
+            case .failure(let error):
+                guard let error = error as? AppError, error == .offlineError else { return }
+                self?.delegate?.showErrorAlert(error)
             }
         }
         
         // Лайк/анлайк
         post.currentUserLikesThisPost
-            ? dataService.unlikePost(withID: post.id, completion: updatingPost)
-            : dataService.likePost(withID: post.id, completion: updatingPost)
+            ? dataFetchingService.unlikePost(withID: post.id, completion: updatingPost)
+            : dataFetchingService.likePost(withID: post.id, completion: updatingPost)
     }
     
     func postAuthorTapped() {
         LoadingView.show()
         
-        dataService.fetchUser(withID: post.author) { [weak self] result in
+        dataFetchingService.fetchUser(withID: post.author) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.delegate?.authorOfPostTapped(user: user)
@@ -124,6 +125,8 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     func likesCountButtonTapped() {
-        delegate?.likesCountButtonTapped(postID: post.id)
+        NetworkService.isOnline
+            ? delegate?.likesCountButtonTapped(postID: post.id)
+            : delegate?.showErrorAlert(AppError.offlineError)
     }
 }

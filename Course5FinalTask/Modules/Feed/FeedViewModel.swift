@@ -32,7 +32,8 @@ final class FeedViewModel: FeedViewModelProtocol {
     }
     
     private var posts = [PostModel]()
-    private let dataService: DataServiceProtocol = DataService.shared
+    private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
+    private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
     
     // MARK: - Public methods
     
@@ -41,9 +42,10 @@ final class FeedViewModel: FeedViewModelProtocol {
             LoadingView.show()
         }
         
-        dataService.fetchFeed() { [weak self] result in
+        dataFetchingService.fetchFeed() { [weak self] result in
             switch result {
             case .success(let feedPosts):
+                print(feedPosts.count) // TEMP
                 self?.posts = feedPosts
                 if withUpdatingTableView {
                     self?.tableViewNeedUpdating?()

@@ -30,7 +30,7 @@ final class SharingViewModel: SharingViewModelProtocol {
     
     var error: Box<Error?> = Box(nil)
     
-    private let dataService: DataServiceProtocol = DataService.shared
+    private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
     // MARK: - Initializers
     
@@ -41,7 +41,7 @@ final class SharingViewModel: SharingViewModelProtocol {
     // MARK: - Public methods
     
     func createPost(withDescription description: String?) {
-        dataService.createPost(imageData: imageData.base64EncodedString(),
+        dataFetchingService.createPost(imageData: imageData.base64EncodedString(),
                                description: description ?? "") { [weak self] result in
             switch result {
             case .success:

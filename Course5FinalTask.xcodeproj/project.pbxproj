@@ -19,8 +19,10 @@
 		CE20DD6F25FA158C00274A95 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DD6E25FA158C00274A95 /* AppError.swift */; };
 		CE20DDE525FB410900274A95 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DDE425FB410900274A95 /* UITableViewCell+Extension.swift */; };
 		CE20DDE925FB439A00274A95 /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DDE825FB439A00274A95 /* UICollectionReusableView+Extension.swift */; };
-		CE2FF9602603D47900FDA68D /* CoreDataModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF95E2603D47900FDA68D /* CoreDataModels.xcdatamodeld */; };
-		CE3A168325F7F8C900FFA849 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A168225F7F8C900FFA849 /* DataService.swift */; };
+		CE2FF9602603D47900FDA68D /* Course5FinalTask.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF95E2603D47900FDA68D /* Course5FinalTask.xcdatamodeld */; };
+		CE2FF96726049F3000FDA68D /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF96626049F3000FDA68D /* CoreDataService.swift */; };
+		CE2FF9692604A32100FDA68D /* DataStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF9682604A32100FDA68D /* DataStorageService.swift */; };
+		CE3A168325F7F8C900FFA849 /* DataFetchingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A168225F7F8C900FFA849 /* DataFetchingService.swift */; };
 		CE3A168525F7FA2E00FFA849 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A168425F7FA2E00FFA849 /* AuthorizationService.swift */; };
 		CE3DD1DE2585301C00C31D7F /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DD1DD2585301C00C31D7F /* ServerError.swift */; };
 		CE4075B9257549D9006F4592 /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075B8257549D9006F4592 /* TokenModel.swift */; };
@@ -110,7 +112,9 @@
 		CE20DDE425FB410900274A95 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		CE20DDE825FB439A00274A95 /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
 		CE2FF95F2603D47900FDA68D /* CoreDataModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModels.xcdatamodel; sourceTree = "<group>"; };
-		CE3A168225F7F8C900FFA849 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		CE2FF96626049F3000FDA68D /* CoreDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		CE2FF9682604A32100FDA68D /* DataStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorageService.swift; sourceTree = "<group>"; };
+		CE3A168225F7F8C900FFA849 /* DataFetchingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchingService.swift; sourceTree = "<group>"; };
 		CE3A168425F7FA2E00FFA849 /* AuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationService.swift; sourceTree = "<group>"; };
 		CE3DD1DD2585301C00C31D7F /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
 		CE4075B8257549D9006F4592 /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
@@ -287,12 +291,13 @@
 			path = ProfilePhotoCell;
 			sourceTree = "<group>";
 		};
-		CE2FF95D2603D40600FDA68D /* Storage */ = {
+		CE2FF95D2603D40600FDA68D /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				CE2FF95E2603D47900FDA68D /* CoreDataModels.xcdatamodeld */,
+				CE2FF96626049F3000FDA68D /* CoreDataService.swift */,
+				CE2FF95E2603D47900FDA68D /* Course5FinalTask.xcdatamodeld */,
 			);
-			path = Storage;
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		CE3DD1DF2585350300C31D7F /* Helpers */ = {
@@ -312,10 +317,11 @@
 			isa = PBXGroup;
 			children = (
 				CE3A168425F7FA2E00FFA849 /* AuthorizationService.swift */,
-				CE3A168225F7F8C900FFA849 /* DataService.swift */,
+				CE3A168225F7F8C900FFA849 /* DataFetchingService.swift */,
+				CE2FF9682604A32100FDA68D /* DataStorageService.swift */,
 				CE02BA1125F3BE3B00788EE3 /* Networking */,
 				CE02BA1225F3BE5700788EE3 /* Keychain */,
-				CE2FF95D2603D40600FDA68D /* Storage */,
+				CE2FF95D2603D40600FDA68D /* CoreData */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -652,7 +658,8 @@
 				CE6E2D5624D9BD3300A4B08B /* FeedPostCell.swift in Sources */,
 				CE4075D52577FE4E006F4592 /* DateFormatter+Extension.swift in Sources */,
 				CEFF9CA725D5B2E5004C357F /* PostURLCreator.swift in Sources */,
-				CE3A168325F7F8C900FFA849 /* DataService.swift in Sources */,
+				CE3A168325F7F8C900FFA849 /* DataFetchingService.swift in Sources */,
+				CE2FF9692604A32100FDA68D /* DataStorageService.swift in Sources */,
 				CE76326A2573743F00E4F7AE /* UserModel.swift in Sources */,
 				CE813ABE2580F77D006DCCBB /* UserListType.swift in Sources */,
 				CE4075CB2576B34E006F4592 /* RequestService.swift in Sources */,
@@ -663,7 +670,7 @@
 				CEB0222424DD79C3009D0615 /* ProfilePhotoCell.swift in Sources */,
 				CE0190E125D4546B002D48BA /* UserListViewModel.swift in Sources */,
 				CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */,
-				CE2FF9602603D47900FDA68D /* CoreDataModels.xcdatamodeld in Sources */,
+				CE2FF9602603D47900FDA68D /* Course5FinalTask.xcdatamodeld in Sources */,
 				CEBE92B62529AA7A002A6A63 /* FiltersViewController.swift in Sources */,
 				CEA36F3F252E264000386D64 /* FilterImageOperation.swift in Sources */,
 				CE9BEA7A258B19090006EFEA /* UIImageView+Extension.swift in Sources */,
@@ -675,6 +682,7 @@
 				CE4075B9257549D9006F4592 /* TokenModel.swift in Sources */,
 				CE4075C325755F4B006F4592 /* AuthorizationViewController.swift in Sources */,
 				CE4075DD257BB59F006F4592 /* DataTaskService.swift in Sources */,
+				CE2FF96726049F3000FDA68D /* CoreDataService.swift in Sources */,
 				CEBE92B22528C588002A6A63 /* NewPhotoCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -867,13 +875,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		CE2FF95E2603D47900FDA68D /* CoreDataModels.xcdatamodeld */ = {
+		CE2FF95E2603D47900FDA68D /* Course5FinalTask.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				CE2FF95F2603D47900FDA68D /* CoreDataModels.xcdatamodel */,
 			);
 			currentVersion = CE2FF95F2603D47900FDA68D /* CoreDataModels.xcdatamodel */;
-			path = CoreDataModels.xcdatamodeld;
+			path = Course5FinalTask.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

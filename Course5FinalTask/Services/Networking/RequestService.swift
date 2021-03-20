@@ -17,7 +17,7 @@ protocol RequestServiceProtocol {
 
 final class RequestService: RequestServiceProtocol {
     
-    // MARK: - Class properties
+    // MARK: - Static properties
     
     static let shared = RequestService()
     

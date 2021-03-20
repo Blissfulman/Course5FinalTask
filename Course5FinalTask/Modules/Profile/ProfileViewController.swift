@@ -10,7 +10,7 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: - Class properties
+    // MARK: - Static properties
     
     static let identifier = String(describing: ProfileViewController.self)
     

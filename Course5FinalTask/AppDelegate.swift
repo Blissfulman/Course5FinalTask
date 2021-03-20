@@ -9,7 +9,7 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     
     func application(_ application: UIApplication,
@@ -20,6 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = authorizationCV
         window?.makeKeyAndVisible()
         return true
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        // Т.к. в оффлайн режиме данные в CoreData изменяться не будут, то и сохранять их имеет смысл только в онлайн режиме
+        if NetworkService.isOnline {
+            let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
+            dataStorageService.saveData()
+        }
     }
 }
 
