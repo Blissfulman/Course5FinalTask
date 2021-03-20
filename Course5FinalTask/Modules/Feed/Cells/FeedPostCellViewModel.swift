@@ -83,7 +83,11 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
         self.post = post
     }
     
+    // MARK: - Public methods
+    
     func likeUnlikePost() {
+        guard stopIfOffline() else { return }
+        
         /// Замыкание, в котором обновляются данные о посте.
         let updatingPost: PostResult = { [weak self] result in
             switch result {
@@ -104,6 +108,8 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     func postAuthorTapped() {
+        guard stopIfOffline() else { return }
+        
         LoadingView.show()
         
         dataFetchingService.fetchUser(withID: post.author) { [weak self] result in
@@ -118,6 +124,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     func postImageDoubleTapped() {
+        guard stopIfOffline() else { return }
         guard !post.currentUserLikesThisPost else { return }
         
         bigLikeNeedAnimating?()
@@ -125,8 +132,18 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     func likesCountButtonTapped() {
-        NetworkService.isOnline
-            ? delegate?.likesCountButtonTapped(postID: post.id)
-            : delegate?.showErrorAlert(AppError.offlineError)
+        guard stopIfOffline() else { return }
+        delegate?.likesCountButtonTapped(postID: post.id)
+    }
+    
+    // MARK: - Private methods
+    
+    /// Возвращает true, если онлайн режим. Возвращает false и инициирует соответствующее оповещение, если оффлайн режим.
+    private func stopIfOffline() -> Bool {
+        guard NetworkService.isOnline else {
+            delegate?.showErrorAlert(AppError.offlineError)
+            return false
+        }
+        return true
     }
 }

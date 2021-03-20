@@ -61,6 +61,8 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
     
     func getCurrentUser() {
+        DataStorageService.shared.removeAllPosts() // TEMP
+        print("Deleting...") // TEMP
         // Получение данных о текущем пользователе должно произойти до получения данных об открываемом профиле (которое происходит в методе getUser)
         receiveDataQueue.async { [weak self] in
             guard let self = self else { return }

@@ -174,14 +174,15 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             completion(.success(dataStorageService.getPosts()))
             return
         }
+        
         networkService.fetchFeed { [weak self] result in
             switch result {
-            case let .success(feedPosts):
+            case .success(let feedPosts):
                 completion(.success(feedPosts))
                 DispatchQueue.global().async {
                     self?.dataStorageService.savePosts(feedPosts)
                 }
-            case let .failure(error):
+            case .failure(let error):
                 completion(.failure(error))
             }
         }
