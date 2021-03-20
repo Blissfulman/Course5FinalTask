@@ -101,4 +101,8 @@ final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
     func followingsButtonTapped() {
         delegate?.followingsButtonTapped()
     }
+    
+    deinit {
+        print("Deinit", #fileID)
+    }
 }

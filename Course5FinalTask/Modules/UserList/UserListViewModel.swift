@@ -18,7 +18,7 @@ protocol UserListViewModelProtocol {
     
     init(postID: String?, userID: String?, userListType: UserListType)
     
-    func getUserImageData(at indexPath: IndexPath) -> Data?
+    func getUserImageData(at indexPath: IndexPath) -> Data
     func getUserFullName(at indexPath: IndexPath) -> String?
     func getProfileViewModel(at indexPath: IndexPath) -> ProfileViewModelProtocol
     func updateUserList()
@@ -61,9 +61,8 @@ final class UserListViewModel: UserListViewModelProtocol {
     
     // MARK: - Public methods
     
-    func getUserImageData(at indexPath: IndexPath) -> Data? {
-        let url = userList.value[indexPath.row].avatar
-        return try? Data(contentsOf: url)
+    func getUserImageData(at indexPath: IndexPath) -> Data {
+        userList.value[indexPath.row].getAvatarData()
     }
     
     func getUserFullName(at indexPath: IndexPath) -> String? {

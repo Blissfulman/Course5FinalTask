@@ -75,7 +75,7 @@ extension UserListViewController {
         
         var content = cell.defaultContentConfiguration()
         content.directionalLayoutMargins = .init(top: 0, leading: 0, bottom: 1, trailing: 0)
-        content.image = UIImage(data: viewModel.getUserImageData(at: indexPath) ?? Data())
+        content.image = UIImage(data: viewModel.getUserImageData(at: indexPath))
         content.text = viewModel.getUserFullName(at: indexPath)
         
         cell.contentConfiguration = content

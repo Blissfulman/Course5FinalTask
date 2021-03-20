@@ -26,24 +26,24 @@ struct PostModel: Decodable {
     
     // MARK: - Initializers
     
-    init?(coreDataPost: PostCoreData) {
-        guard let id = coreDataPost.id,
-              let description = coreDataPost.desc,
-              let createdTime = coreDataPost.createdTime,
-              let author = coreDataPost.author,
-              let authorUsername = coreDataPost.authorUsername else { return nil }
+    init?(postCoreData: PostCoreData) {
+        guard let id = postCoreData.id,
+              let description = postCoreData.desc,
+              let createdTime = postCoreData.createdTime,
+              let author = postCoreData.author,
+              let authorUsername = postCoreData.authorUsername else { return nil }
         
         self.id = id
         self.description = description
         self.image = nil
         self.createdTime = createdTime
-        self.currentUserLikesThisPost = coreDataPost.currentUserLikesThisPost
-        self.likedByCount = Int(coreDataPost.likedByCount)
+        self.currentUserLikesThisPost = postCoreData.currentUserLikesThisPost
+        self.likedByCount = Int(postCoreData.likedByCount)
         self.author = author
         self.authorUsername = authorUsername
         self.authorAvatar = nil
-        self.imageData = coreDataPost.imageData
-        self.authorAvatarData = coreDataPost.authorAvatarData
+        self.imageData = postCoreData.imageData
+        self.authorAvatarData = postCoreData.authorAvatarData
     }
     
     // MARK: - Public methods

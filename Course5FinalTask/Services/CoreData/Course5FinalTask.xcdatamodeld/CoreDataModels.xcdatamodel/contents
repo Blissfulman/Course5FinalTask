@@ -12,7 +12,7 @@
         <attribute name="likedByCount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="UserCoreData" representedClassName="UserCoreData" syncable="YES" codeGenerationType="class">
-        <attribute name="avatar" attributeType="String"/>
+        <attribute name="avatarData" attributeType="Binary"/>
         <attribute name="currentUserFollowsThisUser" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="currentUserIsFollowedByThisUser" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="followedByCount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

@@ -45,11 +45,11 @@ final class DataStorageService: DataStorageServiceProtocol {
         user.id = userModel.id
         user.username = userModel.username
         user.fullName = userModel.fullName
-        user.avatar = userModel.avatar.relativeString
         user.currentUserFollowsThisUser = userModel.currentUserFollowsThisUser
         user.currentUserIsFollowedByThisUser = userModel.currentUserIsFollowedByThisUser
         user.followsCount = Int16(userModel.followsCount)
         user.followedByCount = Int16(userModel.followedByCount)
+        user.avatarData = userModel.avatar?.fetchPNGImageData()
         
         coreDataService.save(context: context)
     }
@@ -89,7 +89,7 @@ final class DataStorageService: DataStorageServiceProtocol {
     func getPosts() -> [PostModel] {
         let posts = coreDataService.fetchData(for: PostCoreData.self)
         print(posts.count)
-        return posts.compactMap { PostModel(coreDataPost: $0) }
+        return posts.compactMap { PostModel(postCoreData: $0) }
     }
     
     func saveData() {
