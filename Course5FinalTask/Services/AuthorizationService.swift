@@ -42,6 +42,10 @@ final class AuthorizationService: AuthorizationServiceProtocol {
     
     private let requestService: RequestServiceProtocol = RequestService.shared
     private let dataTaskService: DataTaskServiceProtocol = DataTaskService.shared
+    private var isOnline: Bool {
+        NetworkService.isOnline
+    }
+    private let offlineError = AppError.offlineError
     
     // MARK: - Initializers
     
@@ -68,9 +72,13 @@ final class AuthorizationService: AuthorizationServiceProtocol {
     }
     
     func singOut(completion: @escaping VoidResult) {
-        guard let url = AuthorizationURLCreator.signOut.url else { return }
-        
-        let request = requestService.request(url: url, httpMethod: .post)
-        dataTaskService.simpleDataTask(request: request, completion: completion)
+        if isOnline {
+            guard let url = AuthorizationURLCreator.signOut.url else { return }
+            
+            let request = requestService.request(url: url, httpMethod: .post)
+            dataTaskService.simpleDataTask(request: request, completion: completion)
+        } else {
+            completion(.failure(offlineError))
+        }
     }
 }

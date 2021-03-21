@@ -62,32 +62,34 @@ final class ProfileViewController: UIViewController {
     
     @objc private func logOutButtonTapped() {
         viewModel.logOutButtonDidTap()
-
-        let authorizationVC = AuthorizationViewController(viewModel: viewModel.getAuthorizationViewModel())
-        AppDelegate.shared.window?.rootViewController = authorizationVC
     }
     
     // MARK: - Private methods
         
     private func setupViewModelBindings() {
         viewModel.user.bind { [unowned self] user in
-            self.navigationItem.title = user?.username
-            self.profileCollectionView.reloadData()
+            navigationItem.title = user?.username
+            profileCollectionView.reloadData()
         }
         
         viewModel.isCurrentUser.bind { [unowned self] isCurrentUser in
             if let isCurrentUser = isCurrentUser, isCurrentUser {
-                self.addLogOutButton()
+                addLogOutButton()
             }
         }
         
         viewModel.userPosts.bind { [unowned self] _ in
-            self.profileCollectionView.reloadData()
+            profileCollectionView.reloadData()
         }
         
         viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self.showAlert(error)
+            showAlert(error)
+        }
+        
+        viewModel.needLogOut = { [unowned self] in
+            let authorizationVC = AuthorizationViewController(viewModel: viewModel.getAuthorizationViewModel())
+            AppDelegate.shared.window?.rootViewController = authorizationVC
         }
     }
     

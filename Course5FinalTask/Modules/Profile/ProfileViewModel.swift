@@ -15,6 +15,7 @@ protocol ProfileViewModelProtocol {
     var isCurrentUser: Box<Bool?> { get }
     var userPosts: Box<[PostModel]> { get }
     var error: Box<Error?> { get }
+    var needLogOut: (() -> Void)? { get set }
     var numberOfItems: Int { get }
     
     init(user: UserModel?)
@@ -33,12 +34,10 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     // MARK: - Properties
     
     var user: Box<UserModel?> = Box(nil)
-    
     var isCurrentUser: Box<Bool?> = Box(nil)
-    
     var userPosts = Box([PostModel]())
-    
     var error: Box<Error?> = Box(nil)
+    var needLogOut: (() -> Void)?
     
     var numberOfItems: Int {
         userPosts.value.count
@@ -61,10 +60,6 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
     
     func getCurrentUser() {
-        DispatchQueue.global().async {
-            DataStorageService.shared.removeAllPosts() // TEMP
-            print("Deleting...") // TEMP
-        }
         // Получение данных о текущем пользователе должно произойти до получения данных об открываемом профиле (которое происходит в методе getUser)
         receiveDataQueue.async { [weak self] in
             guard let self = self else { return }
@@ -128,6 +123,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             switch result {
             case .success:
                 self?.keychainService.removeToken()
+                self?.needLogOut?()
             case .failure(let error):
                 self?.error.value = error
             }
@@ -141,6 +137,8 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
     
     func getUserListViewModel(withUserListType userListType: UserListType) -> UserListViewModelProtocol? {
+        // Проверка, чтобы в оффлайн режиме не переходить по тапу кнопок "Followers" и "Followings"
+        guard stopIfOffline() else { return nil }
         guard let user = user.value else { return nil }
 
         return UserListViewModel(userID: user.id, userListType: userListType)
@@ -165,5 +163,14 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 self.error.value = error
             }
         }
+    }
+    
+    /// Возвращает true, если онлайн режим. Возвращает false и инициирует соответствующее оповещение, если оффлайн режим.
+    private func stopIfOffline() -> Bool {
+        guard NetworkService.isOnline else {
+            error.value = AppError.offlineError
+            return false
+        }
+        return true
     }
 }

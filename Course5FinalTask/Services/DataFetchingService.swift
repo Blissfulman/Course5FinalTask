@@ -130,7 +130,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     func fetchCurrentUser(completion: @escaping UserResult) {
         guard isOnline else {
             guard let currentUser = dataStorageService.getCurrentUser() else {
-                print("Current user didn't get!!!")
+                print("Current user didn't get!!!") // TEMP
                 return
             }
             print(currentUser)
@@ -146,7 +146,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
                 completion(.success(currentUser))
                 DispatchQueue.global().async {
                     self?.dataStorageService.saveUser(currentUser)
-                    print("Current user saved!!!")
+                    print("Current user saved!!!") // TEMP
                 }
             case .failure(let error):
                 completion(.failure(error))
@@ -155,6 +155,18 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     }
     
     func fetchUser(withID userID: String, completion: @escaping UserResult) {
+        guard isOnline else {
+            guard let currentUser = dataStorageService.getCurrentUser() else {
+                print("Current user didn't get!!!") // TEMP
+                return
+            }
+            print(currentUser)
+            DispatchQueue.main.async {
+                completion(.success(currentUser))
+            }
+            return
+        }
+        
         if isOnline {
             networkService.fetchUser(withID: userID, completion: completion)
         }
@@ -185,14 +197,21 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     }
     
     func fetchPostsOfUser(withID userID: String, completion: @escaping PostsResult) {
-        if isOnline {
-            networkService.fetchPostsOfUser(withID: userID, completion: completion)
+        guard isOnline else {
+            let currentUserPosts = dataStorageService.getPostsOfUser(withID: userID)
+            print("currentUserPosts.count: ", currentUserPosts.count) // TEMP
+            DispatchQueue.main.async {
+                completion(.success(currentUserPosts))
+            }
+            return
         }
+        
+        networkService.fetchPostsOfUser(withID: userID, completion: completion)
     }
     
     func fetchFeedPosts(completion: @escaping PostsResult) {
         guard isOnline else {
-            completion(.success(dataStorageService.getPosts()))
+            completion(.success(dataStorageService.getAllPosts()))
             return
         }
         

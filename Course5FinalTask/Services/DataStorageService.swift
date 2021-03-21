@@ -17,7 +17,8 @@ protocol DataStorageServiceProtocol {
     func savePost(_ postModel: PostModel)
     func savePosts(_ postModels: [PostModel])
     func getCurrentUser() -> UserModel?
-    func getPosts() -> [PostModel]
+    func getAllPosts() -> [PostModel]
+    func getPostsOfUser(withID userID: String) -> [PostModel]
     func removeAllPosts()
 }
 
@@ -57,6 +58,7 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     func savePosts(_ postModels: [PostModel]) {
+        removeAllPosts()
         postModels.forEach {
             let post = coreDataService.createObject(from: PostCoreData.self)
             fillPostCoreData(post, from: $0)
@@ -71,10 +73,14 @@ final class DataStorageService: DataStorageServiceProtocol {
         return UserModel(userCoreData: userCoreData)
     }
     
-    func getPosts() -> [PostModel] {
+    func getAllPosts() -> [PostModel] {
         let posts = coreDataService.fetchData(for: PostCoreData.self)
         print(posts.count) // TEMP
         return posts.compactMap { PostModel(postCoreData: $0) }
+    }
+    
+    func getPostsOfUser(withID userID: String) -> [PostModel] {
+        getAllPosts()
     }
     
     func removeAllPosts() {
