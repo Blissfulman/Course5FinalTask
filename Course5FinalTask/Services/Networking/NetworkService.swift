@@ -66,7 +66,7 @@ protocol NetworkServiceProtocol {
     /// Получение публикаций пользователей, на которых подписан текущий пользователь.
     /// - Parameter completion: Замыкание, в которое возвращаются запрашиваемые публикации.
     ///   Вызывается после выполнения запроса.
-    func fetchFeed(completion: @escaping PostsResult)
+    func fetchFeedPosts(completion: @escaping PostsResult)
     
     /// Получение публикации с указанным ID.
     /// - Parameters:
@@ -186,7 +186,7 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func fetchFeed(completion: @escaping PostsResult) {
+    func fetchFeedPosts(completion: @escaping PostsResult) {
         guard let url = PostURLCreator.feed.url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)

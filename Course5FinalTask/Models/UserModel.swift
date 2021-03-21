@@ -24,8 +24,9 @@ struct UserModel: Decodable {
     
     // MARK: - Initializers
     
-    init?(userCoreData: UserCoreData) {
-        guard let id = userCoreData.id,
+    init?(userCoreData: UserCoreData?) {
+        guard let userCoreData = userCoreData, // TEMP?
+              let id = userCoreData.id,
               let username = userCoreData.username,
               let fullName = userCoreData.fullName else { return nil }
         

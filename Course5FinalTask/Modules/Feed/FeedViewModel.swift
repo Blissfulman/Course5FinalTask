@@ -42,7 +42,7 @@ final class FeedViewModel: FeedViewModelProtocol {
             LoadingView.show()
         }
         
-        dataFetchingService.fetchFeed() { [weak self] result in
+        dataFetchingService.fetchFeedPosts() { [weak self] result in
             switch result {
             case .success(let feedPosts):
                 print(feedPosts.count) // TEMP

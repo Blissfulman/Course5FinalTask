@@ -22,7 +22,7 @@
         <attribute name="username" attributeType="String"/>
     </entity>
     <elements>
-        <element name="PostCoreData" positionX="-63" positionY="-18" width="128" height="164"/>
-        <element name="UserCoreData" positionX="-54" positionY="-9" width="128" height="149"/>
+        <element name="PostCoreData" positionX="112.0167846679688" positionY="59.44305419921875" width="128" height="178"/>
+        <element name="UserCoreData" positionX="381.5838623046875" positionY="344.8416137695312" width="128" height="163"/>
     </elements>
 </model>

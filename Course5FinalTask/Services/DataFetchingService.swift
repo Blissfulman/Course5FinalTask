@@ -67,7 +67,7 @@ protocol DataFetchingServiceProtocol {
     /// Получение публикаций пользователей, на которых подписан текущий пользователь.
     /// - Parameter completion: Замыкание, в которое возвращаются запрашиваемые публикации.
     ///   Вызывается после выполнения запроса.
-    func fetchFeed(completion: @escaping PostsResult)
+    func fetchFeedPosts(completion: @escaping PostsResult)
     
     /// Получение публикации с указанным ID.
     /// - Parameters:
@@ -128,8 +128,29 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     // MARK: - Public methods
     
     func fetchCurrentUser(completion: @escaping UserResult) {
-        if isOnline {
-            networkService.fetchCurrentUser(completion: completion)
+        guard isOnline else {
+            guard let currentUser = dataStorageService.getCurrentUser() else {
+                print("Current user didn't get!!!")
+                return
+            }
+            print(currentUser)
+            DispatchQueue.main.async {
+                completion(.success(currentUser))
+            }
+            return
+        }
+        
+        networkService.fetchCurrentUser { [weak self] result in
+            switch result {
+            case .success(let currentUser):
+                completion(.success(currentUser))
+                DispatchQueue.global().async {
+                    self?.dataStorageService.saveUser(currentUser)
+                    print("Current user saved!!!")
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
     
@@ -169,13 +190,13 @@ final class DataFetchingService: DataFetchingServiceProtocol {
         }
     }
     
-    func fetchFeed(completion: @escaping PostsResult) {
+    func fetchFeedPosts(completion: @escaping PostsResult) {
         guard isOnline else {
             completion(.success(dataStorageService.getPosts()))
             return
         }
         
-        networkService.fetchFeed { [weak self] result in
+        networkService.fetchFeedPosts { [weak self] result in
             switch result {
             case .success(let feedPosts):
                 completion(.success(feedPosts))

@@ -12,11 +12,12 @@ import CoreData
 // MARK: - Protocols
 
 protocol DataStorageServiceProtocol {
+    func saveData()
     func saveUser(_ userModel: UserModel)
     func savePost(_ postModel: PostModel)
     func savePosts(_ postModels: [PostModel])
+    func getCurrentUser() -> UserModel?
     func getPosts() -> [PostModel]
-    func saveData()
     func removeAllPosts()
 }
 
@@ -39,65 +40,70 @@ final class DataStorageService: DataStorageServiceProtocol {
     
     // MARK: - Public methods
     
+    func saveData() {
+        coreDataService.save(context: context)
+    }
+    
     func saveUser(_ userModel: UserModel) {
         let user = coreDataService.createObject(from: UserCoreData.self)
-        
-        user.id = userModel.id
-        user.username = userModel.username
-        user.fullName = userModel.fullName
-        user.currentUserFollowsThisUser = userModel.currentUserFollowsThisUser
-        user.currentUserIsFollowedByThisUser = userModel.currentUserIsFollowedByThisUser
-        user.followsCount = Int16(userModel.followsCount)
-        user.followedByCount = Int16(userModel.followedByCount)
-        user.avatarData = userModel.avatar?.fetchPNGImageData()
-        
+        fillUserCoreData(user, from: userModel)
         coreDataService.save(context: context)
     }
     
     func savePost(_ postModel: PostModel) {
         let post = coreDataService.createObject(from: PostCoreData.self)
-        
-        post.id = postModel.id
-        post.desc = postModel.description
-        post.createdTime = postModel.createdTime
-        post.currentUserLikesThisPost = postModel.currentUserLikesThisPost
-        post.likedByCount = Int16(postModel.likedByCount)
-        post.author = postModel.author
-        post.authorUsername = postModel.authorUsername
-        post.imageData = postModel.image?.fetchPNGImageData()
-        post.authorAvatarData = postModel.authorAvatar?.fetchPNGImageData()
-        
+        fillPostCoreData(post, from: postModel)
         coreDataService.save(context: context)
     }
     
     func savePosts(_ postModels: [PostModel]) {
         postModels.forEach {
             let post = coreDataService.createObject(from: PostCoreData.self)
-            post.id = $0.id
-            post.desc = $0.description
-            post.createdTime = $0.createdTime
-            post.currentUserLikesThisPost = $0.currentUserLikesThisPost
-            post.likedByCount = Int16($0.likedByCount)
-            post.author = $0.author
-            post.authorUsername = $0.authorUsername
-            post.imageData = $0.image?.fetchPNGImageData()
-            post.authorAvatarData = $0.authorAvatar?.fetchPNGImageData()
+            fillPostCoreData(post, from: $0)
         }
         coreDataService.save(context: context)
     }
     
-    func getPosts() -> [PostModel] {
-        let posts = coreDataService.fetchData(for: PostCoreData.self)
-        print(posts.count)
-        return posts.compactMap { PostModel(postCoreData: $0) }
+    func getCurrentUser() -> UserModel? {
+        let users = coreDataService.fetchData(for: UserCoreData.self)
+        print("users.count: ", users.count) // TEMP
+        guard let userCoreData = users.first else { return nil }
+        return UserModel(userCoreData: userCoreData)
     }
     
-    func saveData() {
-        coreDataService.save(context: context)
+    func getPosts() -> [PostModel] {
+        let posts = coreDataService.fetchData(for: PostCoreData.self)
+        print(posts.count) // TEMP
+        return posts.compactMap { PostModel(postCoreData: $0) }
     }
     
     func removeAllPosts() {
         let posts = coreDataService.fetchData(for: PostCoreData.self)
         posts.forEach { coreDataService.delete(object: $0) }
+    }
+    
+    // MARK: - Private methods
+    
+    private func fillUserCoreData(_ userCoreData: UserCoreData, from userModel: UserModel) {
+        userCoreData.id = userModel.id
+        userCoreData.username = userModel.username
+        userCoreData.fullName = userModel.fullName
+        userCoreData.currentUserFollowsThisUser = userModel.currentUserFollowsThisUser
+        userCoreData.currentUserIsFollowedByThisUser = userModel.currentUserIsFollowedByThisUser
+        userCoreData.followsCount = Int16(userModel.followsCount)
+        userCoreData.followedByCount = Int16(userModel.followedByCount)
+        userCoreData.avatarData = userModel.getAvatarData()
+    }
+    
+    private func fillPostCoreData(_ postCoreData: PostCoreData, from postModel: PostModel) {
+        postCoreData.id = postModel.id
+        postCoreData.desc = postModel.description
+        postCoreData.createdTime = postModel.createdTime
+        postCoreData.currentUserLikesThisPost = postModel.currentUserLikesThisPost
+        postCoreData.likedByCount = Int16(postModel.likedByCount)
+        postCoreData.author = postModel.author
+        postCoreData.authorUsername = postModel.authorUsername
+        postCoreData.imageData = postModel.getImageData()
+        postCoreData.authorAvatarData = postModel.getAuthorAvatarData()
     }
 }
