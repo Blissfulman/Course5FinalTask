@@ -6,7 +6,6 @@
 //  Copyright © 2021 e-Legion. All rights reserved.
 //
 
-import Foundation
 import CoreData
 
 // MARK: - Protocols
@@ -21,7 +20,6 @@ protocol DataStorageServiceProtocol {
     func getUser(withID userID: String) -> UserModel?
     func getAllPosts() -> [PostModel]
     func getPostsOfUser(withID userID: String) -> [PostModel]
-    func removeAllPosts()
 }
 
 final class DataStorageService: DataStorageServiceProtocol {
@@ -50,19 +48,19 @@ final class DataStorageService: DataStorageServiceProtocol {
     func saveCurrentUserID(_ id: String) {
         let currentUser = coreDataService.createObject(from: CurrentUser.self)
         currentUser.id = id
-        coreDataService.save(context: context)
+        saveData()
     }
     
     func saveUser(_ userModel: UserModel) {
         let user = coreDataService.createObject(from: UserCoreData.self)
         fillUserCoreData(user, from: userModel)
-        coreDataService.save(context: context)
+        saveData()
     }
     
     func savePost(_ postModel: PostModel) {
         let post = coreDataService.createObject(from: PostCoreData.self)
         fillPostCoreData(post, from: postModel)
-        coreDataService.save(context: context)
+        saveData()
     }
     
     func savePosts(_ postModels: [PostModel]) {
@@ -71,7 +69,7 @@ final class DataStorageService: DataStorageServiceProtocol {
             let post = coreDataService.createObject(from: PostCoreData.self)
             fillPostCoreData(post, from: $0)
         }
-        coreDataService.save(context: context)
+        saveData()
     }
     
     func getCurrentUser() -> UserModel? {
@@ -97,17 +95,17 @@ final class DataStorageService: DataStorageServiceProtocol {
         getAllPosts()
     }
     
-    func removeAllPosts() {
-        let posts = coreDataService.fetchData(for: PostCoreData.self)
-        posts.forEach { coreDataService.delete(object: $0) }
-    }
-    
     // MARK: - Private methods
     
     private func getCurrentUserID() -> String? {
         let currentUsers = coreDataService.fetchData(for: CurrentUser.self)
         print("Current users in storage:", currentUsers.count) // TEMP
         return currentUsers.first?.id ?? nil
+    }
+    
+    private func removeAllPosts() {
+        let posts = coreDataService.fetchData(for: PostCoreData.self)
+        posts.forEach { coreDataService.delete(object: $0) }
     }
     
     private func fillUserCoreData(_ userCoreData: UserCoreData, from userModel: UserModel) {
