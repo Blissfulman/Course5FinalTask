@@ -16,6 +16,7 @@ protocol DataStorageServiceProtocol {
     func saveUser(_ userModel: UserModel)
     func savePost(_ postModel: PostModel)
     func savePosts(_ postModels: [PostModel])
+    func savePosts(_ postModels: [PostModel], forUserID userID: String)
     func getCurrentUser() -> UserModel?
     func getUser(withID userID: String) -> UserModel?
     func getAllPosts() -> [PostModel]
@@ -72,6 +73,14 @@ final class DataStorageService: DataStorageServiceProtocol {
         saveData()
     }
     
+    func savePosts(_ postModels: [PostModel], forUserID userID: String) {
+        postModels.forEach {
+            let post = coreDataService.createObject(from: PostCoreData.self)
+            fillPostCoreData(post, from: $0, forAuthorID: userID)
+        }
+        saveData()
+    }
+    
     func getCurrentUser() -> UserModel? {
         guard let currentUserID = getCurrentUserID(),
               let currentUser = getUser(withID: currentUserID) else { return nil }
@@ -92,7 +101,10 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     func getPostsOfUser(withID userID: String) -> [PostModel] {
-        getAllPosts()
+        let posts = coreDataService.fetchData(for: PostCoreData.self,
+                                              predicate: makePostPredicate(authorID: userID))
+        print("PostsOfUser count: ", posts.count) // TEMP
+        return posts.compactMap { PostModel(postCoreData: $0) }
     }
     
     // MARK: - Private methods
@@ -119,7 +131,9 @@ final class DataStorageService: DataStorageServiceProtocol {
         userCoreData.avatarData = userModel.getAvatarData()
     }
     
-    private func fillPostCoreData(_ postCoreData: PostCoreData, from postModel: PostModel) {
+    private func fillPostCoreData(_ postCoreData: PostCoreData,
+                                  from postModel: PostModel,
+                                  forAuthorID authorID: String? = nil) {
         postCoreData.id = postModel.id
         postCoreData.desc = postModel.description
         postCoreData.createdTime = postModel.createdTime
@@ -129,11 +143,19 @@ final class DataStorageService: DataStorageServiceProtocol {
         postCoreData.authorUsername = postModel.authorUsername
         postCoreData.imageData = postModel.getImageData()
         postCoreData.authorAvatarData = postModel.getAuthorAvatarData()
+        postCoreData.authorID = authorID
     }
     
     private func makeUserPredicate(userID: String) -> NSCompoundPredicate {
         var predicates = [NSPredicate]()
         let idPredicate = NSPredicate(format: "id == '\(userID)'")
+        predicates.append(idPredicate)
+        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+    }
+    
+    private func makePostPredicate(authorID: String) -> NSCompoundPredicate {
+        var predicates = [NSPredicate]()
+        let idPredicate = NSPredicate(format: "authorID == '\(authorID)'")
         predicates.append(idPredicate)
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }

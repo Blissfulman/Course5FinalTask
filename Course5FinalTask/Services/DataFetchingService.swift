@@ -217,7 +217,17 @@ final class DataFetchingService: DataFetchingServiceProtocol {
         }
         
         // В оффлайне вернутся и сохранятся посты пользователя с переданным ID
-        networkService.fetchPostsOfUser(withID: userID, completion: completion) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        networkService.fetchPostsOfUser(withID: userID) { [weak self] result in
+            switch result {
+            case .success(let userPosts):
+                completion(.success(userPosts))
+                DispatchQueue.global().async {
+                    self?.dataStorageService.savePosts(userPosts, forUserID: userID)
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
     func fetchFeedPosts(completion: @escaping PostsResult) {
