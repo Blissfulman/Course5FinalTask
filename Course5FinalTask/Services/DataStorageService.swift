@@ -13,10 +13,12 @@ import CoreData
 
 protocol DataStorageServiceProtocol {
     func saveData()
+    func saveCurrentUserID(_ id: String)
     func saveUser(_ userModel: UserModel)
     func savePost(_ postModel: PostModel)
     func savePosts(_ postModels: [PostModel])
     func getCurrentUser() -> UserModel?
+    func getUser(withID userID: String) -> UserModel?
     func getAllPosts() -> [PostModel]
     func getPostsOfUser(withID userID: String) -> [PostModel]
     func removeAllPosts()
@@ -45,6 +47,12 @@ final class DataStorageService: DataStorageServiceProtocol {
         coreDataService.save(context: context)
     }
     
+    func saveCurrentUserID(_ id: String) {
+        let currentUser = coreDataService.createObject(from: CurrentUser.self)
+        currentUser.id = id
+        coreDataService.save(context: context)
+    }
+    
     func saveUser(_ userModel: UserModel) {
         let user = coreDataService.createObject(from: UserCoreData.self)
         fillUserCoreData(user, from: userModel)
@@ -67,10 +75,16 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     func getCurrentUser() -> UserModel? {
-        let users = coreDataService.fetchData(for: UserCoreData.self)
-        print("users.count: ", users.count) // TEMP
-        guard let userCoreData = users.first else { return nil }
-        return UserModel(userCoreData: userCoreData)
+        guard let currentUserID = getCurrentUserID(),
+              let currentUser = getUser(withID: currentUserID) else { return nil }
+        return currentUser
+    }
+    
+    func getUser(withID userID: String) -> UserModel? {
+        let users = coreDataService.fetchData(for: UserCoreData.self,
+                                              predicate: makeUserPredicate(userID: userID))
+        print("Users with ID \(userID) count: ", users.count) // TEMP
+        return UserModel(userCoreData: users.first)
     }
     
     func getAllPosts() -> [PostModel] {
@@ -89,6 +103,12 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     // MARK: - Private methods
+    
+    private func getCurrentUserID() -> String? {
+        let currentUsers = coreDataService.fetchData(for: CurrentUser.self)
+        print("Current users in storage:", currentUsers.count) // TEMP
+        return currentUsers.first?.id ?? nil
+    }
     
     private func fillUserCoreData(_ userCoreData: UserCoreData, from userModel: UserModel) {
         userCoreData.id = userModel.id
@@ -111,5 +131,12 @@ final class DataStorageService: DataStorageServiceProtocol {
         postCoreData.authorUsername = postModel.authorUsername
         postCoreData.imageData = postModel.getImageData()
         postCoreData.authorAvatarData = postModel.getAuthorAvatarData()
+    }
+    
+    private func makeUserPredicate(userID: String) -> NSCompoundPredicate {
+        var predicates = [NSPredicate]()
+        let idPredicate = NSPredicate(format: "id == '\(userID)'")
+        predicates.append(idPredicate)
+        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
 }

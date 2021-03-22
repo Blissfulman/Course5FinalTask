@@ -128,25 +128,25 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     // MARK: - Public methods
     
     func fetchCurrentUser(completion: @escaping UserResult) {
+        // В оффлайне вернётся текущий пользователь, если он и его ID были сохранены
         guard isOnline else {
             guard let currentUser = dataStorageService.getCurrentUser() else {
-                print("Current user didn't get!!!") // TEMP
+                print("Current user didn't get!") // TEMP
                 return
             }
-            print(currentUser)
             DispatchQueue.main.async {
                 completion(.success(currentUser))
             }
             return
         }
         
+        // В онлайне вернётся текущий пользователь и сохранится его ID
         networkService.fetchCurrentUser { [weak self] result in
             switch result {
             case .success(let currentUser):
                 completion(.success(currentUser))
                 DispatchQueue.global().async {
-                    self?.dataStorageService.saveUser(currentUser)
-                    print("Current user saved!!!") // TEMP
+                    self?.dataStorageService.saveCurrentUserID(currentUser.id)
                 }
             case .failure(let error):
                 completion(.failure(error))
@@ -155,20 +155,29 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     }
     
     func fetchUser(withID userID: String, completion: @escaping UserResult) {
+        // В оффлайне вернётся пользователь с переданным ID, если он был сохранён
         guard isOnline else {
-            guard let currentUser = dataStorageService.getCurrentUser() else {
-                print("Current user didn't get!!!") // TEMP
+            guard let user = dataStorageService.getUser(withID: userID) else {
+                print("User didn't get!") // TEMP
                 return
             }
-            print(currentUser)
             DispatchQueue.main.async {
-                completion(.success(currentUser))
+                completion(.success(user))
             }
             return
         }
         
-        if isOnline {
-            networkService.fetchUser(withID: userID, completion: completion)
+        // В онлайне вернётся и сохранится пользователь с переданным ID
+        networkService.fetchUser(withID: userID) { [weak self] result in
+            switch result {
+            case .success(let user):
+                completion(.success(user))
+                DispatchQueue.global().async {
+                    self?.dataStorageService.saveUser(user)
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
     
@@ -197,6 +206,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     }
     
     func fetchPostsOfUser(withID userID: String, completion: @escaping PostsResult) {
+        // В оффлайне вернутся посты пользователя с переданным ID, если они были сохранены
         guard isOnline else {
             let currentUserPosts = dataStorageService.getPostsOfUser(withID: userID)
             print("currentUserPosts.count: ", currentUserPosts.count) // TEMP
@@ -206,15 +216,18 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             return
         }
         
-        networkService.fetchPostsOfUser(withID: userID, completion: completion)
+        // В оффлайне вернутся и сохранятся посты пользователя с переданным ID
+        networkService.fetchPostsOfUser(withID: userID, completion: completion) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
     
     func fetchFeedPosts(completion: @escaping PostsResult) {
+        // В оффлайне вернутся посты ленты, если они были сохранены
         guard isOnline else {
             completion(.success(dataStorageService.getAllPosts()))
             return
         }
         
+        // В онлайне вернутся и сохранятся посты ленты
         networkService.fetchFeedPosts { [weak self] result in
             switch result {
             case .success(let feedPosts):
