@@ -14,7 +14,7 @@ protocol DataStorageServiceProtocol {
     func saveData()
     func saveCurrentUserID(_ id: String)
     func saveUser(_ userModel: UserModel)
-    func savePosts(_ postModels: [PostModel], forUserID userID: String?)
+    func savePosts(_ postModels: [PostModel], forUserID userID: String?, fromFeed: Bool)
     func getCurrentUser() -> UserModel?
     func getUser(withID userID: String) -> UserModel?
     func getFeedPosts() -> [PostModel]
@@ -62,16 +62,14 @@ final class DataStorageService: DataStorageServiceProtocol {
             // Если такого пользователя нет в хранилище, то он создаётся
             let newUserCoreData = coreDataService.createObject(from: UserCoreData.self)
             fillUserCoreData(newUserCoreData, from: userModel)
-            //            saveData()
         } else {
             // Если пользователь уже был сохранён, то его данные обновляются
             users.forEach { fillUserCoreData($0, from: userModel) }
-            //            saveData()
         }
         saveData()
     }
     
-    func savePosts(_ postModels: [PostModel], forUserID userID: String? = nil) {
+    func savePosts(_ postModels: [PostModel], forUserID userID: String? = nil, fromFeed: Bool) {
         // Получение всех сохраненных постов
         let postsCoreData = coreDataService.fetchData(for: PostCoreData.self)
         
@@ -85,7 +83,25 @@ final class DataStorageService: DataStorageServiceProtocol {
                 fillPostCoreData(newPostCoreData, from: postModel, forAuthorID: userID)
             }
         }
+        
+        if fromFeed {
+            saveFeedPostIDs(postModels)
+        }
         saveData()
+    }
+    
+    private func saveFeedPostIDs(_ postModels: [PostModel]) {
+        let feedPostIDs = postModels.map { $0.id }
+        let feed = coreDataService.createObject(from: Feed.self)
+        feed.postIDs = feedPostIDs.description.data(using: .utf16)
+    }
+    
+    private func getFeedPostIDs() -> [String] {
+        guard let feedPostIDsData = coreDataService.fetchData(for: Feed.self).first?.postIDs,
+              let feedPostIDs = try? JSONDecoder().decode([String].self,
+                                                          from: feedPostIDsData) else { return [] }
+        print("FeedPostIDs:", feedPostIDs)
+        return feedPostIDs
     }
     
     func getCurrentUser() -> UserModel? {
@@ -103,9 +119,12 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     func getFeedPosts() -> [PostModel] {
-        let posts = coreDataService.fetchData(for: PostCoreData.self)
-        print("Total feed posts:", posts.count) // TEMP
-        return posts.compactMap { PostModel(postCoreData: $0) }
+        let feedPostIDs = getFeedPostIDs()
+        
+        let allPosts = coreDataService.fetchData(for: PostCoreData.self)
+        let feedPosts = allPosts.filter { feedPostIDs.contains($0.id!) } // TEMP
+        print("Total feed posts:", feedPosts.count) // TEMP
+        return feedPosts.compactMap { PostModel(postCoreData: $0) }
     }
     
     func getPostsOfUser(withID userID: String) -> [PostModel] {
@@ -186,11 +205,4 @@ final class DataStorageService: DataStorageServiceProtocol {
         predicates.append(idPredicate)
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
-    
-//    private func makeFeedPostsPredicate() -> NSCompoundPredicate {
-//        var predicates = [NSPredicate]()
-//        let idPredicate = NSPredicate(format: "authorID == '\(authorID)'")
-//        predicates.append(idPredicate)
-//        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-//    }
 }

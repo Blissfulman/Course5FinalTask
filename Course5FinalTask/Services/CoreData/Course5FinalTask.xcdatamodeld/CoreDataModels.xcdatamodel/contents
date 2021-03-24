@@ -3,6 +3,9 @@
     <entity name="CurrentUser" representedClassName="CurrentUser" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="String"/>
     </entity>
+    <entity name="Feed" representedClassName="Feed" syncable="YES" codeGenerationType="class">
+        <attribute name="postIDs" attributeType="Binary" customClassName="[String]"/>
+    </entity>
     <entity name="PostCoreData" representedClassName="PostCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="author" attributeType="String"/>
         <attribute name="authorAvatarData" attributeType="Binary"/>
@@ -29,5 +32,6 @@
         <element name="CurrentUser" positionX="252" positionY="225" width="128" height="14"/>
         <element name="PostCoreData" positionX="112.0167846679688" positionY="59.44305419921875" width="128" height="179"/>
         <element name="UserCoreData" positionX="381.5838623046875" positionY="344.8416137695312" width="128" height="163"/>
+        <element name="Feed" positionX="243" positionY="216" width="128" height="44"/>
     </elements>
 </model>
