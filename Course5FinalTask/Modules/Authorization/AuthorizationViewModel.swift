@@ -43,6 +43,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
     
     private let keychainService: KeychainServiceProtocol = KeychainService()
     private let authorizationService: AuthorizationServiceProtocol = AuthorizationService.shared
+    private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
     
     // MARK: - Public methods
     
@@ -61,6 +62,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
                     if let serverError = error as? ServerError, serverError == .unauthorized {
                         // Токен не валиден
                         self?.keychainService.removeToken()
+                        self?.dataStorageService.deleteAllData()
                     } else {
                         // Токен валиден, но нет соединения с сервером
                         NetworkService.setOnlineStatus(to: false)

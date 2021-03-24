@@ -118,6 +118,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
     private let isOnline: Bool
     private let offlineError = AppError.offlineError
+    private let noOfflineDataError = AppError.noOfflineData
     
     // MARK: - Initializers
     
@@ -131,7 +132,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
         // В оффлайне вернётся текущий пользователь, если он и его ID были сохранены
         guard isOnline else {
             guard let currentUser = dataStorageService.getCurrentUser() else {
-                print("Current user didn't get!") // TEMP
+                completion(.failure(noOfflineDataError))
                 return
             }
             DispatchQueue.main.async {
@@ -158,7 +159,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
         // В оффлайне вернётся пользователь с переданным ID, если он был сохранён
         guard isOnline else {
             guard let user = dataStorageService.getUser(withID: userID) else {
-                print("User didn't get!") // TEMP
+                completion(.failure(noOfflineDataError))
                 return
             }
             DispatchQueue.main.async {
@@ -233,7 +234,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     func fetchFeedPosts(completion: @escaping PostsResult) {
         // В оффлайне вернутся посты ленты, если они были сохранены
         guard isOnline else {
-            completion(.success(dataStorageService.getAllPosts()))
+            completion(.success(dataStorageService.getFeedPosts()))
             return
         }
         
@@ -243,7 +244,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             case .success(let feedPosts):
                 completion(.success(feedPosts))
                 DispatchQueue.global().async {
-                    self?.dataStorageService.savePosts(feedPosts)
+                    self?.dataStorageService.savePosts(feedPosts, forUserID: nil)
                 }
             case .failure(let error):
                 completion(.failure(error))

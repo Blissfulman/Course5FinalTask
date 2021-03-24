@@ -108,8 +108,6 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     func postAuthorTapped() {
-        guard stopIfOffline() else { return }
-        
         LoadingView.show()
         
         dataFetchingService.fetchUser(withID: post.author) { [weak self] result in

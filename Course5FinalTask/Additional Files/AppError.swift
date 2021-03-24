@@ -10,4 +10,5 @@ import Foundation
 
 enum AppError: String, Error {
     case offlineError = "Offline mode"
+    case noOfflineData = "No offline data"
 }

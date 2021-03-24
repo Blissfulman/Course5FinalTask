@@ -41,7 +41,7 @@ final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
     var user: Box<UserModel>
     
     var avatarImageData: Data {
-        user.value.avatar.fetchPNGImageData()
+        user.value.getAvatarData()
     }
     
     var userFullName: String {

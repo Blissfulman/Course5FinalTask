@@ -52,6 +52,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     private let keychainService: KeychainServiceProtocol = KeychainService()
     private let authorizationService: AuthorizationServiceProtocol = AuthorizationService.shared
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
+    private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
     
     // MARK: - Initializers
     
@@ -123,6 +124,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             switch result {
             case .success:
                 self?.keychainService.removeToken()
+                self?.dataStorageService.deleteAllData()
                 self?.needLogOut?()
             case .failure(let error):
                 self?.error.value = error

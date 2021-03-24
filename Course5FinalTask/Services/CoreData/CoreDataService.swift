@@ -26,6 +26,8 @@ final class CoreDataService {
     }()
     
     private let modelName: String
+    private let contextQueue = DispatchQueue.init(label: "contextQueue.Course5FinalTask",
+                                                  qos: .userInitiated)
     
     // MARK: - Initializers
     
@@ -35,14 +37,16 @@ final class CoreDataService {
     
     // MARK: - Public methods
     
-    func getContext() -> NSManagedObjectContext {
+    var context: NSManagedObjectContext {
         persistentContainer.viewContext
     }
     
     func save(context: NSManagedObjectContext) {
         if context.hasChanges {
             do {
-                try context.save()
+                try contextQueue.sync {
+                    try context.save()
+                }
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
@@ -51,21 +55,20 @@ final class CoreDataService {
     }
     
     func createObject<T: NSManagedObject> (from entity: T.Type) -> T {
-        let context = getContext()
-        let object = NSEntityDescription.insertNewObject(forEntityName: String(describing: entity),
-                                                         into: context) as! T
-        return object
+        contextQueue.sync {
+            let object = NSEntityDescription.insertNewObject(forEntityName: String(describing: entity),
+                                                             into: context) as! T
+            return object
+        }
     }
     
     func delete(object: NSManagedObject) {
-        let context = getContext()
         context.delete(object)
         save(context: context)
     }
     
     func fetchData<T: NSManagedObject>(for entity: T.Type,
                                        predicate: NSCompoundPredicate? = nil) -> [T] {
-        let context = getContext()
         let request: NSFetchRequest<T>
         var fetchedResult = [T]()
         
@@ -78,7 +81,9 @@ final class CoreDataService {
         request.predicate = predicate
         
         do {
-            fetchedResult = try context.fetch(request)
+            try contextQueue.sync {
+                fetchedResult = try context.fetch(request)
+            }
         } catch {
             debugPrint("Could not fetch: \(error.localizedDescription)")
         }

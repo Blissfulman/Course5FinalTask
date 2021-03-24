@@ -14,13 +14,12 @@ protocol DataStorageServiceProtocol {
     func saveData()
     func saveCurrentUserID(_ id: String)
     func saveUser(_ userModel: UserModel)
-    func savePost(_ postModel: PostModel)
-    func savePosts(_ postModels: [PostModel])
-    func savePosts(_ postModels: [PostModel], forUserID userID: String)
+    func savePosts(_ postModels: [PostModel], forUserID userID: String?)
     func getCurrentUser() -> UserModel?
     func getUser(withID userID: String) -> UserModel?
-    func getAllPosts() -> [PostModel]
+    func getFeedPosts() -> [PostModel]
     func getPostsOfUser(withID userID: String) -> [PostModel]
+    func deleteAllData()
 }
 
 final class DataStorageService: DataStorageServiceProtocol {
@@ -37,7 +36,7 @@ final class DataStorageService: DataStorageServiceProtocol {
     // MARK: - Initializers
     
     private init() {
-        context = coreDataService.getContext()
+        context = coreDataService.context
     }
     
     // MARK: - Public methods
@@ -47,36 +46,44 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     func saveCurrentUserID(_ id: String) {
-        let currentUser = coreDataService.createObject(from: CurrentUser.self)
-        currentUser.id = id
-        saveData()
+        // Сохранение ID текущего пользователя в базе только в случае его отсутствия в хранилище
+        if coreDataService.fetchData(for: CurrentUser.self).isEmpty {
+            let currentUser = coreDataService.createObject(from: CurrentUser.self)
+            currentUser.id = id
+            saveData()
+        }
     }
     
     func saveUser(_ userModel: UserModel) {
-        let user = coreDataService.createObject(from: UserCoreData.self)
-        fillUserCoreData(user, from: userModel)
-        saveData()
-    }
-    
-    func savePost(_ postModel: PostModel) {
-        let post = coreDataService.createObject(from: PostCoreData.self)
-        fillPostCoreData(post, from: postModel)
-        saveData()
-    }
-    
-    func savePosts(_ postModels: [PostModel]) {
-        removeAllPosts()
-        postModels.forEach {
-            let post = coreDataService.createObject(from: PostCoreData.self)
-            fillPostCoreData(post, from: $0)
+        // Проверка есть ли уже такой пользователь в хранилище
+        let users = coreDataService.fetchData(for: UserCoreData.self,
+                                              predicate: makeUserPredicate(userID: userModel.id))
+        if users.isEmpty {
+            // Если такого пользователя нет в хранилище, то он создаётся
+            let newUserCoreData = coreDataService.createObject(from: UserCoreData.self)
+            fillUserCoreData(newUserCoreData, from: userModel)
+            //            saveData()
+        } else {
+            // Если пользователь уже был сохранён, то его данные обновляются
+            users.forEach { fillUserCoreData($0, from: userModel) }
+            //            saveData()
         }
         saveData()
     }
     
-    func savePosts(_ postModels: [PostModel], forUserID userID: String) {
-        postModels.forEach {
-            let post = coreDataService.createObject(from: PostCoreData.self)
-            fillPostCoreData(post, from: $0, forAuthorID: userID)
+    func savePosts(_ postModels: [PostModel], forUserID userID: String? = nil) {
+        // Получение всех сохраненных постов
+        let postsCoreData = coreDataService.fetchData(for: PostCoreData.self)
+        
+        postModels.forEach { postModel in
+            if let postCoreData = postsCoreData.first(where: { $0.id == postModel.id }) {
+                // Если пост уже был сохранён в хранилище, то его данные обновляются
+                fillPostCoreData(postCoreData, from: postModel, forAuthorID: userID)
+            } else {
+                // Если такого поста нет в хранилище, то он создаётся
+                let newPostCoreData = coreDataService.createObject(from: PostCoreData.self)
+                fillPostCoreData(newPostCoreData, from: postModel, forAuthorID: userID)
+            }
         }
         saveData()
     }
@@ -90,21 +97,28 @@ final class DataStorageService: DataStorageServiceProtocol {
     func getUser(withID userID: String) -> UserModel? {
         let users = coreDataService.fetchData(for: UserCoreData.self,
                                               predicate: makeUserPredicate(userID: userID))
-        print("Users with ID \(userID) count: ", users.count) // TEMP
+        let totalUsers = coreDataService.fetchData(for: UserCoreData.self) // TEMP
+        print("Total users in storage:", totalUsers.count) // TEMP
         return UserModel(userCoreData: users.first)
     }
     
-    func getAllPosts() -> [PostModel] {
+    func getFeedPosts() -> [PostModel] {
         let posts = coreDataService.fetchData(for: PostCoreData.self)
-        print(posts.count) // TEMP
+        print("Total feed posts:", posts.count) // TEMP
         return posts.compactMap { PostModel(postCoreData: $0) }
     }
     
     func getPostsOfUser(withID userID: String) -> [PostModel] {
         let posts = coreDataService.fetchData(for: PostCoreData.self,
-                                              predicate: makePostPredicate(authorID: userID))
-        print("PostsOfUser count: ", posts.count) // TEMP
+                                              predicate: makeAuthorPostsPredicate(authorID: userID))
+        print("PostsOfUser count:", posts.count) // TEMP
         return posts.compactMap { PostModel(postCoreData: $0) }
+    }
+    
+    func deleteAllData() {
+        deleteAllUsers()
+        deleteAllPosts()
+        deleteAllCurrentUsers()
     }
     
     // MARK: - Private methods
@@ -115,9 +129,19 @@ final class DataStorageService: DataStorageServiceProtocol {
         return currentUsers.first?.id ?? nil
     }
     
-    private func removeAllPosts() {
+    private func deleteAllPosts() {
         let posts = coreDataService.fetchData(for: PostCoreData.self)
         posts.forEach { coreDataService.delete(object: $0) }
+    }
+    
+    private func deleteAllUsers() {
+        let users = coreDataService.fetchData(for: UserCoreData.self)
+        users.forEach { coreDataService.delete(object: $0) }
+    }
+    
+    private func deleteAllCurrentUsers() {
+        let currentUsers = coreDataService.fetchData(for: CurrentUser.self)
+        currentUsers.forEach { coreDataService.delete(object: $0) }
     }
     
     private func fillUserCoreData(_ userCoreData: UserCoreData, from userModel: UserModel) {
@@ -143,7 +167,10 @@ final class DataStorageService: DataStorageServiceProtocol {
         postCoreData.authorUsername = postModel.authorUsername
         postCoreData.imageData = postModel.getImageData()
         postCoreData.authorAvatarData = postModel.getAuthorAvatarData()
-        postCoreData.authorID = authorID
+        // Чтобы уже сохранённый ID автора не затирался, проверяется, что новое значение не nil
+        if authorID != nil {
+            postCoreData.authorID = authorID
+        }
     }
     
     private func makeUserPredicate(userID: String) -> NSCompoundPredicate {
@@ -153,10 +180,17 @@ final class DataStorageService: DataStorageServiceProtocol {
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
     
-    private func makePostPredicate(authorID: String) -> NSCompoundPredicate {
+    private func makeAuthorPostsPredicate(authorID: String) -> NSCompoundPredicate {
         var predicates = [NSPredicate]()
         let idPredicate = NSPredicate(format: "authorID == '\(authorID)'")
         predicates.append(idPredicate)
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
+    
+//    private func makeFeedPostsPredicate() -> NSCompoundPredicate {
+//        var predicates = [NSPredicate]()
+//        let idPredicate = NSPredicate(format: "authorID == '\(authorID)'")
+//        predicates.append(idPredicate)
+//        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+//    }
 }
