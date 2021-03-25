@@ -223,7 +223,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             case .success(let userPosts):
                 completion(.success(userPosts))
                 DispatchQueue.global().async {
-                    self?.dataStorageService.savePosts(userPosts, forUserID: userID, fromFeed: false)
+                    self?.dataStorageService.savePosts(userPosts, fromFeed: false, forUserID: userID)
                 }
             case .failure(let error):
                 completion(.failure(error))
@@ -244,7 +244,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             case .success(let feedPosts):
                 completion(.success(feedPosts))
                 DispatchQueue.global().async {
-                    self?.dataStorageService.savePosts(feedPosts, forUserID: nil, fromFeed: true)
+                    self?.dataStorageService.savePosts(feedPosts, fromFeed: true, forUserID: nil)
                 }
             case .failure(let error):
                 completion(.failure(error))

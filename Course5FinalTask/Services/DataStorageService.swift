@@ -14,7 +14,7 @@ protocol DataStorageServiceProtocol {
     func saveData()
     func saveCurrentUserID(_ id: String)
     func saveUser(_ userModel: UserModel)
-    func savePosts(_ postModels: [PostModel], forUserID userID: String?, fromFeed: Bool)
+    func savePosts(_ postModels: [PostModel], fromFeed: Bool, forUserID userID: String?)
     func getCurrentUser() -> UserModel?
     func getUser(withID userID: String) -> UserModel?
     func getFeedPosts() -> [PostModel]
@@ -57,7 +57,7 @@ final class DataStorageService: DataStorageServiceProtocol {
     func saveUser(_ userModel: UserModel) {
         // Проверка есть ли уже такой пользователь в хранилище
         let users = coreDataService.fetchData(for: UserCoreData.self,
-                                              predicate: makeUserPredicate(userID: userModel.id))
+                                              predicate: makeUserIDPredicate(userID: userModel.id))
         if users.isEmpty {
             // Если такого пользователя нет в хранилище, то он создаётся
             let newUserCoreData = coreDataService.createObject(from: UserCoreData.self)
@@ -69,7 +69,7 @@ final class DataStorageService: DataStorageServiceProtocol {
         saveData()
     }
     
-    func savePosts(_ postModels: [PostModel], forUserID userID: String? = nil, fromFeed: Bool) {
+    func savePosts(_ postModels: [PostModel], fromFeed: Bool, forUserID userID: String?) {
         // Получение всех сохраненных постов
         let postsCoreData = coreDataService.fetchData(for: PostCoreData.self)
         
@@ -90,7 +90,50 @@ final class DataStorageService: DataStorageServiceProtocol {
         saveData()
     }
     
+    func getCurrentUser() -> UserModel? {
+        guard let currentUserID = getCurrentUserID(),
+              let currentUser = getUser(withID: currentUserID) else { return nil }
+        return currentUser
+    }
+    
+    func getUser(withID userID: String) -> UserModel? {
+        let users = coreDataService.fetchData(for: UserCoreData.self,
+                                              predicate: makeUserIDPredicate(userID: userID))
+        let totalUsers = coreDataService.fetchData(for: UserCoreData.self) // TEMP
+        print("Total users in storage:", totalUsers.count) // TEMP
+        return UserModel(userCoreData: users.first)
+    }
+    
+    func getFeedPosts() -> [PostModel] {
+        // Получение массива идентификаторов постов ленты
+        let feedPostIDs = getFeedPostIDs()
+        // Получение постов ленты из хранилища по их ID
+        let feedPosts = feedPostIDs.compactMap {
+            coreDataService.fetchData(for: PostCoreData.self,
+                                      predicate: makePostIDPredicate(postID: $0)).first
+        }
+        print("Total feed posts:", feedPosts.count) // TEMP
+        return feedPosts.compactMap { PostModel(postCoreData: $0) }
+    }
+    
+    func getPostsOfUser(withID userID: String) -> [PostModel] {
+        let posts = coreDataService.fetchData(for: PostCoreData.self,
+                                              predicate: makeAuthorPostIDPredicate(authorID: userID))
+        print("PostsOfUser count:", posts.count) // TEMP
+        return posts.compactMap { PostModel(postCoreData: $0) }
+    }
+    
+    func deleteAllData() {
+        deleteAllUsers()
+        deleteAllCurrentUsers()
+        deleteAllPosts()
+        deleteFeedPostIDs()
+    }
+    
+    // MARK: - Private methods
+    
     private func saveFeedPostIDs(_ postModels: [PostModel]) {
+        deleteFeedPostIDs()
         let feedPostIDs = postModels.map { $0.id }
         let feed = coreDataService.createObject(from: Feed.self)
         feed.postIDs = feedPostIDs.description.data(using: .utf16)
@@ -100,57 +143,14 @@ final class DataStorageService: DataStorageServiceProtocol {
         guard let feedPostIDsData = coreDataService.fetchData(for: Feed.self).first?.postIDs,
               let feedPostIDs = try? JSONDecoder().decode([String].self,
                                                           from: feedPostIDsData) else { return [] }
-        print("FeedPostIDs:", feedPostIDs)
+        print("FeedPostIDs:", feedPostIDs) // TEMP
         return feedPostIDs
     }
-    
-    func getCurrentUser() -> UserModel? {
-        guard let currentUserID = getCurrentUserID(),
-              let currentUser = getUser(withID: currentUserID) else { return nil }
-        return currentUser
-    }
-    
-    func getUser(withID userID: String) -> UserModel? {
-        let users = coreDataService.fetchData(for: UserCoreData.self,
-                                              predicate: makeUserPredicate(userID: userID))
-        let totalUsers = coreDataService.fetchData(for: UserCoreData.self) // TEMP
-        print("Total users in storage:", totalUsers.count) // TEMP
-        return UserModel(userCoreData: users.first)
-    }
-    
-    func getFeedPosts() -> [PostModel] {
-        let feedPostIDs = getFeedPostIDs()
-        
-        let allPosts = coreDataService.fetchData(for: PostCoreData.self)
-        let feedPosts = allPosts.filter { feedPostIDs.contains($0.id!) } // TEMP
-        print("Total feed posts:", feedPosts.count) // TEMP
-        return feedPosts.compactMap { PostModel(postCoreData: $0) }
-    }
-    
-    func getPostsOfUser(withID userID: String) -> [PostModel] {
-        let posts = coreDataService.fetchData(for: PostCoreData.self,
-                                              predicate: makeAuthorPostsPredicate(authorID: userID))
-        print("PostsOfUser count:", posts.count) // TEMP
-        return posts.compactMap { PostModel(postCoreData: $0) }
-    }
-    
-    func deleteAllData() {
-        deleteAllUsers()
-        deleteAllPosts()
-        deleteAllCurrentUsers()
-    }
-    
-    // MARK: - Private methods
     
     private func getCurrentUserID() -> String? {
         let currentUsers = coreDataService.fetchData(for: CurrentUser.self)
         print("Current users in storage:", currentUsers.count) // TEMP
         return currentUsers.first?.id ?? nil
-    }
-    
-    private func deleteAllPosts() {
-        let posts = coreDataService.fetchData(for: PostCoreData.self)
-        posts.forEach { coreDataService.delete(object: $0) }
     }
     
     private func deleteAllUsers() {
@@ -161,6 +161,16 @@ final class DataStorageService: DataStorageServiceProtocol {
     private func deleteAllCurrentUsers() {
         let currentUsers = coreDataService.fetchData(for: CurrentUser.self)
         currentUsers.forEach { coreDataService.delete(object: $0) }
+    }
+    
+    private func deleteAllPosts() {
+        let posts = coreDataService.fetchData(for: PostCoreData.self)
+        posts.forEach { coreDataService.delete(object: $0) }
+    }
+    
+    private func deleteFeedPostIDs() {
+        let feed = coreDataService.fetchData(for: Feed.self)
+        feed.forEach { coreDataService.delete(object: $0) }
     }
     
     private func fillUserCoreData(_ userCoreData: UserCoreData, from userModel: UserModel) {
@@ -192,17 +202,18 @@ final class DataStorageService: DataStorageServiceProtocol {
         }
     }
     
-    private func makeUserPredicate(userID: String) -> NSCompoundPredicate {
-        var predicates = [NSPredicate]()
-        let idPredicate = NSPredicate(format: "id == '\(userID)'")
-        predicates.append(idPredicate)
-        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+    private func makeUserIDPredicate(userID: String) -> NSCompoundPredicate {
+        let predicate = NSPredicate(format: "id == '\(userID)'")
+        return NSCompoundPredicate(andPredicateWithSubpredicates: [predicate])
     }
     
-    private func makeAuthorPostsPredicate(authorID: String) -> NSCompoundPredicate {
-        var predicates = [NSPredicate]()
-        let idPredicate = NSPredicate(format: "authorID == '\(authorID)'")
-        predicates.append(idPredicate)
-        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+    private func makeAuthorPostIDPredicate(authorID: String) -> NSCompoundPredicate {
+        let predicate = NSPredicate(format: "authorID == '\(authorID)'")
+        return NSCompoundPredicate(andPredicateWithSubpredicates: [predicate])
+    }
+    
+    private func makePostIDPredicate(postID: String) -> NSCompoundPredicate {
+        let predicate = NSPredicate(format: "id == '\(postID)'")
+        return NSCompoundPredicate(andPredicateWithSubpredicates: [predicate])
     }
 }
