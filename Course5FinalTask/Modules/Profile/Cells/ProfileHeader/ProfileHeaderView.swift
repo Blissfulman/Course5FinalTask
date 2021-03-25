@@ -26,13 +26,19 @@ final class ProfileHeaderView: UICollectionReusableView {
             setupViewModelBindings()
         }
     }
+    
+    // MARK: - Lifecycle methods
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
         
+        followButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
+        avatarImageView.layer.cornerRadius = avatarImageView.halfWidthCornerRadius()
+    }
+    
     // MARK: - Setup UI
     
     private func setupUI() {
-        followButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
-        avatarImageView.layer.cornerRadius = avatarImageView.halfWidthCornerRadius()
-        
         guard let viewModel = viewModel else { return }
         
         // Если это не профиль текущего пользователя, то кнопка подписки/отписки становится видимой
@@ -48,7 +54,7 @@ final class ProfileHeaderView: UICollectionReusableView {
     @IBAction private func followersButtonTapped() {
         viewModel?.followersButtonTapped()
     }
-
+    
     @IBAction private func followingsButtonTapped() {
         viewModel?.followingsButtonTapped()
     }
