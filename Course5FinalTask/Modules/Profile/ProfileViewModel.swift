@@ -53,6 +53,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     private let authorizationService: AuthorizationServiceProtocol = AuthorizationService.shared
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
+    private let offlineMode = AppError.offlineMode
     
     // MARK: - Initializers
     
@@ -159,7 +160,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             
             switch result {
             case .success(let userPosts):
-                self.userPosts.value = userPosts.reversed()
+                self.userPosts.value = userPosts
                 LoadingView.hide()
             case .failure(let error):
                 self.error.value = error
@@ -170,7 +171,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     /// Возвращает true, если онлайн режим. Возвращает false и инициирует соответствующее оповещение, если оффлайн режим.
     private func stopIfOffline() -> Bool {
         guard NetworkService.isOnline else {
-            error.value = AppError.offlineError
+            error.value = offlineMode
             return false
         }
         return true

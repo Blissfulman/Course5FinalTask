@@ -117,7 +117,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     private let networkService: NetworkServiceProtocol = NetworkService.shared
     private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
     private let isOnline: Bool
-    private let offlineError = AppError.offlineError
+    private let offlineMode = AppError.offlineMode
     private let noOfflineDataError = AppError.noOfflineData
     
     // MARK: - Initializers
@@ -185,13 +185,13 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     func followToUser(withID userID: String, completion: @escaping UserResult) {
         isOnline
             ? networkService.followToUser(withID: userID, completion: completion)
-            : completion(.failure(offlineError))
+            : completion(.failure(offlineMode))
     }
     
     func unfollowFromUser(withID userID: String, completion: @escaping UserResult) {
         isOnline
             ? networkService.unfollowFromUser(withID: userID, completion: completion)
-            : completion(.failure(offlineError))
+            : completion(.failure(offlineMode))
     }
     
     func fetchUsersFollowingUser(withID userID: String, completion: @escaping UsersResult) {
@@ -261,13 +261,13 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     func likePost(withID postID: String, completion: @escaping PostResult) {
         isOnline
             ? networkService.likePost(withID: postID, completion: completion)
-            : completion(.failure(offlineError))
+            : completion(.failure(offlineMode))
     }
     
     func unlikePost(withID postID: String, completion: @escaping PostResult) {
         isOnline
             ? networkService.unlikePost(withID: postID, completion: completion)
-            : completion(.failure(offlineError))
+            : completion(.failure(offlineMode))
     }
     
     func fetchUsersLikedPost(withID postID: String, completion: @escaping UsersResult) {
@@ -279,6 +279,6 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     func createPost(imageData: String, description: String, completion: @escaping PostResult) {
         isOnline
             ? networkService.createPost(imageData: imageData, description: description, completion: completion)
-            : completion(.failure(offlineError))
+            : completion(.failure(offlineMode))
     }
 }

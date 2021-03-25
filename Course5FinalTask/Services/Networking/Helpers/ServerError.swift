@@ -8,11 +8,28 @@
 
 import Foundation
 
-enum ServerError: String, Error {
-    case badRequest = "Bad request" // 400
-    case unauthorized = "Unauthorized" // 401
-    case notFound = "Not found" // 404
-    case notAcceptable = "Not acceptable" // 406
-    case unprocessable = "Unprocessable" // 422
-    case transferError = "Transfer error" // other error
+enum ServerError: Error {
+    case badRequest     // 400
+    case unauthorized   // 401
+    case notFound       // 404
+    case notAcceptable  // 406
+    case unprocessable  // 422
+    case transferError  // other error
+    
+    var localizedDescription: String {
+        switch self {
+        case .badRequest:
+            return "Bad request"
+        case .unauthorized:
+            return "Unauthorized"
+        case .notFound:
+            return "Not found"
+        case .notAcceptable:
+            return "Not acceptable"
+        case .unprocessable:
+            return "Unprocessable"
+        case .transferError:
+            return "Transfer error"
+        }
+    }
 }

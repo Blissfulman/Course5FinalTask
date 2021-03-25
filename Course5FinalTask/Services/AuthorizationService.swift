@@ -45,7 +45,7 @@ final class AuthorizationService: AuthorizationServiceProtocol {
     private var isOnline: Bool {
         NetworkService.isOnline
     }
-    private let offlineError = AppError.offlineError
+    private let offlineMode = AppError.offlineMode
     
     // MARK: - Initializers
     
@@ -78,7 +78,7 @@ final class AuthorizationService: AuthorizationServiceProtocol {
             let request = requestService.request(url: url, httpMethod: .post)
             dataTaskService.simpleDataTask(request: request, completion: completion)
         } else {
-            completion(.failure(offlineError))
+            completion(.failure(offlineMode))
         }
     }
 }

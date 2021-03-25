@@ -8,7 +8,16 @@
 
 import Foundation
 
-enum AppError: String, Error {
-    case offlineError = "Offline mode"
-    case noOfflineData = "No offline data"
+enum AppError: Error {
+    case offlineMode
+    case noOfflineData
+    
+    var localizedDescription: String {
+        switch self {
+        case .offlineMode:
+            return "Offline mode"
+        case .noOfflineData:
+            return "No offline data"
+        }
+    }
 }

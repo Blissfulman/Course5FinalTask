@@ -76,6 +76,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     
     private var post: PostModel
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
+    private let offlineMode = AppError.offlineMode
     
     // MARK: - Initializers
     
@@ -96,8 +97,9 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
                 self?.likeDataNeedUpdating?()
                 self?.delegate?.updateFeedData()
             case .failure(let error):
-                guard let error = error as? AppError, error == .offlineError else { return }
-                self?.delegate?.showErrorAlert(error)
+                if error is AppError {
+                    self?.delegate?.showErrorAlert(error)
+                }
             }
         }
         
@@ -139,7 +141,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     /// Возвращает true, если онлайн режим. Возвращает false и инициирует соответствующее оповещение, если оффлайн режим.
     private func stopIfOffline() -> Bool {
         guard NetworkService.isOnline else {
-            delegate?.showErrorAlert(AppError.offlineError)
+            delegate?.showErrorAlert(offlineMode)
             return false
         }
         return true
