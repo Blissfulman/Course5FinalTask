@@ -124,10 +124,12 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     func deleteAllData() {
-        deleteAllUsers()
-        deleteAllCurrentUsers()
-        deleteAllPosts()
-        deleteFeedPostIDs()
+        DispatchQueue.main.async {
+            self.deleteAllUsers()
+            self.deleteAllCurrentUsers()
+            self.deleteAllPosts()
+            self.deleteFeedPostIDs()
+        }
     }
     
     // MARK: - Private methods

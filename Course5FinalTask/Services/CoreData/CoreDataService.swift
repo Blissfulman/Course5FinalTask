@@ -26,8 +26,6 @@ final class CoreDataService {
     }()
     
     private let modelName: String
-    private let contextQueue = DispatchQueue.init(label: "contextQueue.Course5FinalTask",
-                                                  qos: .userInitiated)
     
     // MARK: - Initializers
     
@@ -44,9 +42,7 @@ final class CoreDataService {
     func save(context: NSManagedObjectContext) {
         if context.hasChanges {
             do {
-                try contextQueue.sync {
-                    try context.save()
-                }
+                try context.save()
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
@@ -55,16 +51,14 @@ final class CoreDataService {
     }
     
     func createObject<T: NSManagedObject> (from entity: T.Type) -> T {
-        contextQueue.sync {
-            let object = NSEntityDescription.insertNewObject(forEntityName: String(describing: entity),
-                                                             into: context) as! T
-            return object
-        }
+        let object = NSEntityDescription.insertNewObject(forEntityName: String(describing: entity),
+                                                         into: self.context) as! T
+        return object
     }
     
     func delete(object: NSManagedObject) {
-        context.delete(object)
-        save(context: context)
+        self.context.delete(object)
+        self.save(context: self.context)
     }
     
     func fetchData<T: NSManagedObject>(for entity: T.Type,
@@ -81,9 +75,7 @@ final class CoreDataService {
         request.predicate = predicate
         
         do {
-            try contextQueue.sync {
-                fetchedResult = try context.fetch(request)
-            }
+            fetchedResult = try self.context.fetch(request)
         } catch {
             debugPrint("Could not fetch: \(error.localizedDescription)")
         }

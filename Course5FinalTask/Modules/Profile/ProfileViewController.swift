@@ -88,8 +88,10 @@ final class ProfileViewController: UIViewController {
         }
         
         viewModel.needLogOut = { [unowned self] in
-            let authorizationVC = AuthorizationViewController(viewModel: viewModel.getAuthorizationViewModel())
-            AppDelegate.shared.window?.rootViewController = authorizationVC
+            DispatchQueue.main.async {
+                let authorizationVC = AuthorizationViewController(viewModel: viewModel.getAuthorizationViewModel())
+                AppDelegate.shared.window?.rootViewController = authorizationVC
+            }
         }
     }
     

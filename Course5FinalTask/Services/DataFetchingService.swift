@@ -146,9 +146,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             switch result {
             case .success(let currentUser):
                 completion(.success(currentUser))
-                DispatchQueue.global().async {
-                    self?.dataStorageService.saveCurrentUserID(currentUser.id)
-                }
+                self?.dataStorageService.saveCurrentUserID(currentUser.id)
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -173,9 +171,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             switch result {
             case .success(let user):
                 completion(.success(user))
-                DispatchQueue.global().async {
-                    self?.dataStorageService.saveUser(user)
-                }
+                self?.dataStorageService.saveUser(user)
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -222,9 +218,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             switch result {
             case .success(let userPosts):
                 completion(.success(userPosts))
-                DispatchQueue.global().async {
-                    self?.dataStorageService.savePosts(userPosts, fromFeed: false, forUserID: userID)
-                }
+                self?.dataStorageService.savePosts(userPosts, fromFeed: false, forUserID: userID)
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -243,9 +237,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             switch result {
             case .success(let feedPosts):
                 completion(.success(feedPosts))
-                DispatchQueue.global().async {
-                    self?.dataStorageService.savePosts(feedPosts, fromFeed: true, forUserID: nil)
-                }
+                self?.dataStorageService.savePosts(feedPosts, fromFeed: true, forUserID: nil)
             case .failure(let error):
                 completion(.failure(error))
             }

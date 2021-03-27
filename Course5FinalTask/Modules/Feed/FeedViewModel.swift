@@ -45,7 +45,6 @@ final class FeedViewModel: FeedViewModelProtocol {
         dataFetchingService.fetchFeedPosts() { [weak self] result in
             switch result {
             case .success(let feedPosts):
-                print(feedPosts.count) // TEMP
                 self?.posts = feedPosts
                 if withUpdatingTableView {
                     self?.tableViewNeedUpdating?()
