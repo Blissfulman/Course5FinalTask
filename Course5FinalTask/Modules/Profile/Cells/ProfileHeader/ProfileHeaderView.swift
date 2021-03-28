@@ -48,7 +48,7 @@ final class ProfileHeaderView: UICollectionReusableView {
     // MARK: - Actions
     
     @IBAction private func followButtonTapped() {
-        viewModel?.followButtonDidTapped()
+        viewModel?.followButtonTapped()
     }
     
     @IBAction private func followersButtonTapped() {

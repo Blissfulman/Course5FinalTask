@@ -3,13 +3,12 @@
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 09.03.2021.
-//  Copyright © 2021 e-Legion. All rights reserved.
 //
 
 import Foundation
 
-typealias TokenResult = (Result<TokenModel, Error>) -> Void
 typealias VoidResult = (Result<Void, Error>) -> Void
+typealias TokenResult = (Result<TokenModel, Error>) -> Void
 
 // MARK: - Protocols
 
@@ -40,11 +39,12 @@ final class AuthorizationService: AuthorizationServiceProtocol {
     
     // MARK: - Properties
     
-    private let requestService: RequestServiceProtocol = RequestService.shared
-    private let dataTaskService: DataTaskServiceProtocol = DataTaskService.shared
     private var isOnline: Bool {
         NetworkService.isOnline
     }
+    
+    private let requestService: RequestServiceProtocol = RequestService.shared
+    private let dataTaskService: DataTaskServiceProtocol = DataTaskService.shared
     private let offlineMode = AppError.offlineMode
     
     // MARK: - Initializers

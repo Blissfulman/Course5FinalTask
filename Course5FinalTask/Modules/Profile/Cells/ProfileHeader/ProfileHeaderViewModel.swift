@@ -3,7 +3,6 @@
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 20.02.2021.
-//  Copyright © 2021 e-Legion. All rights reserved.
 //
 
 import Foundation
@@ -28,7 +27,7 @@ protocol ProfileHeaderViewModelProtocol: class {
     
     init(user: UserModel, isCurrentUser: Bool, delegate: ProfileHeaderViewModelDelegate)
     
-    func followButtonDidTapped()
+    func followButtonTapped()
     func followersButtonTapped()
     func followingsButtonTapped()
 }
@@ -77,7 +76,7 @@ final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
     
     // MARK: - Public methods
     
-    func followButtonDidTapped() {
+    func followButtonTapped() {
         /// Замыкание, в котором обновляются данные о пользователе.
         let updatingUser: UserResult = { [weak self] result in
             switch result {
