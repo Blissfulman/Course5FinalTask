@@ -72,8 +72,4 @@ final class ProfileHeaderView: UICollectionReusableView {
             self.followingsButton.setTitle(viewModel.followingsButtonTitle, for: .normal)
         }
     }
-    
-    deinit {
-        print("Deinit", #fileID)
-    }
 }
