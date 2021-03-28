@@ -29,10 +29,7 @@ final class DataTaskService: DataTaskServiceProtocol {
     // MARK: - Public methods
     
     func simpleDataTask(request: URLRequest, completion: @escaping VoidResult) {
-        URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
-            
-            guard let self = self else { return }
-            
+        URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(.failure(error))
@@ -44,19 +41,16 @@ final class DataTaskService: DataTaskServiceProtocol {
                 return
             }
             
-            guard self.handleServerError(httpResponse, completion: completion) else { return }
+            guard ServerErrorHandler.handle(httpResponse, completion: completion) else { return }
             
             print(httpResponse.statusCode, request.url?.path ?? "")
             completion(.success(()))
         }.resume()
     }
     
-    func dataTask<T: Decodable>(request: URLRequest,
-                                completion: @escaping (Result<T, Error>) -> Void) {
-        
-        URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
-            
-            guard let self = self else { return }
+    
+    func dataTask<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
+        URLSession.shared.dataTask(with: request) { data, response, error in
             
             if let error = error {
                 print(error.localizedDescription)
@@ -69,7 +63,7 @@ final class DataTaskService: DataTaskServiceProtocol {
                 return
             }
             
-            guard self.handleServerError(httpResponse, completion: completion) else { return }
+            guard ServerErrorHandler.handle(httpResponse, completion: completion) else { return }
             
             print(httpResponse.statusCode, request.url?.path ?? "")
             
@@ -88,34 +82,5 @@ final class DataTaskService: DataTaskServiceProtocol {
                 completion(.failure(error))
             }
         }.resume()
-    }
-    
-    // MARK: - Private methods
-    
-    /// Обработка ошибок сервера, по статус-коду в response.
-    /// - Parameters:
-    ///   - response: Ответ от сервера.
-    ///   - completion: Замыкание, в которое возвращается ошибка от сервера. Вызывается, если в ответе от сервера статус-код не равен 200.
-    /// - Returns: Возвращает true если в ответ от сервера пришёл статус-код 200, в иных случаях возвращает false.
-    private func handleServerError<T>(_ response: HTTPURLResponse,
-                                      completion: (Result<T, Error>) -> Void) -> Bool {
-        
-        if response.statusCode == 200 {
-            return true
-        } else {
-            let serverError: ServerError
-            
-            switch response.statusCode {
-            case 400: serverError = .badRequest
-            case 401: serverError = .unauthorized
-            case 404: serverError = .notFound
-            case 406: serverError = .notAcceptable
-            case 422: serverError = .unprocessable
-            default: serverError = .transferError
-            }
-            
-            completion(.failure(serverError))
-            return false
-        }
     }
 }

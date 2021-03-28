@@ -3,6 +3,7 @@
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 09.03.2021.
+//  Copyright © 2021 e-Legion. All rights reserved.
 //
 
 import Foundation
