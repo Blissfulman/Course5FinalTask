@@ -9,7 +9,6 @@
     <entity name="PostCoreData" representedClassName="PostCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="author" attributeType="String"/>
         <attribute name="authorAvatarData" attributeType="Binary"/>
-        <attribute name="authorID" optional="YES" attributeType="String"/>
         <attribute name="authorUsername" attributeType="String"/>
         <attribute name="createdTime" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="currentUserLikesThisPost" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -17,6 +16,11 @@
         <attribute name="id" attributeType="String"/>
         <attribute name="imageData" attributeType="Binary"/>
         <attribute name="likedByCount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="UserCoreData" representedClassName="UserCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="avatarData" attributeType="Binary"/>
@@ -27,11 +31,16 @@
         <attribute name="fullName" attributeType="String"/>
         <attribute name="id" attributeType="String"/>
         <attribute name="username" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
         <element name="CurrentUser" positionX="252" positionY="225" width="128" height="14"/>
-        <element name="PostCoreData" positionX="112.0167846679688" positionY="59.44305419921875" width="128" height="179"/>
-        <element name="UserCoreData" positionX="381.5838623046875" positionY="344.8416137695312" width="128" height="163"/>
         <element name="Feed" positionX="243" positionY="216" width="128" height="44"/>
+        <element name="PostCoreData" positionX="112.0167846679688" positionY="59.44305419921875" width="128" height="164"/>
+        <element name="UserCoreData" positionX="381.5838623046875" positionY="344.8416137695312" width="128" height="149"/>
     </elements>
 </model>

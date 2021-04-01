@@ -218,7 +218,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             switch result {
             case .success(let userPosts):
                 completion(.success(userPosts))
-                self?.dataStorageService.savePosts(userPosts, fromFeed: false, forUserID: userID)
+                self?.dataStorageService.savePosts(userPosts, asFeedPosts: false)
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -237,7 +237,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             switch result {
             case .success(let feedPosts):
                 completion(.success(feedPosts))
-                self?.dataStorageService.savePosts(feedPosts, fromFeed: true, forUserID: nil)
+                self?.dataStorageService.savePosts(feedPosts, asFeedPosts: true)
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -252,13 +252,29 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     
     func likePost(withID postID: String, completion: @escaping PostResult) {
         isOnline
-            ? networkService.likePost(withID: postID, completion: completion)
+            ? networkService.likePost(withID: postID) { [weak self] result in
+                switch result {
+                case .success(let post):
+                    completion(.success(post))
+                    self?.dataStorageService.savePosts([post], asFeedPosts: false)
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
             : completion(.failure(offlineMode))
     }
     
     func unlikePost(withID postID: String, completion: @escaping PostResult) {
         isOnline
-            ? networkService.unlikePost(withID: postID, completion: completion)
+            ? networkService.unlikePost(withID: postID) { [weak self] result in
+                switch result {
+                case .success(let post):
+                    completion(.success(post))
+                    self?.dataStorageService.savePosts([post], asFeedPosts: false)
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
             : completion(.failure(offlineMode))
     }
     

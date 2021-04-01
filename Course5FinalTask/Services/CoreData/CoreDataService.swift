@@ -13,11 +13,11 @@ final class CoreDataService {
     // MARK: - Properties
     
     lazy var persistentContainer: NSPersistentContainer = {
-        
         let container = NSPersistentContainer(name: modelName)
         
+        container.viewContext.mergePolicy = NSMergePolicy.overwrite
+        
         container.loadPersistentStores { storeDescription, error in
-            
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
@@ -52,13 +52,14 @@ final class CoreDataService {
     
     func createObject<T: NSManagedObject> (from entity: T.Type) -> T {
         let object = NSEntityDescription.insertNewObject(forEntityName: String(describing: entity),
-                                                         into: self.context) as! T
+                                                         into: context) as! T
         return object
     }
     
     func delete(object: NSManagedObject) {
-        self.context.delete(object)
-        self.save(context: self.context)
+        print(String(describing: object.entity.name!), "Deleting", Thread.current)
+        context.delete(object)
+        save(context: context)
     }
     
     func fetchData<T: NSManagedObject>(for entity: T.Type,

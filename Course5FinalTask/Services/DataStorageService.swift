@@ -14,7 +14,7 @@ protocol DataStorageServiceProtocol {
     func saveData()
     func saveCurrentUserID(_ id: String)
     func saveUser(_ userModel: UserModel)
-    func savePosts(_ postModels: [PostModel], fromFeed: Bool, forUserID userID: String?)
+    func savePosts(_ postModels: [PostModel], asFeedPosts: Bool)
     func getCurrentUser() -> UserModel?
     func getUser(withID userID: String) -> UserModel?
     func getFeedPosts() -> [PostModel]
@@ -55,36 +55,17 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     func saveUser(_ userModel: UserModel) {
-        // Проверка есть ли уже такой пользователь в хранилище
-        let users = coreDataService.fetchData(for: UserCoreData.self,
-                                              predicate: makeUserIDPredicate(userID: userModel.id))
-        if users.isEmpty {
-            // Если такого пользователя нет в хранилище, то он создаётся
-            let newUserCoreData = coreDataService.createObject(from: UserCoreData.self)
-            fillUserCoreData(newUserCoreData, from: userModel)
-        } else {
-            // Если пользователь уже был сохранён, то его данные обновляются
-            users.forEach { fillUserCoreData($0, from: userModel) }
-        }
+        let newUserCoreData = coreDataService.createObject(from: UserCoreData.self)
+        fillUserCoreData(newUserCoreData, from: userModel)
         saveData()
     }
     
-    func savePosts(_ postModels: [PostModel], fromFeed: Bool, forUserID userID: String?) {
-        // Получение всех сохраненных постов
-        let postsCoreData = coreDataService.fetchData(for: PostCoreData.self)
-        
+    func savePosts(_ postModels: [PostModel], asFeedPosts: Bool) {
         postModels.forEach { postModel in
-            if let postCoreData = postsCoreData.first(where: { $0.id == postModel.id }) {
-                // Если пост уже был сохранён в хранилище, то его данные обновляются
-                fillPostCoreData(postCoreData, from: postModel, forAuthorID: userID)
-            } else {
-                // Если такого поста нет в хранилище, то он создаётся
-                let newPostCoreData = coreDataService.createObject(from: PostCoreData.self)
-                fillPostCoreData(newPostCoreData, from: postModel, forAuthorID: userID)
-            }
+            let newPostCoreData = coreDataService.createObject(from: PostCoreData.self)
+            fillPostCoreData(newPostCoreData, from: postModel)
         }
-        
-        if fromFeed {
+        if asFeedPosts {
             saveFeedPostIDs(postModels)
         }
         saveData()
@@ -124,12 +105,10 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     func deleteAllData() {
-        DispatchQueue.main.async {
             self.deleteAllUsers()
             self.deleteAllCurrentUsers()
             self.deleteAllPosts()
             self.deleteFeedPostIDs()
-        }
     }
     
     // MARK: - Private methods
@@ -187,8 +166,7 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     private func fillPostCoreData(_ postCoreData: PostCoreData,
-                                  from postModel: PostModel,
-                                  forAuthorID authorID: String? = nil) {
+                                  from postModel: PostModel) {
         postCoreData.id = postModel.id
         postCoreData.desc = postModel.description
         postCoreData.createdTime = postModel.createdTime
@@ -198,10 +176,6 @@ final class DataStorageService: DataStorageServiceProtocol {
         postCoreData.authorUsername = postModel.authorUsername
         postCoreData.imageData = postModel.getImageData()
         postCoreData.authorAvatarData = postModel.getAuthorAvatarData()
-        // Чтобы уже сохранённый ID автора не затирался, проверяется, что новое значение не nil
-        if authorID != nil {
-            postCoreData.authorID = authorID
-        }
     }
     
     private func makeUserIDPredicate(userID: String) -> NSCompoundPredicate {
@@ -210,7 +184,7 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     private func makeAuthorPostIDPredicate(authorID: String) -> NSCompoundPredicate {
-        let predicate = NSPredicate(format: "authorID == '\(authorID)'")
+        let predicate = NSPredicate(format: "author == '\(authorID)'")
         return NSCompoundPredicate(andPredicateWithSubpredicates: [predicate])
     }
     
