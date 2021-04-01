@@ -13,7 +13,7 @@ import Foundation
 protocol FeedPostCellViewModelDelegate: AnyObject {
     func authorOfPostTapped(user: UserModel)
     func likesCountButtonTapped(postID: String)
-    func updateFeedData()
+    func updateFeedPost(_ post: PostModel)
     func showErrorAlert(_ error: Error)
 }
 
@@ -29,7 +29,7 @@ protocol FeedPostCellViewModelProtocol {
     var bigLikeNeedAnimating: (() -> Void)? { get set }
     var likeDataNeedUpdating: (() -> Void)? { get set }
     
-    init(post: PostModel)
+    init(post: PostModel, delegate: FeedPostCellViewModelDelegate)
     
     func likeUnlikePost()
     func postAuthorTapped()
@@ -80,8 +80,9 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     
     // MARK: - Initializers
     
-    init(post: PostModel) {
+    init(post: PostModel, delegate: FeedPostCellViewModelDelegate) {
         self.post = post
+        self.delegate = delegate
     }
     
     // MARK: - Public methods
@@ -95,7 +96,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
             case .success(let updatedPost):
                 self?.post = updatedPost
                 self?.likeDataNeedUpdating?()
-                self?.delegate?.updateFeedData()
+                self?.delegate?.updateFeedPost(updatedPost)
             case .failure(let error):
                 if error is AppError {
                     self?.delegate?.showErrorAlert(error)

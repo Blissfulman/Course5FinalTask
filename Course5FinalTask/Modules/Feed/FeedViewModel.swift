@@ -13,9 +13,14 @@ import Foundation
 protocol FeedViewModelProtocol {
     var error: Box<Error?> { get }
     var tableViewNeedUpdating: (() -> Void)? { get set }
+    /// Переход в профиль автора поста.
+    var authorOfPostTapped: ((_ profileViewModel: ProfileViewModelProtocol) -> Void)? { get set }
+    /// Переход на экран лайкнувших пост пользователей.
+    var likesCountButtonTapped: ((_ userListViewModel: UserListViewModelProtocol) -> Void)? { get set }
     var numberOfRows: Int { get }
     
-    func getFeedPosts(withUpdatingTableView: Bool)
+    func getFeedPosts()
+    func updateFeedPost(_ post: PostModel)
     func getFeedPostCellViewModel(at indexPath: IndexPath) -> FeedPostCellViewModelProtocol
 }
 
@@ -26,6 +31,8 @@ final class FeedViewModel: FeedViewModelProtocol {
     var error: Box<Error?> = Box(nil)
     
     var tableViewNeedUpdating: (() -> Void)?
+    var authorOfPostTapped: ((_ profileViewModel: ProfileViewModelProtocol) -> Void)?
+    var likesCountButtonTapped: ((_ userListViewModel: UserListViewModelProtocol) -> Void)?
     
     var numberOfRows: Int {
         posts.count
@@ -37,18 +44,14 @@ final class FeedViewModel: FeedViewModelProtocol {
     
     // MARK: - Public methods
     
-    func getFeedPosts(withUpdatingTableView: Bool) {
-        if withUpdatingTableView {
-            LoadingView.show()
-        }
+    func getFeedPosts() {
+        LoadingView.show()
         
         dataFetchingService.fetchFeedPosts() { [weak self] result in
             switch result {
             case .success(let feedPosts):
                 self?.posts = feedPosts
-                if withUpdatingTableView {
-                    self?.tableViewNeedUpdating?()
-                }
+                self?.tableViewNeedUpdating?()
                 LoadingView.hide()
             case .failure(let error):
                 self?.error.value = error
@@ -57,6 +60,30 @@ final class FeedViewModel: FeedViewModelProtocol {
     }
     
     func getFeedPostCellViewModel(at indexPath: IndexPath) -> FeedPostCellViewModelProtocol {
-        FeedPostCellViewModel(post: posts[indexPath.row])
+        FeedPostCellViewModel(post: posts[indexPath.row], delegate: self)
+    }
+}
+
+// MARK: - FeedPostCellViewModelDelegate
+
+extension FeedViewModel: FeedPostCellViewModelDelegate {
+    
+    func authorOfPostTapped(user: UserModel) {
+        authorOfPostTapped?(ProfileViewModel(user: user))
+    }
+    
+    func likesCountButtonTapped(postID: String) {
+        let userListViewModel = UserListViewModel(postID: postID, userListType: .likes)
+        likesCountButtonTapped?(userListViewModel)
+    }
+    
+    // Обновление отдельного поста в массиве постов (вызывается после лайка/анлайка)
+    func updateFeedPost(_ post: PostModel) {
+        guard let postIndex = posts.firstIndex(where: { $0.id == post.id }) else { return }
+        posts[postIndex] = post
+    }
+    
+    func showErrorAlert(_ error: Error) {
+        self.error.value = error
     }
 }
