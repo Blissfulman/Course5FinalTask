@@ -29,7 +29,6 @@ final class FeedViewModel: FeedViewModelProtocol {
     // MARK: - Properties
     
     var error: Box<Error?> = Box(nil)
-    
     var tableViewNeedUpdating: (() -> Void)?
     var authorOfPostTapped: ((_ profileViewModel: ProfileViewModelProtocol) -> Void)?
     var likesCountButtonTapped: ((_ userListViewModel: UserListViewModelProtocol) -> Void)?

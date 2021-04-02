@@ -32,6 +32,8 @@ final class DataStorageService: DataStorageServiceProtocol {
     
     private let coreDataService = CoreDataService(modelName: "Course5FinalTask")
     private let context: NSManagedObjectContext
+    private var timer = Timer()
+    private var timerSeconds = 0
     
     // MARK: - Initializers
     
@@ -50,14 +52,14 @@ final class DataStorageService: DataStorageServiceProtocol {
         if coreDataService.fetchData(for: CurrentUser.self).isEmpty {
             let currentUser = coreDataService.createObject(from: CurrentUser.self)
             currentUser.id = id
-            saveData()
+            saveWithDelay()
         }
     }
     
     func saveUser(_ userModel: UserModel) {
         let newUserCoreData = coreDataService.createObject(from: UserCoreData.self)
         fillUserCoreData(newUserCoreData, from: userModel)
-        saveData()
+        saveWithDelay()
     }
     
     func savePosts(_ postModels: [PostModel], asFeedPosts: Bool) {
@@ -68,7 +70,7 @@ final class DataStorageService: DataStorageServiceProtocol {
         if asFeedPosts {
             saveFeedPostIDs(postModels)
         }
-        saveData()
+        saveWithDelay()
     }
     
     func getCurrentUser() -> UserModel? {
@@ -112,6 +114,24 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     // MARK: - Private methods
+    
+    /// Отложенный вызов сохранения данных с задержкой (по умолчанию - 3 секунды).
+    /// Реализован для того, чтобы избежать слишком частого сохранения контекста при частом изменении данных в контексте.
+    private func saveWithDelay(delay: Int = 3) {
+        timer.invalidate()
+        timerSeconds = delay
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [unowned self] timer in
+            if timerSeconds > 0 {
+                timerSeconds -= 1
+            } else {
+                timer.invalidate()
+                print("Data saved")
+                DispatchQueue.global().async {
+                    saveData()
+                }
+            }
+        }
+    }
     
     private func saveFeedPostIDs(_ postModels: [PostModel]) {
         deleteFeedPostIDs()
