@@ -78,11 +78,10 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                         self.isCurrentUser.value = true
                         self.user.value = currentUser
                     }
-                    self.semaphore.signal()
                 case .failure(let error):
                     self.error.value = error
-                    self.semaphore.signal()
                 }
+                self.semaphore.signal()
             }
         }
     }
@@ -96,22 +95,22 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
             self.semaphore.wait()
             
-            // Эта строка после семафора, потому что наличие user можно проверять только после окончания выполнения функции getCurrentUser()
-            guard let user = self.user.value else { return }
+            // Эта строка после семафора, потому что наличие user можно проверять только после окончания выполнения метода getCurrentUser()
+            guard let user = self.user.value else {
+                self.semaphore.signal()
+                return
+            }
             
             // Обновление данных о пользователе
             self.dataFetchingService.fetchUser(withID: user.id) { result in
                 switch result {
                 case .success(let user):
                     self.user.value = user
-                    self.semaphore.signal()
-                    
-                    // Обновление данных об изображениях постов пользователя
                     self.getUserPosts(of: user)
                 case .failure(let error):
                     self.error.value = error
-                    self.semaphore.signal()
                 }
+                self.semaphore.signal()
             }
         }
     }
