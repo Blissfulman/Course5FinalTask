@@ -268,14 +268,6 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
-		CE02BA1225F3BE5700788EE3 /* Keychain */ = {
-			isa = PBXGroup;
-			children = (
-				CE02BA1325F3BE8500788EE3 /* KeychainService.swift */,
-			);
-			path = Keychain;
-			sourceTree = "<group>";
-		};
 		CE16595A25E0D20E008E609A /* ProfileHeader */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,10 +316,8 @@
 			children = (
 				CE3A168425F7FA2E00FFA849 /* AuthorizationService.swift */,
 				CE3A168225F7F8C900FFA849 /* DataFetchingService.swift */,
-				CE2FF9682604A32100FDA68D /* DataStorageService.swift */,
 				CE02BA1125F3BE3B00788EE3 /* Networking */,
-				CE02BA1225F3BE5700788EE3 /* Keychain */,
-				CE2FF95D2603D40600FDA68D /* CoreData */,
+				CE7EDF6A2618FB57005F7167 /* Storing */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -434,6 +424,16 @@
 				CE4075BC25754AF7006F4592 /* PostModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		CE7EDF6A2618FB57005F7167 /* Storing */ = {
+			isa = PBXGroup;
+			children = (
+				CE2FF9682604A32100FDA68D /* DataStorageService.swift */,
+				CE02BA1325F3BE8500788EE3 /* KeychainService.swift */,
+				CE2FF95D2603D40600FDA68D /* CoreData */,
+			);
+			path = Storing;
 			sourceTree = "<group>";
 		};
 		CEA36F3D252E25E300386D64 /* Additional Files */ = {
