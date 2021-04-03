@@ -71,28 +71,28 @@ protocol DataFetchingServiceProtocol {
     
     /// Получение публикации с указанным ID.
     /// - Parameters:
-    ///   - postID: ID поста.
+    ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается запрашиваемая публикация.
     ///   Вызывается после выполнения запроса.
     func fetchPost(withID postID: String, completion: @escaping PostResult)
     
     /// Ставит лайк от текущего пользователя на публикации с указанным ID.
     /// - Parameters:
-    ///   - postID: ID поста.
+    ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается публикация, которой был поставлен лайк.
     ///   Вызывается после выполнения запроса.
     func likePost(withID postID: String, completion: @escaping PostResult)
     
     /// Удаляет лайк от текущего пользователя на публикации с указанным ID.
     /// - Parameters:
-    ///   - postID: ID поста.
+    ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается публикация, которой был поставлен анлайк.
     ///   Вызывается после выполнения запроса.
     func unlikePost(withID postID: String, completion: @escaping PostResult)
     
     /// Получение пользователей, поставивших лайк на публикацию с указанным ID.
     /// - Parameters:
-    ///   - postID: ID поста.
+    ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращаются запрашиваемые пользователи.
     ///   Вызывается после выполнения запроса.
     func fetchUsersLikedPost(withID postID: String, completion: @escaping UsersResult)
@@ -141,13 +141,12 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             return
         }
         
-        // В онлайне вернётся текущий пользователь и сохранится его ID
-        networkService.fetchCurrentUser { [weak self] result in
+        // В онлайне вернётся и сохранится текущий пользователь
+        networkService.fetchCurrentUser { [unowned self] result in
             switch result {
             case .success(let currentUser):
                 completion(.success(currentUser))
-                self?.dataStorageService.saveCurrentUserID(currentUser.id)
-                self?.dataStorageService.saveUser(currentUser)
+                dataStorageService.saveCurrentUser(currentUser)
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -168,11 +167,11 @@ final class DataFetchingService: DataFetchingServiceProtocol {
         }
         
         // В онлайне вернётся и сохранится пользователь с переданным ID
-        networkService.fetchUser(withID: userID) { [weak self] result in
+        networkService.fetchUser(withID: userID) { [unowned self] result in
             switch result {
             case .success(let user):
                 completion(.success(user))
-                self?.dataStorageService.saveUser(user)
+                dataStorageService.saveUser(user)
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -204,7 +203,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     }
     
     func fetchPostsOfUser(withID userID: String, completion: @escaping PostsResult) {
-        // В оффлайне вернутся посты пользователя с переданным ID, если они были сохранены
+        // В оффлайне вернутся публикации пользователя с переданным ID, если они были сохранены
         guard isOnline else {
             let currentUserPosts = dataStorageService.getPostsOfUser(withID: userID)
             DispatchQueue.main.async {
@@ -213,12 +212,12 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             return
         }
         
-        // В оффлайне вернутся и сохранятся посты пользователя с переданным ID
-        networkService.fetchPostsOfUser(withID: userID) { [weak self] result in
+        // В оффлайне вернутся и сохранятся публикации пользователя с переданным ID
+        networkService.fetchPostsOfUser(withID: userID) { [unowned self] result in
             switch result {
             case .success(let userPosts):
                 completion(.success(userPosts))
-                self?.dataStorageService.savePosts(userPosts, asFeedPosts: false)
+                dataStorageService.savePosts(userPosts, asFeedPosts: false)
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -226,18 +225,20 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     }
     
     func fetchFeedPosts(completion: @escaping PostsResult) {
-        // В оффлайне вернутся посты ленты, если они были сохранены
+        // В оффлайне вернутся публикации ленты, если они были сохранены
         guard isOnline else {
-            completion(.success(dataStorageService.getFeedPosts()))
+            DispatchQueue.main.async {
+                completion(.success(self.dataStorageService.getFeedPosts()))
+            }
             return
         }
         
-        // В онлайне вернутся и сохранятся посты ленты
-        networkService.fetchFeedPosts { [weak self] result in
+        // В онлайне вернутся и сохранятся публикации ленты
+        networkService.fetchFeedPosts { [unowned self] result in
             switch result {
             case .success(let feedPosts):
                 completion(.success(feedPosts))
-                self?.dataStorageService.savePosts(feedPosts, asFeedPosts: true)
+                dataStorageService.savePosts(feedPosts, asFeedPosts: true)
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -252,11 +253,11 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     
     func likePost(withID postID: String, completion: @escaping PostResult) {
         isOnline
-            ? networkService.likePost(withID: postID) { [weak self] result in
+            ? networkService.likePost(withID: postID) { [unowned self] result in
                 switch result {
                 case .success(let post):
                     completion(.success(post))
-                    self?.dataStorageService.savePosts([post], asFeedPosts: false)
+                    dataStorageService.savePosts([post], asFeedPosts: false)
                 case .failure(let error):
                     completion(.failure(error))
                 }
@@ -266,11 +267,11 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     
     func unlikePost(withID postID: String, completion: @escaping PostResult) {
         isOnline
-            ? networkService.unlikePost(withID: postID) { [weak self] result in
+            ? networkService.unlikePost(withID: postID) { [unowned self] result in
                 switch result {
                 case .success(let post):
                     completion(.success(post))
-                    self?.dataStorageService.savePosts([post], asFeedPosts: false)
+                    dataStorageService.savePosts([post], asFeedPosts: false)
                 case .failure(let error):
                     completion(.failure(error))
                 }

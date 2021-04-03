@@ -11,14 +11,39 @@ import CoreData
 // MARK: - Protocols
 
 protocol DataStorageServiceProtocol {
+    
+    /// Сохранение всех несохранённых данных.
     func saveData()
-    func saveCurrentUserID(_ id: String)
+    
+    /// Сохранение пользователя.
+    /// - Parameter userModel: Пользователь.
     func saveUser(_ userModel: UserModel)
+    
+    /// Сохранение текущего пользователя.
+    /// - Parameter userModel: Пользователь.
+    func saveCurrentUser(_ userModel: UserModel)
+    
+    /// Сохранение публикаций.
+    /// - Parameters:
+    ///   - postModels: Публикации.
+    ///   - asFeedPosts: Свойство, свидетельствующее о том, что передаваемые публикации, являются публикациями ленты.
     func savePosts(_ postModels: [PostModel], asFeedPosts: Bool)
+    
+    /// Получение текущего пользователя.
     func getCurrentUser() -> UserModel?
+    
+    /// Получение пользователя с указанным ID.
+    /// - Parameter userID: ID пользователя.
     func getUser(withID userID: String) -> UserModel?
+    
+    /// Получение публикаций ленты.
     func getFeedPosts() -> [PostModel]
+    
+    /// Получение публикаций пользователя с указанным ID.
+    /// - Parameter userID: ID пользователя.
     func getPostsOfUser(withID userID: String) -> [PostModel]
+    
+    /// Удаление всех сохранённых данных.
     func deleteAllData()
 }
 
@@ -38,14 +63,14 @@ final class DataStorageService: DataStorageServiceProtocol {
         coreDataService.saveChanges()
     }
     
-    func saveCurrentUserID(_ id: String) {
-        // Сохранение ID текущего пользователя в базе только в случае его отсутствия в хранилище
+    func saveCurrentUser(_ userModel: UserModel) {
+        // Сохранение ID текущего пользователя в случае его отсутствия в хранилище
         if coreDataService.fetchData(for: CurrentUser.self).isEmpty {
-            coreDataService.createObject(from: CurrentUser.self) { [unowned self] currentUser in
-                currentUser.id = id
-                saveData()
+            coreDataService.createObject(from: CurrentUser.self) { currentUser in
+                currentUser.id = userModel.id
             }
         }
+        saveUser(userModel)
     }
     
     func saveUser(_ userModel: UserModel) {
@@ -80,9 +105,9 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     func getFeedPosts() -> [PostModel] {
-        // Получение массива идентификаторов постов ленты
+        // Получение массива идентификаторов публикаций ленты
         let feedPostIDs = getFeedPostIDs()
-        // Получение постов ленты из хранилища по их ID
+        // Получение публикаций ленты из хранилища по их ID
         let feedPosts = feedPostIDs.compactMap {
             coreDataService.fetchData(for: PostCoreData.self,
                                       predicate: makePostIDPredicate(postID: $0)).first

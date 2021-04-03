@@ -70,28 +70,28 @@ protocol NetworkServiceProtocol {
     
     /// Получение публикации с указанным ID.
     /// - Parameters:
-    ///   - postID: ID поста.
+    ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается запрашиваемая публикация.
     ///   Вызывается после выполнения запроса.
     func fetchPost(withID postID: String, completion: @escaping PostResult)
     
     /// Ставит лайк от текущего пользователя на публикации с указанным ID.
     /// - Parameters:
-    ///   - postID: ID поста.
+    ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается публикация, которой был поставлен лайк.
     ///   Вызывается после выполнения запроса.
     func likePost(withID postID: String, completion: @escaping PostResult)
     
     /// Удаляет лайк от текущего пользователя на публикации с указанным ID.
     /// - Parameters:
-    ///   - postID: ID поста.
+    ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается публикация, которой был поставлен анлайк.
     ///   Вызывается после выполнения запроса.
     func unlikePost(withID postID: String, completion: @escaping PostResult)
     
     /// Получение пользователей, поставивших лайк на публикацию с указанным ID.
     /// - Parameters:
-    ///   - postID: ID поста.
+    ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращаются запрашиваемые пользователи.
     ///   Вызывается после выполнения запроса.
     func fetchUsersLikedPost(withID postID: String, completion: @escaping UsersResult)
