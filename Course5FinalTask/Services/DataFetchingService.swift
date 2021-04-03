@@ -147,6 +147,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             case .success(let currentUser):
                 completion(.success(currentUser))
                 self?.dataStorageService.saveCurrentUserID(currentUser.id)
+                self?.dataStorageService.saveUser(currentUser)
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -206,7 +207,6 @@ final class DataFetchingService: DataFetchingServiceProtocol {
         // В оффлайне вернутся посты пользователя с переданным ID, если они были сохранены
         guard isOnline else {
             let currentUserPosts = dataStorageService.getPostsOfUser(withID: userID)
-            print("currentUserPosts.count: ", currentUserPosts.count) // TEMP
             DispatchQueue.main.async {
                 completion(.success(currentUserPosts))
             }

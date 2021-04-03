@@ -31,46 +31,40 @@ final class DataStorageService: DataStorageServiceProtocol {
     // MARK: - Properties
     
     private let coreDataService = CoreDataService(modelName: "Course5FinalTask")
-    private let context: NSManagedObjectContext
-    private var timer = Timer()
-    private var timerSeconds = 0
-    
-    // MARK: - Initializers
-    
-    private init() {
-        context = coreDataService.context
-    }
     
     // MARK: - Public methods
     
     func saveData() {
-        coreDataService.save(context: context)
+        coreDataService.saveChanges()
     }
     
     func saveCurrentUserID(_ id: String) {
         // Сохранение ID текущего пользователя в базе только в случае его отсутствия в хранилище
         if coreDataService.fetchData(for: CurrentUser.self).isEmpty {
-            let currentUser = coreDataService.createObject(from: CurrentUser.self)
-            currentUser.id = id
-            saveWithDelay()
+            coreDataService.createObject(from: CurrentUser.self) { [unowned self] currentUser in
+                currentUser.id = id
+                saveData()
+            }
         }
     }
     
     func saveUser(_ userModel: UserModel) {
-        let newUserCoreData = coreDataService.createObject(from: UserCoreData.self)
-        fillUserCoreData(newUserCoreData, from: userModel)
-        saveWithDelay()
+        coreDataService.createObject(from: UserCoreData.self) { [unowned self] newUserCoreData in
+            fillUserCoreData(newUserCoreData, from: userModel)
+            saveData()
+        }
     }
     
     func savePosts(_ postModels: [PostModel], asFeedPosts: Bool) {
         postModels.forEach { postModel in
-            let newPostCoreData = coreDataService.createObject(from: PostCoreData.self)
-            fillPostCoreData(newPostCoreData, from: postModel)
+            coreDataService.createObject(from: PostCoreData.self) { [unowned self] newPostCoreData in
+                fillPostCoreData(newPostCoreData, from: postModel)
+                saveData()
+            }
         }
         if asFeedPosts {
             saveFeedPostIDs(postModels)
         }
-        saveWithDelay()
     }
     
     func getCurrentUser() -> UserModel? {
@@ -82,8 +76,6 @@ final class DataStorageService: DataStorageServiceProtocol {
     func getUser(withID userID: String) -> UserModel? {
         let users = coreDataService.fetchData(for: UserCoreData.self,
                                               predicate: makeUserIDPredicate(userID: userID))
-        let totalUsers = coreDataService.fetchData(for: UserCoreData.self) // TEMP
-        print("Total users in storage:", totalUsers.count) // TEMP
         return UserModel(userCoreData: users.first)
     }
     
@@ -95,83 +87,63 @@ final class DataStorageService: DataStorageServiceProtocol {
             coreDataService.fetchData(for: PostCoreData.self,
                                       predicate: makePostIDPredicate(postID: $0)).first
         }
-        print("Total feed posts:", feedPosts.count) // TEMP
         return feedPosts.compactMap { PostModel(postCoreData: $0) }
     }
     
     func getPostsOfUser(withID userID: String) -> [PostModel] {
         let posts = coreDataService.fetchData(for: PostCoreData.self,
                                               predicate: makeAuthorPostIDPredicate(authorID: userID))
-        print("PostsOfUser count:", posts.count) // TEMP
         return posts.compactMap { PostModel(postCoreData: $0) }
     }
     
     func deleteAllData() {
-            self.deleteAllUsers()
-            self.deleteAllCurrentUsers()
-            self.deleteAllPosts()
-            self.deleteFeedPostIDs()
+        deleteAllUsers()
+        deleteAllCurrentUsers()
+        deleteAllPosts()
+        deleteFeedPostIDs()
     }
     
     // MARK: - Private methods
     
-    /// Отложенный вызов сохранения данных с задержкой (по умолчанию - 3 секунды).
-    /// Реализован для того, чтобы избежать слишком частого сохранения контекста при частом изменении данных в контексте.
-    private func saveWithDelay(delay: Int = 3) {
-        timer.invalidate()
-        timerSeconds = delay
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [unowned self] timer in
-            if timerSeconds > 0 {
-                timerSeconds -= 1
-            } else {
-                timer.invalidate()
-                print("Data saved")
-                DispatchQueue.global().async {
-                    saveData()
-                }
-            }
-        }
-    }
-    
     private func saveFeedPostIDs(_ postModels: [PostModel]) {
         deleteFeedPostIDs()
         let feedPostIDs = postModels.map { $0.id }
-        let feed = coreDataService.createObject(from: Feed.self)
-        feed.postIDs = feedPostIDs.description.data(using: .utf16)
+        coreDataService.createObject(from: Feed.self) { [unowned self] feed in
+            feed.postIDs = feedPostIDs.description.data(using: .utf16)
+            saveData()
+        }
     }
     
     private func getFeedPostIDs() -> [String] {
         guard let feedPostIDsData = coreDataService.fetchData(for: Feed.self).first?.postIDs,
               let feedPostIDs = try? JSONDecoder().decode([String].self,
                                                           from: feedPostIDsData) else { return [] }
-        print("FeedPostIDs:", feedPostIDs) // TEMP
         return feedPostIDs
     }
     
     private func getCurrentUserID() -> String? {
         let currentUsers = coreDataService.fetchData(for: CurrentUser.self)
-        print("Current users in storage:", currentUsers.count) // TEMP
         return currentUsers.first?.id ?? nil
     }
     
     private func deleteAllUsers() {
         let users = coreDataService.fetchData(for: UserCoreData.self)
-        users.forEach { coreDataService.delete(object: $0) }
+        coreDataService.deleteObjects(users)
     }
     
     private func deleteAllCurrentUsers() {
         let currentUsers = coreDataService.fetchData(for: CurrentUser.self)
-        currentUsers.forEach { coreDataService.delete(object: $0) }
+        coreDataService.deleteObjects(currentUsers)
     }
     
     private func deleteAllPosts() {
         let posts = coreDataService.fetchData(for: PostCoreData.self)
-        posts.forEach { coreDataService.delete(object: $0) }
+        coreDataService.deleteObjects(posts)
     }
     
     private func deleteFeedPostIDs() {
         let feed = coreDataService.fetchData(for: Feed.self)
-        feed.forEach { coreDataService.delete(object: $0) }
+        coreDataService.deleteObjects(feed)
     }
     
     private func fillUserCoreData(_ userCoreData: UserCoreData, from userModel: UserModel) {
@@ -185,8 +157,7 @@ final class DataStorageService: DataStorageServiceProtocol {
         userCoreData.avatarData = userModel.getAvatarData()
     }
     
-    private func fillPostCoreData(_ postCoreData: PostCoreData,
-                                  from postModel: PostModel) {
+    private func fillPostCoreData(_ postCoreData: PostCoreData, from postModel: PostModel) {
         postCoreData.id = postModel.id
         postCoreData.desc = postModel.description
         postCoreData.createdTime = postModel.createdTime

@@ -12,54 +12,31 @@ final class CoreDataService {
     
     // MARK: - Properties
     
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: modelName)
-        
-        container.viewContext.mergePolicy = NSMergePolicy.overwrite
-        
-        container.loadPersistentStores { storeDescription, error in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        }
-        return container
-    }()
-    
-    private let modelName: String
+    private let persistentContainer: NSPersistentContainer
+    private var viewContext: NSManagedObjectContext!
+    private var backgroundContext: NSManagedObjectContext!
     
     // MARK: - Initializers
     
     init(modelName: String) {
-        self.modelName = modelName
+        self.persistentContainer = NSPersistentContainer(name: modelName)
+        createStack()
     }
     
     // MARK: - Public methods
     
-    var context: NSManagedObjectContext {
-        persistentContainer.viewContext
-    }
-    
-    func save(context: NSManagedObjectContext) {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
+    func createObject<T: NSManagedObject>(from entity: T.Type, completion: @escaping (T) -> Void) {
+        backgroundContext.perform {
+            completion(self.backgroundContext.createObject())
         }
     }
     
-    func createObject<T: NSManagedObject> (from entity: T.Type) -> T {
-        let object = NSEntityDescription.insertNewObject(forEntityName: String(describing: entity),
-                                                         into: context) as! T
-        return object
+    func deleteObjects(_ objects: [NSManagedObject]) {
+        backgroundContext.deleteObjects(objects)
     }
     
-    func delete(object: NSManagedObject) {
-        print(String(describing: object.entity.name!), "Deleting", Thread.current)
-        context.delete(object)
-        save(context: context)
+    func saveChanges() {
+        backgroundContext.saveOrRollback()
     }
     
     func fetchData<T: NSManagedObject>(for entity: T.Type,
@@ -76,10 +53,36 @@ final class CoreDataService {
         request.predicate = predicate
         
         do {
-            fetchedResult = try self.context.fetch(request)
+            fetchedResult = try backgroundContext.fetch(request)
         } catch {
             debugPrint("Could not fetch: \(error.localizedDescription)")
         }
         return fetchedResult
+    }
+    
+    // MARK: - Private methods
+    
+    func createStack() {
+        persistentContainer.loadPersistentStores { [weak self] _, error in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+            
+            self?.viewContext = self?.persistentContainer.viewContext
+            self?.backgroundContext = self?.persistentContainer.newBackgroundContext()
+            self?.viewContext.mergePolicy = NSMergePolicy.overwrite
+            self?.backgroundContext.mergePolicy = NSMergePolicy.overwrite
+            
+            let notificationCompletion: (_ notification: Notification) -> Void = {
+                [weak self] notification in
+                
+                self?.viewContext.performMergeChangesFromContextDidSaveNotification(notification: notification)
+            }
+            
+            NotificationCenter.default.addObserver(forName: .NSManagedObjectContextDidSave,
+                                                   object: self?.backgroundContext,
+                                                   queue: nil,
+                                                   using: notificationCompletion)
+        }
     }
 }

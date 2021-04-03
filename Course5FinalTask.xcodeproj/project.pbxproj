@@ -38,6 +38,7 @@
 		CE4075D52577FE4E006F4592 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075D42577FE4E006F4592 /* DateFormatter+Extension.swift */; };
 		CE4075DB257AC629006F4592 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075DA257AC629006F4592 /* LoadingView.swift */; };
 		CE4075DD257BB59F006F4592 /* DataTaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4075DC257BB59F006F4592 /* DataTaskService.swift */; };
+		CE5E78FC26179AAD00A0AF72 /* NSManagedObjectContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5E78FB26179AAD00A0AF72 /* NSManagedObjectContext+Extension.swift */; };
 		CE6D676E24E02574002FE7F2 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6D676D24E02574002FE7F2 /* UserListViewController.swift */; };
 		CE6E2D5224D947DA00A4B08B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E2D5124D947DA00A4B08B /* ProfileViewController.swift */; };
 		CE6E2D5624D9BD3300A4B08B /* FeedPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E2D5524D9BD3300A4B08B /* FeedPostCell.swift */; };
@@ -131,6 +132,7 @@
 		CE4075D42577FE4E006F4592 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		CE4075DA257AC629006F4592 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		CE4075DC257BB59F006F4592 /* DataTaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskService.swift; sourceTree = "<group>"; };
+		CE5E78FB26179AAD00A0AF72 /* NSManagedObjectContext+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extension.swift"; sourceTree = "<group>"; };
 		CE6D676D24E02574002FE7F2 /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		CE6E2D5124D947DA00A4B08B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CE6E2D5524D9BD3300A4B08B /* FeedPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostCell.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				CE2FF96626049F3000FDA68D /* CoreDataService.swift */,
+				CE5E78FB26179AAD00A0AF72 /* NSManagedObjectContext+Extension.swift */,
 				CE2FF95E2603D47900FDA68D /* Course5FinalTask.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -661,6 +664,7 @@
 				CE6E2D5624D9BD3300A4B08B /* FeedPostCell.swift in Sources */,
 				CE4075D52577FE4E006F4592 /* DateFormatter+Extension.swift in Sources */,
 				CE0CFFD02610F7D700B9A9AA /* ServerErrorHandler.swift in Sources */,
+				CE5E78FC26179AAD00A0AF72 /* NSManagedObjectContext+Extension.swift in Sources */,
 				CEFF9CA725D5B2E5004C357F /* PostURLCreator.swift in Sources */,
 				CE3A168325F7F8C900FFA849 /* DataFetchingService.swift in Sources */,
 				CE2FF9692604A32100FDA68D /* DataStorageService.swift in Sources */,

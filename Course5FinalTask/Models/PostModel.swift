@@ -27,7 +27,7 @@ struct PostModel: Decodable {
     // MARK: - Initializers
     
     init?(postCoreData: PostCoreData?) {
-        guard let postCoreData = postCoreData, // TEMP?
+        guard let postCoreData = postCoreData,
               let id = postCoreData.id,
               let description = postCoreData.desc,
               let createdTime = postCoreData.createdTime,
