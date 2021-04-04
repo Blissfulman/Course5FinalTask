@@ -13,7 +13,7 @@ import Foundation
 protocol FeedPostCellViewModelDelegate: AnyObject {
     func authorOfPostTapped(user: UserModel)
     func likesCountButtonTapped(postID: String)
-    func updateFeedData()
+    func updateFeedPost(_ post: PostModel)
     func showErrorAlert(_ error: Error)
 }
 
@@ -29,7 +29,7 @@ protocol FeedPostCellViewModelProtocol {
     var bigLikeNeedAnimating: (() -> Void)? { get set }
     var likeDataNeedUpdating: (() -> Void)? { get set }
     
-    init(post: PostModel)
+    init(post: PostModel, delegate: FeedPostCellViewModelDelegate)
     
     func likeUnlikePost()
     func postAuthorTapped()
@@ -44,7 +44,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     weak var delegate: FeedPostCellViewModelDelegate?
     
     var avatarImageData: Data {
-        networkService.fetchImageData(fromURL: post.authorAvatar) ?? Data()
+        post.getAuthorAvatarData()
     }
     
     var authorUsername: String {
@@ -56,7 +56,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     var postImageData: Data {
-        networkService.fetchImageData(fromURL: post.image) ?? Data()
+        post.getImageData()
     }
     
     var description: String {
@@ -75,37 +75,45 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     var likeDataNeedUpdating: (() -> Void)?
     
     private var post: PostModel
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
+    private let offlineMode = AppError.offlineMode
     
     // MARK: - Initializers
     
-    init(post: PostModel) {
+    init(post: PostModel, delegate: FeedPostCellViewModelDelegate) {
         self.post = post
+        self.delegate = delegate
     }
     
+    // MARK: - Public methods
+    
     func likeUnlikePost() {
+        guard stopIfOffline() else { return }
+        
         /// Замыкание, в котором обновляются данные о посте.
         let updatingPost: PostResult = { [weak self] result in
             switch result {
             case .success(let updatedPost):
                 self?.post = updatedPost
                 self?.likeDataNeedUpdating?()
-                self?.delegate?.updateFeedData()
-            case .failure:
-                break
+                self?.delegate?.updateFeedPost(updatedPost)
+            case .failure(let error):
+                if error is AppError {
+                    self?.delegate?.showErrorAlert(error)
+                }
             }
         }
         
         // Лайк/анлайк
         post.currentUserLikesThisPost
-            ? networkService.unlikePost(withID: post.id, completion: updatingPost)
-            : networkService.likePost(withID: post.id, completion: updatingPost)
+            ? dataFetchingService.unlikePost(withID: post.id, completion: updatingPost)
+            : dataFetchingService.likePost(withID: post.id, completion: updatingPost)
     }
     
     func postAuthorTapped() {
         LoadingView.show()
         
-        networkService.fetchUser(withID: post.author) { [weak self] result in
+        dataFetchingService.fetchUser(withID: post.author) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.delegate?.authorOfPostTapped(user: user)
@@ -117,6 +125,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     func postImageDoubleTapped() {
+        guard stopIfOffline() else { return }
         guard !post.currentUserLikesThisPost else { return }
         
         bigLikeNeedAnimating?()
@@ -124,6 +133,18 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     func likesCountButtonTapped() {
+        guard stopIfOffline() else { return }
         delegate?.likesCountButtonTapped(postID: post.id)
+    }
+    
+    // MARK: - Private methods
+    
+    /// Возвращает true, если онлайн режим. Возвращает false и инициирует соответствующее оповещение, если оффлайн режим.
+    private func stopIfOffline() -> Bool {
+        guard NetworkService.isOnline else {
+            delegate?.showErrorAlert(offlineMode)
+            return false
+        }
+        return true
     }
 }

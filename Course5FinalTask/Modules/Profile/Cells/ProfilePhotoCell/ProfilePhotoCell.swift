@@ -10,12 +10,6 @@ import UIKit
 
 final class ProfilePhotoCell: UICollectionViewCell {
     
-    static let identifier = String(describing: ProfilePhotoCell.self)
-    
-    static func nib() -> UINib {
-        UINib(nibName: identifier, bundle: nil)
-    }
-    
     @IBOutlet private weak var photoImageView: UIImageView!
     
     func configure(_ imageData: Data) {

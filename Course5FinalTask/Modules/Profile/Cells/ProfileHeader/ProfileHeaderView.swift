@@ -8,25 +8,7 @@
 
 import UIKit
 
-// MARK: - Protocols
-
-protocol ProfileHeaderViewDelegate: UIViewController {
-    func followersButtonTapped()
-    func followingsButtonTapped()
-    func showErrorAlert(_ error: Error)
-}
-
 final class ProfileHeaderView: UICollectionReusableView {
-    
-    // MARK: - Class properties
-    
-    static let identifier = String(describing: ProfileHeaderView.self)
-    
-    // MARK: - Class methods
-    
-    static func nib() -> UINib {
-        UINib(nibName: identifier, bundle: nil)
-    }
     
     // MARK: - Outlets
     
@@ -45,27 +27,43 @@ final class ProfileHeaderView: UICollectionReusableView {
         }
     }
     
-    weak var delegate: ProfileHeaderViewDelegate?
+    // MARK: - Lifecycle methods
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        followButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
+        avatarImageView.layer.cornerRadius = avatarImageView.halfWidthCornerRadius()
+    }
     
     // MARK: - Setup UI
     
     private func setupUI() {
-        followButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
-        avatarImageView.layer.cornerRadius = avatarImageView.halfWidthCornerRadius()
-        
         guard let viewModel = viewModel else { return }
         
         // Если это не профиль текущего пользователя, то кнопка подписки/отписки становится видимой
         followButton.isHidden = viewModel.isHiddenFollowButton
     }
     
+    // MARK: - Actions
+    
+    @IBAction private func followButtonTapped() {
+        viewModel?.followButtonTapped()
+    }
+    
+    @IBAction private func followersButtonTapped() {
+        viewModel?.followersButtonTapped()
+    }
+    
+    @IBAction private func followingsButtonTapped() {
+        viewModel?.followingsButtonTapped()
+    }
+    
     // MARK: - Private methods
     
     private func setupViewModelBindings() {
-        guard let viewModel = viewModel else { return }
-        
-        viewModel.user.bind { [weak self] _ in
-            guard let self = self else { return }
+        viewModel?.user.bind { [unowned self] _ in
+            guard let viewModel = self.viewModel else { return }
             
             self.avatarImageView.image = UIImage(data: viewModel.avatarImageData)
             self.fullNameLabel.text = viewModel.userFullName
@@ -73,24 +71,5 @@ final class ProfileHeaderView: UICollectionReusableView {
             self.followersButton.setTitle(viewModel.followersButtonTitle, for: .normal)
             self.followingsButton.setTitle(viewModel.followingsButtonTitle, for: .normal)
         }
-        
-        viewModel.error.bind { [weak self] error in
-            guard let error = error else { return }
-            self?.delegate?.showErrorAlert(error)
-        }
-    }
-    
-    // MARK: - Actions
-    
-    @IBAction private func followersButtonTapped() {
-        delegate?.followersButtonTapped()
-    }
-    
-    @IBAction private func followingsButtonTapped() {
-        delegate?.followingsButtonTapped()
-    }
-    
-    @IBAction private func followButtonTapped() {
-        viewModel?.followButtonDidTapped()
     }
 }

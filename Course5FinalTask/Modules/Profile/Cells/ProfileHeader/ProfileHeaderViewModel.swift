@@ -10,9 +10,15 @@ import Foundation
 
 // MARK: - Protocols
 
-protocol ProfileHeaderViewModelProtocol {
+protocol ProfileHeaderViewModelDelegate: AnyObject {
+    func followersButtonTapped()
+    func followingsButtonTapped()
+    func showErrorAlert(_ error: Error)
+}
+
+protocol ProfileHeaderViewModelProtocol: class {
+    var delegate: ProfileHeaderViewModelDelegate? { get }
     var user: Box<UserModel> { get }
-    var error: Box<Error?> { get }
     var avatarImageData: Data { get }
     var userFullName: String { get }
     var isHiddenFollowButton: Bool { get }
@@ -20,20 +26,22 @@ protocol ProfileHeaderViewModelProtocol {
     var followersButtonTitle: String { get }
     var followingsButtonTitle: String { get }
     
-    init(user: UserModel, isCurrentUser: Bool)
+    init(user: UserModel, isCurrentUser: Bool, delegate: ProfileHeaderViewModelDelegate)
     
-    func followButtonDidTapped()
+    func followButtonTapped()
+    func followersButtonTapped()
+    func followingsButtonTapped()
 }
 
 final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
     
     // MARK: - Properties
     
+    weak var delegate: ProfileHeaderViewModelDelegate?
     var user: Box<UserModel>
-    var error: Box<Error?> = Box(nil)
     
     var avatarImageData: Data {
-        networkService.fetchImageData(fromURL: user.value.avatar) ?? Data()
+        user.value.getAvatarData()
     }
     
     var userFullName: String {
@@ -57,31 +65,40 @@ final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
     }
     
     private let isCurrentUser: Bool
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
     // MARK: - Initializers
     
-    init(user: UserModel, isCurrentUser: Bool) {
+    init(user: UserModel, isCurrentUser: Bool, delegate: ProfileHeaderViewModelDelegate) {
         self.user = Box(user)
         self.isCurrentUser = isCurrentUser
+        self.delegate = delegate
     }
     
     // MARK: - Public methods
     
-    func followButtonDidTapped() {
+    func followButtonTapped() {
         /// Замыкание, в котором обновляются данные о пользователе.
         let updatingUser: UserResult = { [weak self] result in
             switch result {
             case .success(let updatedUser):
                 self?.user.value = updatedUser
             case .failure(let error):
-                self?.error.value = error
+                self?.delegate?.showErrorAlert(error)
             }
         }
         
         // Подписка/отписка
         user.value.currentUserFollowsThisUser
-            ? networkService.unfollowFromUser(withID: user.value.id, completion: updatingUser)
-            : networkService.followToUser(withID: user.value.id, completion: updatingUser)
+            ? dataFetchingService.unfollowFromUser(withID: user.value.id, completion: updatingUser)
+            : dataFetchingService.followToUser(withID: user.value.id, completion: updatingUser)
+    }
+    
+    func followersButtonTapped() {
+        delegate?.followersButtonTapped()
+    }
+    
+    func followingsButtonTapped() {
+        delegate?.followingsButtonTapped()
     }
 }

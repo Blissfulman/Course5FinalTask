@@ -38,23 +38,34 @@ final class FeedViewController: UIViewController {
         setupViewModelBindings()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        viewModel.getFeedPosts(withUpdatingTableView: true)
+        viewModel.getFeedPosts()
     }
     
     // MARK: - Private methods
         
     private func setupViewModelBindings() {
-        
-        viewModel.tableViewNeedUpdating = { [weak self] in
-            self?.feedTableView.reloadData()
+        viewModel.tableViewNeedUpdating = { [unowned self] in
+            self.feedTableView.reloadData()
         }
         
-        viewModel.error.bind { [weak self] error in
+        viewModel.authorOfPostTapped = { [unowned self] profileViewModel in
+            let profileVC = ProfileViewController(nibName: nil,
+                                                  bundle: nil,
+                                                  viewModel: profileViewModel)
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
+        
+        viewModel.likesCountButtonTapped = { [unowned self] userListViewModel in
+            let likesVC = UserListViewController(viewModel: userListViewModel)
+            navigationController?.pushViewController(likesVC, animated: true)
+        }
+        
+        viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self?.showAlert(error)
+            self.showAlert(error)
         }
     }
 }
@@ -71,38 +82,8 @@ extension FeedViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: FeedPostCell.identifier,
                                                  for: indexPath) as! FeedPostCell
         cell.viewModel = viewModel.getFeedPostCellViewModel(at: indexPath)
-        cell.viewModel?.delegate = self
         cell.configure()
         return cell
-    }
-}
-
-// MARK: - FeedPostCellViewModelDelegate
-
-extension FeedViewController: FeedPostCellViewModelDelegate {
-    
-    /// Переход в профиль автора поста.
-    func authorOfPostTapped(user: UserModel) {
-        let profileVC = ProfileViewController(nibName: nil,
-                                              bundle: nil,
-                                              viewModel: ProfileViewModel(user: user))
-        navigationController?.pushViewController(profileVC, animated: true)
-    }
-    
-    /// Переход на экран лайкнувших пост пользователей.
-    func likesCountButtonTapped(postID: String) {
-        let userListVM = UserListViewModel(postID: postID, userListType: .likes)
-        let likesVC = UserListViewController(viewModel: userListVM)
-        navigationController?.pushViewController(likesVC, animated: true)
-    }
-    
-    /// Обновление данных массива постов ленты (вызывается после лайка/анлайка).
-    func updateFeedData() {
-        viewModel.getFeedPosts(withUpdatingTableView: false)
-    }
-        
-    func showErrorAlert(_ error: Error) {
-        showAlert(error)
     }
 }
 

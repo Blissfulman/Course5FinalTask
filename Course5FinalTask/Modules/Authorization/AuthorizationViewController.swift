@@ -75,10 +75,11 @@ final class AuthorizationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         setupUI()
         setupLayout()
         setupViewModelBindings()
+        viewModel.checkAuthorization()
     }
     
     // MARK: - Setup UI
@@ -138,13 +139,15 @@ final class AuthorizationViewController: UIViewController {
     
     private func setupViewModelBindings() {
         viewModel.authorizationSuccess = {
-            let tabBarController = TabBarController()
-            AppDelegate.shared.window?.rootViewController = tabBarController
+            DispatchQueue.main.async {
+                let tabBarController = TabBarController()
+                AppDelegate.shared.window?.rootViewController = tabBarController
+            }
         }
         
-        viewModel.error.bind { [weak self] error in
+        viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self?.showAlert(error)
+            self.showAlert(error)
         }
     }
 }
