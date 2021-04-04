@@ -52,8 +52,8 @@ final class ProfileViewController: UIViewController {
         setupViewModelBindings()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         viewModel.getUser()
     }

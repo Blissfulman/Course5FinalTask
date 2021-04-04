@@ -48,7 +48,6 @@ final class DataTaskService: DataTaskServiceProtocol {
         }.resume()
     }
     
-    
     func dataTask<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
         URLSession.shared.dataTask(with: request) { data, response, error in
             
