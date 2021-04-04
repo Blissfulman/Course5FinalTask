@@ -15,6 +15,7 @@ protocol ProfileViewModelProtocol {
     var isCurrentUser: Box<Bool?> { get }
     var userPosts: Box<[PostModel]> { get }
     var error: Box<Error?> { get }
+    var needLogOut: (() -> Void)? { get set }
     var numberOfItems: Int { get }
     
     init(user: UserModel?)
@@ -23,7 +24,7 @@ protocol ProfileViewModelProtocol {
     func getUser()
     func getCellData(at indexPath: IndexPath) -> Data
     func logOutButtonDidTap()
-    func getProfileHeaderViewModel() -> ProfileHeaderViewModelProtocol?
+    func getProfileHeaderViewModel(delegate: ProfileHeaderViewModelDelegate) -> ProfileHeaderViewModelProtocol?
     func getUserListViewModel(withUserListType userListType: UserListType) -> UserListViewModelProtocol?
     func getAuthorizationViewModel() -> AuthorizationViewModelProtocol
 }
@@ -33,24 +34,26 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     // MARK: - Properties
     
     var user: Box<UserModel?> = Box(nil)
-    
     var isCurrentUser: Box<Bool?> = Box(nil)
-    
     var userPosts = Box([PostModel]())
-    
     var error: Box<Error?> = Box(nil)
+    var needLogOut: (() -> Void)?
     
     var numberOfItems: Int {
         userPosts.value.count
     }
     
     /// Очередь для выстраивания запросов данных у провайдера.
-    private let getDataQueue = DispatchQueue(label: "getDataQueue", qos: .userInteractive)
+    private let receiveDataQueue = DispatchQueue(label: "receiveDataQueue", qos: .userInteractive)
     
     /// Семафор для установки порядка запросов к провайдеру.
     private let semaphore = DispatchSemaphore(value: 1)
     
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let keychainService: KeychainServiceProtocol = KeychainService()
+    private let authorizationService: AuthorizationServiceProtocol = AuthorizationService.shared
+    private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
+    private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
+    private let offlineMode = AppError.offlineMode
     
     // MARK: - Initializers
     
@@ -60,14 +63,12 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     func getCurrentUser() {
         // Получение данных о текущем пользователе должно произойти до получения данных об открываемом профиле (которое происходит в методе getUser)
-        getDataQueue.async { [weak self] in
-            
+        receiveDataQueue.async { [weak self] in
             guard let self = self else { return }
 
             self.semaphore.wait()
 
-            self.networkService.fetchCurrentUser() { result in
-                
+            self.dataFetchingService.fetchCurrentUser() { result in
                 switch result {
                 case .success(let currentUser):
                     // Проверка того, открывается ли профиль текущего пользователя
@@ -77,12 +78,10 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                         self.isCurrentUser.value = true
                         self.user.value = currentUser
                     }
-                    
-                    self.semaphore.signal()
                 case .failure(let error):
                     self.error.value = error
-                    self.semaphore.signal()
                 }
+                self.semaphore.signal()
             }
         }
     }
@@ -91,49 +90,57 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     func getUser() {
         LoadingView.show()
         
-        getDataQueue.async { [weak self] in
-            
+        receiveDataQueue.async { [weak self] in
             guard let self = self else { return }
 
             self.semaphore.wait()
             
-            // Эта строка после семафора, потому что наличие user можно проверять только после окончания выполнения функции getCurrentUser()
-            guard let user = self.user.value else { return }
+            // Эта строка после семафора, потому что наличие user можно проверять только после окончания выполнения метода getCurrentUser()
+            guard let user = self.user.value else {
+                self.semaphore.signal()
+                return
+            }
             
             // Обновление данных о пользователе
-            self.networkService.fetchUser(withID: user.id) { result in
-                
+            self.dataFetchingService.fetchUser(withID: user.id) { result in
                 switch result {
                 case .success(let user):
                     self.user.value = user
-                    self.semaphore.signal()
-                    
-                    // Обновление данных об изображениях постов пользователя
                     self.getUserPosts(of: user)
                 case .failure(let error):
                     self.error.value = error
-                    self.semaphore.signal()
                 }
+                self.semaphore.signal()
             }
         }
     }
     
     func getCellData(at indexPath: IndexPath) -> Data {
-        networkService.fetchImageData(fromURL: userPosts.value[indexPath.item].image) ?? Data()
+        userPosts.value[indexPath.item].getImageData()
     }
     
     func logOutButtonDidTap() {
-        networkService.singOut() { _ in }
-        NetworkService.token = ""
+        authorizationService.singOut() { [weak self] result in
+            switch result {
+            case .success:
+                self?.keychainService.removeToken()
+                self?.dataStorageService.deleteAllData()
+                self?.needLogOut?()
+            case .failure(let error):
+                self?.error.value = error
+            }
+        }
     }
     
-    func getProfileHeaderViewModel() -> ProfileHeaderViewModelProtocol? {
+    func getProfileHeaderViewModel(delegate: ProfileHeaderViewModelDelegate) -> ProfileHeaderViewModelProtocol? {
         guard let user = user.value, let isCurrentUser = isCurrentUser.value else { return nil }
         
-        return ProfileHeaderViewModel(user: user, isCurrentUser: isCurrentUser)
+        return ProfileHeaderViewModel(user: user, isCurrentUser: isCurrentUser, delegate: delegate)
     }
     
     func getUserListViewModel(withUserListType userListType: UserListType) -> UserListViewModelProtocol? {
+        // Проверка, чтобы в оффлайн режиме не переходить по тапу кнопок "Followers" и "Followings"
+        guard stopIfOffline() else { return nil }
         guard let user = user.value else { return nil }
 
         return UserListViewModel(userID: user.id, userListType: userListType)
@@ -147,8 +154,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     /// Получение постов пользователя.
     private func getUserPosts(of user: UserModel) {
-        networkService.fetchPostsOfUser(withID: user.id) { [weak self] result in
-            
+        dataFetchingService.fetchPostsOfUser(withID: user.id) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -159,5 +165,14 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 self.error.value = error
             }
         }
+    }
+    
+    /// Возвращает true, если онлайн режим. Возвращает false и инициирует соответствующее оповещение, если оффлайн режим.
+    private func stopIfOffline() -> Bool {
+        guard NetworkService.isOnline else {
+            error.value = offlineMode
+            return false
+        }
+        return true
     }
 }

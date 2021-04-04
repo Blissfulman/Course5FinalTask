@@ -15,7 +15,10 @@ extension UIViewController {
         var alertMessage = "Please, try again later"
         
         if let error = error as? ServerError {
-            alertTitle = error.rawValue
+            alertTitle = error.localizedDescription
+            alertMessage = ""
+        } else if let error = error as? AppError {
+            alertTitle = error.localizedDescription
             alertMessage = ""
         }
         

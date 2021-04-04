@@ -51,13 +51,13 @@ final class UserListViewController: UITableViewController {
     // MARK: - Private methods
     
     private func setupViewModelBindings() {
-        viewModel.userList.bind { [weak self] _ in
-            self?.tableView.reloadData()
+        viewModel.userList.bind { [unowned self] _ in
+            self.tableView.reloadData()
         }
         
-        viewModel.error.bind { [weak self] error in
+        viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self?.showAlert(error)
+            self.showAlert(error)
         }
     }
 }
@@ -75,7 +75,7 @@ extension UserListViewController {
         
         var content = cell.defaultContentConfiguration()
         content.directionalLayoutMargins = .init(top: 0, leading: 0, bottom: 1, trailing: 0)
-        content.image = UIImage(data: viewModel.getUserImageData(at: indexPath) ?? Data())
+        content.image = UIImage(data: viewModel.getUserImageData(at: indexPath))
         content.text = viewModel.getUserFullName(at: indexPath)
         
         cell.contentConfiguration = content

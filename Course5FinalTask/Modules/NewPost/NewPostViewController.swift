@@ -19,7 +19,7 @@ final class NewPostViewController: UIViewController {
     /// Коллекция изображений для использования в новых публикациях.
     private lazy var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let size = self.view.bounds.width / numberOfColumns
+        let size = UIScreen.main.bounds.width / numberOfColumns
         layout.itemSize = CGSize(width: size, height: size)
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0

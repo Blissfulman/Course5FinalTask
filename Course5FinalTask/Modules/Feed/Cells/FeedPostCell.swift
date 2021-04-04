@@ -17,16 +17,6 @@ final class FeedPostCell: UITableViewCell {
         static let unlike = UIColor.lightGray
     }
     
-    // MARK: - Class properties
-    
-    static let identifier = String(describing: FeedPostCell.self)
-    
-    // MARK: - Class methods
-    
-    static func nib() -> UINib {
-        UINib(nibName: identifier, bundle: nil)
-    }
-    
     // MARK: - Outlets
     
     @IBOutlet private weak var avatarImageView: UIImageView!
@@ -109,17 +99,17 @@ final class FeedPostCell: UITableViewCell {
     }
     
     private func setupViewModelBindings() {
-        viewModel?.likeDataNeedUpdating = { [weak self] in
-            self?.likesCountButton.setTitle(self?.viewModel?.likesCountButtonTitle, for: .normal)
+        viewModel?.likeDataNeedUpdating = { [unowned self] in
+            self.likesCountButton.setTitle(self.viewModel?.likesCountButtonTitle, for: .normal)
             UIView.animate(withDuration: 0.3) {
-                self?.likeButton.tintColor = self?.viewModel?.currentUserLikesThisPost ?? false
+                self.likeButton.tintColor = self.viewModel?.currentUserLikesThisPost ?? false
                     ? LikeColor.like
                     : LikeColor.unlike
             }
         }
 
-        viewModel?.bigLikeNeedAnimating = { [weak self] in
-            self?.bigLikeImageView.bigLikeAnimation()
+        viewModel?.bigLikeNeedAnimating = { [unowned self] in
+            self.bigLikeImageView.bigLikeAnimation()
         }
     }
 }

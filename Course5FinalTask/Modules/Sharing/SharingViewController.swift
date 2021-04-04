@@ -66,7 +66,7 @@ final class SharingViewController: UIViewController {
     // MARK: - Private methods
     
     private func setupViewModelBindings() {
-        viewModel.postDidCreateSuccessfully = {
+        viewModel.postDidCreateSuccessfully = { [unowned self] in
             // Получение корневого вью элемента таб бара "Feed"
             guard let navControllerFeed = self.tabBarController?.viewControllers?.first
                     as? UINavigationController else { return }
@@ -85,9 +85,9 @@ final class SharingViewController: UIViewController {
             self.navigationController?.popToRootViewController(animated: false)
         }
         
-        viewModel.error.bind { [weak self] error in
+        viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self?.showAlert(error)
+            self.showAlert(error)
         }
     }
 }

@@ -18,7 +18,7 @@ protocol UserListViewModelProtocol {
     
     init(postID: String?, userID: String?, userListType: UserListType)
     
-    func getUserImageData(at indexPath: IndexPath) -> Data?
+    func getUserImageData(at indexPath: IndexPath) -> Data
     func getUserFullName(at indexPath: IndexPath) -> String?
     func getProfileViewModel(at indexPath: IndexPath) -> ProfileViewModelProtocol
     func updateUserList()
@@ -49,7 +49,7 @@ final class UserListViewModel: UserListViewModelProtocol {
     /// Тип списка отображаемых пользователей.
     private let userListType: UserListType
     
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
     // MARK: - Initializers
     
@@ -61,9 +61,8 @@ final class UserListViewModel: UserListViewModelProtocol {
     
     // MARK: - Public methods
     
-    func getUserImageData(at indexPath: IndexPath) -> Data? {
-        let url = userList.value[indexPath.row].avatar
-        return try? Data(contentsOf: url)
+    func getUserImageData(at indexPath: IndexPath) -> Data {
+        userList.value[indexPath.row].getAvatarData()
     }
     
     func getUserFullName(at indexPath: IndexPath) -> String? {
@@ -92,11 +91,11 @@ final class UserListViewModel: UserListViewModelProtocol {
         
         switch userListType {
         case .likes:
-            networkService.fetchUsersLikedPost(withID: postID, completion: updatingUserList)
+            dataFetchingService.fetchUsersLikedPost(withID: postID, completion: updatingUserList)
         case .followers:
-            networkService.fetchUsersFollowingUser(withID: userID, completion: updatingUserList)
+            dataFetchingService.fetchUsersFollowingUser(withID: userID, completion: updatingUserList)
         case .followings:
-            networkService.fetchUsersFollowedByUser(withID: userID, completion: updatingUserList)
+            dataFetchingService.fetchUsersFollowedByUser(withID: userID, completion: updatingUserList)
         }
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: - Class properties
+    // MARK: - Static properties
     
     static let identifier = String(describing: ProfileViewController.self)
     
@@ -52,8 +52,8 @@ final class ProfileViewController: UIViewController {
         setupViewModelBindings()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         viewModel.getUser()
     }
@@ -62,32 +62,36 @@ final class ProfileViewController: UIViewController {
     
     @objc private func logOutButtonTapped() {
         viewModel.logOutButtonDidTap()
-
-        let authorizationVC = AuthorizationViewController(viewModel: viewModel.getAuthorizationViewModel())
-        AppDelegate.shared.window?.rootViewController = authorizationVC
     }
     
     // MARK: - Private methods
         
     private func setupViewModelBindings() {
-        viewModel.user.bind { [weak self] user in
-            self?.navigationItem.title = user?.username
-            self?.profileCollectionView.reloadData()
+        viewModel.user.bind { [unowned self] user in
+            navigationItem.title = user?.username
+            profileCollectionView.reloadData()
         }
         
-        viewModel.isCurrentUser.bind { [weak self] isCurrentUser in
+        viewModel.isCurrentUser.bind { [unowned self] isCurrentUser in
             if let isCurrentUser = isCurrentUser, isCurrentUser {
-                self?.addLogOutButton()
+                addLogOutButton()
             }
         }
         
-        viewModel.userPosts.bind { [weak self] _ in
-            self?.profileCollectionView.reloadData()
+        viewModel.userPosts.bind { [unowned self] _ in
+            profileCollectionView.reloadData()
         }
         
-        viewModel.error.bind { [weak self] error in
+        viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self?.showAlert(error)
+            showAlert(error)
+        }
+        
+        viewModel.needLogOut = { [unowned self] in
+            DispatchQueue.main.async {
+                let authorizationVC = AuthorizationViewController(viewModel: viewModel.getAuthorizationViewModel())
+                AppDelegate.shared.window?.rootViewController = authorizationVC
+            }
         }
     }
     
@@ -112,10 +116,8 @@ extension ProfileViewController: UICollectionViewDataSource {
                 withReuseIdentifier: ProfileHeaderView.identifier,
                 for: indexPath
             ) as! ProfileHeaderView
-            
-            header.delegate = self
-            
-            if let profileHeaderViewModel = viewModel.getProfileHeaderViewModel() {
+                        
+            if let profileHeaderViewModel = viewModel.getProfileHeaderViewModel(delegate: self) {
                 header.viewModel = profileHeaderViewModel
             }
             return header
@@ -151,9 +153,9 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: - ProfileHeaderViewDelegate
+// MARK: - ProfileHeaderViewModelDelegate
 
-extension ProfileViewController: ProfileHeaderViewDelegate {
+extension ProfileViewController: ProfileHeaderViewModelDelegate {
     
     // MARK: - Navigation
     
