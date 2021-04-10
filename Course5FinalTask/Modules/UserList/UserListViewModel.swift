@@ -29,7 +29,6 @@ final class UserListViewModel: UserListViewModelProtocol {
     // MARK: - Properties
     
     var userList = Box([UserModel]())
-    
     var error: Box<Error?> = Box(nil)
     
     var title: String? {
@@ -42,13 +41,10 @@ final class UserListViewModel: UserListViewModelProtocol {
     
     /// ID пользователя, подписчиков либо подписок которого, требуется отобразить.
     private let userID: String!
-    
     /// ID поста, лайкнувших пользователей которого, требуется отобразить.
     private let postID: String!
-    
     /// Тип списка отображаемых пользователей.
     private let userListType: UserListType
-    
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
     // MARK: - Initializers
@@ -75,7 +71,6 @@ final class UserListViewModel: UserListViewModelProtocol {
     }
     
     func updateUserList() {
-        
         LoadingView.show()
         
         /// Замыкание, в котором обновляется список отображаемых пользователей, либо вернувшаяся ошибка.
