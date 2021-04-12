@@ -59,7 +59,7 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
                     print("Token is valid!")
                     self?.authorizationSuccess?()
                 case .failure(let error):
-                    if let serverError = error as? ServerError, serverError == .unauthorized {
+                    if let networkError = error as? NetworkError, networkError == .unauthorized {
                         // Токен не валиден
                         self?.keychainService.removeToken()
                         self?.dataStorageService.deleteAllData()

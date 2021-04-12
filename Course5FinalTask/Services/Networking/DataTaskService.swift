@@ -41,8 +41,8 @@ final class DataTaskService: DataTaskServiceProtocol {
                 return
             }
             
-            guard !ServerErrorHandler.checkError(httpResponse.statusCode,
-                                                 completion: completion) else { return }
+            guard !NetworkErrorHandler.checkNetworkError(httpResponse.statusCode,
+                                                         completion: completion) else { return }
             
             print(httpResponse.statusCode, request.url?.path ?? "")
             completion(.success(()))
@@ -63,8 +63,8 @@ final class DataTaskService: DataTaskServiceProtocol {
                 return
             }
             
-            guard !ServerErrorHandler.checkError(httpResponse.statusCode,
-                                                 completion: completion) else { return }
+            guard !NetworkErrorHandler.checkNetworkError(httpResponse.statusCode,
+                                                         completion: completion) else { return }
             
             print(httpResponse.statusCode, request.url?.path ?? "")
             

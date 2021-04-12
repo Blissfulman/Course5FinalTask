@@ -14,7 +14,7 @@ extension UIViewController {
         var alertTitle = "Unknown error!"
         var alertMessage = "Please, try again later"
         
-        if let error = error as? ServerError {
+        if let error = error as? NetworkError {
             alertTitle = error.localizedDescription
             alertMessage = ""
         } else if let error = error as? AppError {

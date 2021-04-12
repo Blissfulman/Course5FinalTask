@@ -1,5 +1,5 @@
 //
-//  ServerError.swift
+//  NetworkError.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 12.12.2020.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ServerError: Int, Error {
+enum NetworkError: Int, Error {
     case badRequest = 400
     case unauthorized = 401
     case notFound = 404
@@ -36,11 +36,11 @@ enum ServerError: Int, Error {
     init?(statusCode: Int) {
         switch statusCode {
         case 400...499:
-            guard let serverError = ServerError(rawValue: statusCode) else {
-                self = ServerError.transferError
+            guard let networkError = NetworkError(rawValue: statusCode) else {
+                self = NetworkError.transferError
                 return
             }
-            self = serverError
+            self = networkError
         default:
             return nil
         }
