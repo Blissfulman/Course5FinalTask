@@ -32,4 +32,17 @@ enum ServerError: Int, Error {
             return "Transfer error"
         }
     }
+    
+    init?(statusCode: Int) {
+        switch statusCode {
+        case 400...499:
+            guard let serverError = ServerError(rawValue: statusCode) else {
+                self = ServerError.transferError
+                return
+            }
+            self = serverError
+        default:
+            return nil
+        }
+    }
 }

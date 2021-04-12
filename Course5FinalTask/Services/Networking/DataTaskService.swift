@@ -37,11 +37,12 @@ final class DataTaskService: DataTaskServiceProtocol {
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                print("Receive HTTP response error")
+                assertionFailure("Receive HTTP response error")
                 return
             }
             
-            guard ServerErrorHandler.handle(httpResponse, completion: completion) else { return }
+            guard !ServerErrorHandler.checkError(httpResponse.statusCode,
+                                                 completion: completion) else { return }
             
             print(httpResponse.statusCode, request.url?.path ?? "")
             completion(.success(()))
@@ -58,11 +59,12 @@ final class DataTaskService: DataTaskServiceProtocol {
             }
             
             guard let httpResponse = response as? HTTPURLResponse, let data = data else {
-                print("Receive HTTP response error")
+                assertionFailure("Receive HTTP response error")
                 return
             }
             
-            guard ServerErrorHandler.handle(httpResponse, completion: completion) else { return }
+            guard !ServerErrorHandler.checkError(httpResponse.statusCode,
+                                                 completion: completion) else { return }
             
             print(httpResponse.statusCode, request.url?.path ?? "")
             

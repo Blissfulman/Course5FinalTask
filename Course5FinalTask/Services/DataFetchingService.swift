@@ -8,12 +8,12 @@
 
 import Foundation
 
-// MARK: - Protocols
-
 typealias UserResult = (Result<UserModel, Error>) -> Void
 typealias UsersResult = (Result<[UserModel], Error>) -> Void
 typealias PostResult = (Result<PostModel, Error>) -> Void
 typealias PostsResult = (Result<[PostModel], Error>) -> Void
+
+// MARK: - Protocols
 
 protocol DataFetchingServiceProtocol {
     
@@ -287,7 +287,9 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     
     func createPost(imageData: String, description: String, completion: @escaping PostResult) {
         isOnline
-            ? networkService.createPost(imageData: imageData, description: description, completion: completion)
+            ? networkService.createPost(imageData: imageData,
+                                        description: description,
+                                        completion: completion)
             : completion(.failure(offlineMode))
     }
 }

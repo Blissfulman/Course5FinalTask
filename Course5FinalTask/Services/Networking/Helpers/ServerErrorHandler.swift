@@ -6,26 +6,19 @@
 //  Copyright © 2021 e-Legion. All rights reserved.
 //
 
-import Foundation
-
 final class ServerErrorHandler {
     
-    /// Обработка ошибок сервера, по статус-коду в response.
+    /// Проверка наличия ошибки по статус-коду ответа от сервера.
     /// - Parameters:
-    ///   - response: Ответ от сервера.
-    ///   - completion: Замыкание, в которое возвращается ошибка от сервера. Вызывается, если в ответе от сервера статус-код не равен 200.
-    /// - Returns: Возвращает true если в ответ от сервера пришёл статус-код 200, в иных случаях возвращает false.
-    static func handle<T>(_ response: HTTPURLResponse, completion: (Result<T, Error>) -> Void) -> Bool {
-        if response.statusCode == 200 {
-            return true
-        } else {
-            guard let serverError = ServerError(rawValue: response.statusCode) else {
-                completion(.failure(ServerError.transferError))
-                return false
-            }
-            completion(.failure(serverError))
-            return false
-        }
+    ///   - statusCode: Статус-код ответа от сервера.
+    ///   - completion: Замыкание, в которое возвращается ошибка сервера. Вызывается, если статус-код является кодом ошибки.
+    /// - Returns: Возвращает false если статус-код равен 200, в остальных случаях возвращает true.
+    static func checkError<T>(_ statusCode: Int, completion: (Result<T, Error>) -> Void) -> Bool {
+        guard statusCode != 200 else { return false }
         
+        if let serverError = ServerError.init(statusCode: statusCode) {
+            completion(.failure(serverError))
+        }
+        return true
     }
 }
