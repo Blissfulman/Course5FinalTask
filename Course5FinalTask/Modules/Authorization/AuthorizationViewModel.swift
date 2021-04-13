@@ -9,10 +9,10 @@
 protocol AuthorizationViewModelProtocol {
     var login: String? { get set }
     var password: String? { get set }
-    var isEnabledSignInButton: Bool { get }
-    var signInButtonAlpha: Float { get }
     var authorizationSuccess: (() -> Void)? { get set }
     var error: Box<Error?> { get }
+    var isEnabledSignInButton: Bool { get }
+    var signInButtonAlpha: Float { get }
     
     func checkAuthorization()
     func authorizeUser()
@@ -23,8 +23,9 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
     // MARK: - Properties
     
     var login: String?
-    
     var password: String?
+    var authorizationSuccess: (() -> Void)?
+    var error: Box<Error?> = Box(nil)
     
     var isEnabledSignInButton: Bool {
         guard let login = login, !login.isEmpty, let password = password, !password.isEmpty else {
@@ -36,10 +37,6 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
     var signInButtonAlpha: Float {
         isEnabledSignInButton ? 1 : 0.3
     }
-    
-    var authorizationSuccess: (() -> Void)?
-    
-    var error: Box<Error?> = Box(nil)
     
     private let keychainService: KeychainServiceProtocol = KeychainService()
     private let authorizationService: AuthorizationServiceProtocol = AuthorizationService.shared

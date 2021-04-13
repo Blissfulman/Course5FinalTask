@@ -24,7 +24,6 @@ final class SharingViewController: UIViewController {
     // MARK: - Properties
     
     var viewModel: SharingViewModelProtocol
-    weak var delegate: SharingViewControllerDelegate?
     
     // MARK: - Initializers
     
@@ -76,10 +75,10 @@ final class SharingViewController: UIViewController {
             self.tabBarController?.selectedIndex = 0
             
             // Вызов метода, который выполнит прокрутку ленты в верхнее положение
-            guard let feedVC = navControllerFeed.viewControllers.first
-                    as? FeedViewController else { return }
-            self.delegate = feedVC
-            self.delegate?.updateAfterPosting()
+            if let feedVC = navControllerFeed.viewControllers.first
+                    as? SharingViewControllerDelegate {
+                feedVC.updateAfterPosting()
+            }
             
             // Переход на корневое вью элемента таб бара "New post"
             self.navigationController?.popToRootViewController(animated: false)

@@ -21,9 +21,6 @@ final class ProfileViewController: UIViewController {
     // MARK: - Properties
     
     var viewModel: ProfileViewModelProtocol
-
-    /// Количество колонок в представлении фотографий.
-    private let numberOfColumns: CGFloat = 3
     
     // MARK: - Initializers
     
@@ -142,6 +139,8 @@ extension ProfileViewController: UICollectionViewDataSource {
 // MARK: - Collection view layout
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
+    
+    private var numberOfColumns: CGFloat { 3 }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         CGSize(width: profileCollectionView.frame.width, height: UIConstants.profileHeaderHeight)

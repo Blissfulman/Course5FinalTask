@@ -33,12 +33,12 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupTabs()
+        configureTabs()
     }
     
     // MARK: - Private methods
     
-    private func setupTabs() {
+    private func configureTabs() {
         let feedVC = FeedViewController(nibName: nil, bundle: nil, viewModel: FeedViewModel())
         feedVC.title = Titles.feed
         let firstTabBarVC = UINavigationController(rootViewController: feedVC)

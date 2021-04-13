@@ -27,7 +27,6 @@ final class FiltersViewModel: FiltersViewModelProtocol {
     // MARK: - Properties
     
     var image = Box(Data())
-    
     var thumbnailDidFilter: ((Int) -> Void)?
     
     var numberOfItems: Int {
@@ -35,8 +34,6 @@ final class FiltersViewModel: FiltersViewModelProtocol {
     }
     
     private let originalImage: Data
-    
-    /// Массив миниатюр изображения.
     private var thumbnails = [Data]()
     
     private let filterNames = [

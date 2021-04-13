@@ -25,9 +25,7 @@ final class SharingViewModel: SharingViewModelProtocol {
     // MARK: - Properties
     
     let imageData: Data
-    
     var postDidCreateSuccessfully: (() -> Void)?
-    
     var error: Box<Error?> = Box(nil)
     
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared

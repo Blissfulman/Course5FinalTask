@@ -12,7 +12,6 @@ final class FiltersViewController: UIViewController {
     
     // MARK: - Outlets
     
-    /// Коллекция выбора фильтров с примерами их применения для обработки большого изображения.
     @IBOutlet private weak var filtersCollectionView: UICollectionView!
     
     // MARK: - Properties
