@@ -33,7 +33,7 @@ final class ProfileHeaderView: UICollectionReusableView {
         super.awakeFromNib()
         
         followButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
-        avatarImageView.layer.cornerRadius = avatarImageView.halfWidthCornerRadius()
+        avatarImageView.setHalfHeightCornerRadius()
     }
     
     // MARK: - Setup UI

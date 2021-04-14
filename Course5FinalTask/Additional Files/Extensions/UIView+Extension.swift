@@ -10,9 +10,14 @@ import UIKit
 
 extension UIView {
     
-    /// Возвращает радиус скругления, равный половине ширины вью.
-    func halfWidthCornerRadius() -> CGFloat {
-        self.frame.width / 2
+    /// Возвращает половину высоты вью.
+    func halfHeight() -> CGFloat {
+        self.frame.height / 2
+    }
+    
+    /// Устанавливает радиус скругления, равный половине высоты вью.
+    func setHalfHeightCornerRadius() {
+        layer.cornerRadius = frame.height / 2
     }
     
     /// Анимация лайка при двойном тапе по изображению поста в ленте.
