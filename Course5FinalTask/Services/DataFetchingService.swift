@@ -114,7 +114,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     
     // MARK: - Properties
     
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let networkService: NetworkServiceProtocol = NetworkService()
     private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
     private let isOnline: Bool
     private let offlineMode = AppError.offlineMode

@@ -109,7 +109,6 @@ final class NetworkService: NetworkServiceProtocol {
     
     // MARK: - Static properties
     
-    static let shared: NetworkServiceProtocol = NetworkService()
     static private(set) var isOnline = true
     
     // MARK: - Static methods
@@ -120,12 +119,8 @@ final class NetworkService: NetworkServiceProtocol {
     
     // MARK: - Properties
     
-    private let requestService: RequestServiceProtocol = RequestService.shared
-    private let dataTaskService: DataTaskServiceProtocol = DataTaskService.shared
-    
-    // MARK: - Initializers
-    
-    private init() {}
+    private let requestService: RequestServiceProtocol = RequestService()
+    private let dataTaskService: DataTaskServiceProtocol = DataTaskService()
     
     // MARK: - Public methods
 

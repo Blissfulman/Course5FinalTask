@@ -18,14 +18,6 @@ protocol DataTaskServiceProtocol {
 
 final class DataTaskService: DataTaskServiceProtocol {
     
-    // MARK: - Static properties
-    
-    static let shared = DataTaskService()
-    
-    // MARK: - Initializers
-    
-    private init() {}
-    
     // MARK: - Public methods
     
     func simpleDataTask(request: URLRequest, completion: @escaping VoidResult) {
