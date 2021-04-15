@@ -32,4 +32,4 @@
 
 Дизайн и структура приложения соответствует данному макету:
 
-![Layout design](https://github.com/Blissfulman/Course5FinalTask/blob/main/Images/Layout-design.png)
+![Layout design](https://github.com/Blissfulman/Course5FinalTask/blob/readme-adding/Images/Layout-design.png)
