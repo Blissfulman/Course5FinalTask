@@ -75,7 +75,7 @@
 		CEDA405625DBF159008D0B71 /* FiltersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA405525DBF159008D0B71 /* FiltersViewModel.swift */; };
 		CEDA405825DBF86C008D0B71 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA405725DBF86C008D0B71 /* Data+Extension.swift */; };
 		CEEB25AB25DD70EE009EF29B /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB25AA25DD70EE009EF29B /* NewPostViewModel.swift */; };
-		CEFF9CA325D5A661004C357F /* ServerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA225D5A661004C357F /* ServerConstants.swift */; };
+		CEFF9CA325D5A661004C357F /* ServerConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA225D5A661004C357F /* ServerConstant.swift */; };
 		CEFF9CA525D5B2C3004C357F /* UserURLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */; };
 		CEFF9CA725D5B2E5004C357F /* PostURLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA625D5B2E5004C357F /* PostURLCreator.swift */; };
 		CEFF9CA925D6D455004C357F /* SharingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA825D6D455004C357F /* SharingViewModel.swift */; };
@@ -169,7 +169,7 @@
 		CEDA405525DBF159008D0B71 /* FiltersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewModel.swift; sourceTree = "<group>"; };
 		CEDA405725DBF86C008D0B71 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		CEEB25AA25DD70EE009EF29B /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
-		CEFF9CA225D5A661004C357F /* ServerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConstants.swift; sourceTree = "<group>"; };
+		CEFF9CA225D5A661004C357F /* ServerConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConstant.swift; sourceTree = "<group>"; };
 		CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserURLCreator.swift; sourceTree = "<group>"; };
 		CEFF9CA625D5B2E5004C357F /* PostURLCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostURLCreator.swift; sourceTree = "<group>"; };
 		CEFF9CA825D6D455004C357F /* SharingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViewModel.swift; sourceTree = "<group>"; };
@@ -300,7 +300,7 @@
 		CE3DD1DF2585350300C31D7F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				CEFF9CA225D5A661004C357F /* ServerConstants.swift */,
+				CEFF9CA225D5A661004C357F /* ServerConstant.swift */,
 				CE0CFFCF2610F7D700B9A9AA /* NetworkErrorHandler.swift */,
 				CE4075C62576A7B4006F4592 /* AuthorizationURLCreator.swift */,
 				CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */,
@@ -672,7 +672,7 @@
 				CE813ABE2580F77D006DCCBB /* UserListType.swift in Sources */,
 				CE4075CB2576B34E006F4592 /* RequestService.swift in Sources */,
 				CED3279624DED6D200BB1A80 /* ProfileHeaderView.swift in Sources */,
-				CEFF9CA325D5A661004C357F /* ServerConstants.swift in Sources */,
+				CEFF9CA325D5A661004C357F /* ServerConstant.swift in Sources */,
 				CE9BEA7E258BB9690006EFEA /* NewImagesProvider.swift in Sources */,
 				CEDA405825DBF86C008D0B71 /* Data+Extension.swift in Sources */,
 				CEB0222424DD79C3009D0615 /* ProfilePhotoCell.swift in Sources */,

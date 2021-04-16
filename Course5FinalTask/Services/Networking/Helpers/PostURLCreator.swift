@@ -18,7 +18,7 @@ enum PostURLCreator {
     case create
     
     var url: URL? {
-        let baseURL = ServerConstants.baseURL
+        let baseURL = ServerConstant.baseURL
 
         switch self {
         case .feed:
