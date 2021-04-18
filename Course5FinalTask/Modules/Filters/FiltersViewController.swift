@@ -85,13 +85,13 @@ final class FiltersViewController: UIViewController {
     private func setupViewModelBindings() {
         viewModel.image.bind { [unowned self] image in
             DispatchQueue.main.async {
-                self.imageView.image = UIImage(data: image)
+                imageView.image = UIImage(data: image)
             }
         }
         
         viewModel.thumbnailDidFilter = { [unowned self] index in
             DispatchQueue.main.async {
-                self.filtersCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+                filtersCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
             }
         }
     }

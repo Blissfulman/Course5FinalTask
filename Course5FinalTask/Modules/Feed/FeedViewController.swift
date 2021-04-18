@@ -48,7 +48,7 @@ final class FeedViewController: UIViewController {
         
     private func setupViewModelBindings() {
         viewModel.tableViewNeedUpdating = { [unowned self] in
-            self.feedTableView.reloadData()
+            feedTableView.reloadData()
         }
         
         viewModel.authorOfPostTapped = { [unowned self] profileViewModel in
@@ -65,7 +65,7 @@ final class FeedViewController: UIViewController {
         
         viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self.showAlert(error)
+            showAlert(error)
         }
     }
 }

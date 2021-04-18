@@ -63,13 +63,13 @@ final class ProfileHeaderView: UICollectionReusableView {
     
     private func setupViewModelBindings() {
         viewModel?.user.bind { [unowned self] _ in
-            guard let viewModel = self.viewModel else { return }
+            guard let viewModel = viewModel else { return }
             
-            self.avatarImageView.image = UIImage(data: viewModel.avatarImageData)
-            self.fullNameLabel.text = viewModel.userFullName
-            self.followButton.setTitle(viewModel.followButtonTitle, for: .normal)
-            self.followersButton.setTitle(viewModel.followersButtonTitle, for: .normal)
-            self.followingsButton.setTitle(viewModel.followingsButtonTitle, for: .normal)
+            avatarImageView.image = UIImage(data: viewModel.avatarImageData)
+            fullNameLabel.text = viewModel.userFullName
+            followButton.setTitle(viewModel.followButtonTitle, for: .normal)
+            followersButton.setTitle(viewModel.followersButtonTitle, for: .normal)
+            followingsButton.setTitle(viewModel.followingsButtonTitle, for: .normal)
         }
     }
 }

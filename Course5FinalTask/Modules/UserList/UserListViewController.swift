@@ -52,12 +52,12 @@ final class UserListViewController: UITableViewController {
     
     private func setupViewModelBindings() {
         viewModel.userList.bind { [unowned self] _ in
-            self.tableView.reloadData()
+            tableView.reloadData()
         }
         
         viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self.showAlert(error)
+            showAlert(error)
         }
     }
 }
