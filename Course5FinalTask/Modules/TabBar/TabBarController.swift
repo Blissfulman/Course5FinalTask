@@ -39,17 +39,17 @@ final class TabBarController: UITabBarController {
     // MARK: - Private methods
     
     private func configureTabs() {
-        let feedVC = FeedViewController(nibName: nil, bundle: nil, viewModel: FeedViewModel())
+        let feedVC = FeedViewController(viewModel: FeedViewModel())
         feedVC.title = Titles.feed
         let firstTabBarVC = UINavigationController(rootViewController: feedVC)
         firstTabBarVC.tabBarItem.image = UIImage(named: Images.feed)
         
-        let newPostVC = NewPostViewController(nibName: nil, bundle: nil)
+        let newPostVC = NewPostViewController()
         newPostVC.title = Titles.newPost
         let secondTabBarVC = UINavigationController(rootViewController: newPostVC)
         secondTabBarVC.tabBarItem.image = UIImage(named: Images.newPost)
         
-        let profileVC = ProfileViewController(nibName: nil, bundle: nil, viewModel: ProfileViewModel())
+        let profileVC = ProfileViewController(viewModel: ProfileViewModel())
         profileVC.title = Titles.profile
         let thirdTabBarVC = UINavigationController(rootViewController: profileVC)
         thirdTabBarVC.tabBarItem.image = UIImage(named: Images.profile)

@@ -24,9 +24,9 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Initializers
     
-    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, viewModel: ProfileViewModelProtocol) {
+    init(viewModel: ProfileViewModelProtocol) {
         self.viewModel = viewModel
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {

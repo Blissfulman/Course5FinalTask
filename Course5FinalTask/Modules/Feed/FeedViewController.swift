@@ -20,9 +20,9 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Initializers
     
-    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, viewModel: FeedViewModelProtocol) {
+    init(viewModel: FeedViewModelProtocol) {
         self.viewModel = viewModel
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -52,9 +52,7 @@ final class FeedViewController: UIViewController {
         }
         
         viewModel.authorOfPostTapped = { [unowned self] profileViewModel in
-            let profileVC = ProfileViewController(nibName: nil,
-                                                  bundle: nil,
-                                                  viewModel: profileViewModel)
+            let profileVC = ProfileViewController(viewModel: profileViewModel)
             navigationController?.pushViewController(profileVC, animated: true)
         }
         

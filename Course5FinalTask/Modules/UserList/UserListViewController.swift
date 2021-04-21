@@ -96,7 +96,7 @@ extension UserListViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let profileViewModel = viewModel.getProfileViewModel(at: indexPath)
-        let profileVC = ProfileViewController(nibName: nil, bundle: nil, viewModel: profileViewModel)
+        let profileVC = ProfileViewController(viewModel: profileViewModel)
         navigationController?.pushViewController(profileVC, animated: true)
     }
 }
