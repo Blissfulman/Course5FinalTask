@@ -14,6 +14,8 @@ protocol NetworkServiceProtocol {
     
     static var isOnline: Bool { get }
     
+    /// Установка состояния онлайн-статуса.
+    /// - Parameter status: Новое состояние статуса.
     static func setOnlineStatus(to status: Bool)
     
     /// Получение текущего пользователя.

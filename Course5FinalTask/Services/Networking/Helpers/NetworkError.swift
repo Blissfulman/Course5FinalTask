@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum NetworkError: Int, Error {
+enum NetworkError: Int, Error, LocalizedError {
     case badRequest = 400
     case unauthorized = 401
     case notFound = 404
@@ -16,7 +16,7 @@ enum NetworkError: Int, Error {
     case unprocessable = 422
     case transferError = 0
     
-    var localizedDescription: String {
+    var errorDescription: String? {
         switch self {
         case .badRequest:
             return "Bad request"

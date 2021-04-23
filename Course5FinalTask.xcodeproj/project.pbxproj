@@ -352,8 +352,8 @@
 			isa = PBXGroup;
 			children = (
 				CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */,
-				CE9BEA79258B19090006EFEA /* UIImageView+Extension.swift */,
 				CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */,
+				CE9BEA79258B19090006EFEA /* UIImageView+Extension.swift */,
 				CE20DDE425FB410900274A95 /* UITableViewCell+Extension.swift */,
 				CE20DDE825FB439A00274A95 /* UICollectionReusableView+Extension.swift */,
 				CEDA405725DBF86C008D0B71 /* Data+Extension.swift */,
