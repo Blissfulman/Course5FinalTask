@@ -16,7 +16,7 @@ protocol UserListViewModelProtocol {
     var title: String? { get }
     var numberOfRows: Int { get }
     
-    init(postID: String?, userID: String?, userListType: UserListType)
+    init(postID: PostModel.ID?, userID: UserModel.ID?, userListType: UserListType)
     
     func getUserImageData(at indexPath: IndexPath) -> Data
     func getUserFullName(at indexPath: IndexPath) -> String?
@@ -40,16 +40,16 @@ final class UserListViewModel: UserListViewModelProtocol {
     }
     
     /// ID пользователя, подписчиков либо подписок которого, требуется отобразить.
-    private let userID: String!
+    private let userID: UserModel.ID!
     /// ID поста, лайкнувших пользователей которого, требуется отобразить.
-    private let postID: String!
+    private let postID: PostModel.ID!
     /// Тип списка отображаемых пользователей.
     private let userListType: UserListType
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
     // MARK: - Initializers
     
-    init(postID: String? = nil, userID: String? = nil, userListType: UserListType) {
+    init(postID: PostModel.ID? = nil, userID: UserModel.ID? = nil, userListType: UserListType) {
         self.userID = userID
         self.postID = postID
         self.userListType = userListType

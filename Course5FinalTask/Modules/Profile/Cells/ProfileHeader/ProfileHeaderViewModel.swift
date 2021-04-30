@@ -16,7 +16,7 @@ protocol ProfileHeaderViewModelDelegate: AnyObject {
     func showErrorAlert(_ error: Error)
 }
 
-protocol ProfileHeaderViewModelProtocol: class {
+protocol ProfileHeaderViewModelProtocol: AnyObject {
     var delegate: ProfileHeaderViewModelDelegate? { get }
     var user: Box<UserModel> { get }
     var avatarImageData: Data { get }

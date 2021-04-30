@@ -28,42 +28,42 @@ protocol NetworkServiceProtocol {
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращается запрашиваемый пользователь.
     ///   Вызывается после выполнения запроса.
-    func fetchUser(withID userID: String, completion: @escaping UserResult)
+    func fetchUser(withID userID: UserModel.ID, completion: @escaping UserResult)
     
     /// Подписывает текущего пользователя на пользователя с указанным ID.
     /// - Parameters:
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращается пользователь, на которого подписался текущий пользователь.
     ///   Вызывается после выполнения запроса.
-    func followToUser(withID userID: String, completion: @escaping UserResult)
+    func followToUser(withID userID: UserModel.ID, completion: @escaping UserResult)
     
     /// Отписывает текущего пользователя от пользователя с указанным ID.
     /// - Parameters:
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращается пользователь, от которого отписался текущий пользователь.
     ///   Вызывается после выполнения запроса.
-    func unfollowFromUser(withID userID: String, completion: @escaping UserResult)
+    func unfollowFromUser(withID userID: UserModel.ID, completion: @escaping UserResult)
     
     /// Получение всех подписчиков пользователя с указанным ID.
     /// - Parameters:
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращаются запрашиваемые пользователи.
     ///   Вызывается после выполнения запроса.
-    func fetchUsersFollowingUser(withID userID: String, completion: @escaping UsersResult)
+    func fetchUsersFollowingUser(withID userID: UserModel.ID, completion: @escaping UsersResult)
     
     /// Получение всех подписок пользователя с указанным ID.
     /// - Parameters:
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращаются запрашиваемые пользователи.
     ///   Вызывается после выполнения запроса.
-    func fetchUsersFollowedByUser(withID userID: String, completion: @escaping UsersResult)
+    func fetchUsersFollowedByUser(withID userID: UserModel.ID, completion: @escaping UsersResult)
     
     /// Получение публикаций пользователя с указанным ID.
     /// - Parameters:
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращаются запрашиваемые публикации.
     ///   Вызывается после выполнения запроса.
-    func fetchPostsOfUser(withID userID: String, completion: @escaping PostsResult)
+    func fetchPostsOfUser(withID userID: UserModel.ID, completion: @escaping PostsResult)
     
     /// Получение публикаций пользователей, на которых подписан текущий пользователь.
     /// - Parameter completion: Замыкание, в которое возвращаются запрашиваемые публикации.
@@ -75,28 +75,28 @@ protocol NetworkServiceProtocol {
     ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается запрашиваемая публикация.
     ///   Вызывается после выполнения запроса.
-    func fetchPost(withID postID: String, completion: @escaping PostResult)
+    func fetchPost(withID postID: PostModel.ID, completion: @escaping PostResult)
     
     /// Ставит лайк от текущего пользователя на публикации с указанным ID.
     /// - Parameters:
     ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается публикация, которой был поставлен лайк.
     ///   Вызывается после выполнения запроса.
-    func likePost(withID postID: String, completion: @escaping PostResult)
+    func likePost(withID postID: PostModel.ID, completion: @escaping PostResult)
     
     /// Удаляет лайк от текущего пользователя на публикации с указанным ID.
     /// - Parameters:
     ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается публикация, которой был поставлен анлайк.
     ///   Вызывается после выполнения запроса.
-    func unlikePost(withID postID: String, completion: @escaping PostResult)
+    func unlikePost(withID postID: PostModel.ID, completion: @escaping PostResult)
     
     /// Получение пользователей, поставивших лайк на публикацию с указанным ID.
     /// - Parameters:
     ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращаются запрашиваемые пользователи.
     ///   Вызывается после выполнения запроса.
-    func fetchUsersLikedPost(withID postID: String, completion: @escaping UsersResult)
+    func fetchUsersLikedPost(withID postID: PostModel.ID, completion: @escaping UsersResult)
     
     /// Создание новой публикации.
     /// - Parameters:
@@ -133,14 +133,14 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func fetchUser(withID userID: String, completion: @escaping UserResult) {
+    func fetchUser(withID userID: UserModel.ID, completion: @escaping UserResult) {
         guard let url = UserURLCreator.getUser(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func followToUser(withID userID: String, completion: @escaping UserResult) {
+    func followToUser(withID userID: UserModel.ID, completion: @escaping UserResult) {
         guard let url = UserURLCreator.follow.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
@@ -151,7 +151,7 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func unfollowFromUser(withID userID: String, completion: @escaping UserResult) {
+    func unfollowFromUser(withID userID: UserModel.ID, completion: @escaping UserResult) {
         guard let url = UserURLCreator.unfollow.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
@@ -162,21 +162,21 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func fetchUsersFollowingUser(withID userID: String, completion: @escaping UsersResult) {
+    func fetchUsersFollowingUser(withID userID: UserModel.ID, completion: @escaping UsersResult) {
         guard let url = UserURLCreator.followers(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func fetchUsersFollowedByUser(withID userID: String, completion: @escaping UsersResult) {
+    func fetchUsersFollowedByUser(withID userID: UserModel.ID, completion: @escaping UsersResult) {
         guard let url = UserURLCreator.followings(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func fetchPostsOfUser(withID userID: String, completion: @escaping PostsResult) {
+    func fetchPostsOfUser(withID userID: UserModel.ID, completion: @escaping PostsResult) {
         guard let url = PostURLCreator.userPosts(userID: userID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
@@ -190,14 +190,14 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func fetchPost(withID postID: String, completion: @escaping PostResult) {
+    func fetchPost(withID postID: PostModel.ID, completion: @escaping PostResult) {
         guard let url = PostURLCreator.post(postID: postID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func likePost(withID postID: String, completion: @escaping PostResult) {
+    func likePost(withID postID: PostModel.ID, completion: @escaping PostResult) {
         guard let url = PostURLCreator.like.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
@@ -208,7 +208,7 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func unlikePost(withID postID: String, completion: @escaping PostResult) {
+    func unlikePost(withID postID: PostModel.ID, completion: @escaping PostResult) {
         guard let url = PostURLCreator.unlike.url else { return }
         
         var request = requestService.request(url: url, httpMethod: .post)
@@ -219,7 +219,7 @@ final class NetworkService: NetworkServiceProtocol {
         dataTaskService.dataTask(request: request, completion: completion)
     }
 
-    func fetchUsersLikedPost(withID postID: String, completion: @escaping UsersResult) {
+    func fetchUsersLikedPost(withID postID: PostModel.ID, completion: @escaping UsersResult) {
         guard let url = PostURLCreator.usersLikedPost(postID: postID).url else { return }
         
         let request = requestService.request(url: url, httpMethod: .get)

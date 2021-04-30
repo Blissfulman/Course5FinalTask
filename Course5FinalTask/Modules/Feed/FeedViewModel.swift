@@ -71,7 +71,7 @@ extension FeedViewModel: FeedPostCellViewModelDelegate {
         authorOfPostTapped?(ProfileViewModel(user: user))
     }
     
-    func likesCountButtonTapped(postID: String) {
+    func likesCountButtonTapped(postID: PostModel.ID) {
         let userListViewModel = UserListViewModel(postID: postID, userListType: .likes)
         likesCountButtonTapped?(userListViewModel)
     }

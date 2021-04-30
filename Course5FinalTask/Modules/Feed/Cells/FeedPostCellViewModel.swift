@@ -12,7 +12,7 @@ import Foundation
 
 protocol FeedPostCellViewModelDelegate: AnyObject {
     func authorOfPostTapped(user: UserModel)
-    func likesCountButtonTapped(postID: String)
+    func likesCountButtonTapped(postID: PostModel.ID)
     func updateFeedPost(_ post: PostModel)
     func showErrorAlert(_ error: Error)
 }
