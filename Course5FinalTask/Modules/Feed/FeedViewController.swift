@@ -89,8 +89,9 @@ extension FeedViewController: UITableViewDataSource {
 
 extension FeedViewController: SharingViewControllerDelegate {
     
-    // Прокрутка ленты в верхнее положение
     func updateAfterPosting() {
-        feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        UIView.animate(withDuration: 0.5) {
+            self.feedTableView.contentOffset = CGPoint(x: 0, y: 0)
+        }
     }
 }
