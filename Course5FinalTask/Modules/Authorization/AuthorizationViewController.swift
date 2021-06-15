@@ -162,7 +162,6 @@ extension AuthorizationViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         if textField == loginTextField {
             passwordTextField.becomeFirstResponder()
         } else {

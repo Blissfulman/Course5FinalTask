@@ -79,7 +79,7 @@ final class KeychainService: KeychainServiceProtocol {
         var queryResult: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
         
-        if status != noErr { return nil }
+        guard status == noErr else { return nil }
         
         guard let item = queryResult as? [String: AnyObject],
               let tokenData = item[kSecValueData as String] as? Data,
