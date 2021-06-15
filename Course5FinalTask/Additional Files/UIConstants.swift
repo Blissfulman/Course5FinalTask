@@ -17,5 +17,5 @@ enum UIConstants {
     static let userListHeightForRow: CGFloat = 45
     
     /// Радиус скругления кнопок.
-    static let buttonsCornerRadius: CGFloat = 5
+    static let buttonsCornerRadius: CGFloat = 7
 }

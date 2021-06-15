@@ -31,9 +31,8 @@ final class ProfileHeaderView: UICollectionReusableView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        followButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
-        avatarImageView.setHalfHeightCornerRadius()
+        followButton.setCornerRadius(UIConstants.buttonsCornerRadius)
+        avatarImageView.round()
     }
     
     // MARK: - Setup UI

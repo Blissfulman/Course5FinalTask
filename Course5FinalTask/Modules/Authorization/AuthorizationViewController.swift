@@ -87,7 +87,7 @@ final class AuthorizationViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         [loginTextField, passwordTextField, signInButton].forEach { view.addSubview($0) }
-        signInButton.layer.cornerRadius = UIConstants.buttonsCornerRadius
+        signInButton.setCornerRadius(UIConstants.buttonsCornerRadius)
     }
     
     // MARK: - Setup layout

@@ -27,7 +27,7 @@ final class LoadingView {
         activityIndicator.backgroundColor = UIColor(white: 0, alpha: 0.3)
         activityIndicator.color = .white
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.layer.cornerRadius = 25
+        activityIndicator.setCornerRadius(25)
         return activityIndicator
     }()
     

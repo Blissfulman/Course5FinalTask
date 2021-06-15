@@ -36,8 +36,7 @@ final class FeedPostCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        avatarImageView.setHalfHeightCornerRadius()
+        avatarImageView.round()
         setupGestureRecognizers()
     }
     
