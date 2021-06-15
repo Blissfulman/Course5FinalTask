@@ -15,9 +15,9 @@ enum AppError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .offlineMode:
-            return "Offline mode"
+            return "Offline mode".localized()
         case .noOfflineData:
-            return "No offline data"
+            return "No offline data".localized()
         }
     }
 }

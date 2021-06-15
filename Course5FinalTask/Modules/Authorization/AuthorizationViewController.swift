@@ -16,7 +16,7 @@ final class AuthorizationViewController: UIViewController {
     
     private lazy var loginTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "login"
+        textField.placeholder = "login".localized()
         textField.textContentType = .username
         textField.keyboardType = .emailAddress
         textField.borderStyle = .roundedRect
@@ -32,7 +32,7 @@ final class AuthorizationViewController: UIViewController {
     
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "password"
+        textField.placeholder = "password".localized()
         textField.textContentType = .password
         textField.keyboardType = .asciiCapable
         textField.borderStyle = .roundedRect
@@ -49,7 +49,7 @@ final class AuthorizationViewController: UIViewController {
     
     private lazy var signInButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Sign In", for: .normal)
+        button.setTitle("Sign in".localized(), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.alpha = 0.3
         button.backgroundColor = .systemBlue

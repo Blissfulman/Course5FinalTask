@@ -51,7 +51,7 @@ final class SharingViewController: UIViewController {
         imageView.image = UIImage(data: viewModel.imageData)
         
         let shareButton = UIBarButtonItem(
-            title: "Share",
+            title: "Share".localized(),
             style: .plain,
             target: self,
             action: #selector(shareButtonTapped)

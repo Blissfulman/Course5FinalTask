@@ -51,10 +51,10 @@ final class FiltersViewController: UIViewController {
     // MARK: - Setup UI
     
     private func setupUI() {
-        title = "Filters"
+        title = "Filters".localized()
         
         let nextButton = UIBarButtonItem(
-            title: "Next",
+            title: "Next".localized(),
             style: .plain,
             target: self,
             action: #selector(nextButtonTapped)

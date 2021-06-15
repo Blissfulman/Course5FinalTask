@@ -42,6 +42,8 @@
 		CE6D676E24E02574002FE7F2 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6D676D24E02574002FE7F2 /* UserListViewController.swift */; };
 		CE6E2D5224D947DA00A4B08B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E2D5124D947DA00A4B08B /* ProfileViewController.swift */; };
 		CE6E2D5624D9BD3300A4B08B /* FeedPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E2D5524D9BD3300A4B08B /* FeedPostCell.swift */; };
+		CE6F191926792C0F00F90C6B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE6F191826792C0F00F90C6B /* Localizable.strings */; };
+		CE6F191B26792CAE00F90C6B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6F191A26792CAE00F90C6B /* String+Extension.swift */; };
 		CE76326A2573743F00E4F7AE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7632692573743F00E4F7AE /* UserModel.swift */; };
 		CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */; };
 		CE813ABE2580F77D006DCCBB /* UserListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE813ABD2580F77D006DCCBB /* UserListType.swift */; };
@@ -136,6 +138,8 @@
 		CE6D676D24E02574002FE7F2 /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		CE6E2D5124D947DA00A4B08B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CE6E2D5524D9BD3300A4B08B /* FeedPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostCell.swift; sourceTree = "<group>"; };
+		CE6F191826792C0F00F90C6B /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		CE6F191A26792CAE00F90C6B /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		CE7632692573743F00E4F7AE /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CE813ABD2580F77D006DCCBB /* UserListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListType.swift; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 			children = (
 				CECB0BFC24C86FFA0086A593 /* LaunchScreen.storyboard */,
 				74B79263202B3254006BCB41 /* Info.plist */,
+				CE6F191826792C0F00F90C6B /* Localizable.strings */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -359,6 +364,7 @@
 				CEDA405725DBF86C008D0B71 /* Data+Extension.swift */,
 				CE4075D42577FE4E006F4592 /* DateFormatter+Extension.swift */,
 				CEB7A7F325EA7B6F009D9897 /* URL+Extension.swift */,
+				CE6F191A26792CAE00F90C6B /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -552,6 +558,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 74B7924B202B3254006BCB41;
 			productRefGroup = 74B79255202B3254006BCB41 /* Products */;
@@ -577,6 +584,7 @@
 				CE88991E25DE5680000DA414 /* FeedViewController.xib in Resources */,
 				74B7925F202B3254006BCB41 /* Assets.xcassets in Resources */,
 				CE88991C25DE55EA000DA414 /* FeedPostCell.xib in Resources */,
+				CE6F191926792C0F00F90C6B /* Localizable.strings in Resources */,
 				CE9C3594252A421A00730A47 /* FilterCell.xib in Resources */,
 				CEA36F44252F78C200386D64 /* SharingViewController.xib in Resources */,
 				CE88991825DE4404000DA414 /* NewPostViewController.xib in Resources */,
@@ -661,6 +669,7 @@
 				CE16595925E0D1B2008E609A /* ProfileHeaderViewModel.swift in Sources */,
 				CE6E2D5224D947DA00A4B08B /* ProfileViewController.swift in Sources */,
 				CEBE92AD25264BF6002A6A63 /* NewPostViewController.swift in Sources */,
+				CE6F191B26792CAE00F90C6B /* String+Extension.swift in Sources */,
 				CE6E2D5624D9BD3300A4B08B /* FeedPostCell.swift in Sources */,
 				CE4075D52577FE4E006F4592 /* DateFormatter+Extension.swift in Sources */,
 				CE0CFFD02610F7D700B9A9AA /* NetworkErrorHandler.swift in Sources */,

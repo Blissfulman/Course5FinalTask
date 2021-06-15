@@ -13,9 +13,9 @@ final class TabBarController: UITabBarController {
     // MARK: - Nested types
     
     private enum Titles {
-        static let feed = "Feed"
-        static let newPost = "New post"
-        static let profile = "Profile"
+        static let feed = "Feed".localized()
+        static let newPost = "New post".localized()
+        static let profile = "Profile".localized()
     }
     
     private enum Images {

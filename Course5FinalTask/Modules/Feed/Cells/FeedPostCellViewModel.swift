@@ -64,7 +64,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     }
     
     var likesCountButtonTitle: String {
-        "Likes: " + String(post.likedByCount)
+        "Likes: ".localized() + String(post.likedByCount)
     }
     
     var currentUserLikesThisPost: Bool {

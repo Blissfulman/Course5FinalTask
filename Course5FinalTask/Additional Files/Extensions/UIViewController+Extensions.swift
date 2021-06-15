@@ -12,8 +12,8 @@ extension UIViewController {
     
     func showAlert(_ error: Error?) {
         let isCustomError = (error is NetworkError) || (error is AppError)
-        let alertTitle = isCustomError ? error?.localizedDescription : "Unknown error!"
-        let alertMessage = isCustomError ? "" : "Please, try again later"
+        let alertTitle = isCustomError ? error?.localizedDescription : "Unknown error!".localized()
+        let alertMessage = isCustomError ? "" : "Please, try again later".localized()
         
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide()

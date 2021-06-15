@@ -32,7 +32,7 @@ final class UserListViewModel: UserListViewModelProtocol {
     var error: Box<Error?> = Box(nil)
     
     var title: String? {
-        userListType.rawValue
+        userListType.title
     }
     
     var numberOfRows: Int {

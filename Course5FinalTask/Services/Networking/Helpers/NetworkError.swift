@@ -19,17 +19,17 @@ enum NetworkError: Int, Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .badRequest:
-            return "Bad request"
+            return "Bad request".localized()
         case .unauthorized:
-            return "Unauthorized"
+            return "Unauthorized".localized()
         case .notFound:
-            return "Not found"
+            return "Not found".localized()
         case .notAcceptable:
-            return "Not acceptable"
+            return "Not acceptable".localized()
         case .unprocessable:
-            return "Unprocessable"
+            return "Unprocessable".localized()
         case .transferError:
-            return "Transfer error"
+            return "Transfer error".localized()
         }
     }
     

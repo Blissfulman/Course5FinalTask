@@ -92,7 +92,7 @@ final class ProfileViewController: UIViewController {
     
     private func addLogOutButton() {
         let logOutButton = UIBarButtonItem(
-            title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonTapped)
+            title: "Log out".localized(), style: .plain, target: self, action: #selector(logOutButtonTapped)
         )
         navigationItem.rightBarButtonItem = logOutButton
     }
@@ -120,7 +120,8 @@ extension ProfileViewController: UICollectionViewDataSource {
                 header.viewModel = profileHeaderViewModel
             }
             return header
-        default: fatalError("Unexpected element kind")
+        default:
+            fatalError("Unexpected element kind")
         }
     }
     
