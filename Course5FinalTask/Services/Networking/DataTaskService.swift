@@ -12,8 +12,7 @@ import Foundation
 
 protocol DataTaskServiceProtocol {
     func simpleDataTask(request: URLRequest, completion: @escaping VoidResult)
-    func dataTask<T: Decodable>(request: URLRequest,
-                                completion: @escaping (Result<T, Error>) -> Void)
+    func dataTask<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void)
 }
 
 final class DataTaskService: DataTaskServiceProtocol {
@@ -33,8 +32,10 @@ final class DataTaskService: DataTaskServiceProtocol {
                 return
             }
             
-            guard !NetworkErrorHandler.checkNetworkError(httpResponse.statusCode,
-                                                         completion: completion) else { return }
+            guard !NetworkErrorHandler.checkNetworkError(
+                    httpResponse.statusCode,
+                    completion: completion
+            ) else { return }
             
             print(httpResponse.statusCode, request.url?.path ?? "")
             completion(.success(()))
@@ -55,8 +56,10 @@ final class DataTaskService: DataTaskServiceProtocol {
                 return
             }
             
-            guard !NetworkErrorHandler.checkNetworkError(httpResponse.statusCode,
-                                                         completion: completion) else { return }
+            guard !NetworkErrorHandler.checkNetworkError(
+                    httpResponse.statusCode,
+                    completion: completion
+            ) else { return }
             
             print(httpResponse.statusCode, request.url?.path ?? "")
             

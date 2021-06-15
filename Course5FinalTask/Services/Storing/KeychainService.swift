@@ -64,9 +64,11 @@ final class KeychainService: KeychainServiceProtocol {
     // MARK: - Private methods
     
     private func keychainQuery() -> [String: AnyObject] {
-        let query = [kSecClass as String: kSecClassGenericPassword,
-                     kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked,
-                     kSecAttrService as String: serviceName as AnyObject]
+        let query = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked,
+            kSecAttrService as String: serviceName as AnyObject
+        ]
         return query
     }
 

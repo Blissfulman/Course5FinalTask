@@ -27,8 +27,7 @@ final class NewPostViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(NewPhotoCell.nib(),
-                                forCellWithReuseIdentifier: NewPhotoCell.identifier)
+        collectionView.register(NewPhotoCell.nib(), forCellWithReuseIdentifier: NewPhotoCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -37,7 +36,6 @@ final class NewPostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
         setupLayout()
     }
@@ -68,7 +66,10 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
         viewModel.numberOfItems
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         
         let cell = imagesCollectionView.dequeueReusableCell(
             withReuseIdentifier: NewPhotoCell.identifier, for: indexPath

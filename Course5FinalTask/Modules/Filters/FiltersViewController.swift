@@ -45,8 +45,7 @@ final class FiltersViewController: UIViewController {
         setupLayout()
         setupViewModelBindings()
         
-        filtersCollectionView.register(FilterCell.nib(),
-                                       forCellWithReuseIdentifier: FilterCell.identifier)
+        filtersCollectionView.register(FilterCell.nib(), forCellWithReuseIdentifier: FilterCell.identifier)
     }
     
     // MARK: - Setup UI
@@ -55,10 +54,12 @@ final class FiltersViewController: UIViewController {
         title = "Filters"
         
         let nextButton = UIBarButtonItem(
-            title: "Next", style: .plain, target: self, action: #selector(nextButtonTapped)
+            title: "Next",
+            style: .plain,
+            target: self,
+            action: #selector(nextButtonTapped)
         )
         navigationItem.rightBarButtonItem = nextButton
-        
         view.addSubview(imageView)
     }
     
@@ -105,7 +106,10 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
         viewModel.numberOfItems
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         
         let cell = filtersCollectionView.dequeueReusableCell(
             withReuseIdentifier: FilterCell.identifier, for: indexPath
@@ -133,15 +137,27 @@ extension FiltersViewController: UICollectionViewDelegateFlowLayout {
     private var minimumLineSpacing: CGFloat { 16 }
     private var minimumInteritemSpacing: CGFloat { 0 }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         CGSize(width: widthForItem, height: heightForItem)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
         minimumLineSpacing
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
         minimumInteritemSpacing
     }
 }

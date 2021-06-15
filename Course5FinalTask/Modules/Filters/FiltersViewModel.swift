@@ -59,8 +59,7 @@ final class FiltersViewModel: FiltersViewModelProtocol {
         LoadingView.show()
         
         let queue = OperationQueue()
-        let filterOperation = FilterImageOperation(inputImage: originalImage,
-                                                   filter: filterNames[indexPath.item])
+        let filterOperation = FilterImageOperation(inputImage: originalImage, filter: filterNames[indexPath.item])
         
         filterOperation.completionBlock = { [weak self] in
             guard let outputImage = filterOperation.outputImage else { return }
@@ -84,8 +83,7 @@ final class FiltersViewModel: FiltersViewModelProtocol {
         let queue = OperationQueue()
         
         for item in 0..<numberOfItems {
-            let filterOperation = FilterImageOperation(inputImage: thumbnail,
-                                                       filter: filterNames[item])
+            let filterOperation = FilterImageOperation(inputImage: thumbnail, filter: filterNames[item])
             
             filterOperation.completionBlock = { [weak self] in
                 guard let outputImage = filterOperation.outputImage else { return }

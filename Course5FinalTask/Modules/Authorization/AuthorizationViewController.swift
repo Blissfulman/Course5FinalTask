@@ -94,28 +94,22 @@ final class AuthorizationViewController: UIViewController {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            loginTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                                constant: 30),
-            loginTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                                    constant: 16),
-            loginTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                     constant: -16),
+            loginTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            loginTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            loginTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             loginTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor,
-                                                   constant: 8),
-            passwordTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                                       constant: 16),
-            passwordTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                        constant: -16),
+            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: 8),
+            passwordTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            passwordTextField.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -16
+            ),
             passwordTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            signInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor,
-                                              constant: 100),
-            signInButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                                  constant: 16),
-            signInButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                   constant: -16),
+            signInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 100),
+            signInButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            signInButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             signInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }

@@ -43,15 +43,13 @@ final class ProfileViewController: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: ProfileHeaderView.identifier
         )
-        profileCollectionView.register(ProfilePhotoCell.nib(),
-                                       forCellWithReuseIdentifier: ProfilePhotoCell.identifier)
+        profileCollectionView.register(ProfilePhotoCell.nib(), forCellWithReuseIdentifier: ProfilePhotoCell.identifier)
         viewModel.getCurrentUser()
         setupViewModelBindings()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         viewModel.getUser()
     }
     
@@ -104,7 +102,11 @@ final class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
         
         switch kind {
         case UICollectionView.elementKindSectionHeader:
@@ -126,7 +128,11 @@ extension ProfileViewController: UICollectionViewDataSource {
         viewModel.numberOfItems
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        
         let cell = profileCollectionView.dequeueReusableCell(
             withReuseIdentifier: ProfilePhotoCell.identifier, for: indexPath
         ) as! ProfilePhotoCell
@@ -142,11 +148,19 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     private var numberOfColumns: CGFloat { 3 }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
         CGSize(width: profileCollectionView.frame.width, height: UIConstants.profileHeaderHeight)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let size = profileCollectionView.frame.width / numberOfColumns
         return CGSize(width: size, height: size)
     }

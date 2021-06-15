@@ -29,14 +29,12 @@ final class UserListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         title = viewModel.title
         setupViewModelBindings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         viewModel.updateUserList()
     }
     

@@ -77,8 +77,10 @@ extension FeedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FeedPostCell.identifier,
-                                                 for: indexPath) as! FeedPostCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: FeedPostCell.identifier,
+            for: indexPath
+        ) as! FeedPostCell
         cell.viewModel = viewModel.getFeedPostCellViewModel(at: indexPath)
         cell.configure()
         return cell

@@ -12,7 +12,7 @@ final class FeedPostCell: UITableViewCell {
     
     // MARK: - Nested types
     
-    enum LikeColor {
+    private enum LikeColor {
         static let like = UIColor.systemBlue
         static let unlike = UIColor.lightGray
     }

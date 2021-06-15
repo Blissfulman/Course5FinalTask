@@ -39,8 +39,11 @@ final class SharingViewModel: SharingViewModelProtocol {
     // MARK: - Public methods
     
     func createPost(withDescription description: String?) {
-        dataFetchingService.createPost(imageData: imageData.base64EncodedString(),
-                               description: description ?? "") { [weak self] result in
+        dataFetchingService.createPost(
+            imageData: imageData.base64EncodedString(),
+            description: description ?? ""
+        ) { [weak self] result in
+            
             switch result {
             case .success:
                 self?.postDidCreateSuccessfully?()

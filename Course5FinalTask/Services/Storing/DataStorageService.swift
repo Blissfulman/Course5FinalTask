@@ -99,8 +99,7 @@ final class DataStorageService: DataStorageServiceProtocol {
     }
     
     func getUser(withID userID: UserModel.ID) -> UserModel? {
-        let users = coreDataService.fetchData(for: UserCoreData.self,
-                                              predicate: makeUserIDPredicate(userID: userID))
+        let users = coreDataService.fetchData(for: UserCoreData.self, predicate: makeUserIDPredicate(userID: userID))
         return UserModel(userCoreData: users.first)
     }
     
@@ -109,15 +108,16 @@ final class DataStorageService: DataStorageServiceProtocol {
         let feedPostIDs = getFeedPostIDs()
         // Получение публикаций ленты из хранилища по их ID
         let feedPosts = feedPostIDs.compactMap {
-            coreDataService.fetchData(for: PostCoreData.self,
-                                      predicate: makePostIDPredicate(postID: $0)).first
+            coreDataService.fetchData(for: PostCoreData.self, predicate: makePostIDPredicate(postID: $0)).first
         }
         return feedPosts.compactMap { PostModel(postCoreData: $0) }
     }
     
     func getPostsOfUser(withID userID: UserModel.ID) -> [PostModel] {
-        let posts = coreDataService.fetchData(for: PostCoreData.self,
-                                              predicate: makeAuthorPostIDPredicate(authorID: userID))
+        let posts = coreDataService.fetchData(
+            for: PostCoreData.self,
+            predicate: makeAuthorPostIDPredicate(authorID: userID)
+        )
         return posts.compactMap { PostModel(postCoreData: $0) }
     }
     
@@ -141,8 +141,7 @@ final class DataStorageService: DataStorageServiceProtocol {
     
     private func getFeedPostIDs() -> [PostModel.ID] {
         guard let feedPostIDsData = coreDataService.fetchData(for: Feed.self).first?.postIDs,
-              let feedPostIDs = try? JSONDecoder().decode([PostModel.ID].self,
-                                                          from: feedPostIDsData) else { return [] }
+              let feedPostIDs = try? JSONDecoder().decode([PostModel.ID].self, from: feedPostIDsData) else { return [] }
         return feedPostIDs
     }
     

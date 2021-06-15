@@ -287,9 +287,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     
     func createPost(imageData: String, description: String, completion: @escaping PostResult) {
         isOnline
-            ? networkService.createPost(imageData: imageData,
-                                        description: description,
-                                        completion: completion)
+            ? networkService.createPost(imageData: imageData, description: description, completion: completion)
             : completion(.failure(offlineMode))
     }
 }
