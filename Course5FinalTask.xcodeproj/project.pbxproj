@@ -44,10 +44,10 @@
 		CE6E2D5624D9BD3300A4B08B /* FeedPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E2D5524D9BD3300A4B08B /* FeedPostCell.swift */; };
 		CE6F191926792C0F00F90C6B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE6F191826792C0F00F90C6B /* Localizable.strings */; };
 		CE6F191B26792CAE00F90C6B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6F191A26792CAE00F90C6B /* String+Extension.swift */; };
+		CE6F191C267A5FDC00F90C6B /* SharingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE6F191E267A5FDC00F90C6B /* SharingViewController.xib */; };
 		CE76326A2573743F00E4F7AE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7632692573743F00E4F7AE /* UserModel.swift */; };
 		CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */; };
 		CE813ABE2580F77D006DCCBB /* UserListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE813ABD2580F77D006DCCBB /* UserListType.swift */; };
-		CE88991825DE4404000DA414 /* NewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991725DE4404000DA414 /* NewPostViewController.xib */; };
 		CE88991A25DE4998000DA414 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991925DE4998000DA414 /* ProfileViewController.xib */; };
 		CE88991C25DE55EA000DA414 /* FeedPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991B25DE55EA000DA414 /* FeedPostCell.xib */; };
 		CE88991E25DE5680000DA414 /* FeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991D25DE5680000DA414 /* FeedViewController.xib */; };
@@ -57,7 +57,6 @@
 		CE9C3594252A421A00730A47 /* FilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE9C3592252A421A00730A47 /* FilterCell.xib */; };
 		CEA36F3F252E264000386D64 /* FilterImageOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA36F3E252E264000386D64 /* FilterImageOperation.swift */; };
 		CEA36F43252F78C200386D64 /* SharingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA36F41252F78C200386D64 /* SharingViewController.swift */; };
-		CEA36F44252F78C200386D64 /* SharingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA36F42252F78C200386D64 /* SharingViewController.xib */; };
 		CEB0222424DD79C3009D0615 /* ProfilePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0222324DD79C3009D0615 /* ProfilePhotoCell.swift */; };
 		CEB7A7E625E2B6F1009D9897 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */; };
 		CEB7A7E825E2BC96009D9897 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7A7E725E2BC96009D9897 /* FeedViewModel.swift */; };
@@ -140,10 +139,11 @@
 		CE6E2D5524D9BD3300A4B08B /* FeedPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostCell.swift; sourceTree = "<group>"; };
 		CE6F191826792C0F00F90C6B /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		CE6F191A26792CAE00F90C6B /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		CE6F191F267A5FE400F90C6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SharingViewController.xib; sourceTree = "<group>"; };
+		CE6F1920267A5FE900F90C6B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SharingViewController.strings; sourceTree = "<group>"; };
 		CE7632692573743F00E4F7AE /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CE813ABD2580F77D006DCCBB /* UserListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListType.swift; sourceTree = "<group>"; };
-		CE88991725DE4404000DA414 /* NewPostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPostViewController.xib; sourceTree = "<group>"; };
 		CE88991925DE4998000DA414 /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		CE88991B25DE55EA000DA414 /* FeedPostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedPostCell.xib; sourceTree = "<group>"; };
 		CE88991D25DE5680000DA414 /* FeedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedViewController.xib; sourceTree = "<group>"; };
@@ -153,7 +153,6 @@
 		CE9C3592252A421A00730A47 /* FilterCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterCell.xib; sourceTree = "<group>"; };
 		CEA36F3E252E264000386D64 /* FilterImageOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterImageOperation.swift; sourceTree = "<group>"; };
 		CEA36F41252F78C200386D64 /* SharingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViewController.swift; sourceTree = "<group>"; };
-		CEA36F42252F78C200386D64 /* SharingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SharingViewController.xib; sourceTree = "<group>"; };
 		CEB0222324DD79C3009D0615 /* ProfilePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhotoCell.swift; sourceTree = "<group>"; };
 		CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		CEB7A7E725E2BC96009D9897 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
@@ -462,7 +461,7 @@
 			children = (
 				CEA36F41252F78C200386D64 /* SharingViewController.swift */,
 				CEFF9CA825D6D455004C357F /* SharingViewModel.swift */,
-				CEA36F42252F78C200386D64 /* SharingViewController.xib */,
+				CE6F191E267A5FDC00F90C6B /* SharingViewController.xib */,
 			);
 			path = Sharing;
 			sourceTree = "<group>";
@@ -472,7 +471,6 @@
 			children = (
 				CEBE92AB25264BF6002A6A63 /* NewPostViewController.swift */,
 				CEEB25AA25DD70EE009EF29B /* NewPostViewModel.swift */,
-				CE88991725DE4404000DA414 /* NewPostViewController.xib */,
 				CE48841925B9D61F00BCB7F9 /* Cells */,
 			);
 			path = NewPost;
@@ -586,8 +584,7 @@
 				CE88991C25DE55EA000DA414 /* FeedPostCell.xib in Resources */,
 				CE6F191926792C0F00F90C6B /* Localizable.strings in Resources */,
 				CE9C3594252A421A00730A47 /* FilterCell.xib in Resources */,
-				CEA36F44252F78C200386D64 /* SharingViewController.xib in Resources */,
-				CE88991825DE4404000DA414 /* NewPostViewController.xib in Resources */,
+				CE6F191C267A5FDC00F90C6B /* SharingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,6 +702,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CE6F191E267A5FDC00F90C6B /* SharingViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE6F191F267A5FE400F90C6B /* Base */,
+				CE6F1920267A5FE900F90C6B /* ru */,
+			);
+			name = SharingViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		74B79264202B3254006BCB41 /* Debug */ = {
