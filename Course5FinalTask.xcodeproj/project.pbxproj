@@ -47,6 +47,7 @@
 		CE6F191C267A5FDC00F90C6B /* SharingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE6F191E267A5FDC00F90C6B /* SharingViewController.xib */; };
 		CE76326A2573743F00E4F7AE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7632692573743F00E4F7AE /* UserModel.swift */; };
 		CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */; };
+		CE7D7CD1267B089E0012C2F0 /* ServerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7D7CD0267B089E0012C2F0 /* ServerConstants.swift */; };
 		CE813ABE2580F77D006DCCBB /* UserListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE813ABD2580F77D006DCCBB /* UserListType.swift */; };
 		CE88991A25DE4998000DA414 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991925DE4998000DA414 /* ProfileViewController.xib */; };
 		CE88991C25DE55EA000DA414 /* FeedPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991B25DE55EA000DA414 /* FeedPostCell.xib */; };
@@ -77,21 +78,10 @@
 		CEDA405825DBF86C008D0B71 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA405725DBF86C008D0B71 /* Data+Extension.swift */; };
 		CEEB25AB25DD70EE009EF29B /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB25AA25DD70EE009EF29B /* NewPostViewModel.swift */; };
 		CEEEE9BD2622090C004333A4 /* AuthorizationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEEE9BC2622090C004333A4 /* AuthorizationViewModelTests.swift */; };
-		CEFF9CA325D5A661004C357F /* ServerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA225D5A661004C357F /* ServerConstants.swift */; };
 		CEFF9CA525D5B2C3004C357F /* UserURLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */; };
 		CEFF9CA725D5B2E5004C357F /* PostURLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA625D5B2E5004C357F /* PostURLCreator.swift */; };
 		CEFF9CA925D6D455004C357F /* SharingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA825D6D455004C357F /* SharingViewModel.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		CEEEE9BF2622090C004333A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74B7924C202B3254006BCB41 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 74B79253202B3254006BCB41;
-			remoteInfo = Course5FinalTask;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		74B7927A202B33EA006BCB41 /* Embed Frameworks */ = {
@@ -154,6 +144,7 @@
 		CE6F1920267A5FE900F90C6B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SharingViewController.strings; sourceTree = "<group>"; };
 		CE7632692573743F00E4F7AE /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		CE7D7CD0267B089E0012C2F0 /* ServerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ServerConstants.swift; path = "/Users/user/Documents/Нетология/Course5FinalTask/Course5FinalTask/Modules/Sharing/ServerConstants.swift"; sourceTree = "<absolute>"; };
 		CE813ABD2580F77D006DCCBB /* UserListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListType.swift; sourceTree = "<group>"; };
 		CE88991925DE4998000DA414 /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		CE88991B25DE55EA000DA414 /* FeedPostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedPostCell.xib; sourceTree = "<group>"; };
@@ -186,7 +177,6 @@
 		CEEEE9BA2622090C004333A4 /* Course5FinalTaskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Course5FinalTaskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEEE9BC2622090C004333A4 /* AuthorizationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModelTests.swift; sourceTree = "<group>"; };
 		CEEEE9BE2622090C004333A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CEFF9CA225D5A661004C357F /* ServerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConstants.swift; sourceTree = "<group>"; };
 		CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserURLCreator.swift; sourceTree = "<group>"; };
 		CEFF9CA625D5B2E5004C357F /* PostURLCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostURLCreator.swift; sourceTree = "<group>"; };
 		CEFF9CA825D6D455004C357F /* SharingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViewModel.swift; sourceTree = "<group>"; };
@@ -327,7 +317,7 @@
 		CE3DD1DF2585350300C31D7F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				CEFF9CA225D5A661004C357F /* ServerConstant.swift */,
+				CE7D7CD0267B089E0012C2F0 /* ServerConstants.swift */,
 				CE0CFFCF2610F7D700B9A9AA /* NetworkErrorHandler.swift */,
 				CE4075C62576A7B4006F4592 /* AuthorizationURLCreator.swift */,
 				CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */,
@@ -575,7 +565,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				CEEEE9C02622090C004333A4 /* PBXTargetDependency */,
 			);
 			name = Course5FinalTaskTests;
 			productName = Course5FinalTaskTests;
@@ -721,6 +710,7 @@
 				CEFF9CA525D5B2C3004C357F /* UserURLCreator.swift in Sources */,
 				CE4075CD2576B3C0006F4592 /* HTTPMethod.swift in Sources */,
 				CE4075BB25754AC0006F4592 /* AutorizationModel.swift in Sources */,
+				CE7D7CD1267B089E0012C2F0 /* ServerConstants.swift in Sources */,
 				CE0190E725D472DF002D48BA /* UIConstants.swift in Sources */,
 				CECB0BFF24C8725D0086A593 /* FeedViewController.swift in Sources */,
 				CE6D676E24E02574002FE7F2 /* UserListViewController.swift in Sources */,
@@ -741,7 +731,6 @@
 				CE813ABE2580F77D006DCCBB /* UserListType.swift in Sources */,
 				CE4075CB2576B34E006F4592 /* RequestService.swift in Sources */,
 				CED3279624DED6D200BB1A80 /* ProfileHeaderView.swift in Sources */,
-				CEFF9CA325D5A661004C357F /* ServerConstant.swift in Sources */,
 				CE9BEA7E258BB9690006EFEA /* NewImagesProvider.swift in Sources */,
 				CEDA405825DBF86C008D0B71 /* Data+Extension.swift in Sources */,
 				CEB0222424DD79C3009D0615 /* ProfilePhotoCell.swift in Sources */,
