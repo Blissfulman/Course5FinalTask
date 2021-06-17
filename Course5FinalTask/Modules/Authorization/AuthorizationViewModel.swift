@@ -23,11 +23,11 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
     // MARK: - Properties
     
     var login: String?
-    
     var password: String?
     
     var isEnabledSignInButton: Bool {
-        guard let login = login, !login.isEmpty, let password = password, !password.isEmpty else {
+        guard let login = login, !login.isEmpty,
+              let password = password, !password.isEmpty else {
             return false
         }
         return true
@@ -38,7 +38,6 @@ final class AuthorizationViewModel: AuthorizationViewModelProtocol {
     }
     
     var authorizationSuccess: (() -> Void)?
-    
     var error: Box<Error?> = Box(nil)
     
     private let keychainService: KeychainServiceProtocol = KeychainService()

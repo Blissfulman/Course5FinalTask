@@ -24,10 +24,6 @@ final class TabBarController: UITabBarController {
         static let profile = "profile"
     }
     
-    // MARK: - Static properties
-    
-    static let identifier = String(describing: TabBarController.self)
-    
     // MARK: - Lifecycle methods
     
     override func viewDidLoad() {
