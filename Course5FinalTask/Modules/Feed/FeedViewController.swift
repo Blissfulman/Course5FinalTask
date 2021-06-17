@@ -20,9 +20,9 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Initializers
     
-    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, viewModel: FeedViewModelProtocol) {
+    init(viewModel: FeedViewModelProtocol) {
         self.viewModel = viewModel
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -48,13 +48,11 @@ final class FeedViewController: UIViewController {
         
     private func setupViewModelBindings() {
         viewModel.tableViewNeedUpdating = { [unowned self] in
-            self.feedTableView.reloadData()
+            feedTableView.reloadData()
         }
         
         viewModel.authorOfPostTapped = { [unowned self] profileViewModel in
-            let profileVC = ProfileViewController(nibName: nil,
-                                                  bundle: nil,
-                                                  viewModel: profileViewModel)
+            let profileVC = ProfileViewController(viewModel: profileViewModel)
             navigationController?.pushViewController(profileVC, animated: true)
         }
         
@@ -65,7 +63,7 @@ final class FeedViewController: UIViewController {
         
         viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self.showAlert(error)
+            showAlert(error)
         }
     }
 }
@@ -79,8 +77,10 @@ extension FeedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FeedPostCell.identifier,
-                                                 for: indexPath) as! FeedPostCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: FeedPostCell.identifier,
+            for: indexPath
+        ) as! FeedPostCell
         cell.viewModel = viewModel.getFeedPostCellViewModel(at: indexPath)
         cell.configure()
         return cell
@@ -91,8 +91,9 @@ extension FeedViewController: UITableViewDataSource {
 
 extension FeedViewController: SharingViewControllerDelegate {
     
-    // Прокрутка ленты в верхнее положение
     func updateAfterPosting() {
-        feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        UIView.animate(withDuration: 0.5) {
+            self.feedTableView.contentOffset = CGPoint(x: 0, y: 0)
+        }
     }
 }

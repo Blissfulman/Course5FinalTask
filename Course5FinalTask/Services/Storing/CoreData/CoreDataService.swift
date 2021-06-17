@@ -39,8 +39,7 @@ final class CoreDataService {
         backgroundContext.saveOrRollback()
     }
     
-    func fetchData<T: NSManagedObject>(for entity: T.Type,
-                                       predicate: NSCompoundPredicate? = nil) -> [T] {
+    func fetchData<T: NSManagedObject>(for entity: T.Type, predicate: NSCompoundPredicate? = nil) -> [T] {
         let request: NSFetchRequest<T>
         var fetchedResult = [T]()
         
@@ -73,16 +72,16 @@ final class CoreDataService {
             self?.viewContext.mergePolicy = NSMergePolicy.overwrite
             self?.backgroundContext.mergePolicy = NSMergePolicy.overwrite
             
-            let notificationCompletion: (_ notification: Notification) -> Void = {
-                [weak self] notification in
-                
+            let notificationCompletion: (_ notification: Notification) -> Void = { [weak self] notification in
                 self?.viewContext.performMergeChangesFromContextDidSaveNotification(notification: notification)
             }
             
-            NotificationCenter.default.addObserver(forName: .NSManagedObjectContextDidSave,
-                                                   object: self?.backgroundContext,
-                                                   queue: nil,
-                                                   using: notificationCompletion)
+            NotificationCenter.default.addObserver(
+                forName: .NSManagedObjectContextDidSave,
+                object: self?.backgroundContext,
+                queue: nil,
+                using: notificationCompletion
+            )
         }
     }
 }

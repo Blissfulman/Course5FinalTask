@@ -64,9 +64,11 @@ final class KeychainService: KeychainServiceProtocol {
     // MARK: - Private methods
     
     private func keychainQuery() -> [String: AnyObject] {
-        let query = [kSecClass as String: kSecClassGenericPassword,
-                     kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked,
-                     kSecAttrService as String: serviceName as AnyObject]
+        let query = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked,
+            kSecAttrService as String: serviceName as AnyObject
+        ]
         return query
     }
 
@@ -79,7 +81,7 @@ final class KeychainService: KeychainServiceProtocol {
         var queryResult: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
         
-        if status != noErr { return nil }
+        guard status == noErr else { return nil }
         
         guard let item = queryResult as? [String: AnyObject],
               let tokenData = item[kSecValueData as String] as? Data,

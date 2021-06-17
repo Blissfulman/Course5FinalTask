@@ -24,7 +24,6 @@ final class SharingViewController: UIViewController {
     // MARK: - Properties
     
     var viewModel: SharingViewModelProtocol
-    weak var delegate: SharingViewControllerDelegate?
     
     // MARK: - Initializers
     
@@ -52,7 +51,10 @@ final class SharingViewController: UIViewController {
         imageView.image = UIImage(data: viewModel.imageData)
         
         let shareButton = UIBarButtonItem(
-            title: "Share", style: .plain, target: self, action: #selector(shareButtonTapped)
+            title: "Share".localized(),
+            style: .plain,
+            target: self,
+            action: #selector(shareButtonTapped)
         )
         navigationItem.rightBarButtonItem = shareButton
     }
@@ -63,31 +65,33 @@ final class SharingViewController: UIViewController {
         viewModel.createPost(withDescription: descriptionTextField.text)
     }
     
+    // MARK: - Navigation
+    
+    private func transitionToFeed() {
+        guard let feedNC = tabBarController?.viewControllers?.first as? UINavigationController else { return }
+        feedNC.popToRootViewController(animated: true)
+        
+        tabBarController?.selectedIndex = 0
+        
+        // Вызов метода, который выполнит прокрутку ленты в верхнее положение
+        if let feedVC = feedNC.viewControllers.first as? SharingViewControllerDelegate {
+            feedVC.updateAfterPosting()
+        }
+    }
+    
     // MARK: - Private methods
     
     private func setupViewModelBindings() {
         viewModel.postDidCreateSuccessfully = { [unowned self] in
-            // Получение корневого вью элемента таб бара "Feed"
-            guard let navControllerFeed = self.tabBarController?.viewControllers?.first
-                    as? UINavigationController else { return }
-            navControllerFeed.popToRootViewController(animated: true)
-            
-            // Переход в ленту
-            self.tabBarController?.selectedIndex = 0
-            
-            // Вызов метода, который выполнит прокрутку ленты в верхнее положение
-            guard let feedVC = navControllerFeed.viewControllers.first
-                    as? FeedViewController else { return }
-            self.delegate = feedVC
-            self.delegate?.updateAfterPosting()
+            transitionToFeed()
             
             // Переход на корневое вью элемента таб бара "New post"
-            self.navigationController?.popToRootViewController(animated: false)
+            navigationController?.popToRootViewController(animated: false)
         }
         
         viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self.showAlert(error)
+            showAlert(error)
         }
     }
 }

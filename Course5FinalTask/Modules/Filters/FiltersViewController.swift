@@ -12,7 +12,6 @@ final class FiltersViewController: UIViewController {
     
     // MARK: - Outlets
     
-    /// Коллекция выбора фильтров с примерами их применения для обработки большого изображения.
     @IBOutlet private weak var filtersCollectionView: UICollectionView!
     
     // MARK: - Properties
@@ -46,20 +45,21 @@ final class FiltersViewController: UIViewController {
         setupLayout()
         setupViewModelBindings()
         
-        filtersCollectionView.register(FilterCell.nib(),
-                                       forCellWithReuseIdentifier: FilterCell.identifier)
+        filtersCollectionView.register(FilterCell.nib(), forCellWithReuseIdentifier: FilterCell.identifier)
     }
     
     // MARK: - Setup UI
     
     private func setupUI() {
-        title = "Filters"
+        title = "Filters".localized()
         
         let nextButton = UIBarButtonItem(
-            title: "Next", style: .plain, target: self, action: #selector(nextButtonTapped)
+            title: "Next".localized(),
+            style: .plain,
+            target: self,
+            action: #selector(nextButtonTapped)
         )
         navigationItem.rightBarButtonItem = nextButton
-        
         view.addSubview(imageView)
     }
     
@@ -86,13 +86,13 @@ final class FiltersViewController: UIViewController {
     private func setupViewModelBindings() {
         viewModel.image.bind { [unowned self] image in
             DispatchQueue.main.async {
-                self.imageView.image = UIImage(data: image)
+                imageView.image = UIImage(data: image)
             }
         }
         
         viewModel.thumbnailDidFilter = { [unowned self] index in
             DispatchQueue.main.async {
-                self.filtersCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+                filtersCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
             }
         }
     }
@@ -106,7 +106,10 @@ extension FiltersViewController: UICollectionViewDataSource, UICollectionViewDel
         viewModel.numberOfItems
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         
         let cell = filtersCollectionView.dequeueReusableCell(
             withReuseIdentifier: FilterCell.identifier, for: indexPath
@@ -134,15 +137,27 @@ extension FiltersViewController: UICollectionViewDelegateFlowLayout {
     private var minimumLineSpacing: CGFloat { 16 }
     private var minimumInteritemSpacing: CGFloat { 0 }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         CGSize(width: widthForItem, height: heightForItem)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
         minimumLineSpacing
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
         minimumInteritemSpacing
     }
 }

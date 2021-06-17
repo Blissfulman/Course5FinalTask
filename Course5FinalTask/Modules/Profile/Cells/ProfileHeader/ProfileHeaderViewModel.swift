@@ -16,7 +16,7 @@ protocol ProfileHeaderViewModelDelegate: AnyObject {
     func showErrorAlert(_ error: Error)
 }
 
-protocol ProfileHeaderViewModelProtocol: class {
+protocol ProfileHeaderViewModelProtocol: AnyObject {
     var delegate: ProfileHeaderViewModelDelegate? { get }
     var user: Box<UserModel> { get }
     var avatarImageData: Data { get }
@@ -53,15 +53,15 @@ final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
     }
     
     var followButtonTitle: String {
-        user.value.currentUserFollowsThisUser ? "Unfollow" : "Follow"
+        user.value.currentUserFollowsThisUser ? "Unfollow".localized() : "Follow".localized()
     }
     
     var followersButtonTitle: String {
-        "Followers: " + String(user.value.followedByCount)
+        "Followers: ".localized() + String(user.value.followedByCount)
     }
     
     var followingsButtonTitle: String {
-        "Followings: " + String(user.value.followsCount)
+        "Followings: ".localized() + String(user.value.followsCount)
     }
     
     private let isCurrentUser: Bool

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct UserModel: Decodable {
+struct UserModel: Decodable, Identifiable {
     
     // MARK: - Properties
     
@@ -51,5 +51,5 @@ struct UserModel: Decodable {
 }
 
 struct UserIDRequestModel: Encodable {
-    let userID: String
+    let userID: UserModel.ID
 }

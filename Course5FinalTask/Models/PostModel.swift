@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PostModel: Decodable {
+struct PostModel: Decodable, Identifiable {
     
     // MARK: - Properties
     
@@ -63,7 +63,7 @@ struct PostModel: Decodable {
 }
 
 struct PostIDRequestModel: Encodable {
-    let postID: String
+    let postID: PostModel.ID
 }
 
 struct NewPostRequestModel: Encodable {

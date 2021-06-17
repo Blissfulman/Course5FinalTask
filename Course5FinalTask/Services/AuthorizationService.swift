@@ -44,8 +44,8 @@ final class AuthorizationService: AuthorizationServiceProtocol {
         NetworkService.isOnline
     }
     
-    private let requestService: RequestServiceProtocol = RequestService.shared
-    private let dataTaskService: DataTaskServiceProtocol = DataTaskService.shared
+    private let requestService: RequestServiceProtocol = RequestService()
+    private let dataTaskService: DataTaskServiceProtocol = DataTaskService()
     private let offlineMode = AppError.offlineMode
     
     // MARK: - Initializers

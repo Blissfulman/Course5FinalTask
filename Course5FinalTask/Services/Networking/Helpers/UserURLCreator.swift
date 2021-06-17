@@ -9,12 +9,12 @@
 import Foundation
 
 enum UserURLCreator {
-    case getUser(userID: String)
+    case getUser(userID: UserModel.ID)
     case currentUser
     case follow
     case unfollow
-    case followers(userID: String)
-    case followings(userID: String)
+    case followers(userID: UserModel.ID)
+    case followings(userID: UserModel.ID)
 
     var url: URL? {
         let baseURL = ServerConstants.baseURL

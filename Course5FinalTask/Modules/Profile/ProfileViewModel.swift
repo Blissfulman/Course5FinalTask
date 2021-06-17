@@ -45,10 +45,8 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     
     /// Очередь для выстраивания запросов данных у провайдера.
     private let receiveDataQueue = DispatchQueue(label: "receiveDataQueue", qos: .userInteractive)
-    
     /// Семафор для установки порядка запросов к провайдеру.
     private let semaphore = DispatchSemaphore(value: 1)
-    
     private let keychainService: KeychainServiceProtocol = KeychainService()
     private let authorizationService: AuthorizationServiceProtocol = AuthorizationService.shared
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared

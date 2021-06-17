@@ -17,10 +17,6 @@ protocol RequestServiceProtocol {
 
 final class RequestService: RequestServiceProtocol {
     
-    // MARK: - Static properties
-    
-    static let shared = RequestService()
-    
     // MARK: - Properties
     
     var token: String {
@@ -28,10 +24,6 @@ final class RequestService: RequestServiceProtocol {
     }
     
     private let keychainService: KeychainServiceProtocol = KeychainService()
-    
-    // MARK: - Initializers
-    
-    private init() {}
     
     // MARK: - Public methods
     

@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/user/Documents/&#x41d;&#x435;&#x442;&#x43e;&#x43b;&#x43e;&#x433;&#x438;&#x44f;/Course5FinalTask/Course5FinalTask/Modules/Sharing/ServerConstants.swift">
+   </FileRef>
+   <FileRef
       location = "group:Course5FinalTask.xcodeproj">
    </FileRef>
    <FileRef
