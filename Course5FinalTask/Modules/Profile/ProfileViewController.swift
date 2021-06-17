@@ -10,10 +10,6 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: - Static properties
-    
-    static let identifier = String(describing: ProfileViewController.self)
-    
     // MARK: - Outlets
     
     @IBOutlet private weak var profileCollectionView: UICollectionView!

@@ -16,6 +16,7 @@ protocol NewPostViewModelProtocol {
     
     func getCellData(at indexPath: IndexPath) -> Data
     func getFiltersViewModel(at indexPath: IndexPath) -> FiltersViewModelProtocol
+    func getFiltersViewModel(withImageData imageData: Data) -> FiltersViewModelProtocol
 }
 
 final class NewPostViewModel: NewPostViewModelProtocol {
@@ -40,8 +41,14 @@ final class NewPostViewModel: NewPostViewModelProtocol {
         images[indexPath.item]
     }
     
+    // Получение `FiltersViewModelProtocol` для изображения из коллекции.
     func getFiltersViewModel(at indexPath: IndexPath) -> FiltersViewModelProtocol {
         FiltersViewModel(imageData: images[indexPath.item])
+    }
+    
+    // Получение `FiltersViewModelProtocol` для изображения из галереи.
+    func getFiltersViewModel(withImageData imageData: Data) -> FiltersViewModelProtocol {
+        FiltersViewModel(imageData: imageData)
     }
     
     // MARK: - Private methods

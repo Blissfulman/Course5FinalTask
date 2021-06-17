@@ -28,7 +28,6 @@
 "Next" = "Далее";
 "Share" = "Поделиться";
 
-
 // MARK: - Profile
 
 "Log out" = "Выйти";
@@ -45,7 +44,6 @@
 "Not acceptable" = "Недопустимо";
 "Unprocessable" = "Не обработано";
 "Transfer error" = "Ошибка передачи";
-
 
 // MARK: - UserListType
 
