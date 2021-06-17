@@ -14,7 +14,7 @@ enum AuthorizationURLCreator {
     case checkToken
     
     var url: URL? {
-        let baseURL = ServerConstant.baseURL
+        let baseURL = ServerConstants.baseURL
         
         switch self {
         case .signIn:

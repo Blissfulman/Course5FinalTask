@@ -17,7 +17,7 @@ enum UserURLCreator {
     case followings(userID: UserModel.ID)
 
     var url: URL? {
-        let baseURL = ServerConstant.baseURL
+        let baseURL = ServerConstants.baseURL
 
         switch self {
         case .getUser(let userID):
