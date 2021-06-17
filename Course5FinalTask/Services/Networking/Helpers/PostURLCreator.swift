@@ -10,15 +10,15 @@ import Foundation
 
 enum PostURLCreator {
     case feed
-    case userPosts(userID: String)
-    case post(postID: String)
+    case userPosts(userID: UserModel.ID)
+    case post(postID: PostModel.ID)
     case like
     case unlike
-    case usersLikedPost(postID: String)
+    case usersLikedPost(postID: PostModel.ID)
     case create
     
     var url: URL? {
-        let baseURL = ServerConstants.baseURL
+        let baseURL = ServerConstant.baseURL
 
         switch self {
         case .feed:

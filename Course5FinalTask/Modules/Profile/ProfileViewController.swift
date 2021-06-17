@@ -10,10 +10,6 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: - Static properties
-    
-    static let identifier = String(describing: ProfileViewController.self)
-    
     // MARK: - Outlets
     
     @IBOutlet private weak var profileCollectionView: UICollectionView!
@@ -21,15 +17,12 @@ final class ProfileViewController: UIViewController {
     // MARK: - Properties
     
     var viewModel: ProfileViewModelProtocol
-
-    /// Количество колонок в представлении фотографий.
-    private let numberOfColumns: CGFloat = 3
     
     // MARK: - Initializers
     
-    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, viewModel: ProfileViewModelProtocol) {
+    init(viewModel: ProfileViewModelProtocol) {
         self.viewModel = viewModel
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -46,15 +39,13 @@ final class ProfileViewController: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: ProfileHeaderView.identifier
         )
-        profileCollectionView.register(ProfilePhotoCell.nib(),
-                                       forCellWithReuseIdentifier: ProfilePhotoCell.identifier)
+        profileCollectionView.register(ProfilePhotoCell.nib(), forCellWithReuseIdentifier: ProfilePhotoCell.identifier)
         viewModel.getCurrentUser()
         setupViewModelBindings()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         viewModel.getUser()
     }
     
@@ -97,7 +88,7 @@ final class ProfileViewController: UIViewController {
     
     private func addLogOutButton() {
         let logOutButton = UIBarButtonItem(
-            title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonTapped)
+            title: "Log out".localized(), style: .plain, target: self, action: #selector(logOutButtonTapped)
         )
         navigationItem.rightBarButtonItem = logOutButton
     }
@@ -107,7 +98,11 @@ final class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
         
         switch kind {
         case UICollectionView.elementKindSectionHeader:
@@ -121,7 +116,8 @@ extension ProfileViewController: UICollectionViewDataSource {
                 header.viewModel = profileHeaderViewModel
             }
             return header
-        default: fatalError("Unexpected element kind")
+        default:
+            fatalError("Unexpected element kind")
         }
     }
     
@@ -129,7 +125,11 @@ extension ProfileViewController: UICollectionViewDataSource {
         viewModel.numberOfItems
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        
         let cell = profileCollectionView.dequeueReusableCell(
             withReuseIdentifier: ProfilePhotoCell.identifier, for: indexPath
         ) as! ProfilePhotoCell
@@ -143,11 +143,21 @@ extension ProfileViewController: UICollectionViewDataSource {
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    private var numberOfColumns: CGFloat { 3 }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
         CGSize(width: profileCollectionView.frame.width, height: UIConstants.profileHeaderHeight)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let size = profileCollectionView.frame.width / numberOfColumns
         return CGSize(width: size, height: size)
     }

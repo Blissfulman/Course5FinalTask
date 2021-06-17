@@ -27,25 +27,44 @@ final class NewPostViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(NewPhotoCell.nib(),
-                                forCellWithReuseIdentifier: NewPhotoCell.identifier)
+        collectionView.register(NewPhotoCell.nib(), forCellWithReuseIdentifier: NewPhotoCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    
+    private let imagePickerController = UIImagePickerController()
     
     // MARK: - Lifeсycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        imagePickerController.delegate = self
         setupUI()
         setupLayout()
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func openGalleryButtonTapped() {
+        present(imagePickerController, animated: true)
     }
     
     // MARK: - Setup UI
     
     private func setupUI() {
+        addOpenGalleryButton()
+        imagePickerController.sourceType = .savedPhotosAlbum
+        imagePickerController.allowsEditing = true
         view.addSubview(imagesCollectionView)
+    }
+    
+    private func addOpenGalleryButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "photo.on.rectangle.angled"),
+            style: .plain,
+            target: self,
+            action: #selector(openGalleryButtonTapped)
+        )
     }
     
     // MARK: - Setup layout
@@ -68,7 +87,10 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
         viewModel.numberOfItems
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         
         let cell = imagesCollectionView.dequeueReusableCell(
             withReuseIdentifier: NewPhotoCell.identifier, for: indexPath
@@ -82,6 +104,22 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let filtersVC = FiltersViewController(viewModel: viewModel.getFiltersViewModel(at: indexPath))
+        navigationController?.pushViewController(filtersVC, animated: true)
+    }
+}
+
+// MARK: - Image picker controller delegate
+
+extension NewPostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        defer { imagePickerController.dismiss(animated: true) }
+        guard let image = info[.editedImage] as? UIImage,
+              let imageData = image.pngData() else { return }
+        let filtersVC = FiltersViewController(viewModel: viewModel.getFiltersViewModel(withImageData: imageData))
         navigationController?.pushViewController(filtersVC, animated: true)
     }
 }

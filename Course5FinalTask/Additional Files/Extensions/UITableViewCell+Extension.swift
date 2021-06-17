@@ -10,6 +10,7 @@ import UIKit
 
 protocol NibTableViewCell {
     static var identifier: String { get }
+    static func nib() -> UINib
 }
 
 extension UITableViewCell: NibTableViewCell {

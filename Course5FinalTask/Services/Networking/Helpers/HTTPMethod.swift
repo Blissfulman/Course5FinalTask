@@ -6,8 +6,6 @@
 //  Copyright © 2020 e-Legion. All rights reserved.
 //
 
-import Foundation
-
 enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"

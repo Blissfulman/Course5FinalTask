@@ -29,14 +29,12 @@ final class UserListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         title = viewModel.title
         setupViewModelBindings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         viewModel.updateUserList()
     }
     
@@ -52,12 +50,12 @@ final class UserListViewController: UITableViewController {
     
     private func setupViewModelBindings() {
         viewModel.userList.bind { [unowned self] _ in
-            self.tableView.reloadData()
+            tableView.reloadData()
         }
         
         viewModel.error.bind { [unowned self] error in
             guard let error = error else { return }
-            self.showAlert(error)
+            showAlert(error)
         }
     }
 }
@@ -76,6 +74,7 @@ extension UserListViewController {
         var content = cell.defaultContentConfiguration()
         content.directionalLayoutMargins = .init(top: 0, leading: 0, bottom: 1, trailing: 0)
         content.image = UIImage(data: viewModel.getUserImageData(at: indexPath))
+        content.imageProperties.cornerRadius = cell.halfHeight()
         content.text = viewModel.getUserFullName(at: indexPath)
         
         cell.contentConfiguration = content
@@ -95,7 +94,7 @@ extension UserListViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let profileViewModel = viewModel.getProfileViewModel(at: indexPath)
-        let profileVC = ProfileViewController(nibName: nil, bundle: nil, viewModel: profileViewModel)
+        let profileVC = ProfileViewController(viewModel: profileViewModel)
         navigationController?.pushViewController(profileVC, animated: true)
     }
 }

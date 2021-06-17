@@ -11,7 +11,27 @@ import UIKit
 /// Класс, содержащий вью с индикатором активности, отображаемым во время загрузки данных.
 final class LoadingView {
     
-    static var activityIndicator = UIActivityIndicatorView(frame: UIScreen.main.bounds)
+    // MARK: - Static properties
+    
+    private static var backView: UIView = {
+        let view = UIView(frame: UIScreen.main.bounds)
+        view.backgroundColor = .clear
+        view.addSubview(activityIndicator)
+        return view
+    }()
+    
+    private static var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        activityIndicator.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+        activityIndicator.style = .large
+        activityIndicator.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        activityIndicator.color = .white
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.setCornerRadius(25)
+        return activityIndicator
+    }()
+    
+    // MARK: - Static methods
     
     static func show() {
         // Т.к. в оффлайн режиме отображать блокирующее вью не требуется, выполняется проверка данного статуса
@@ -19,7 +39,6 @@ final class LoadingView {
             DispatchQueue.main.async {
                 setup()
                 activityIndicator.startAnimating()
-                activityIndicator.isHidden = false
             }
         }
     }
@@ -29,19 +48,13 @@ final class LoadingView {
         if NetworkService.isOnline {
             DispatchQueue.main.async {
                 activityIndicator.stopAnimating()
-                activityIndicator.removeFromSuperview()
+                backView.removeFromSuperview()
             }
         }
     }
     
     private static func setup() {
         guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
-        
-        activityIndicator.backgroundColor = UIColor(white: 0, alpha: 0.7)
-        activityIndicator.color = .white
-        activityIndicator.style = .medium
-        activityIndicator.hidesWhenStopped = true
-        
-        window.addSubview(activityIndicator)
+        window.addSubview(backView)
     }
 }

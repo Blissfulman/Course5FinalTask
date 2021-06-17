@@ -12,7 +12,7 @@ final class FeedPostCell: UITableViewCell {
     
     // MARK: - Nested types
     
-    enum LikeColor {
+    private enum LikeColor {
         static let like = UIColor.systemBlue
         static let unlike = UIColor.lightGray
     }
@@ -36,7 +36,7 @@ final class FeedPostCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        avatarImageView.round()
         setupGestureRecognizers()
     }
     
@@ -100,16 +100,16 @@ final class FeedPostCell: UITableViewCell {
     
     private func setupViewModelBindings() {
         viewModel?.likeDataNeedUpdating = { [unowned self] in
-            self.likesCountButton.setTitle(self.viewModel?.likesCountButtonTitle, for: .normal)
+            likesCountButton.setTitle(viewModel?.likesCountButtonTitle, for: .normal)
             UIView.animate(withDuration: 0.3) {
-                self.likeButton.tintColor = self.viewModel?.currentUserLikesThisPost ?? false
+                likeButton.tintColor = viewModel?.currentUserLikesThisPost ?? false
                     ? LikeColor.like
                     : LikeColor.unlike
             }
         }
 
         viewModel?.bigLikeNeedAnimating = { [unowned self] in
-            self.bigLikeImageView.bigLikeAnimation()
+            bigLikeImageView.bigLikeAnimation()
         }
     }
 }

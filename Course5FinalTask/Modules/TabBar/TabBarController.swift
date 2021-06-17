@@ -13,9 +13,9 @@ final class TabBarController: UITabBarController {
     // MARK: - Nested types
     
     private enum Titles {
-        static let feed = "Feed"
-        static let newPost = "New post"
-        static let profile = "Profile"
+        static let feed = "Feed".localized()
+        static let newPost = "New post".localized()
+        static let profile = "Profile".localized()
     }
     
     private enum Images {
@@ -28,24 +28,23 @@ final class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupTabs()
+        configureTabs()
     }
     
     // MARK: - Private methods
     
-    private func setupTabs() {
-        let feedVC = FeedViewController(nibName: nil, bundle: nil, viewModel: FeedViewModel())
+    private func configureTabs() {
+        let feedVC = FeedViewController(viewModel: FeedViewModel())
         feedVC.title = Titles.feed
         let firstTabBarVC = UINavigationController(rootViewController: feedVC)
         firstTabBarVC.tabBarItem.image = UIImage(named: Images.feed)
         
-        let newPostVC = NewPostViewController(nibName: nil, bundle: nil)
+        let newPostVC = NewPostViewController()
         newPostVC.title = Titles.newPost
         let secondTabBarVC = UINavigationController(rootViewController: newPostVC)
         secondTabBarVC.tabBarItem.image = UIImage(named: Images.newPost)
         
-        let profileVC = ProfileViewController(nibName: nil, bundle: nil, viewModel: ProfileViewModel())
+        let profileVC = ProfileViewController(viewModel: ProfileViewModel())
         profileVC.title = Titles.profile
         let thirdTabBarVC = UINavigationController(rootViewController: profileVC)
         thirdTabBarVC.tabBarItem.image = UIImage(named: Images.profile)

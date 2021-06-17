@@ -11,23 +11,14 @@ import UIKit
 extension UIViewController {
     
     func showAlert(_ error: Error?) {
-        var alertTitle = "Unknown error!"
-        var alertMessage = "Please, try again later"
-        
-        if let error = error as? ServerError {
-            alertTitle = error.localizedDescription
-            alertMessage = ""
-        } else if let error = error as? AppError {
-            alertTitle = error.localizedDescription
-            alertMessage = ""
-        }
+        let isCustomError = (error is NetworkError) || (error is AppError)
+        let alertTitle = isCustomError ? error?.localizedDescription : "Unknown error!".localized()
+        let alertMessage = isCustomError ? "" : "Please, try again later".localized()
         
         DispatchQueue.main.async { [weak self] in
             LoadingView.hide()
             
-            let alert = UIAlertController(title: alertTitle,
-                                          message: alertMessage,
-                                          preferredStyle: .alert)
+            let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default)
             alert.addAction(okAction)
             self?.present(alert, animated: true)

@@ -8,12 +8,12 @@
 
 import Foundation
 
-// MARK: - Protocols
-
 typealias UserResult = (Result<UserModel, Error>) -> Void
 typealias UsersResult = (Result<[UserModel], Error>) -> Void
 typealias PostResult = (Result<PostModel, Error>) -> Void
 typealias PostsResult = (Result<[PostModel], Error>) -> Void
+
+// MARK: - Protocols
 
 protocol DataFetchingServiceProtocol {
     
@@ -27,42 +27,42 @@ protocol DataFetchingServiceProtocol {
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращается запрашиваемый пользователь.
     ///   Вызывается после выполнения запроса.
-    func fetchUser(withID userID: String, completion: @escaping UserResult)
+    func fetchUser(withID userID: UserModel.ID, completion: @escaping UserResult)
     
     /// Подписывает текущего пользователя на пользователя с указанным ID.
     /// - Parameters:
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращается пользователь, на которого подписался текущий пользователь.
     ///   Вызывается после выполнения запроса.
-    func followToUser(withID userID: String, completion: @escaping UserResult)
+    func followToUser(withID userID: UserModel.ID, completion: @escaping UserResult)
     
     /// Отписывает текущего пользователя от пользователя с указанным ID.
     /// - Parameters:
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращается пользователь, от которого отписался текущий пользователь.
     ///   Вызывается после выполнения запроса.
-    func unfollowFromUser(withID userID: String, completion: @escaping UserResult)
+    func unfollowFromUser(withID userID: UserModel.ID, completion: @escaping UserResult)
     
     /// Получение всех подписчиков пользователя с указанным ID.
     /// - Parameters:
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращаются запрашиваемые пользователи.
     ///   Вызывается после выполнения запроса.
-    func fetchUsersFollowingUser(withID userID: String, completion: @escaping UsersResult)
+    func fetchUsersFollowingUser(withID userID: UserModel.ID, completion: @escaping UsersResult)
     
     /// Получение всех подписок пользователя с указанным ID.
     /// - Parameters:
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращаются запрашиваемые пользователи.
     ///   Вызывается после выполнения запроса.
-    func fetchUsersFollowedByUser(withID userID: String, completion: @escaping UsersResult)
+    func fetchUsersFollowedByUser(withID userID: UserModel.ID, completion: @escaping UsersResult)
     
     /// Получение публикаций пользователя с указанным ID.
     /// - Parameters:
     ///   - userID: ID пользователя.
     ///   - completion: Замыкание, в которое возвращаются запрашиваемые публикации.
     ///   Вызывается после выполнения запроса.
-    func fetchPostsOfUser(withID userID: String, completion: @escaping PostsResult)
+    func fetchPostsOfUser(withID userID: UserModel.ID, completion: @escaping PostsResult)
     
     /// Получение публикаций пользователей, на которых подписан текущий пользователь.
     /// - Parameter completion: Замыкание, в которое возвращаются запрашиваемые публикации.
@@ -74,28 +74,28 @@ protocol DataFetchingServiceProtocol {
     ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается запрашиваемая публикация.
     ///   Вызывается после выполнения запроса.
-    func fetchPost(withID postID: String, completion: @escaping PostResult)
+    func fetchPost(withID postID: PostModel.ID, completion: @escaping PostResult)
     
     /// Ставит лайк от текущего пользователя на публикации с указанным ID.
     /// - Parameters:
     ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается публикация, которой был поставлен лайк.
     ///   Вызывается после выполнения запроса.
-    func likePost(withID postID: String, completion: @escaping PostResult)
+    func likePost(withID postID: PostModel.ID, completion: @escaping PostResult)
     
     /// Удаляет лайк от текущего пользователя на публикации с указанным ID.
     /// - Parameters:
     ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращается публикация, которой был поставлен анлайк.
     ///   Вызывается после выполнения запроса.
-    func unlikePost(withID postID: String, completion: @escaping PostResult)
+    func unlikePost(withID postID: PostModel.ID, completion: @escaping PostResult)
     
     /// Получение пользователей, поставивших лайк на публикацию с указанным ID.
     /// - Parameters:
     ///   - postID: ID публикации.
     ///   - completion: Замыкание, в которое возвращаются запрашиваемые пользователи.
     ///   Вызывается после выполнения запроса.
-    func fetchUsersLikedPost(withID postID: String, completion: @escaping UsersResult)
+    func fetchUsersLikedPost(withID postID: PostModel.ID, completion: @escaping UsersResult)
     
     /// Создание новой публикации.
     /// - Parameters:
@@ -114,7 +114,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     
     // MARK: - Properties
     
-    private let networkService: NetworkServiceProtocol = NetworkService.shared
+    private let networkService: NetworkServiceProtocol = NetworkService()
     private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
     private let isOnline: Bool
     private let offlineMode = AppError.offlineMode
@@ -153,7 +153,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
         }
     }
     
-    func fetchUser(withID userID: String, completion: @escaping UserResult) {
+    func fetchUser(withID userID: UserModel.ID, completion: @escaping UserResult) {
         // В оффлайне вернётся пользователь с переданным ID, если он был сохранён
         guard isOnline else {
             guard let user = dataStorageService.getUser(withID: userID) else {
@@ -178,31 +178,31 @@ final class DataFetchingService: DataFetchingServiceProtocol {
         }
     }
     
-    func followToUser(withID userID: String, completion: @escaping UserResult) {
+    func followToUser(withID userID: UserModel.ID, completion: @escaping UserResult) {
         isOnline
             ? networkService.followToUser(withID: userID, completion: completion)
             : completion(.failure(offlineMode))
     }
     
-    func unfollowFromUser(withID userID: String, completion: @escaping UserResult) {
+    func unfollowFromUser(withID userID: UserModel.ID, completion: @escaping UserResult) {
         isOnline
             ? networkService.unfollowFromUser(withID: userID, completion: completion)
             : completion(.failure(offlineMode))
     }
     
-    func fetchUsersFollowingUser(withID userID: String, completion: @escaping UsersResult) {
+    func fetchUsersFollowingUser(withID userID: UserModel.ID, completion: @escaping UsersResult) {
         if isOnline {
             networkService.fetchUsersFollowingUser(withID: userID, completion: completion)
         }
     }
     
-    func fetchUsersFollowedByUser(withID userID: String, completion: @escaping UsersResult) {
+    func fetchUsersFollowedByUser(withID userID: UserModel.ID, completion: @escaping UsersResult) {
         if isOnline {
             networkService.fetchUsersFollowedByUser(withID: userID, completion: completion)
         }
     }
     
-    func fetchPostsOfUser(withID userID: String, completion: @escaping PostsResult) {
+    func fetchPostsOfUser(withID userID: UserModel.ID, completion: @escaping PostsResult) {
         // В оффлайне вернутся публикации пользователя с переданным ID, если они были сохранены
         guard isOnline else {
             let currentUserPosts = dataStorageService.getPostsOfUser(withID: userID)
@@ -245,13 +245,13 @@ final class DataFetchingService: DataFetchingServiceProtocol {
         }
     }
     
-    func fetchPost(withID postID: String, completion: @escaping PostResult) {
+    func fetchPost(withID postID: PostModel.ID, completion: @escaping PostResult) {
         if isOnline {
             networkService.fetchPost(withID: postID, completion: completion)
         }
     }
     
-    func likePost(withID postID: String, completion: @escaping PostResult) {
+    func likePost(withID postID: PostModel.ID, completion: @escaping PostResult) {
         isOnline
             ? networkService.likePost(withID: postID) { [unowned self] result in
                 switch result {
@@ -265,7 +265,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             : completion(.failure(offlineMode))
     }
     
-    func unlikePost(withID postID: String, completion: @escaping PostResult) {
+    func unlikePost(withID postID: PostModel.ID, completion: @escaping PostResult) {
         isOnline
             ? networkService.unlikePost(withID: postID) { [unowned self] result in
                 switch result {
@@ -279,7 +279,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
             : completion(.failure(offlineMode))
     }
     
-    func fetchUsersLikedPost(withID postID: String, completion: @escaping UsersResult) {
+    func fetchUsersLikedPost(withID postID: PostModel.ID, completion: @escaping UsersResult) {
         if isOnline {
             networkService.fetchUsersLikedPost(withID: postID, completion: completion)
         }

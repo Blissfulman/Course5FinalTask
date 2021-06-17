@@ -10,6 +10,7 @@ import UIKit
 
 protocol NibCollectionReusableView {
     static var identifier: String { get }
+    static func nib() -> UINib
 }
 
 extension UICollectionReusableView: NibCollectionReusableView {

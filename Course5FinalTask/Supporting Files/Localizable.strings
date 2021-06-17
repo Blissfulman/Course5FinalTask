@@ -1,0 +1,62 @@
+/* 
+  Localizable.strings
+  Course5FinalTask
+
+  Created by Evgeny Novgorodov on 15.06.2021.
+  Copyright © 2021 e-Legion. All rights reserved.
+*/
+
+// MARK: - Authorization
+
+"login" = "логин";
+"password" = "пароль";
+"Sign in" = "Войти";
+
+// MARK: - TabBar
+
+"Feed" = "Лента";
+"New post" = "Новая публикация";
+"Profile" = "Профиль";
+
+// MARK: - Feed
+
+"Likes: " = "Лайки: ";
+
+// MARK: - NewPost
+
+"Filters" = "Фильтры";
+"Next" = "Далее";
+"Share" = "Поделиться";
+
+// MARK: - Profile
+
+"Log out" = "Выйти";
+"Follow" = "Подписаться";
+"Unfollow" = "Отписаться";
+"Followers: " = "Подписчики: ";
+"Followings: " = "Подписки: ";
+
+// MARK: - NetworkError
+
+"Bad request" = "Плохой запрос";
+"Unauthorized" = "Не авторизован";
+"Not found" = "Не найдено";
+"Not acceptable" = "Недопустимо";
+"Unprocessable" = "Не обработано";
+"Transfer error" = "Ошибка передачи";
+
+// MARK: - UserListType
+
+"Likes" = "Лайки";
+"Followers" = "Подписчики";
+"Followings" = "Подписки";
+
+// MARK: - AppError
+
+"Offline mode" = "Оффлайн режим";
+"No offline data" = "Нет оффлайн данных";
+
+// MARK: - Extensions
+
+"Unknown error!" = "Неизвестная ошибка!";
+"Please, try again later" = "Пожалуйста, попробуйте снова позже";

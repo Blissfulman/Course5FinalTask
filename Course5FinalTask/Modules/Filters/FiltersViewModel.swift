@@ -27,7 +27,6 @@ final class FiltersViewModel: FiltersViewModelProtocol {
     // MARK: - Properties
     
     var image = Box(Data())
-    
     var thumbnailDidFilter: ((Int) -> Void)?
     
     var numberOfItems: Int {
@@ -35,8 +34,6 @@ final class FiltersViewModel: FiltersViewModelProtocol {
     }
     
     private let originalImage: Data
-    
-    /// Массив миниатюр изображения.
     private var thumbnails = [Data]()
     
     private let filterNames = [
@@ -62,8 +59,7 @@ final class FiltersViewModel: FiltersViewModelProtocol {
         LoadingView.show()
         
         let queue = OperationQueue()
-        let filterOperation = FilterImageOperation(inputImage: originalImage,
-                                                   filter: filterNames[indexPath.item])
+        let filterOperation = FilterImageOperation(inputImage: originalImage, filter: filterNames[indexPath.item])
         
         filterOperation.completionBlock = { [weak self] in
             guard let outputImage = filterOperation.outputImage else { return }
@@ -87,8 +83,7 @@ final class FiltersViewModel: FiltersViewModelProtocol {
         let queue = OperationQueue()
         
         for item in 0..<numberOfItems {
-            let filterOperation = FilterImageOperation(inputImage: thumbnail,
-                                                       filter: filterNames[item])
+            let filterOperation = FilterImageOperation(inputImage: thumbnail, filter: filterNames[item])
             
             filterOperation.completionBlock = { [weak self] in
                 guard let outputImage = filterOperation.outputImage else { return }
