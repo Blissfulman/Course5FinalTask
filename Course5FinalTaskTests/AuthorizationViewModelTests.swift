@@ -11,33 +11,39 @@ import XCTest
 
 final class AuthorizationViewModelTests: XCTestCase {
     
-    var sut: AuthorizationViewModelProtocol!
+    var authorizationViewModel: AuthorizationViewModelProtocol!
     
     override func setUp() {
         super.setUp()
-        sut = AuthorizationViewModel()
+        authorizationViewModel = AuthorizationViewModel()
     }
     
     override func tearDown() {
-        sut = nil
+        authorizationViewModel = nil
         super.tearDown()
     }
     
+    func testIsEnabledSignInButtonShouldBeFalseIfLoginAndPasswordIsEmpty() {
+        authorizationViewModel.login = ""
+        authorizationViewModel.password = ""
+        XCTAssertFalse(authorizationViewModel.isEnabledSignInButton)
+    }
+    
     func testIsEnabledSignInButtonShouldBeFalseIfLoginIsEmpty() {
-        sut.login = ""
-        sut.password = "1"
-        XCTAssertFalse(sut.isEnabledSignInButton)
+        authorizationViewModel.login = ""
+        authorizationViewModel.password = "test"
+        XCTAssertFalse(authorizationViewModel.isEnabledSignInButton)
     }
     
     func testIsEnabledSignInButtonShouldBeFalseIfPasswordIsEmpty() {
-        sut.login = "1"
-        sut.password = ""
-        XCTAssertFalse(sut.isEnabledSignInButton)
+        authorizationViewModel.login = "test"
+        authorizationViewModel.password = ""
+        XCTAssertFalse(authorizationViewModel.isEnabledSignInButton)
     }
     
     func testIsEnabledSignInButtonShouldBeTrueIfLoginAndPasswordIsNotEmpty() {
-        sut.login = "1"
-        sut.password = "1"
-        XCTAssertTrue(sut.isEnabledSignInButton)
+        authorizationViewModel.login = "test"
+        authorizationViewModel.password = "test"
+        XCTAssertTrue(authorizationViewModel.isEnabledSignInButton)
     }
 }
