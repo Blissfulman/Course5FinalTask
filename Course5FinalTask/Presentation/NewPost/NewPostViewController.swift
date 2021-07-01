@@ -27,7 +27,7 @@ final class NewPostViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(NewPhotoCell.nib(), forCellWithReuseIdentifier: NewPhotoCell.identifier)
+        collectionView.register(nibCell: NewPhotoCell.self)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()

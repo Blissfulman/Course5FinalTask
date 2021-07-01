@@ -46,7 +46,6 @@
 		CE6F191C267A5FDC00F90C6B /* SharingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE6F191E267A5FDC00F90C6B /* SharingViewController.xib */; };
 		CE76326A2573743F00E4F7AE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7632692573743F00E4F7AE /* UserModel.swift */; };
 		CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */; };
-		CE7D7CD1267B089E0012C2F0 /* ServerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7D7CD0267B089E0012C2F0 /* ServerConstants.swift */; };
 		CE813ABE2580F77D006DCCBB /* UserListType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE813ABD2580F77D006DCCBB /* UserListType.swift */; };
 		CE88991A25DE4998000DA414 /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991925DE4998000DA414 /* ProfileViewController.xib */; };
 		CE88991C25DE55EA000DA414 /* FeedPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE88991B25DE55EA000DA414 /* FeedPostCell.xib */; };
@@ -77,6 +76,9 @@
 		CEDA405825DBF86C008D0B71 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA405725DBF86C008D0B71 /* Data+Extension.swift */; };
 		CEEB25AB25DD70EE009EF29B /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEB25AA25DD70EE009EF29B /* NewPostViewModel.swift */; };
 		CEEEE9BD2622090C004333A4 /* AuthorizationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEEE9BC2622090C004333A4 /* AuthorizationViewModelTests.swift */; };
+		CEF4AD73268DA17F0039073B /* ServerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF4AD72268DA17F0039073B /* ServerConstants.swift */; };
+		CEF4AD75268DBD650039073B /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF4AD74268DBD650039073B /* UITableView+Extension.swift */; };
+		CEF4AD78268DBE170039073B /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF4AD77268DBE170039073B /* UICollectionView+Extension.swift */; };
 		CEFF9CA525D5B2C3004C357F /* UserURLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */; };
 		CEFF9CA725D5B2E5004C357F /* PostURLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA625D5B2E5004C357F /* PostURLCreator.swift */; };
 		CEFF9CA925D6D455004C357F /* SharingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF9CA825D6D455004C357F /* SharingViewModel.swift */; };
@@ -142,7 +144,6 @@
 		CE6F1920267A5FE900F90C6B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SharingViewController.strings; sourceTree = "<group>"; };
 		CE7632692573743F00E4F7AE /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
-		CE7D7CD0267B089E0012C2F0 /* ServerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ServerConstants.swift; path = "/Users/user/Documents/Нетология/Course5FinalTask/Course5FinalTask/Modules/Sharing/ServerConstants.swift"; sourceTree = "<absolute>"; };
 		CE813ABD2580F77D006DCCBB /* UserListType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListType.swift; sourceTree = "<group>"; };
 		CE88991925DE4998000DA414 /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		CE88991B25DE55EA000DA414 /* FeedPostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedPostCell.xib; sourceTree = "<group>"; };
@@ -175,6 +176,9 @@
 		CEEEE9BA2622090C004333A4 /* Course5FinalTaskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Course5FinalTaskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEEE9BC2622090C004333A4 /* AuthorizationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModelTests.swift; sourceTree = "<group>"; };
 		CEEEE9BE2622090C004333A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEF4AD72268DA17F0039073B /* ServerConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerConstants.swift; sourceTree = "<group>"; };
+		CEF4AD74268DBD650039073B /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		CEF4AD77268DBE170039073B /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserURLCreator.swift; sourceTree = "<group>"; };
 		CEFF9CA625D5B2E5004C357F /* PostURLCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostURLCreator.swift; sourceTree = "<group>"; };
 		CEFF9CA825D6D455004C357F /* SharingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViewModel.swift; sourceTree = "<group>"; };
@@ -232,8 +236,7 @@
 		74B79256202B3254006BCB41 /* Course5FinalTask */ = {
 			isa = PBXGroup;
 			children = (
-				74B79257202B3254006BCB41 /* AppDelegate.swift */,
-				CE7632682573732A00E4F7AE /* Modules */,
+				CE7632682573732A00E4F7AE /* Presentation */,
 				CE76326D257374BA00E4F7AE /* Models */,
 				CE4075BE25754B21006F4592 /* Services */,
 				CEA36F3D252E25E300386D64 /* Additional Files */,
@@ -254,6 +257,7 @@
 		74B7927D202B3434006BCB41 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				74B79257202B3254006BCB41 /* AppDelegate.swift */,
 				CECB0BFC24C86FFA0086A593 /* LaunchScreen.storyboard */,
 				74B79263202B3254006BCB41 /* Info.plist */,
 				CE6F191826792C0F00F90C6B /* Localizable.strings */,
@@ -315,7 +319,7 @@
 		CE3DD1DF2585350300C31D7F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				CE7D7CD0267B089E0012C2F0 /* ServerConstants.swift */,
+				CEF4AD72268DA17F0039073B /* ServerConstants.swift */,
 				CE0CFFCF2610F7D700B9A9AA /* NetworkErrorHandler.swift */,
 				CE4075C62576A7B4006F4592 /* AuthorizationURLCreator.swift */,
 				CEFF9CA425D5B2C3004C357F /* UserURLCreator.swift */,
@@ -369,7 +373,8 @@
 				CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */,
 				CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */,
 				CE9BEA79258B19090006EFEA /* UIImageView+Extension.swift */,
-				CE20DDE425FB410900274A95 /* NibTableViewCell.swift */,
+				CEF4AD74268DBD650039073B /* UITableView+Extension.swift */,
+				CEF4AD77268DBE170039073B /* UICollectionView+Extension.swift */,
 				CEDA405725DBF86C008D0B71 /* Data+Extension.swift */,
 				CE4075D42577FE4E006F4592 /* DateFormatter+Extension.swift */,
 				CEB7A7F325EA7B6F009D9897 /* URL+Extension.swift */,
@@ -415,7 +420,7 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		CE7632682573732A00E4F7AE /* Modules */ = {
+		CE7632682573732A00E4F7AE /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
 				CE4075C125755F1B006F4592 /* Authorization */,
@@ -427,7 +432,7 @@
 				CED3279824DEE23C00BB1A80 /* Profile */,
 				CE4075D125776F0E006F4592 /* UserList */,
 			);
-			path = Modules;
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 		CE76326D257374BA00E4F7AE /* Models */ = {
@@ -455,12 +460,9 @@
 			isa = PBXGroup;
 			children = (
 				CE0190E625D472DF002D48BA /* UIConstants.swift */,
-				CEA36F3E252E264000386D64 /* FilterImageOperation.swift */,
 				CE4075DA257AC629006F4592 /* LoadingView.swift */,
-				CE813ABD2580F77D006DCCBB /* UserListType.swift */,
-				CE9BEA7D258BB9690006EFEA /* NewImagesProvider.swift */,
-				CE0190E425D46509002D48BA /* Box.swift */,
 				CE20DD6E25FA158C00274A95 /* AppError.swift */,
+				CEF4AD76268DBD8D0039073B /* Helpers */,
 				CE4075D32577FDEE006F4592 /* Extensions */,
 			);
 			path = "Additional Files";
@@ -526,6 +528,18 @@
 				CEEEE9BE2622090C004333A4 /* Info.plist */,
 			);
 			path = Course5FinalTaskTests;
+			sourceTree = "<group>";
+		};
+		CEF4AD76268DBD8D0039073B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CE813ABD2580F77D006DCCBB /* UserListType.swift */,
+				CEA36F3E252E264000386D64 /* FilterImageOperation.swift */,
+				CE0190E425D46509002D48BA /* Box.swift */,
+				CE9BEA7D258BB9690006EFEA /* NewImagesProvider.swift */,
+				CE20DDE425FB410900274A95 /* NibTableViewCell.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -693,12 +707,14 @@
 				CE20DDE525FB410900274A95 /* NibTableViewCell.swift in Sources */,
 				CEA36F43252F78C200386D64 /* SharingViewController.swift in Sources */,
 				CEDA405125D6FFE2008D0B71 /* AuthorizationViewModel.swift in Sources */,
+				CEF4AD73268DA17F0039073B /* ServerConstants.swift in Sources */,
 				CEDA405625DBF159008D0B71 /* FiltersViewModel.swift in Sources */,
 				CEB7A7E825E2BC96009D9897 /* FeedViewModel.swift in Sources */,
 				CE4075DB257AC629006F4592 /* LoadingView.swift in Sources */,
 				CEB7A7EB25E37DCE009D9897 /* FeedPostCellViewModel.swift in Sources */,
 				CE3A168525F7FA2E00FFA849 /* AuthorizationService.swift in Sources */,
 				CE3DD1DE2585301C00C31D7F /* NetworkError.swift in Sources */,
+				CEF4AD78268DBE170039073B /* UICollectionView+Extension.swift in Sources */,
 				74B79258202B3254006BCB41 /* AppDelegate.swift in Sources */,
 				CE02BA1425F3BE8500788EE3 /* KeychainService.swift in Sources */,
 				CE9C3593252A421A00730A47 /* FilterCell.swift in Sources */,
@@ -707,7 +723,6 @@
 				CEFF9CA525D5B2C3004C357F /* UserURLCreator.swift in Sources */,
 				CE4075CD2576B3C0006F4592 /* HTTPMethod.swift in Sources */,
 				CE4075BB25754AC0006F4592 /* AutorizationModel.swift in Sources */,
-				CE7D7CD1267B089E0012C2F0 /* ServerConstants.swift in Sources */,
 				CE0190E725D472DF002D48BA /* UIConstants.swift in Sources */,
 				CECB0BFF24C8725D0086A593 /* FeedViewController.swift in Sources */,
 				CE6D676E24E02574002FE7F2 /* UserListViewController.swift in Sources */,
@@ -734,6 +749,7 @@
 				CE0190E125D4546B002D48BA /* UserListViewModel.swift in Sources */,
 				CE76326C2573746600E4F7AE /* UIViewController+Extensions.swift in Sources */,
 				CE2FF9602603D47900FDA68D /* Course5FinalTask.xcdatamodeld in Sources */,
+				CEF4AD75268DBD650039073B /* UITableView+Extension.swift in Sources */,
 				CEBE92B62529AA7A002A6A63 /* FiltersViewController.swift in Sources */,
 				CEA36F3F252E264000386D64 /* FilterImageOperation.swift in Sources */,
 				CE9BEA7A258B19090006EFEA /* UIImageView+Extension.swift in Sources */,

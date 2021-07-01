@@ -40,7 +40,6 @@ final class SharingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
         setupViewModelBindings()
     }

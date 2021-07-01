@@ -40,7 +40,6 @@ final class UserListViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         // Снятие выделения с ячейки при возврате на вью
         guard let selectedRow = tableView.indexPathForSelectedRow else { return }
         tableView.deselectRow(at: selectedRow, animated: true)

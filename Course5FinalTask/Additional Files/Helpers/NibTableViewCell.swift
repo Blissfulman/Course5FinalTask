@@ -14,11 +14,11 @@ protocol NibTableViewCell {
 }
 
 extension NibTableViewCell {
-    
+
     static var identifier: String {
         String(describing: Self.self)
     }
-    
+
     static func nib() -> UINib {
         UINib(nibName: identifier, bundle: nil)
     }

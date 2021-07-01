@@ -33,13 +33,12 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         profileCollectionView.register(
             ProfileHeaderView.nib(),
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: ProfileHeaderView.identifier
         )
-        profileCollectionView.register(ProfilePhotoCell.nib(), forCellWithReuseIdentifier: ProfilePhotoCell.identifier)
+        profileCollectionView.register(nibCell: ProfilePhotoCell.self)
         viewModel.getCurrentUser()
         setupViewModelBindings()
     }

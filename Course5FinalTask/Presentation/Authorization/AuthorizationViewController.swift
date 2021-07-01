@@ -75,7 +75,6 @@ final class AuthorizationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
         setupLayout()
         setupViewModelBindings()

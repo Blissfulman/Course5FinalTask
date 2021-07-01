@@ -6,8 +6,6 @@
 //  Copyright © 2021 e-Legion. All rights reserved.
 //
 
-import Foundation
-
 enum ServerConstants {
     
     /// Базовый URL сервера.

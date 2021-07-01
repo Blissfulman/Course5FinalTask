@@ -40,12 +40,10 @@ final class FiltersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
         setupLayout()
         setupViewModelBindings()
-        
-        filtersCollectionView.register(FilterCell.nib(), forCellWithReuseIdentifier: FilterCell.identifier)
+        filtersCollectionView.register(nibCell: FilterCell.self)
     }
     
     // MARK: - Setup UI
