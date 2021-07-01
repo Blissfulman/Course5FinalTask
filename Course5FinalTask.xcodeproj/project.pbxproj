@@ -18,8 +18,7 @@
 		CE16595925E0D1B2008E609A /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE16595825E0D1B2008E609A /* ProfileHeaderViewModel.swift */; };
 		CE16595D25E18D06008E609A /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE16595C25E18D06008E609A /* ProfileViewModel.swift */; };
 		CE20DD6F25FA158C00274A95 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DD6E25FA158C00274A95 /* AppError.swift */; };
-		CE20DDE525FB410900274A95 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DDE425FB410900274A95 /* UITableViewCell+Extension.swift */; };
-		CE20DDE925FB439A00274A95 /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DDE825FB439A00274A95 /* UICollectionReusableView+Extension.swift */; };
+		CE20DDE525FB410900274A95 /* NibTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE20DDE425FB410900274A95 /* NibTableViewCell.swift */; };
 		CE2FF9602603D47900FDA68D /* Course5FinalTask.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF95E2603D47900FDA68D /* Course5FinalTask.xcdatamodeld */; };
 		CE2FF96726049F3000FDA68D /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF96626049F3000FDA68D /* CoreDataService.swift */; };
 		CE2FF9692604A32100FDA68D /* DataStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF9682604A32100FDA68D /* DataStorageService.swift */; };
@@ -114,8 +113,7 @@
 		CE16595825E0D1B2008E609A /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		CE16595C25E18D06008E609A /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CE20DD6E25FA158C00274A95 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
-		CE20DDE425FB410900274A95 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
-		CE20DDE825FB439A00274A95 /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
+		CE20DDE425FB410900274A95 /* NibTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibTableViewCell.swift; sourceTree = "<group>"; };
 		CE2FF95F2603D47900FDA68D /* CoreDataModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModels.xcdatamodel; sourceTree = "<group>"; };
 		CE2FF96626049F3000FDA68D /* CoreDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		CE2FF9682604A32100FDA68D /* DataStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorageService.swift; sourceTree = "<group>"; };
@@ -371,8 +369,7 @@
 				CE76326B2573746600E4F7AE /* UIViewController+Extensions.swift */,
 				CEB7A7E525E2B6F1009D9897 /* UIView+Extension.swift */,
 				CE9BEA79258B19090006EFEA /* UIImageView+Extension.swift */,
-				CE20DDE425FB410900274A95 /* UITableViewCell+Extension.swift */,
-				CE20DDE825FB439A00274A95 /* UICollectionReusableView+Extension.swift */,
+				CE20DDE425FB410900274A95 /* NibTableViewCell.swift */,
 				CEDA405725DBF86C008D0B71 /* Data+Extension.swift */,
 				CE4075D42577FE4E006F4592 /* DateFormatter+Extension.swift */,
 				CEB7A7F325EA7B6F009D9897 /* URL+Extension.swift */,
@@ -693,7 +690,7 @@
 				CE4075C52576A5E1006F4592 /* NetworkService.swift in Sources */,
 				CE4075C72576A7B4006F4592 /* AuthorizationURLCreator.swift in Sources */,
 				CE4075CF2576BABC006F4592 /* TabBarController.swift in Sources */,
-				CE20DDE525FB410900274A95 /* UITableViewCell+Extension.swift in Sources */,
+				CE20DDE525FB410900274A95 /* NibTableViewCell.swift in Sources */,
 				CEA36F43252F78C200386D64 /* SharingViewController.swift in Sources */,
 				CEDA405125D6FFE2008D0B71 /* AuthorizationViewModel.swift in Sources */,
 				CEDA405625DBF159008D0B71 /* FiltersViewModel.swift in Sources */,
@@ -741,7 +738,6 @@
 				CEA36F3F252E264000386D64 /* FilterImageOperation.swift in Sources */,
 				CE9BEA7A258B19090006EFEA /* UIImageView+Extension.swift in Sources */,
 				CEB7A7F425EA7B6F009D9897 /* URL+Extension.swift in Sources */,
-				CE20DDE925FB439A00274A95 /* UICollectionReusableView+Extension.swift in Sources */,
 				CE0190E525D46509002D48BA /* Box.swift in Sources */,
 				CE20DD6F25FA158C00274A95 /* AppError.swift in Sources */,
 				CE4075BD25754AF7006F4592 /* PostModel.swift in Sources */,

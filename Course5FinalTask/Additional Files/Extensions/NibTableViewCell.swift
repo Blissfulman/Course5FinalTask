@@ -1,5 +1,5 @@
 //
-//  UITableViewCell+Extension.swift
+//  NibTableViewCell.swift
 //  Course5FinalTask
 //
 //  Created by Evgeny Novgorodov on 12.03.2021.
@@ -13,13 +13,17 @@ protocol NibTableViewCell {
     static func nib() -> UINib
 }
 
-extension UITableViewCell: NibTableViewCell {
+extension NibTableViewCell {
     
     static var identifier: String {
         String(describing: Self.self)
     }
-        
+    
     static func nib() -> UINib {
         UINib(nibName: identifier, bundle: nil)
     }
 }
+
+extension UITableViewCell: NibTableViewCell {}
+
+extension UICollectionReusableView: NibTableViewCell {}
