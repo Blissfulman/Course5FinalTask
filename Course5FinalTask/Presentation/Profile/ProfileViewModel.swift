@@ -53,7 +53,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     private let dataStorageService: DataStorageServiceProtocol = DataStorageService.shared
     private let offlineMode = AppError.offlineMode
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(user: UserModel? = nil) {
         self.user = Box(user)

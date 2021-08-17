@@ -48,7 +48,7 @@ final class AuthorizationService: AuthorizationServiceProtocol {
     private let dataTaskService: DataTaskServiceProtocol = DataTaskService()
     private let offlineMode = AppError.offlineMode
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     private init() {}
     

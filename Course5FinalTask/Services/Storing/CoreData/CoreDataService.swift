@@ -16,7 +16,7 @@ final class CoreDataService {
     private var viewContext: NSManagedObjectContext!
     private var backgroundContext: NSManagedObjectContext!
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(modelName: String) {
         self.persistentContainer = NSPersistentContainer(name: modelName)

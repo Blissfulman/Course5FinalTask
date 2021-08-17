@@ -22,7 +22,7 @@ struct UserModel: Decodable, Identifiable {
     let followedByCount: Int
     let avatarData: Data?
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init?(userCoreData: UserCoreData?) {
         guard let userCoreData = userCoreData,

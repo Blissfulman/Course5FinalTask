@@ -25,7 +25,7 @@ final class SharingViewController: UIViewController {
     
     var viewModel: SharingViewModelProtocol
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(viewModel: SharingViewModelProtocol) {
         self.viewModel = viewModel

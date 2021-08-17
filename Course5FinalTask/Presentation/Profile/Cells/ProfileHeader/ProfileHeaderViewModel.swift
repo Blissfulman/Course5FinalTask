@@ -67,7 +67,7 @@ final class ProfileHeaderViewModel: ProfileHeaderViewModelProtocol {
     private let isCurrentUser: Bool
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(user: UserModel, isCurrentUser: Bool, delegate: ProfileHeaderViewModelDelegate) {
         self.user = Box(user)

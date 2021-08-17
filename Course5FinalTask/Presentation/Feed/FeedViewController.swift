@@ -18,7 +18,7 @@ final class FeedViewController: UIViewController {
     
     var viewModel: FeedViewModelProtocol
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(viewModel: FeedViewModelProtocol) {
         self.viewModel = viewModel

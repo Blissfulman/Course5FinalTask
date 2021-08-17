@@ -29,7 +29,7 @@ final class NewPostViewModel: NewPostViewModelProtocol {
         images.count
     }
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init() {
         getImages()

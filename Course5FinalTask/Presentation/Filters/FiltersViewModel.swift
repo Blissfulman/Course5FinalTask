@@ -41,7 +41,7 @@ final class FiltersViewModel: FiltersViewModelProtocol {
         "CICircularScreen", "CICMYKHalftone", "CIVignetteEffect"
     ]
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(imageData: Data) {
         image.value = imageData

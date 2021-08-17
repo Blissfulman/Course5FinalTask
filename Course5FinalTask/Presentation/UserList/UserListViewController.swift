@@ -14,7 +14,7 @@ final class UserListViewController: UITableViewController {
     
     var viewModel: UserListViewModelProtocol
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(viewModel: UserListViewModelProtocol) {
         self.viewModel = viewModel

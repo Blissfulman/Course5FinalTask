@@ -30,7 +30,7 @@ final class SharingViewModel: SharingViewModelProtocol {
     
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(imageData: Data) {
         self.imageData = imageData

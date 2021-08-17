@@ -47,7 +47,7 @@ final class UserListViewModel: UserListViewModelProtocol {
     private let userListType: UserListType
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(postID: PostModel.ID? = nil, userID: UserModel.ID? = nil, userListType: UserListType) {
         self.userID = userID

@@ -18,7 +18,7 @@ final class ProfileViewController: UIViewController {
     
     var viewModel: ProfileViewModelProtocol
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(viewModel: ProfileViewModelProtocol) {
         self.viewModel = viewModel

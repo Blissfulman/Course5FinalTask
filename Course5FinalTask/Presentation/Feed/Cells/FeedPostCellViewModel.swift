@@ -78,7 +78,7 @@ final class FeedPostCellViewModel: FeedPostCellViewModelProtocol {
     private let dataFetchingService: DataFetchingServiceProtocol = DataFetchingService.shared
     private let offlineMode = AppError.offlineMode
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(post: PostModel, delegate: FeedPostCellViewModelDelegate) {
         self.post = post

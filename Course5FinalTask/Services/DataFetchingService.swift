@@ -120,7 +120,7 @@ final class DataFetchingService: DataFetchingServiceProtocol {
     private let offlineMode = AppError.offlineMode
     private let noOfflineDataError = AppError.noOfflineData
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     private init() {
         isOnline = NetworkService.isOnline

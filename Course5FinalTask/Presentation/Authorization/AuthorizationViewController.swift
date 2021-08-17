@@ -60,7 +60,7 @@ final class AuthorizationViewController: UIViewController {
         return button
     }()
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(viewModel: AuthorizationViewModelProtocol) {
         self.viewModel = viewModel

@@ -24,7 +24,7 @@ struct PostModel: Decodable, Identifiable {
     let imageData: Data?
     let authorAvatarData: Data?
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init?(postCoreData: PostCoreData?) {
         guard let postCoreData = postCoreData,

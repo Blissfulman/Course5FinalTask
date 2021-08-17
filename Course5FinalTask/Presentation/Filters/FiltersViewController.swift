@@ -25,7 +25,7 @@ final class FiltersViewController: UIViewController {
         return imageView
     }()
     
-    // MARK: - Initializers
+    // MARK: - Initialization
     
     init(viewModel: FiltersViewModelProtocol) {
         self.viewModel = viewModel
